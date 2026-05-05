@@ -3,8 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dinesh Ravichandiran | Cloud Operations Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<title>Dinesh Ravichandiran | Cloud Operations & SRE Engineer</title>
+<meta name="description" content="Cloud Operations Engineer at PTC. 3+ years supporting Fortune 500 PLM & IIoT platforms on Azure & AWS. 5,000+ incidents resolved, 99.9% uptime, ~30% MTTR reduction.">
+<meta name="keywords" content="Dinesh Ravichandiran, Cloud Operations Engineer, SRE, NOC Specialist, Kubernetes, Azure, AWS, PTC, Pune">
+<meta property="og:title" content="Dinesh Ravichandiran | Cloud Operations & SRE Engineer">
+<meta property="og:description" content="Cloud Ops Engineer → SRE. 3+ years keeping Fortune 500 platforms running 24×7 on Azure & AWS.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0e1a'/%3E%3Ctext x='50' y='68' font-family='sans-serif' font-size='52' font-weight='800' text-anchor='middle' fill='%2360a5fa'%3EDR%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -36,7 +42,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Noise texture overlay */
 body::before {
   content: '';
   position: fixed;
@@ -46,7 +51,6 @@ body::before {
   z-index: 0;
 }
 
-/* Animated gradient orbs */
 .orb {
   position: fixed;
   border-radius: 50%;
@@ -63,7 +67,6 @@ body::before {
 @keyframes float2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(60px, -60px); } }
 @keyframes float3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 40px); } }
 
-/* Navigation */
 nav {
   position: fixed;
   top: 0;
@@ -86,12 +89,12 @@ nav .logo {
   letter-spacing: -0.02em;
 }
 
-nav .nav-links { display: flex; gap: 2rem; list-style: none; }
+nav .nav-links { display: flex; gap: 1.8rem; list-style: none; }
 
 nav .nav-links a {
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -100,7 +103,6 @@ nav .nav-links a {
 
 nav .nav-links a:hover { color: var(--accent-bright); }
 
-/* Main container */
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -109,7 +111,6 @@ nav .nav-links a:hover { color: var(--accent-bright); }
   z-index: 1;
 }
 
-/* Section styling */
 section {
   padding: 5rem 0;
   opacity: 0;
@@ -152,7 +153,7 @@ section:nth-child(3) { animation-delay: 0.2s; }
   padding-top: 5rem;
 }
 
-.hero-content { max-width: 750px; }
+.hero-content { max-width: 800px; }
 
 .hero-tag {
   display: inline-flex;
@@ -199,7 +200,7 @@ section:nth-child(3) { animation-delay: 0.2s; }
 .hero p {
   font-size: 1.15rem;
   color: var(--text-secondary);
-  max-width: 600px;
+  max-width: 650px;
   margin-bottom: 2rem;
 }
 
@@ -209,6 +210,7 @@ section:nth-child(3) { animation-delay: 0.2s; }
   margin-top: 2.5rem;
   padding-top: 2.5rem;
   border-top: 1px solid var(--border);
+  flex-wrap: wrap;
 }
 
 .stat-item .stat-number {
@@ -229,6 +231,7 @@ section:nth-child(3) { animation-delay: 0.2s; }
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -241,6 +244,9 @@ section:nth-child(3) { animation-delay: 0.2s; }
   cursor: pointer;
   border: none;
   font-family: 'DM Sans', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .btn-primary {
@@ -266,6 +272,48 @@ section:nth-child(3) { animation-delay: 0.2s; }
   color: var(--accent-bright);
   transform: translateY(-2px);
 }
+
+.btn-resume {
+  background: linear-gradient(135deg, var(--green), #059669);
+  color: white;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-resume:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(16, 185, 129, 0.4);
+}
+
+/* ===== NOW STATUS BAR ===== */
+.now-status {
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.now-status .now-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--green);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  align-self: start;
+}
+
+.now-status .now-content { font-size: 0.9rem; color: var(--text-secondary); }
+.now-status .now-content strong { color: var(--text-primary); font-weight: 600; }
 
 /* ===== ABOUT ===== */
 .about-grid {
@@ -304,6 +352,126 @@ section:nth-child(3) { animation-delay: 0.2s; }
   font-size: 0.9rem;
   color: var(--text-secondary);
   line-height: 1.6;
+}
+
+/* ===== PROJECTS ===== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent), var(--purple));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.project-card:hover::before { opacity: 1; }
+.project-card:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.project-card h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.project-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.project-impact {
+  display: inline-block;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--green);
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.project-card .project-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.project-card .project-flow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+
+.flow-step .flow-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.3rem;
+}
+
+.flow-step .flow-text {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.project-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  background: var(--accent-glow);
+  color: var(--accent-bright);
+  padding: 0.25rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
 }
 
 /* ===== PLATFORMS ===== */
@@ -496,40 +664,72 @@ section:nth-child(3) { animation-delay: 0.2s; }
   line-height: 1.7;
 }
 
-/* ===== ACHIEVEMENTS ===== */
-.achievements-grid {
+/* ===== EVENTS / SPEAKING ===== */
+.events-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 1.2rem;
 }
 
-.achievement-card {
+.event-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.5rem;
-  text-align: center;
   transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
 }
 
-.achievement-card:hover {
-  background: var(--bg-card-hover);
+.event-card.upcoming {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: linear-gradient(135deg, var(--bg-card), rgba(245, 158, 11, 0.03));
+}
+
+.event-card:hover {
   transform: translateY(-4px);
-  border-color: var(--orange);
+  border-color: var(--accent);
 }
 
-.achievement-card .trophy { font-size: 2rem; margin-bottom: 0.8rem; }
-
-.achievement-card h3 {
-  font-family: 'Sora', sans-serif;
-  font-size: 0.9rem;
+.event-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   font-weight: 600;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.6rem;
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
 }
 
-.achievement-card p {
-  font-size: 0.78rem;
+.event-card.attended .event-status {
+  color: var(--green);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.event-card.upcoming .event-status {
+  color: var(--orange);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.event-card h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.event-card .event-date {
+  font-size: 0.82rem;
   color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.event-card .event-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 /* ===== IMPACT ===== */
@@ -624,7 +824,7 @@ footer p {
   margin-bottom: 2rem;
 }
 
-.social-links { display: flex; justify-content: center; gap: 1rem; }
+.social-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 
 .social-link {
   display: inline-flex;
@@ -654,17 +854,26 @@ footer p {
   font-size: 0.9rem;
 }
 
+.footer-credit {
+  margin-top: 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero h1 { font-size: 2.2rem; }
   .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
-  .about-grid, .impact-grid, .achievements-grid { grid-template-columns: 1fr; }
+  .about-grid, .impact-grid, .events-row { grid-template-columns: 1fr; }
   .platforms-grid { grid-template-columns: 1fr 1fr; }
+  .project-card .project-flow { grid-template-columns: 1fr; }
+  .now-status { grid-template-columns: 1fr; }
   nav .nav-links { display: none; }
   .container { padding: 0 1.2rem; }
 }
 
-/* Scroll animation */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
@@ -687,10 +896,11 @@ footer p {
   <div class="logo">DR</div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
     <li><a href="#platforms">Platforms</a></li>
     <li><a href="#tools">Tools</a></li>
     <li><a href="#journey">Journey</a></li>
-    <li><a href="#impact">Impact</a></li>
+    <li><a href="#events">Events</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -702,18 +912,29 @@ footer p {
     <div class="hero-content">
       <div class="hero-tag">
         <span class="dot"></span>
-        Available for new opportunities
+        Open to SRE & Cloud Operations roles
       </div>
       <h1>I'm Dinesh.<br><span class="gradient-text">I keep platforms running</span><br>when things break at 2 AM.</h1>
-      <p>Cloud Operations Engineer supporting mission-critical PLM & IIoT platforms for Fortune 500 clients. 3+ years of 24×7 production operations, incident response, and platform reliability on Azure & AWS.</p>
+      <p>NOC Engineer – Specialist at PTC, supporting mission-critical PLM &amp; IIoT platforms for Fortune 500 clients. 3+ years of 24×7 production operations on Azure &amp; AWS — 5,000+ incidents resolved, 99.9% uptime, ~30% MTTR reduction.</p>
       <div class="hero-buttons">
-        <a href="mailto:mailtodinesh0808@gmail.com" class="btn btn-primary">Get in Touch</a>
-        <a href="https://linkedin.com/in/dineshravichandiran" class="btn btn-outline" target="_blank">LinkedIn →</a>
+        <a href="mailto:dineshravichandiran0808@gmail.com" class="btn btn-primary">Get in Touch</a>
+        <a href="resume.pdf" class="btn btn-resume" download>📄 Download Resume</a>
+        <a href="https://linkedin.com/in/dineshravichandiran" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn →</a>
+      </div>
+      <div class="now-status">
+        <span class="now-badge">// NOW</span>
+        <div class="now-content">
+          Currently <strong>NOC Engineer – Specialist</strong> at PTC running 24×7 production ops for Windchill, ThingWorx &amp; FlexPLM. Pursuing <strong>CKA</strong>, <strong>AWS SAA</strong>, and <strong>RHCSA</strong> alongside an MBA in Information Systems &amp; Analytics. Targeting SRE roles at product-first companies.
+        </div>
       </div>
       <div class="hero-stats">
         <div class="stat-item">
           <div class="stat-number">3+</div>
           <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">5,000+</div>
+          <div class="stat-label">Incidents Resolved</div>
         </div>
         <div class="stat-item">
           <div class="stat-number">99.9%</div>
@@ -722,10 +943,6 @@ footer p {
         <div class="stat-item">
           <div class="stat-number">~30%</div>
           <div class="stat-label">MTTR Reduced</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">F500</div>
-          <div class="stat-label">Client Scale</div>
         </div>
       </div>
     </div>
@@ -739,46 +956,178 @@ footer p {
       <div class="about-card">
         <div class="card-icon">🚨</div>
         <h3>Incident Response</h3>
-        <p>Handle Sev0–Sev3 incidents via PagerDuty on-call rotation. Use Rundeck for rapid log access and monitoring toggles. Lead outage coordination across teams.</p>
+        <p>Handle Sev0–Sev3 incidents via PagerDuty on-call rotation. Use Rundeck for rapid log access and monitoring toggles. Lead outage coordination across App, DB, and Network teams during high-severity events.</p>
       </div>
       <div class="about-card">
         <div class="card-icon">🔍</div>
         <h3>Root Cause Analysis</h3>
-        <p>Analyze Java application logs in Sumo Logic, triage Zabbix infrastructure alerts, monitor URL performance via Catchpoint, and create trend analysis for recurring issues.</p>
+        <p>Triage Java application logs in Sumo Logic, validate Zabbix infrastructure alerts, monitor URL performance via Catchpoint, and produce trend analysis for recurring issues to drive permanent fixes.</p>
       </div>
       <div class="about-card">
         <div class="card-icon">🐧</div>
-        <h3>Linux & Kubernetes</h3>
-        <p>Troubleshoot production Linux servers — CPU, memory, disk, networking. Perform AKS diagnostics on pods, nodes, events, and restarts to isolate issues.</p>
+        <h3>Linux &amp; Kubernetes</h3>
+        <p>Troubleshoot production Linux servers — CPU, memory, disk, networking. Perform AKS diagnostics on pods, nodes, events, and restarts. Comfortable in kubectl, journalctl, and systemd debugging.</p>
       </div>
       <div class="about-card">
         <div class="card-icon">📋</div>
-        <h3>Runbooks & Documentation</h3>
-        <p>Author operational runbooks, troubleshooting commands, and SOPs in Salesforce Knowledge Base. Create technical articles shared across the operations team.</p>
+        <h3>Runbooks &amp; SOPs</h3>
+        <p>Author operational runbooks, troubleshooting commands, and SOPs in Salesforce Knowledge Base. Reusable playbooks shared across the global ops team to reduce onboarding time and toil.</p>
       </div>
       <div class="about-card">
         <div class="card-icon">🔔</div>
         <h3>Alert Optimization</h3>
-        <p>Spearheaded memory alert tuning — analyzed patterns, adjusted thresholds, reduced false-positive firing, and decreased on-call fatigue significantly.</p>
+        <p>Spearheaded memory alert tuning — analyzed firing patterns, adjusted thresholds, and reduced false positives. Cut noisy on-call pages and improved signal-to-noise ratio for the rotation team.</p>
       </div>
       <div class="about-card">
         <div class="card-icon">🤝</div>
-        <h3>Customer & Team Communication</h3>
-        <p>Proactively communicate with customers during outages. Coordinate SSL/cert renewals across App, DB, and Incident teams. Execute weekend maintenance windows.</p>
+        <h3>Customer Communication</h3>
+        <p>Proactive updates during outages with clear ETAs and status. Coordinate SSL/cert renewals across App, DB, and Incident teams. Execute weekend maintenance windows with zero-customer-impact targets.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="reveal">
+    <div class="section-label">Featured Work</div>
+    <div class="section-title">Projects &amp; Initiatives</div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>JVM Heap &amp; Performance Tuning — Windchill PLM</h3>
+          <div class="project-meta">2024 · PRODUCTION</div>
+        </div>
+        <span class="project-impact">⚡ Reduced recurring OOM incidents · Improved app stability</span>
+        <p class="project-desc">
+          Diagnosed recurring out-of-memory errors and slow garbage collection on a Fortune 500 customer's Windchill production environment. Analyzed heap dumps, GC logs, and thread states to pinpoint memory leaks and inefficient object retention patterns.
+        </p>
+        <div class="project-flow">
+          <div class="flow-step">
+            <div class="flow-label">Problem</div>
+            <div class="flow-text">Frequent OOM crashes &amp; long GC pauses degrading user experience.</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-label">Action</div>
+            <div class="flow-text">Tuned heap sizing, GC algorithm, and added targeted Sumo Logic queries.</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-label">Result</div>
+            <div class="flow-text">Stabilized production, reduced ticket volume, runbook adopted team-wide.</div>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Java</span>
+          <span class="project-tag">JVM</span>
+          <span class="project-tag">GC Tuning</span>
+          <span class="project-tag">Sumo Logic</span>
+          <span class="project-tag">Windchill</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>Memory Alert Threshold Optimization</h3>
+          <div class="project-meta">2024 · PLATFORM-WIDE</div>
+        </div>
+        <span class="project-impact">🔕 Reduced false-positive pages · Improved on-call quality</span>
+        <p class="project-desc">
+          Memory alerts across the fleet were firing on transient spikes, causing pager fatigue and missed real incidents. Audited alert behavior across multiple customer environments and proposed data-backed threshold adjustments.
+        </p>
+        <div class="project-flow">
+          <div class="flow-step">
+            <div class="flow-label">Problem</div>
+            <div class="flow-text">High false-positive rate on memory alerts causing on-call burnout.</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-label">Action</div>
+            <div class="flow-text">Trend analysis in Zabbix &amp; Sumo Logic, sustained-window thresholds.</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-label">Result</div>
+            <div class="flow-text">Significant drop in noisy alerts; cleaner signal for genuine incidents.</div>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Zabbix</span>
+          <span class="project-tag">Sumo Logic</span>
+          <span class="project-tag">Observability</span>
+          <span class="project-tag">SRE Practices</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>Runbook Library &amp; Knowledge Base</h3>
+          <div class="project-meta">ONGOING · TEAM-WIDE</div>
+        </div>
+        <span class="project-impact">📚 Faster onboarding · Reduced repeat escalations</span>
+        <p class="project-desc">
+          Authored a growing library of operational runbooks covering Windchill, ThingWorx, FlexPLM, and AKS troubleshooting. Documented exact commands, decision trees, and verification steps. Articles are now part of the standard handoff for new joiners.
+        </p>
+        <div class="project-flow">
+          <div class="flow-step">
+            <div class="flow-label">Problem</div>
+            <div class="flow-text">Tribal knowledge slowing down resolution &amp; new-hire ramp.</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-label">Action</div>
+            <div class="flow-text">Standardized runbook template; published in Salesforce KB.</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-label">Result</div>
+            <div class="flow-text">Repeatable resolutions, shorter MTTR for known issues.</div>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Salesforce KB</span>
+          <span class="project-tag">Documentation</span>
+          <span class="project-tag">Toil Reduction</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>SSL Certificate Renewal Coordination</h3>
+          <div class="project-meta">RECURRING · CROSS-TEAM</div>
+        </div>
+        <span class="project-impact">🔐 Zero outages from cert expiry · Clean cross-team execution</span>
+        <p class="project-desc">
+          Owned end-to-end coordination of SSL/TLS certificate renewals across application, database, and incident teams for Fortune 500 customer environments. Drove pre-validation, change windows, and post-renewal smoke tests.
+        </p>
+        <div class="project-flow">
+          <div class="flow-step">
+            <div class="flow-label">Problem</div>
+            <div class="flow-text">Cert renewals span multiple teams &amp; risk silent expiry-driven outages.</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-label">Action</div>
+            <div class="flow-text">Scheduling, validation checklists, and rollback playbooks.</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-label">Result</div>
+            <div class="flow-text">Renewals delivered cleanly within maintenance windows.</div>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">SSL/TLS</span>
+          <span class="project-tag">Change Management</span>
+          <span class="project-tag">Cross-team</span>
+        </div>
+      </div>
+
     </div>
   </section>
 
   <!-- PLATFORMS -->
   <section id="platforms" class="reveal">
     <div class="section-label">Platforms I Support</div>
-    <div class="section-title">Enterprise PLM & IIoT</div>
+    <div class="section-title">Enterprise PLM &amp; IIoT</div>
     <div class="platforms-grid">
       <div class="platform-card">
         <div class="platform-icon">⚙️</div>
         <h3>Windchill</h3>
         <div class="platform-type">Private Cloud</div>
-        <div class="platform-desc">Core PLM for aerospace, automotive & manufacturing</div>
+        <div class="platform-desc">Core PLM for aerospace, automotive &amp; manufacturing</div>
       </div>
       <div class="platform-card">
         <div class="platform-icon">☁️</div>
@@ -790,13 +1139,13 @@ footer p {
         <div class="platform-icon">👗</div>
         <h3>FlexPLM</h3>
         <div class="platform-type">SaaS</div>
-        <div class="platform-desc">Retail & fashion product lifecycle management</div>
+        <div class="platform-desc">Retail &amp; fashion product lifecycle management</div>
       </div>
       <div class="platform-card">
         <div class="platform-icon">🏭</div>
         <h3>ThingWorx</h3>
         <div class="platform-type">IIoT Platform</div>
-        <div class="platform-desc">Industrial IoT monitoring & manufacturing intelligence</div>
+        <div class="platform-desc">Industrial IoT monitoring &amp; manufacturing intelligence</div>
       </div>
     </div>
   </section>
@@ -804,10 +1153,10 @@ footer p {
   <!-- TOOLS -->
   <section id="tools" class="reveal">
     <div class="section-label">Tech Stack</div>
-    <div class="section-title">Tools & Technologies</div>
+    <div class="section-title">Tools &amp; Technologies</div>
     <div class="tools-categories">
       <div class="tool-category">
-        <h3>Monitoring & Observability</h3>
+        <h3>Monitoring &amp; Observability</h3>
         <div class="tool-badges">
           <span class="tool-badge"><span class="badge-dot" style="background:#000099"></span> Sumo Logic</span>
           <span class="tool-badge"><span class="badge-dot" style="background:#CC0000"></span> Zabbix</span>
@@ -816,7 +1165,7 @@ footer p {
         </div>
       </div>
       <div class="tool-category">
-        <h3>Cloud & Infrastructure</h3>
+        <h3>Cloud &amp; Infrastructure</h3>
         <div class="tool-badges">
           <span class="tool-badge"><span class="badge-dot" style="background:#0078D4"></span> Microsoft Azure</span>
           <span class="tool-badge"><span class="badge-dot" style="background:#FF9900"></span> AWS</span>
@@ -825,7 +1174,7 @@ footer p {
         </div>
       </div>
       <div class="tool-category">
-        <h3>ITSM & Operations</h3>
+        <h3>ITSM &amp; Operations</h3>
         <div class="tool-badges">
           <span class="tool-badge"><span class="badge-dot" style="background:#81B5A1"></span> ServiceNow</span>
           <span class="tool-badge"><span class="badge-dot" style="background:#00A1E0"></span> Salesforce</span>
@@ -834,12 +1183,14 @@ footer p {
         </div>
       </div>
       <div class="tool-category">
-        <h3>Currently Learning</h3>
+        <h3>Currently Building Toward (CKA / AWS SAA / RHCSA)</h3>
         <div class="tool-badges">
+          <span class="tool-badge learning"><span class="badge-dot" style="background:#326CE5"></span> CKA Prep</span>
+          <span class="tool-badge learning"><span class="badge-dot" style="background:#FF9900"></span> AWS SAA Prep</span>
+          <span class="tool-badge learning"><span class="badge-dot" style="background:#EE0000"></span> RHCSA Prep</span>
           <span class="tool-badge learning"><span class="badge-dot" style="background:#2496ED"></span> Docker</span>
           <span class="tool-badge learning"><span class="badge-dot" style="background:#7B42BC"></span> Terraform</span>
           <span class="tool-badge learning"><span class="badge-dot" style="background:#3776AB"></span> Python</span>
-          <span class="tool-badge learning"><span class="badge-dot" style="background:#EE0000"></span> RHCSA Prep</span>
         </div>
       </div>
     </div>
@@ -852,19 +1203,34 @@ footer p {
     <div class="timeline">
 
       <div class="timeline-item current">
-        <div class="timeline-date">Dec 2022 – Present</div>
-        <div class="timeline-company">PTC (Parametric Technology Corporation)</div>
-        <div class="timeline-role">Cloud Operations Engineer · Pune, India</div>
+        <div class="timeline-date">Dec 2025 – Present</div>
+        <div class="timeline-company">PTC</div>
+        <div class="timeline-role">NOC Engineer – Specialist · Pune, India</div>
         <div class="timeline-highlights">
           <span class="highlight-tag">24×7 On-Call</span>
           <span class="highlight-tag">Fortune 500 Clients</span>
-          <span class="highlight-tag">4 Platforms</span>
-          <span class="highlight-tag">Azure + AWS</span>
-          <span class="highlight-tag">PagerDuty</span>
-          <span class="highlight-tag">Runbook Author</span>
+          <span class="highlight-tag">Sev0–Sev3</span>
+          <span class="highlight-tag">Mentoring</span>
+          <span class="highlight-tag">RCA Lead</span>
         </div>
         <div class="timeline-desc">
-          Managing production operations for enterprise PLM & IIoT platforms serving Fortune 500 clients. Selected by management over senior peers for critical initiatives. Reduced MTTR by ~30%. Author runbooks used by the entire team. Lead outage coordination and customer communication.
+          Driving incident response, root-cause analysis, and reliability initiatives for enterprise PLM &amp; IIoT platforms. Lead outage coordination across App/DB/Network teams, mentor newer engineers, and own runbook quality for the rotation.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Dec 2022 – Nov 2025</div>
+        <div class="timeline-company">PTC</div>
+        <div class="timeline-role">NOC Engineer – Associate · Pune, India</div>
+        <div class="timeline-highlights">
+          <span class="highlight-tag">5,000+ Incidents</span>
+          <span class="highlight-tag">99.9% Uptime</span>
+          <span class="highlight-tag">~30% MTTR ↓</span>
+          <span class="highlight-tag">Customer First Award</span>
+          <span class="highlight-tag">JVM Tuning</span>
+        </div>
+        <div class="timeline-desc">
+          Production operations for Windchill, Windchill+, FlexPLM, and ThingWorx on Azure &amp; AWS. Resolved 5,000+ incidents, authored team-wide runbooks, drove memory alert tuning, and recognized with PTC's Customer First Award.
         </div>
       </div>
 
@@ -889,6 +1255,7 @@ footer p {
           <span class="highlight-tag">Java</span>
           <span class="highlight-tag">Spring Boot</span>
           <span class="highlight-tag">REST APIs</span>
+          <span class="highlight-tag">MySQL</span>
         </div>
         <div class="timeline-desc">
           Developed a CRUD-based Life Insurance Management application using Java, Spring Boot, and MySQL. Built REST APIs and documented setup procedures.
@@ -898,38 +1265,61 @@ footer p {
       <div class="timeline-item">
         <div class="timeline-date">2018 – 2022</div>
         <div class="timeline-company">Panimalar Engineering College</div>
-        <div class="timeline-role">B.E. Electronics & Instrumentation · CGPA 8.1/10</div>
+        <div class="timeline-role">B.E. Electronics &amp; Instrumentation · CGPA 8.1/10</div>
         <div class="timeline-highlights">
           <span class="highlight-tag">🏆 SIH National Winner</span>
           <span class="highlight-tag">CGPA 8.1</span>
         </div>
         <div class="timeline-desc">
-          Won Smart India Hackathon (National Level) competing against 10,000+ teams. Built problem-solving and teamwork skills under extreme pressure.
+          Won Smart India Hackathon (National Level) competing against thousands of teams. Built problem-solving and teamwork skills under high-pressure constraints.
         </div>
       </div>
 
       <div class="timeline-item">
         <div class="timeline-date">Aug 2021</div>
-        <div class="timeline-company">Defence Research & Development Organisation (DRDO)</div>
-        <div class="timeline-role">R&D Engineering Intern · Āvadi, Tamil Nadu</div>
+        <div class="timeline-company">Defence Research &amp; Development Organisation (DRDO)</div>
+        <div class="timeline-role">R&amp;D Engineering Intern · Avadi, Tamil Nadu</div>
         <div class="timeline-highlights">
-          <span class="highlight-tag">🛡️ Defence R&D</span>
-          <span class="highlight-tag">Classified Project</span>
+          <span class="highlight-tag">🛡️ Defence R&amp;D</span>
           <span class="highlight-tag">Sensor Integration</span>
         </div>
         <div class="timeline-desc">
-          Contributed to a classified defence R&D project involving sensor integration for combat vehicle systems, working in a 4-member team under DRDO supervision. Details confidential per defence protocol.
+          Contributed to a defence R&amp;D project involving sensor integration for combat vehicle systems, working in a small team under DRDO supervision. Specifics confidential per defence protocol.
         </div>
       </div>
 
     </div>
   </section>
 
+  <!-- EVENTS / COMMUNITY -->
+  <section id="events" class="reveal">
+    <div class="section-label">Community &amp; Continuous Learning</div>
+    <div class="section-title">Events &amp; Conferences</div>
+    <div class="events-row">
+      <div class="event-card upcoming">
+        <span class="event-status">⏳ Upcoming</span>
+        <h3>KubeCon + CloudNativeCon India 2026</h3>
+        <div class="event-date">June 18–19, 2026 · Jio World Convention Centre, Mumbai</div>
+        <p class="event-desc">Attending with a curated session schedule focused on K8s observability, SRE practices, and platform engineering. Networking goal: build connections with engineers from GCCs and product companies.</p>
+      </div>
+      <div class="event-card attended">
+        <span class="event-status">✓ Attended</span>
+        <h3>KubeCon + CloudNativeCon India 2025</h3>
+        <div class="event-date">CNCF · Hyderabad</div>
+        <p class="event-desc">Hands-on exposure to cloud-native tooling, observability stacks, and real-world SRE patterns from leading product companies in India.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- IMPACT -->
-  <section id="impact" class="reveal">
+  <section class="reveal">
     <div class="section-label">Results</div>
     <div class="section-title">Key Impact</div>
     <div class="impact-grid">
+      <div class="impact-card">
+        <div class="impact-number">5,000+</div>
+        <div class="impact-label">Incidents Resolved</div>
+      </div>
       <div class="impact-card">
         <div class="impact-number">↓30%</div>
         <div class="impact-label">MTTR Reduction</div>
@@ -947,10 +1337,6 @@ footer p {
         <div class="impact-label">Cloud Providers</div>
       </div>
       <div class="impact-card">
-        <div class="impact-number">F500</div>
-        <div class="impact-label">Client Scale</div>
-      </div>
-      <div class="impact-card">
         <div class="impact-number">24×7</div>
         <div class="impact-label">On-Call Operations</div>
       </div>
@@ -960,7 +1346,7 @@ footer p {
   <!-- CERTIFICATIONS -->
   <section class="reveal">
     <div class="section-label">Credentials</div>
-    <div class="section-title">Certifications & Awards</div>
+    <div class="section-title">Certifications, Awards &amp; Education</div>
     <div class="certs-row">
       <div class="cert-badge">
         <div class="cert-icon">📜</div>
@@ -977,10 +1363,17 @@ footer p {
         </div>
       </div>
       <div class="cert-badge">
+        <div class="cert-icon">📘</div>
+        <div class="cert-info">
+          <h4>Kubernetes for the Absolute Beginners</h4>
+          <p>KodeKloud · Hands-on Labs</p>
+        </div>
+      </div>
+      <div class="cert-badge">
         <div class="cert-icon">🏆</div>
         <div class="cert-info">
           <h4>Smart India Hackathon Winner</h4>
-          <p>National Level · 10,000+ teams</p>
+          <p>National Level · Government of India</p>
         </div>
       </div>
       <div class="cert-badge">
@@ -991,17 +1384,17 @@ footer p {
         </div>
       </div>
       <div class="cert-badge">
-        <div class="cert-icon">🎤</div>
+        <div class="cert-icon">🎓</div>
         <div class="cert-info">
-          <h4>KubeCon + CloudNativeCon India</h4>
-          <p>2025 Attendee · CNCF</p>
+          <h4>MBA – Information Systems &amp; Analytics</h4>
+          <p>Manipal University Jaipur (WILP) · In Progress</p>
         </div>
       </div>
       <div class="cert-badge">
         <div class="cert-icon">🎓</div>
         <div class="cert-info">
-          <h4>MBA (Pursuing)</h4>
-          <p>Manipal University · IS & Analytics</p>
+          <h4>B.E. Electronics &amp; Instrumentation</h4>
+          <p>Panimalar Engineering College · CGPA 8.1</p>
         </div>
       </div>
     </div>
@@ -1010,20 +1403,20 @@ footer p {
   <!-- CONTACT -->
   <footer id="contact">
     <h2>Let's Connect</h2>
-    <p>Open to Cloud Operations Engineer, SRE, Production Support, and NOC L2/L3 roles.</p>
+    <p>Open to SRE, Cloud Operations Engineer, Production Support, and NOC L2/L3 roles at product companies and GCCs.</p>
     <div class="social-links">
-      <a href="mailto:mailtodinesh0808@gmail.com" class="social-link">📧 Email</a>
-      <a href="https://linkedin.com/in/dineshravichandiran" class="social-link" target="_blank">💼 LinkedIn</a>
-      <a href="https://github.com/dineshravichandiran" class="social-link" target="_blank">💻 GitHub</a>
-      <a href="https://medium.com/@dineshravichandiran" class="social-link" target="_blank">✍️ Medium</a>
+      <a href="mailto:dineshravichandiran0808@gmail.com" class="social-link">📧 Email</a>
+      <a href="https://linkedin.com/in/dineshravichandiran" class="social-link" target="_blank" rel="noopener">💼 LinkedIn</a>
+      <a href="https://github.com/dineshravichandiran" class="social-link" target="_blank" rel="noopener">💻 GitHub</a>
+      <a href="resume.pdf" class="social-link" download>📄 Resume</a>
     </div>
     <div class="footer-quote">"Preparation beats panic, every time." — 3+ years of on-call rotations</div>
+    <div class="footer-credit">© 2026 Dinesh Ravichandiran · Built with care · Last updated May 2026</div>
   </footer>
 
 </div>
 
 <script>
-// Scroll reveal animation
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1034,7 +1427,6 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Smooth nav highlight
 document.querySelectorAll('nav a').forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
