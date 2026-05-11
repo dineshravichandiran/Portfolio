@@ -597,37 +597,31 @@ function buildMilestone(t, index, data) {
   base.castShadow = true;
   group.add(base);
 
-  // Sign board (BIGGER — wider plate)
-  const signGeo = new THREE.BoxGeometry(2.4, 1.1, 0.1);
-  const signMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
-  const sign = new THREE.Mesh(signGeo, signMat);
+  // Sign board with company name baked into the FRONT and BACK faces (no z-fighting)
+  const tex = makeCompanySignTexture(data.name, data.year, index + 1);
+  const whiteMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
+  const faceMat = new THREE.MeshLambertMaterial({ map: tex });
+
+  // BoxGeometry face order: [+X, -X, +Y, -Y, +Z, -Z]
+  // We want the texture on +Z (front) and -Z (back), white sides on the rest
+  const signGeo = new THREE.BoxGeometry(2.4, 1.1, 0.12);
+  const sign = new THREE.Mesh(signGeo, [
+    whiteMat, whiteMat, // left/right sides
+    whiteMat, whiteMat, // top/bottom
+    faceMat,            // FRONT (+Z) — company name shown
+    faceMat             // BACK (-Z) — same name, also readable
+  ]);
   sign.position.y = 2.6;
   sign.castShadow = true;
   group.add(sign);
 
-  // Sign border (navy frame)
-  const borderGeo = new THREE.BoxGeometry(2.55, 1.25, 0.06);
+  // Sign border (navy frame, slightly behind so it forms a frame around the sign)
+  const borderGeo = new THREE.BoxGeometry(2.6, 1.3, 0.06);
   const borderMat = new THREE.MeshLambertMaterial({ color: 0x1e3a8a });
   const border = new THREE.Mesh(borderGeo, borderMat);
   border.position.y = 2.6;
-  border.position.z = -0.03;
+  border.position.z = 0;
   group.add(border);
-
-  // Company name + year texture (the white plate showing names)
-  const tex = makeCompanySignTexture(data.name, data.year, index + 1);
-  const textMat = new THREE.MeshBasicMaterial({ map: tex, transparent: true });
-  const textGeo = new THREE.PlaneGeometry(2.3, 1.0);
-  const textMesh = new THREE.Mesh(textGeo, textMat);
-  textMesh.position.y = 2.6;
-  textMesh.position.z = 0.06;
-  group.add(textMesh);
-
-  // Same content on the BACK of the sign (so it's readable from both directions)
-  const textBack = new THREE.Mesh(textGeo, textMat);
-  textBack.position.y = 2.6;
-  textBack.position.z = -0.06;
-  textBack.rotation.y = Math.PI;
-  group.add(textBack);
 
   // Make the whole sign face the road (turn slightly toward the bike's path)
   const lookTarget = pos.clone();
@@ -1210,205 +1204,295 @@ plate.position.set(-0.74, 0.5, 0);
 bike.add(plate);
 
 // ====================================================
-// THE RIDER (realistic riding posture)
+// THE RIDER (smooth animated character — uses capsules + spheres for soft, character look)
 // ====================================================
 const rider = new THREE.Group();
 
 // Color palette for rider
-const SKIN = 0xc8967a;
-const HELMET_DARK = 0x171717;
-const VISOR = 0x1f2937;
-const JACKET = 0x2d3748;       // Dark charcoal jacket
-const JACKET_TRIM = 0x4a5568;  // Lighter trim
-const PANTS = 0x1f2937;        // Dark blue-grey pants
-const SHOES = 0x0f172a;        // Black shoes
-const GLOVES = 0x171717;       // Black gloves
-
-// ---------- HIPS (sitting on seat) ----------
-const hips = new THREE.Mesh(
-  new THREE.BoxGeometry(0.32, 0.16, 0.28),
-  new THREE.MeshLambertMaterial({ color: PANTS })
-);
-hips.position.set(-0.38, 0.92, 0);
-hips.castShadow = true;
-rider.add(hips);
-
-// ---------- TORSO (slight forward lean) ----------
-const torso = new THREE.Mesh(
-  new THREE.BoxGeometry(0.34, 0.42, 0.24),
-  new THREE.MeshLambertMaterial({ color: JACKET })
-);
-torso.position.set(-0.3, 1.18, 0);
-torso.rotation.z = -0.18;
-torso.castShadow = true;
-rider.add(torso);
-
-// Jacket trim line down the front
-const jacketLine = new THREE.Mesh(
-  new THREE.BoxGeometry(0.02, 0.4, 0.02),
-  new THREE.MeshLambertMaterial({ color: JACKET_TRIM })
-);
-jacketLine.position.set(-0.18, 1.18, 0);
-jacketLine.rotation.z = -0.18;
-rider.add(jacketLine);
-
-// ---------- THIGHS (angled forward to floorboard) ----------
-function makeLimb(length, radius, mat) {
-  const m = new THREE.Mesh(
-    new THREE.CylinderGeometry(radius, radius * 0.9, length, 8),
-    mat
-  );
-  m.castShadow = true;
-  return m;
-}
+const SKIN = 0xd4a87a;
+const HELMET_DARK = 0x1e3a8a;   // Navy helmet matches scooter
+const HELMET_HIGHLIGHT = 0x2563eb;
+const VISOR = 0x0f172a;
+const JACKET = 0x334155;        // Smart charcoal jacket
+const JACKET_TRIM = 0x60a5fa;   // Bright blue trim
+const PANTS = 0x1e293b;
+const SHOES = 0x0f172a;
+const GLOVES = 0x171717;
 
 const pantsMat = new THREE.MeshLambertMaterial({ color: PANTS });
 const jacketMat = new THREE.MeshLambertMaterial({ color: JACKET });
+const skinMat = new THREE.MeshLambertMaterial({ color: SKIN });
+const gloveMat = new THREE.MeshLambertMaterial({ color: GLOVES });
+const shoeMat = new THREE.MeshLambertMaterial({ color: SHOES });
 
-const thighL = makeLimb(0.38, 0.07, pantsMat);
-thighL.position.set(-0.18, 0.78, 0.11);
-thighL.rotation.z = Math.PI / 2 - 0.35;
+// Helper: create a smooth "capsule" limb (cylinder + sphere caps) as a single Group
+function makeCapsule(length, radius, mat) {
+  const g = new THREE.Group();
+  const body = new THREE.Mesh(
+    new THREE.CylinderGeometry(radius, radius, length, 14),
+    mat
+  );
+  body.castShadow = true;
+  g.add(body);
+  const capTop = new THREE.Mesh(new THREE.SphereGeometry(radius, 14, 10), mat);
+  capTop.position.y = length / 2;
+  capTop.castShadow = true;
+  g.add(capTop);
+  const capBot = new THREE.Mesh(new THREE.SphereGeometry(radius, 14, 10), mat);
+  capBot.position.y = -length / 2;
+  capBot.castShadow = true;
+  g.add(capBot);
+  return g;
+}
+
+// ---------- HIPS (smooth ellipsoid) ----------
+const hips = new THREE.Mesh(
+  new THREE.SphereGeometry(0.18, 16, 12),
+  pantsMat
+);
+hips.position.set(-0.38, 0.92, 0);
+hips.scale.set(1.2, 0.7, 1.1);
+hips.castShadow = true;
+rider.add(hips);
+
+// ---------- TORSO (smooth tapered body) ----------
+const torsoGroup = new THREE.Group();
+const torsoBody = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.14, 0.17, 0.42, 16),
+  jacketMat
+);
+torsoBody.castShadow = true;
+torsoGroup.add(torsoBody);
+
+// Chest sphere on top for smooth shoulders
+const chest = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 12), jacketMat);
+chest.position.y = 0.18;
+chest.scale.set(1.15, 0.7, 1);
+chest.castShadow = true;
+torsoGroup.add(chest);
+
+torsoGroup.position.set(-0.3, 1.18, 0);
+torsoGroup.rotation.z = -0.22; // Forward lean
+rider.add(torsoGroup);
+
+// Bright blue jacket zipper (visible from front)
+const jacketZip = new THREE.Mesh(
+  new THREE.BoxGeometry(0.025, 0.4, 0.018),
+  new THREE.MeshLambertMaterial({ color: JACKET_TRIM, emissive: JACKET_TRIM, emissiveIntensity: 0.2 })
+);
+jacketZip.position.set(-0.18, 1.18, 0);
+jacketZip.rotation.z = -0.22;
+rider.add(jacketZip);
+
+// ---------- LEG: THIGH (angled forward) ----------
+function makeThigh(zSide) {
+  const g = makeCapsule(0.36, 0.075, pantsMat);
+  g.position.set(-0.18, 0.78, zSide);
+  g.rotation.z = Math.PI / 2 - 0.4; // Angled forward to floorboard
+  return g;
+}
+const thighL = makeThigh(0.12);
+const thighR = makeThigh(-0.12);
 rider.add(thighL);
-
-const thighR = makeLimb(0.38, 0.07, pantsMat);
-thighR.position.set(-0.18, 0.78, -0.11);
-thighR.rotation.z = Math.PI / 2 - 0.35;
 rider.add(thighR);
 
-// ---------- CALVES (nearly vertical down to footrest) ----------
-const calfL = makeLimb(0.38, 0.06, pantsMat);
-calfL.position.set(0.04, 0.5, 0.13);
-calfL.rotation.z = 0.05;
-rider.add(calfL);
-
-const calfR = makeLimb(0.38, 0.06, pantsMat);
-calfR.position.set(0.04, 0.5, -0.13);
-calfR.rotation.z = 0.05;
-rider.add(calfR);
-
-// ---------- KNEES (small spheres for joint detail) ----------
-const kneeGeo = new THREE.SphereGeometry(0.07, 8, 6);
+// ---------- KNEE JOINTS ----------
+const kneeGeo = new THREE.SphereGeometry(0.08, 12, 10);
 const kneeL = new THREE.Mesh(kneeGeo, pantsMat);
 kneeL.position.set(0.05, 0.65, 0.13);
+kneeL.castShadow = true;
 rider.add(kneeL);
 const kneeR = new THREE.Mesh(kneeGeo, pantsMat);
 kneeR.position.set(0.05, 0.65, -0.13);
+kneeR.castShadow = true;
 rider.add(kneeR);
 
-// ---------- FEET (shoes on floorboard) ----------
-const footGeo = new THREE.BoxGeometry(0.14, 0.06, 0.09);
-const footMat = new THREE.MeshLambertMaterial({ color: SHOES });
-const footL = new THREE.Mesh(footGeo, footMat);
-footL.position.set(0.1, 0.27, 0.13);
-footL.castShadow = true;
+// ---------- LEG: CALF (vertical down to footrest) ----------
+function makeCalf(zSide) {
+  const g = makeCapsule(0.36, 0.065, pantsMat);
+  g.position.set(0.05, 0.5, zSide);
+  g.rotation.z = 0.06;
+  return g;
+}
+const calfL = makeCalf(0.13);
+const calfR = makeCalf(-0.13);
+rider.add(calfL);
+rider.add(calfR);
+
+// ---------- FEET (rounded shoes) ----------
+function makeShoe(zSide) {
+  const g = new THREE.Group();
+  const sole = new THREE.Mesh(
+    new THREE.BoxGeometry(0.16, 0.04, 0.09),
+    shoeMat
+  );
+  sole.castShadow = true;
+  g.add(sole);
+  // Toe cap (rounded)
+  const toe = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 8), shoeMat);
+  toe.position.set(0.07, 0.005, 0);
+  toe.scale.set(1, 0.7, 0.95);
+  g.add(toe);
+  // Heel
+  const heel = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 8), shoeMat);
+  heel.position.set(-0.07, 0.005, 0);
+  heel.scale.set(1, 0.7, 0.95);
+  g.add(heel);
+  // Top of shoe (laces area)
+  const top = new THREE.Mesh(
+    new THREE.SphereGeometry(0.05, 10, 8),
+    shoeMat
+  );
+  top.position.set(0, 0.035, 0);
+  top.scale.set(2.4, 0.7, 1);
+  g.add(top);
+  g.position.set(0.12, 0.28, zSide);
+  return g;
+}
+const footL = makeShoe(0.13);
+const footR = makeShoe(-0.13);
 rider.add(footL);
-const footR = new THREE.Mesh(footGeo, footMat);
-footR.position.set(0.1, 0.27, -0.13);
-footR.castShadow = true;
 rider.add(footR);
 
-// ---------- UPPER ARMS (forward, downward to handlebars) ----------
-const upperArmL = makeLimb(0.32, 0.055, jacketMat);
-upperArmL.position.set(-0.12, 1.28, 0.2);
-upperArmL.rotation.z = Math.PI / 2 - 0.5;
-rider.add(upperArmL);
-
-const upperArmR = makeLimb(0.32, 0.055, jacketMat);
-upperArmR.position.set(-0.12, 1.28, -0.2);
-upperArmR.rotation.z = Math.PI / 2 - 0.5;
-rider.add(upperArmR);
-
-// Shoulders
-const shoulderGeo = new THREE.SphereGeometry(0.075, 10, 8);
+// ---------- SHOULDERS ----------
+const shoulderGeo = new THREE.SphereGeometry(0.085, 14, 10);
 const shoulderL = new THREE.Mesh(shoulderGeo, jacketMat);
 shoulderL.position.set(-0.18, 1.4, 0.2);
+shoulderL.castShadow = true;
 rider.add(shoulderL);
 const shoulderR = new THREE.Mesh(shoulderGeo, jacketMat);
 shoulderR.position.set(-0.18, 1.4, -0.2);
+shoulderR.castShadow = true;
 rider.add(shoulderR);
 
-// ---------- FOREARMS (slight downward angle to grips) ----------
-const forearmL = makeLimb(0.32, 0.05, jacketMat);
-forearmL.position.set(0.14, 1.23, 0.24);
-forearmL.rotation.z = Math.PI / 2 - 0.15;
-rider.add(forearmL);
+// ---------- UPPER ARMS (smooth capsules, angled to handlebars) ----------
+function makeUpperArm(zSide) {
+  const g = makeCapsule(0.3, 0.058, jacketMat);
+  g.position.set(-0.1, 1.28, zSide);
+  g.rotation.z = Math.PI / 2 - 0.55;
+  return g;
+}
+const upperArmL = makeUpperArm(0.2);
+const upperArmR = makeUpperArm(-0.2);
+rider.add(upperArmL);
+rider.add(upperArmR);
 
-const forearmR = makeLimb(0.32, 0.05, jacketMat);
-forearmR.position.set(0.14, 1.23, -0.24);
-forearmR.rotation.z = Math.PI / 2 - 0.15;
-rider.add(forearmR);
-
-// Elbows
-const elbowL = new THREE.Mesh(new THREE.SphereGeometry(0.058, 8, 6), jacketMat);
-elbowL.position.set(-0.02, 1.13, 0.22);
+// ---------- ELBOW JOINTS ----------
+const elbowL = new THREE.Mesh(new THREE.SphereGeometry(0.065, 12, 10), jacketMat);
+elbowL.position.set(0.0, 1.14, 0.22);
+elbowL.castShadow = true;
 rider.add(elbowL);
-const elbowR = new THREE.Mesh(new THREE.SphereGeometry(0.058, 8, 6), jacketMat);
-elbowR.position.set(-0.02, 1.13, -0.22);
+const elbowR = new THREE.Mesh(new THREE.SphereGeometry(0.065, 12, 10), jacketMat);
+elbowR.position.set(0.0, 1.14, -0.22);
+elbowR.castShadow = true;
 rider.add(elbowR);
 
-// ---------- GLOVED HANDS ON GRIPS ----------
-const handGeo = new THREE.BoxGeometry(0.08, 0.07, 0.1);
-const gloveMat = new THREE.MeshLambertMaterial({ color: GLOVES });
-const handL = new THREE.Mesh(handGeo, gloveMat);
-handL.position.set(0.36, 1.26, 0.27);
-handL.castShadow = true;
+// ---------- FOREARMS (smooth capsules to grips) ----------
+function makeForearm(zSide) {
+  const g = makeCapsule(0.3, 0.052, jacketMat);
+  g.position.set(0.16, 1.22, zSide);
+  g.rotation.z = Math.PI / 2 - 0.2;
+  return g;
+}
+const forearmL = makeForearm(0.24);
+const forearmR = makeForearm(-0.24);
+rider.add(forearmL);
+rider.add(forearmR);
+
+// ---------- GLOVED HANDS (rounded, gripping handles) ----------
+function makeHand(zSide) {
+  const g = new THREE.Group();
+  const palm = new THREE.Mesh(
+    new THREE.SphereGeometry(0.06, 12, 10),
+    gloveMat
+  );
+  palm.scale.set(1.3, 0.8, 1);
+  palm.castShadow = true;
+  g.add(palm);
+  // Knuckles cap
+  const knuckles = new THREE.Mesh(
+    new THREE.SphereGeometry(0.04, 10, 8),
+    gloveMat
+  );
+  knuckles.position.set(0.06, 0.02, 0);
+  knuckles.scale.set(1.2, 0.6, 1.1);
+  g.add(knuckles);
+  g.position.set(0.36, 1.26, zSide);
+  return g;
+}
+const handL = makeHand(0.27);
+const handR = makeHand(-0.27);
 rider.add(handL);
-const handR = new THREE.Mesh(handGeo, gloveMat);
-handR.position.set(0.36, 1.26, -0.27);
-handR.castShadow = true;
 rider.add(handR);
 
 // ---------- NECK ----------
 const neck = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.05, 0.06, 0.1, 10),
-  new THREE.MeshLambertMaterial({ color: SKIN })
+  new THREE.CylinderGeometry(0.052, 0.062, 0.1, 12),
+  skinMat
 );
-neck.position.set(-0.25, 1.44, 0);
+neck.position.set(-0.26, 1.44, 0);
+neck.castShadow = true;
 rider.add(neck);
 
-// ---------- FULL-FACE HELMET ----------
-// Main helmet shell (full sphere = full-face look)
+// ---------- HEAD GROUP (helmet + visor — animates as one) ----------
+const headGroup = new THREE.Group();
+headGroup.position.set(-0.24, 1.6, 0);
+
+// Main helmet shell — smoother, slightly egg-shaped
 const helmetShell = new THREE.Mesh(
+  new THREE.SphereGeometry(0.17, 24, 20),
+  new THREE.MeshLambertMaterial({ color: HELMET_DARK })
+);
+helmetShell.scale.set(1, 1.1, 1);
+helmetShell.castShadow = true;
+headGroup.add(helmetShell);
+
+// Helmet front extension (chin/jaw guard for full-face look)
+const chinGuard = new THREE.Mesh(
   new THREE.SphereGeometry(0.16, 20, 16),
   new THREE.MeshLambertMaterial({ color: HELMET_DARK })
 );
-helmetShell.position.set(-0.24, 1.6, 0);
-helmetShell.scale.set(1, 1.1, 1);
-helmetShell.castShadow = true;
-rider.add(helmetShell);
+chinGuard.position.set(0.035, -0.04, 0);
+chinGuard.scale.set(1.08, 0.85, 1.05);
+chinGuard.castShadow = true;
+headGroup.add(chinGuard);
 
-// Helmet front (extended chin guard for full-face)
-const chinGuard = new THREE.Mesh(
-  new THREE.SphereGeometry(0.14, 16, 12, 0, Math.PI * 2, Math.PI * 0.45, Math.PI * 0.35),
-  new THREE.MeshLambertMaterial({ color: HELMET_DARK })
-);
-chinGuard.position.set(-0.2, 1.58, 0);
-chinGuard.scale.set(1.05, 1, 1.05);
-rider.add(chinGuard);
-
-// Visor (tinted glass strip)
+// Visor — wider tinted strip across the front
+const visorGeo = new THREE.SphereGeometry(0.175, 24, 16, 0, Math.PI * 2, Math.PI * 0.28, Math.PI * 0.24);
 const visor = new THREE.Mesh(
-  new THREE.SphereGeometry(0.165, 20, 12, 0, Math.PI * 2, Math.PI * 0.32, Math.PI * 0.22),
+  visorGeo,
   new THREE.MeshLambertMaterial({
     color: VISOR,
-    transparent: true,
-    opacity: 0.7,
-    emissive: 0x1e3a8a,
-    emissiveIntensity: 0.15
+    emissive: 0x60a5fa,
+    emissiveIntensity: 0.25
   })
 );
-visor.position.copy(helmetShell.position);
-visor.scale.copy(helmetShell.scale);
-rider.add(visor);
+visor.scale.set(1.02, 1.1, 1.02);
+headGroup.add(visor);
 
-// Helmet top vent (small accent stripe)
-const ventGeo = new THREE.BoxGeometry(0.08, 0.02, 0.18);
-const vent = new THREE.Mesh(ventGeo, new THREE.MeshLambertMaterial({ color: SCOOTER_TRIM }));
-vent.position.set(-0.18, 1.72, 0);
-rider.add(vent);
+// Helmet accent stripe (the bright blue trim down the center)
+const helmetStripe = new THREE.Mesh(
+  new THREE.BoxGeometry(0.34, 0.04, 0.06),
+  new THREE.MeshLambertMaterial({ color: HELMET_HIGHLIGHT, emissive: HELMET_HIGHLIGHT, emissiveIntensity: 0.2 })
+);
+helmetStripe.position.set(0, 0.13, 0);
+helmetStripe.rotation.z = Math.PI / 2;
+headGroup.add(helmetStripe);
+
+rider.add(headGroup);
 
 bike.add(rider);
 scene.add(bike);
+
+// Store rider parts for animation
+const riderParts = {
+  torsoGroup, headGroup, hips,
+  shoulderL, shoulderR, handL, handR,
+  thighL, thighR, calfL, calfR, footL, footR,
+  upperArmL, upperArmR, forearmL, forearmR,
+  elbowL, elbowR, kneeL, kneeR,
+  baseY: { hips: 0.92, torsoY: 1.18, headY: 1.6 }
+};
 
 // ====================================================
 // CAMERA — follow bike
@@ -1431,10 +1515,10 @@ function updateBikePosition(delta) {
   const angle = Math.atan2(tangent.x, tangent.z);
   bike.rotation.y = angle - Math.PI / 2;
 
-  // Spin wheels based on movement
+  // Spin wheels around their hub axis (Z = sideways from bike, makes them roll forward)
   const movement = Math.abs(targetT - currentT) * 30;
-  wheelF.rotation.x -= 0.1 + movement * 0.3;
-  wheelB.rotation.x -= 0.1 + movement * 0.3;
+  wheelF.rotation.z -= 0.1 + movement * 0.3;
+  wheelB.rotation.z -= 0.1 + movement * 0.3;
 
   // Camera follows (with mouse parallax offset baked in)
   const tangentDir = curve.getTangentAt(currentT).normalize();
@@ -1515,6 +1599,29 @@ function animate() {
   mouse.y += (mouse.targetY - mouse.y) * 0.05;
 
   updateBikePosition(delta);
+
+  // ===== RIDER ANIMATION =====
+  // Body bob — gentle vertical sway as the rider sits on a moving scooter
+  const bob = Math.sin(time * 4) * 0.015;
+  riderParts.hips.position.y = riderParts.baseY.hips + bob;
+  riderParts.torsoGroup.position.y = riderParts.baseY.torsoY + bob;
+  riderParts.headGroup.position.y = riderParts.baseY.headY + bob * 0.6;
+
+  // Lean into curves — the rider's body banks toward the inside of turns
+  const upcoming = curve.getTangentAt(Math.min(currentT + 0.02, 1));
+  const current = curve.getTangentAt(currentT);
+  const turn = current.x * upcoming.z - current.z * upcoming.x; // cross product Y component
+  const targetLean = Math.max(-0.2, Math.min(0.2, turn * 4));
+  riderParts.torsoGroup.rotation.x = riderParts.torsoGroup.rotation.x * 0.92 + targetLean * 0.08;
+  riderParts.headGroup.rotation.x = riderParts.headGroup.rotation.x * 0.92 + targetLean * 0.7 * 0.08;
+
+  // Subtle head turn forward — always looking slightly ahead and down
+  riderParts.headGroup.rotation.z = -0.08;
+
+  // Hands twitch slightly with road bumps (very subtle)
+  const handBob = Math.sin(time * 7) * 0.004;
+  riderParts.handL.position.y = 1.26 + handBob;
+  riderParts.handR.position.y = 1.26 - handBob;
 
   // Animate clouds — slow horizontal drift, wrap around
   clouds.forEach(cloud => {
