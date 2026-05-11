@@ -3,880 +3,974 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dinesh Ravichandiran | Cloud Operations & SRE Engineer</title>
+<title>Dinesh Ravichandiran — Cloud Operations & SRE Engineer</title>
 <meta name="description" content="Cloud Operations Engineer at PTC. 3+ years supporting Fortune 500 PLM & IIoT platforms on Azure & AWS. 5,000+ incidents resolved, 99.9% uptime, ~30% MTTR reduction.">
 <meta name="keywords" content="Dinesh Ravichandiran, Cloud Operations Engineer, SRE, NOC Specialist, Kubernetes, Azure, AWS, PTC, Pune">
-<meta property="og:title" content="Dinesh Ravichandiran | Cloud Operations & SRE Engineer">
+<meta property="og:title" content="Dinesh Ravichandiran — Cloud Operations & SRE Engineer">
 <meta property="og:description" content="Cloud Ops Engineer → SRE. 3+ years keeping Fortune 500 platforms running 24×7 on Azure & AWS.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0e1a'/%3E%3Ctext x='50' y='68' font-family='sans-serif' font-size='52' font-weight='800' text-anchor='middle' fill='%2360a5fa'%3EDR%3C/text%3E%3C/svg%3E">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231e3a8a'/%3E%3Ctext x='50' y='68' font-family='serif' font-size='52' font-weight='600' text-anchor='middle' fill='%23ffffff'%3EDR%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #111827;
-  --bg-card: #1a2035;
-  --bg-card-hover: #1f2847;
-  --accent: #3b82f6;
-  --accent-glow: rgba(59, 130, 246, 0.15);
-  --accent-bright: #60a5fa;
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --border: rgba(59, 130, 246, 0.12);
-  --orange: #f59e0b;
-  --green: #10b981;
-  --red: #ef4444;
-  --purple: #8b5cf6;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: #0a0a0a;
+  --text-secondary: #1f1f1f;
+  --text-muted: #404040;
+  --border: #e5e7eb;
+  --border-strong: #cbd5e1;
+  --accent: #1e3a8a;
+  --accent-hover: #1e40af;
+  --accent-light: #eff6ff;
+  --hover-tint: #f8fafc;
 }
 
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: 'DM Sans', sans-serif;
-  line-height: 1.7;
-  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-.orb {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.08;
-  pointer-events: none;
-  z-index: 0;
-}
-.orb-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; right: -200px; animation: float1 20s ease-in-out infinite; }
-.orb-2 { width: 400px; height: 400px; background: var(--purple); bottom: -100px; left: -100px; animation: float2 25s ease-in-out infinite; }
-.orb-3 { width: 300px; height: 300px; background: var(--green); top: 50%; left: 50%; animation: float3 18s ease-in-out infinite; }
-
-@keyframes float1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-80px, 80px); } }
-@keyframes float2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(60px, -60px); } }
-@keyframes float3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 40px); } }
-
+/* ===== NAVIGATION ===== */
 nav {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
-  padding: 1rem 2rem;
-  background: rgba(10, 14, 26, 0.85);
-  backdrop-filter: blur(20px);
+  padding: 1.25rem 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   z-index: 100;
+}
+
+nav .nav-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 nav .logo {
-  font-family: 'Sora', sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--accent-bright);
-  letter-spacing: -0.02em;
+  font-size: 0.95rem;
+  color: var(--accent);
+  letter-spacing: -0.01em;
 }
 
-nav .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+nav .nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
 
 nav .nav-links a {
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  transition: color 0.3s;
+  transition: color 0.2s;
 }
 
-nav .nav-links a:hover { color: var(--accent-bright); }
+nav .nav-links a:hover { color: var(--accent); }
 
 .container {
-  max-width: 1100px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 0 2rem;
-  position: relative;
-  z-index: 1;
 }
 
 section {
-  padding: 5rem 0;
-  opacity: 0;
-  transform: translateY(40px);
-  animation: fadeUp 0.8s ease forwards;
+  padding: 6rem 0;
+  border-bottom: 1px solid var(--border);
 }
 
-section:nth-child(1) { animation-delay: 0s; }
-section:nth-child(2) { animation-delay: 0.1s; }
-section:nth-child(3) { animation-delay: 0.2s; }
-
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
-}
+section:last-of-type { border-bottom: none; }
 
 .section-label {
-  font-family: 'Sora', sans-serif;
-  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   color: var(--accent);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .section-title {
-  font-family: 'Sora', sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 2.5rem;
-  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 3rem;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 
 /* ===== HERO ===== */
 .hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding-top: 5rem;
+  padding: 7rem 0 6rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
 }
 
-.hero-content { max-width: 800px; }
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--accent);
+}
+
+.hero-3d-canvas {
+  position: absolute;
+  top: 6rem;
+  right: 0;
+  width: 380px;
+  height: 380px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .hero-3d-canvas {
+    width: 220px;
+    height: 220px;
+    top: 4rem;
+    right: -2rem;
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-3d-canvas { display: none; }
+}
 
 .hero-tag {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--accent-glow);
-  border: 1px solid var(--border);
-  padding: 0.4rem 1rem;
-  border-radius: 100px;
-  font-size: 0.8rem;
-  color: var(--accent-bright);
-  font-weight: 500;
-  margin-bottom: 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-.hero-tag .dot {
-  width: 8px;
-  height: 8px;
-  background: var(--green);
+.hero-tag .indicator {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
   border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.3); }
 }
 
 .hero h1 {
-  font-family: 'Sora', sans-serif;
-  font-size: 3.5rem;
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.04em;
-  margin-bottom: 1.5rem;
-}
-
-.hero h1 .gradient-text {
-  background: linear-gradient(135deg, var(--accent-bright), var(--purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-  font-size: 1.15rem;
-  color: var(--text-secondary);
-  max-width: 650px;
-  margin-bottom: 2rem;
-}
-
-.hero-stats {
-  display: flex;
-  gap: 2.5rem;
-  margin-top: 2.5rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid var(--border);
-  flex-wrap: wrap;
-}
-
-.stat-item .stat-number {
-  font-family: 'Sora', sans-serif;
-  font-size: 2rem;
+  font-size: 3.2rem;
   font-weight: 700;
-  color: var(--accent-bright);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  margin-bottom: 1.8rem;
+  max-width: 850px;
+  color: var(--text);
 }
 
-.stat-item .stat-label {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.hero p.lede {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin-bottom: 2.5rem;
+  line-height: 1.65;
 }
 
 .hero-buttons {
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 0.75rem;
+  margin-bottom: 4rem;
   flex-wrap: wrap;
 }
 
 .btn {
-  padding: 0.75rem 1.8rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.3s;
+  transition: all 0.2s;
   cursor: pointer;
-  border: none;
-  font-family: 'DM Sans', sans-serif;
+  border: 1px solid transparent;
+  font-family: 'Manrope', sans-serif;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
 }
 
 .btn-primary {
   background: var(--accent);
-  color: white;
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+  color: #ffffff;
+  border-color: var(--accent);
 }
 
 .btn-primary:hover {
-  background: var(--accent-bright);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 30px rgba(59, 130, 246, 0.4);
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border);
+  color: var(--text);
+  border-color: var(--border-strong);
 }
 
 .btn-outline:hover {
   border-color: var(--accent);
-  color: var(--accent-bright);
-  transform: translateY(-2px);
+  color: var(--accent);
 }
 
-.btn-resume {
-  background: linear-gradient(135deg, var(--green), #059669);
-  color: white;
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
-}
-
-.btn-resume:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 30px rgba(16, 185, 129, 0.4);
-}
-
-/* ===== NOW STATUS BAR ===== */
+/* ===== NOW STATUS ===== */
 .now-status {
-  background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
   padding: 1.5rem;
-  margin-top: 2rem;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1.2rem;
-  align-items: center;
+  background: var(--surface);
+  margin-bottom: 4rem;
+  max-width: 760px;
 }
 
-.now-status .now-badge {
+.now-status .now-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
-  font-weight: 500;
-  color: var(--green);
-  background: rgba(16, 185, 129, 0.1);
-  padding: 0.3rem 0.7rem;
-  border-radius: 6px;
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--accent);
   text-transform: uppercase;
-  white-space: nowrap;
-  align-self: start;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.6rem;
 }
 
-.now-status .now-content { font-size: 0.9rem; color: var(--text-secondary); }
-.now-status .now-content strong { color: var(--text-primary); font-weight: 600; }
+.now-status .now-content {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.now-status .now-content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ===== HERO STATS ===== */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--border);
+  padding-top: 2.5rem;
+}
+
+.stat-item { padding-right: 1.5rem; }
+.stat-item:not(:last-child) { border-right: 1px solid var(--border); }
+.stat-item:not(:first-child) { padding-left: 1.5rem; }
+
+.stat-item .stat-number {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+}
+
+.stat-item .stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
 
 /* ===== ABOUT ===== */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
 .about-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.8rem;
-  transition: all 0.3s;
+  padding: 2rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s, box-shadow 0.2s;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .about-card:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--accent);
-  transform: translateY(-4px);
+  background: var(--hover-tint);
+  box-shadow: inset 3px 0 0 var(--accent), 0 20px 40px -20px rgba(30, 58, 138, 0.15);
 }
 
-.about-card .card-icon {
-  font-size: 1.8rem;
+.about-card .card-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 700;
   margin-bottom: 1rem;
+  letter-spacing: 0.05em;
 }
 
 .about-card h3 {
-  font-family: 'Sora', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
 }
 
 .about-card p {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 /* ===== PROJECTS ===== */
-.projects-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-
-.project-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 2rem;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-
-.project-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(180deg, var(--accent), var(--purple));
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.project-card:hover::before { opacity: 1; }
-.project-card:hover {
-  background: var(--bg-card-hover);
-  transform: translateY(-4px);
-  border-color: var(--accent);
-}
-
-.project-header {
+.projects-list {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border);
 }
 
-.project-card h3 {
-  font-family: 'Sora', sans-serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--text-primary);
+.project-item {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3rem;
 }
 
 .project-meta {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
+.project-meta .meta-year {
+  display: block;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.project-content h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.015em;
+}
+
 .project-impact {
-  display: inline-block;
-  background: rgba(16, 185, 129, 0.1);
-  color: var(--green);
-  padding: 0.3rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--accent);
+  font-weight: 700;
   margin-bottom: 1rem;
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
 }
 
-.project-card .project-desc {
-  font-size: 0.9rem;
+.project-content .project-desc {
+  font-size: 1rem;
   color: var(--text-secondary);
-  margin-bottom: 1rem;
-  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
 }
 
-.project-card .project-flow {
+.project-flow {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
-  margin-top: 1.2rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--border);
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
 .flow-step .flow-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--accent-bright);
+  font-size: 0.68rem;
+  color: var(--accent);
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.3rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
 }
 
 .flow-step .flow-text {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .project-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .project-tag {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  background: var(--accent-glow);
-  color: var(--accent-bright);
-  padding: 0.25rem 0.7rem;
-  border-radius: 6px;
-  border: 1px solid var(--border);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.project-tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* ===== PLATFORMS ===== */
 .platforms-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.2rem;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
 .platform-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  text-align: center;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
+  padding: 1.75rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s, box-shadow 0.2s;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
-
-.platform-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transition: transform 0.3s;
-}
-
-.platform-card:hover::before { transform: scaleX(1); }
 
 .platform-card:hover {
-  background: var(--bg-card-hover);
-  transform: translateY(-4px);
+  background: var(--hover-tint);
+  box-shadow: inset 0 3px 0 var(--accent), 0 20px 40px -20px rgba(30, 58, 138, 0.15);
 }
 
-.platform-card .platform-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+.platform-card .platform-marker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
 
 .platform-card h3 {
-  font-family: 'Sora', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: var(--text);
 }
 
 .platform-card .platform-type {
-  font-size: 0.75rem;
-  color: var(--accent-bright);
+  font-size: 0.78rem;
+  color: var(--text);
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .platform-card .platform-desc {
-  font-size: 0.78rem;
-  color: var(--text-muted);
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 /* ===== TOOLS ===== */
-.tools-categories { display: flex; flex-direction: column; gap: 2rem; }
+.tools-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+
+.tool-category {
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
 
 .tool-category h3 {
-  font-family: 'Sora', sans-serif;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  margin-bottom: 0.8rem;
-}
-
-.tool-badges { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-
-.tool-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 1rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.85rem;
-  color: var(--text-primary);
-  font-weight: 500;
-  transition: all 0.3s;
-}
-
-.tool-badge:hover {
-  border-color: var(--accent);
-  background: var(--accent-glow);
-  transform: translateY(-2px);
-}
-
-.tool-badge .badge-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.tool-badge.learning {
-  border-style: dashed;
-  color: var(--text-secondary);
-}
-
-/* ===== TIMELINE ===== */
-.timeline {
-  position: relative;
-  padding-left: 3rem;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 7px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(180deg, var(--accent), var(--purple), transparent);
-}
-
-.timeline-item {
-  position: relative;
-  margin-bottom: 3rem;
-  padding-bottom: 1rem;
-}
-
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: -3rem;
-  top: 8px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--bg-primary);
-  border: 3px solid var(--accent);
-  z-index: 1;
-}
-
-.timeline-item.current::before {
-  background: var(--accent);
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.timeline-date {
-  font-family: 'Sora', sans-serif;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--accent-bright);
-  margin-bottom: 0.3rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
 }
 
-.timeline-company {
-  font-family: 'Sora', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: 0.2rem;
-}
-
-.timeline-role {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.8rem;
-}
-
-.timeline-highlights {
+.tool-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-.highlight-tag {
-  padding: 0.3rem 0.8rem;
-  background: var(--accent-glow);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 0.75rem;
-  color: var(--accent-bright);
+.tool-badge {
+  padding: 0.45rem 0.95rem;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  font-size: 0.85rem;
+  color: var(--text);
   font-weight: 500;
+  transition: all 0.2s;
+}
+
+.tool-badge:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+.tool-badge.learning {
+  color: var(--text-secondary);
+  border-style: dashed;
+}
+
+/* ===== TIMELINE ===== */
+.timeline { border-top: 1px solid var(--border); }
+
+.timeline-item {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3rem;
+}
+
+.timeline-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.timeline-date.current::before {
+  content: '● ';
+  color: var(--accent);
+}
+
+.timeline-company {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+  letter-spacing: -0.015em;
+}
+
+.timeline-role {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.timeline-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.highlight-tag {
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+  background: #ffffff;
 }
 
 .timeline-desc {
-  font-size: 0.9rem;
+  font-size: 0.98rem;
   color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+/* ===== 3D JOURNEY ===== */
+.journey-3d {
   margin-top: 1rem;
+}
+
+.journey-canvas-wrap {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #e0f2fe 0%, #f8fafc 60%, #e5e7eb 100%);
+  box-shadow: 0 20px 50px -25px rgba(30, 58, 138, 0.25);
+}
+
+.journey-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.journey-overlay-hint {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.journey-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.journey-btn {
+  flex: 1 1 auto;
+  min-width: 140px;
+  padding: 0.7rem 1rem;
+  background: #ffffff;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  line-height: 1.3;
+}
+
+.journey-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+.journey-btn.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+.journey-btn .btn-year {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  margin-bottom: 0.2rem;
+}
+
+.journey-info {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+}
+
+.journey-info .info-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.journey-info h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.015em;
+}
+
+.journey-info .info-role {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.journey-info .info-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.journey-info .info-tag {
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.journey-info .info-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
   line-height: 1.7;
 }
 
-/* ===== EVENTS / SPEAKING ===== */
+@media (max-width: 768px) {
+  .journey-canvas-wrap { height: 320px; }
+  .journey-btn { min-width: calc(50% - 0.5rem); }
+}
+
+/* ===== EVENTS ===== */
 .events-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.2rem;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
 .event-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-
-.event-card.upcoming {
-  border-color: rgba(245, 158, 11, 0.3);
-  background: linear-gradient(135deg, var(--bg-card), rgba(245, 158, 11, 0.03));
-}
-
-.event-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
+  padding: 2rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .event-status {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
+  color: var(--accent);
   font-weight: 600;
-  margin-bottom: 0.6rem;
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-}
-
-.event-card.attended .event-status {
-  color: var(--green);
-  background: rgba(16, 185, 129, 0.1);
-}
-
-.event-card.upcoming .event-status {
-  color: var(--orange);
-  background: rgba(245, 158, 11, 0.1);
+  margin-bottom: 1rem;
 }
 
 .event-card h3 {
-  font-family: 'Sora', sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 0.4rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
 }
 
 .event-card .event-date {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  margin-bottom: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.8rem;
 }
 
 .event-card .event-desc {
-  font-size: 0.88rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 /* ===== IMPACT ===== */
 .impact-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
 .impact-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 2rem;
-  text-align: center;
-  transition: all 0.3s;
-}
-
-.impact-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
+  padding: 2.5rem 2rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .impact-card .impact-number {
-  font-family: 'Sora', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--accent-bright), var(--green));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.025em;
+  margin-bottom: 0.5rem;
+  line-height: 1;
 }
 
 .impact-card .impact-label {
-  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
   color: var(--text-muted);
-  margin-top: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 /* ===== CERTIFICATIONS ===== */
-.certs-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
+.certs-list { border-top: 1px solid var(--border); }
 
-.cert-badge {
-  display: flex;
+.cert-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
   align-items: center;
-  gap: 0.8rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1rem 1.5rem;
-  transition: all 0.3s;
 }
 
-.cert-badge:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-}
-
-.cert-badge .cert-icon { font-size: 1.5rem; }
-
-.cert-badge .cert-info h4 {
-  font-family: 'Sora', sans-serif;
-  font-size: 0.85rem;
+.cert-row .cert-type {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  color: var(--accent);
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-.cert-badge .cert-info p {
-  font-size: 0.75rem;
-  color: var(--text-muted);
+.cert-row h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cert-row .cert-issuer {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
 }
 
 /* ===== FOOTER ===== */
 footer {
-  padding: 4rem 0;
-  text-align: center;
-  border-top: 1px solid var(--border);
-  margin-top: 2rem;
+  padding: 5rem 0 3rem;
+  text-align: left;
+  border-top: 1px solid var(--border-strong);
 }
 
 footer h2 {
-  font-family: 'Sora', sans-serif;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+  color: var(--text);
 }
 
-footer p {
+footer .footer-lede {
   color: var(--text-secondary);
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  font-size: 1.05rem;
+  max-width: 580px;
+  line-height: 1.65;
 }
 
-.social-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.social-links {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 4rem;
+}
 
 .social-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.5rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text-primary);
+  padding: 0.65rem 1.3rem;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  color: var(--text);
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 500;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 
 .social-link:hover {
   border-color: var(--accent);
-  background: var(--accent-glow);
-  transform: translateY(-2px);
+  background: var(--accent);
+  color: #ffffff;
 }
 
-.footer-quote {
-  margin-top: 3rem;
-  font-style: italic;
-  color: var(--text-muted);
-  font-size: 0.9rem;
+.footer-bottom {
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.footer-credit {
-  margin-top: 1.5rem;
+.footer-bottom span {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   letter-spacing: 0.05em;
 }
 
-/* Responsive */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .hero h1 { font-size: 2.2rem; }
-  .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
-  .about-grid, .impact-grid, .events-row { grid-template-columns: 1fr; }
-  .platforms-grid { grid-template-columns: 1fr 1fr; }
-  .project-card .project-flow { grid-template-columns: 1fr; }
-  .now-status { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2rem; }
+  .hero { padding: 5rem 0 4rem; }
+  section { padding: 4rem 0; }
+  .section-title { font-size: 1.6rem; margin-bottom: 2rem; }
+  .container { padding: 0 1.25rem; }
+  nav .nav-inner { padding: 0 1.25rem; }
   nav .nav-links { display: none; }
-  .container { padding: 0 1.2rem; }
+  .about-grid, .events-row, .platforms-grid { grid-template-columns: 1fr; }
+  .impact-grid { grid-template-columns: 1fr 1fr; }
+  .hero-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; padding-top: 2rem; }
+  .stat-item:not(:last-child) { border-right: none; }
+  .stat-item:not(:first-child) { padding-left: 0; }
+  .stat-item { padding: 1rem 0; border-bottom: 1px solid var(--border); }
+  .project-item, .tool-category, .timeline-item, .cert-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .project-flow { grid-template-columns: 1fr; gap: 1rem; }
+  .footer-bottom { flex-direction: column; }
 }
 
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(20px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
@@ -888,98 +982,97 @@ footer p {
 </head>
 <body>
 
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
-
 <nav>
-  <div class="logo">DR</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#platforms">Platforms</a></li>
-    <li><a href="#tools">Tools</a></li>
-    <li><a href="#journey">Journey</a></li>
-    <li><a href="#events">Events</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <div class="nav-inner">
+    <div class="logo">Dinesh Ravichandiran</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#tools">Stack</a></li>
+      <li><a href="#journey">Journey</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
 </nav>
 
 <div class="container">
 
   <!-- HERO -->
   <section class="hero" id="hero">
+    <canvas class="hero-3d-canvas" id="hero3d"></canvas>
     <div class="hero-content">
-      <div class="hero-tag">
-        <span class="dot"></span>
-        Open to SRE & Cloud Operations roles
+    <div class="hero-tag">
+      <span class="indicator"></span>
+      Open to SRE &amp; Cloud Operations roles
+    </div>
+    <h1>Cloud Operations Engineer keeping Fortune 500 platforms running, 24×7.</h1>
+    <p class="lede">NOC Engineer – Specialist at PTC, supporting enterprise PLM &amp; IIoT platforms on Azure &amp; AWS. 5,000+ incidents resolved, 99.9% uptime maintained, ~30% MTTR reduction.</p>
+    <div class="hero-buttons">
+      <a href="mailto:dineshravichandiran0808@gmail.com" class="btn btn-primary">Get in touch</a>
+      <a href="resume.pdf" class="btn btn-outline" download>Download Resume</a>
+      <a href="https://linkedin.com/in/dineshravichandiran" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+
+    <div class="now-status">
+      <div class="now-label">Now</div>
+      <div class="now-content">
+        Currently <strong>NOC Engineer – Specialist</strong> at PTC, running 24×7 production operations for Windchill, ThingWorx &amp; FlexPLM. Pursuing <strong>CKA</strong>, <strong>AWS SAA</strong>, and <strong>RHCSA</strong> alongside an MBA in Information Systems &amp; Analytics. Targeting SRE roles at product-first companies.
       </div>
-      <h1>I'm Dinesh.<br><span class="gradient-text">I keep platforms running</span><br>when things break at 2 AM.</h1>
-      <p>NOC Engineer – Specialist at PTC, supporting mission-critical PLM &amp; IIoT platforms for Fortune 500 clients. 3+ years of 24×7 production operations on Azure &amp; AWS — 5,000+ incidents resolved, 99.9% uptime, ~30% MTTR reduction.</p>
-      <div class="hero-buttons">
-        <a href="mailto:dineshravichandiran0808@gmail.com" class="btn btn-primary">Get in Touch</a>
-        <a href="resume.pdf" class="btn btn-resume" download>📄 Download Resume</a>
-        <a href="https://linkedin.com/in/dineshravichandiran" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn →</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">3+</div>
+        <div class="stat-label">Years</div>
       </div>
-      <div class="now-status">
-        <span class="now-badge">// NOW</span>
-        <div class="now-content">
-          Currently <strong>NOC Engineer – Specialist</strong> at PTC running 24×7 production ops for Windchill, ThingWorx &amp; FlexPLM. Pursuing <strong>CKA</strong>, <strong>AWS SAA</strong>, and <strong>RHCSA</strong> alongside an MBA in Information Systems &amp; Analytics. Targeting SRE roles at product-first companies.
-        </div>
+      <div class="stat-item">
+        <div class="stat-number">5,000+</div>
+        <div class="stat-label">Incidents</div>
       </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-number">3+</div>
-          <div class="stat-label">Years Experience</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">5,000+</div>
-          <div class="stat-label">Incidents Resolved</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">99.9%</div>
-          <div class="stat-label">Uptime Maintained</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">~30%</div>
-          <div class="stat-label">MTTR Reduced</div>
-        </div>
+      <div class="stat-item">
+        <div class="stat-number">99.9%</div>
+        <div class="stat-label">Uptime</div>
       </div>
+      <div class="stat-item">
+        <div class="stat-number">~30%</div>
+        <div class="stat-label">MTTR Reduced</div>
+      </div>
+    </div>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section id="about" class="reveal">
-    <div class="section-label">What I Do</div>
-    <div class="section-title">Daily Operations</div>
+    <div class="section-label">01 — What I Do</div>
+    <div class="section-title">Daily operations.</div>
     <div class="about-grid">
       <div class="about-card">
-        <div class="card-icon">🚨</div>
+        <div class="card-number">01</div>
         <h3>Incident Response</h3>
         <p>Handle Sev0–Sev3 incidents via PagerDuty on-call rotation. Use Rundeck for rapid log access and monitoring toggles. Lead outage coordination across App, DB, and Network teams during high-severity events.</p>
       </div>
       <div class="about-card">
-        <div class="card-icon">🔍</div>
+        <div class="card-number">02</div>
         <h3>Root Cause Analysis</h3>
         <p>Triage Java application logs in Sumo Logic, validate Zabbix infrastructure alerts, monitor URL performance via Catchpoint, and produce trend analysis for recurring issues to drive permanent fixes.</p>
       </div>
       <div class="about-card">
-        <div class="card-icon">🐧</div>
+        <div class="card-number">03</div>
         <h3>Linux &amp; Kubernetes</h3>
         <p>Troubleshoot production Linux servers — CPU, memory, disk, networking. Perform AKS diagnostics on pods, nodes, events, and restarts. Comfortable in kubectl, journalctl, and systemd debugging.</p>
       </div>
       <div class="about-card">
-        <div class="card-icon">📋</div>
+        <div class="card-number">04</div>
         <h3>Runbooks &amp; SOPs</h3>
         <p>Author operational runbooks, troubleshooting commands, and SOPs in Salesforce Knowledge Base. Reusable playbooks shared across the global ops team to reduce onboarding time and toil.</p>
       </div>
       <div class="about-card">
-        <div class="card-icon">🔔</div>
+        <div class="card-number">05</div>
         <h3>Alert Optimization</h3>
         <p>Spearheaded memory alert tuning — analyzed firing patterns, adjusted thresholds, and reduced false positives. Cut noisy on-call pages and improved signal-to-noise ratio for the rotation team.</p>
       </div>
       <div class="about-card">
-        <div class="card-icon">🤝</div>
+        <div class="card-number">06</div>
         <h3>Customer Communication</h3>
         <p>Proactive updates during outages with clear ETAs and status. Coordinate SSL/cert renewals across App, DB, and Incident teams. Execute weekend maintenance windows with zero-customer-impact targets.</p>
       </div>
@@ -988,130 +1081,142 @@ footer p {
 
   <!-- PROJECTS -->
   <section id="projects" class="reveal">
-    <div class="section-label">Featured Work</div>
-    <div class="section-title">Projects &amp; Initiatives</div>
-    <div class="projects-grid">
+    <div class="section-label">02 — Featured Work</div>
+    <div class="section-title">Projects &amp; initiatives.</div>
+    <div class="projects-list">
 
-      <div class="project-card">
-        <div class="project-header">
-          <h3>JVM Heap &amp; Performance Tuning — Windchill PLM</h3>
-          <div class="project-meta">2024 · PRODUCTION</div>
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">2024</span>
+          Production · Windchill
         </div>
-        <span class="project-impact">⚡ Reduced recurring OOM incidents · Improved app stability</span>
-        <p class="project-desc">
-          Diagnosed recurring out-of-memory errors and slow garbage collection on a Fortune 500 customer's Windchill production environment. Analyzed heap dumps, GC logs, and thread states to pinpoint memory leaks and inefficient object retention patterns.
-        </p>
-        <div class="project-flow">
-          <div class="flow-step">
-            <div class="flow-label">Problem</div>
-            <div class="flow-text">Frequent OOM crashes &amp; long GC pauses degrading user experience.</div>
+        <div class="project-content">
+          <h3>JVM Heap &amp; Performance Tuning</h3>
+          <div class="project-impact">Reduced recurring OOM incidents · Improved app stability</div>
+          <p class="project-desc">
+            Diagnosed recurring out-of-memory errors and slow garbage collection on a Fortune 500 customer's Windchill production environment. Analyzed heap dumps, GC logs, and thread states to pinpoint memory leaks and inefficient object retention patterns.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">Frequent OOM crashes and long GC pauses degrading user experience.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Tuned heap sizing, GC algorithm, and added targeted Sumo Logic queries.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">Stabilized production, reduced ticket volume, runbook adopted team-wide.</div>
+            </div>
           </div>
-          <div class="flow-step">
-            <div class="flow-label">Action</div>
-            <div class="flow-text">Tuned heap sizing, GC algorithm, and added targeted Sumo Logic queries.</div>
+          <div class="project-tags">
+            <span class="project-tag">Java</span>
+            <span class="project-tag">JVM</span>
+            <span class="project-tag">GC Tuning</span>
+            <span class="project-tag">Sumo Logic</span>
+            <span class="project-tag">Windchill</span>
           </div>
-          <div class="flow-step">
-            <div class="flow-label">Result</div>
-            <div class="flow-text">Stabilized production, reduced ticket volume, runbook adopted team-wide.</div>
-          </div>
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">Java</span>
-          <span class="project-tag">JVM</span>
-          <span class="project-tag">GC Tuning</span>
-          <span class="project-tag">Sumo Logic</span>
-          <span class="project-tag">Windchill</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">2024</span>
+          Platform-wide
+        </div>
+        <div class="project-content">
           <h3>Memory Alert Threshold Optimization</h3>
-          <div class="project-meta">2024 · PLATFORM-WIDE</div>
-        </div>
-        <span class="project-impact">🔕 Reduced false-positive pages · Improved on-call quality</span>
-        <p class="project-desc">
-          Memory alerts across the fleet were firing on transient spikes, causing pager fatigue and missed real incidents. Audited alert behavior across multiple customer environments and proposed data-backed threshold adjustments.
-        </p>
-        <div class="project-flow">
-          <div class="flow-step">
-            <div class="flow-label">Problem</div>
-            <div class="flow-text">High false-positive rate on memory alerts causing on-call burnout.</div>
+          <div class="project-impact">Reduced false-positive pages · Improved on-call quality</div>
+          <p class="project-desc">
+            Memory alerts across the fleet were firing on transient spikes, causing pager fatigue and missed real incidents. Audited alert behavior across multiple customer environments and proposed data-backed threshold adjustments.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">High false-positive rate on memory alerts causing on-call burnout.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Trend analysis in Zabbix &amp; Sumo Logic, sustained-window thresholds.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">Significant drop in noisy alerts; cleaner signal for genuine incidents.</div>
+            </div>
           </div>
-          <div class="flow-step">
-            <div class="flow-label">Action</div>
-            <div class="flow-text">Trend analysis in Zabbix &amp; Sumo Logic, sustained-window thresholds.</div>
+          <div class="project-tags">
+            <span class="project-tag">Zabbix</span>
+            <span class="project-tag">Sumo Logic</span>
+            <span class="project-tag">Observability</span>
+            <span class="project-tag">SRE Practices</span>
           </div>
-          <div class="flow-step">
-            <div class="flow-label">Result</div>
-            <div class="flow-text">Significant drop in noisy alerts; cleaner signal for genuine incidents.</div>
-          </div>
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">Zabbix</span>
-          <span class="project-tag">Sumo Logic</span>
-          <span class="project-tag">Observability</span>
-          <span class="project-tag">SRE Practices</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Ongoing</span>
+          Team-wide
+        </div>
+        <div class="project-content">
           <h3>Runbook Library &amp; Knowledge Base</h3>
-          <div class="project-meta">ONGOING · TEAM-WIDE</div>
-        </div>
-        <span class="project-impact">📚 Faster onboarding · Reduced repeat escalations</span>
-        <p class="project-desc">
-          Authored a growing library of operational runbooks covering Windchill, ThingWorx, FlexPLM, and AKS troubleshooting. Documented exact commands, decision trees, and verification steps. Articles are now part of the standard handoff for new joiners.
-        </p>
-        <div class="project-flow">
-          <div class="flow-step">
-            <div class="flow-label">Problem</div>
-            <div class="flow-text">Tribal knowledge slowing down resolution &amp; new-hire ramp.</div>
+          <div class="project-impact">Faster onboarding · Reduced repeat escalations</div>
+          <p class="project-desc">
+            Authored a growing library of operational runbooks covering Windchill, ThingWorx, FlexPLM, and AKS troubleshooting. Documented exact commands, decision trees, and verification steps. Articles are now part of the standard handoff for new joiners.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">Tribal knowledge slowing down resolution and new-hire ramp.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Standardized runbook template; published in Salesforce KB.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">Repeatable resolutions, shorter MTTR for known issues.</div>
+            </div>
           </div>
-          <div class="flow-step">
-            <div class="flow-label">Action</div>
-            <div class="flow-text">Standardized runbook template; published in Salesforce KB.</div>
+          <div class="project-tags">
+            <span class="project-tag">Salesforce KB</span>
+            <span class="project-tag">Documentation</span>
+            <span class="project-tag">Toil Reduction</span>
           </div>
-          <div class="flow-step">
-            <div class="flow-label">Result</div>
-            <div class="flow-text">Repeatable resolutions, shorter MTTR for known issues.</div>
-          </div>
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">Salesforce KB</span>
-          <span class="project-tag">Documentation</span>
-          <span class="project-tag">Toil Reduction</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Recurring</span>
+          Cross-team
+        </div>
+        <div class="project-content">
           <h3>SSL Certificate Renewal Coordination</h3>
-          <div class="project-meta">RECURRING · CROSS-TEAM</div>
-        </div>
-        <span class="project-impact">🔐 Zero outages from cert expiry · Clean cross-team execution</span>
-        <p class="project-desc">
-          Owned end-to-end coordination of SSL/TLS certificate renewals across application, database, and incident teams for Fortune 500 customer environments. Drove pre-validation, change windows, and post-renewal smoke tests.
-        </p>
-        <div class="project-flow">
-          <div class="flow-step">
-            <div class="flow-label">Problem</div>
-            <div class="flow-text">Cert renewals span multiple teams &amp; risk silent expiry-driven outages.</div>
+          <div class="project-impact">Zero outages from cert expiry · Clean cross-team execution</div>
+          <p class="project-desc">
+            Owned end-to-end coordination of SSL/TLS certificate renewals across application, database, and incident teams for Fortune 500 customer environments. Drove pre-validation, change windows, and post-renewal smoke tests.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">Cert renewals span multiple teams and risk silent expiry-driven outages.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Scheduling, validation checklists, and rollback playbooks.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">Renewals delivered cleanly within maintenance windows.</div>
+            </div>
           </div>
-          <div class="flow-step">
-            <div class="flow-label">Action</div>
-            <div class="flow-text">Scheduling, validation checklists, and rollback playbooks.</div>
+          <div class="project-tags">
+            <span class="project-tag">SSL/TLS</span>
+            <span class="project-tag">Change Management</span>
+            <span class="project-tag">Cross-team</span>
           </div>
-          <div class="flow-step">
-            <div class="flow-label">Result</div>
-            <div class="flow-text">Renewals delivered cleanly within maintenance windows.</div>
-          </div>
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">SSL/TLS</span>
-          <span class="project-tag">Change Management</span>
-          <span class="project-tag">Cross-team</span>
         </div>
       </div>
 
@@ -1120,77 +1225,77 @@ footer p {
 
   <!-- PLATFORMS -->
   <section id="platforms" class="reveal">
-    <div class="section-label">Platforms I Support</div>
-    <div class="section-title">Enterprise PLM &amp; IIoT</div>
+    <div class="section-label">03 — Platforms I Support</div>
+    <div class="section-title">Enterprise PLM &amp; IIoT.</div>
     <div class="platforms-grid">
       <div class="platform-card">
-        <div class="platform-icon">⚙️</div>
+        <div class="platform-marker">PLM / 01</div>
         <h3>Windchill</h3>
         <div class="platform-type">Private Cloud</div>
-        <div class="platform-desc">Core PLM for aerospace, automotive &amp; manufacturing</div>
+        <div class="platform-desc">Core PLM for aerospace, automotive &amp; manufacturing.</div>
       </div>
       <div class="platform-card">
-        <div class="platform-icon">☁️</div>
+        <div class="platform-marker">PLM / 02</div>
         <h3>Windchill+</h3>
         <div class="platform-type">SaaS</div>
-        <div class="platform-desc">Next-gen cloud PLM with real-time collaboration</div>
+        <div class="platform-desc">Next-gen cloud PLM with real-time collaboration.</div>
       </div>
       <div class="platform-card">
-        <div class="platform-icon">👗</div>
+        <div class="platform-marker">PLM / 03</div>
         <h3>FlexPLM</h3>
         <div class="platform-type">SaaS</div>
-        <div class="platform-desc">Retail &amp; fashion product lifecycle management</div>
+        <div class="platform-desc">Retail &amp; fashion product lifecycle management.</div>
       </div>
       <div class="platform-card">
-        <div class="platform-icon">🏭</div>
+        <div class="platform-marker">IIoT / 04</div>
         <h3>ThingWorx</h3>
         <div class="platform-type">IIoT Platform</div>
-        <div class="platform-desc">Industrial IoT monitoring &amp; manufacturing intelligence</div>
+        <div class="platform-desc">Industrial IoT monitoring &amp; manufacturing intelligence.</div>
       </div>
     </div>
   </section>
 
   <!-- TOOLS -->
   <section id="tools" class="reveal">
-    <div class="section-label">Tech Stack</div>
-    <div class="section-title">Tools &amp; Technologies</div>
+    <div class="section-label">04 — Tech Stack</div>
+    <div class="section-title">Tools &amp; technologies.</div>
     <div class="tools-categories">
       <div class="tool-category">
         <h3>Monitoring &amp; Observability</h3>
         <div class="tool-badges">
-          <span class="tool-badge"><span class="badge-dot" style="background:#000099"></span> Sumo Logic</span>
-          <span class="tool-badge"><span class="badge-dot" style="background:#CC0000"></span> Zabbix</span>
-          <span class="tool-badge"><span class="badge-dot" style="background:#0078D4"></span> Catchpoint</span>
-          <span class="tool-badge"><span class="badge-dot" style="background:#06AC38"></span> PagerDuty</span>
+          <span class="tool-badge">Sumo Logic</span>
+          <span class="tool-badge">Zabbix</span>
+          <span class="tool-badge">Catchpoint</span>
+          <span class="tool-badge">PagerDuty</span>
         </div>
       </div>
       <div class="tool-category">
         <h3>Cloud &amp; Infrastructure</h3>
         <div class="tool-badges">
-          <span class="tool-badge"><span class="badge-dot" style="background:#0078D4"></span> Microsoft Azure</span>
-          <span class="tool-badge"><span class="badge-dot" style="background:#FF9900"></span> AWS</span>
-          <span class="tool-badge"><span class="badge-dot" style="background:#326CE5"></span> Kubernetes (AKS)</span>
-          <span class="tool-badge"><span class="badge-dot" style="background:#FCC624"></span> Linux (RHEL)</span>
+          <span class="tool-badge">Microsoft Azure</span>
+          <span class="tool-badge">AWS</span>
+          <span class="tool-badge">Kubernetes (AKS)</span>
+          <span class="tool-badge">Linux (RHEL)</span>
         </div>
       </div>
       <div class="tool-category">
         <h3>ITSM &amp; Operations</h3>
         <div class="tool-badges">
-          <span class="tool-badge"><span class="badge-dot" style="background:#81B5A1"></span> ServiceNow</span>
-          <span class="tool-badge"><span class="badge-dot" style="background:#00A1E0"></span> Salesforce</span>
-          <span class="tool-badge"><span class="badge-dot" style="background:#F73F39"></span> Rundeck</span>
-          <span class="tool-badge"><span class="badge-dot" style="background:#4EAA25"></span> Bash Scripting</span>
+          <span class="tool-badge">ServiceNow</span>
+          <span class="tool-badge">Salesforce</span>
+          <span class="tool-badge">Rundeck</span>
+          <span class="tool-badge">Bash Scripting</span>
         </div>
       </div>
       <div class="tool-category">
-        <h3>Currently Building Toward (CKA / AWS SAA / RHCSA)</h3>
+        <h3>Building Toward</h3>
         <div class="tool-badges">
-          <span class="tool-badge learning"><span class="badge-dot" style="background:#326CE5"></span> CKA Prep</span>
-          <span class="tool-badge learning"><span class="badge-dot" style="background:#FF9900"></span> AWS SAA Prep</span>
-          <span class="tool-badge learning"><span class="badge-dot" style="background:#EE0000"></span> RHCSA Prep</span>
-          <span class="tool-badge learning"><span class="badge-dot" style="background:#2496ED"></span> Docker</span>
-          <span class="tool-badge learning"><span class="badge-dot" style="background:#7B42BC"></span> Terraform</span>
-          <span class="tool-badge learning"><span class="badge-dot" style="background:#3776AB"></span> Python</span>
+          <span class="tool-badge learning">CKA Prep</span>
+          <span class="tool-badge learning">AWS SAA Prep</span>
+          <span class="tool-badge learning">RHCSA Prep</span>
+          <span class="tool-badge learning">Docker</span>
+          <span class="tool-badge learning">Terraform</span>
+          <span class="tool-badge learning">Python</span>
         </div>
       </div>
     </div>
@@ -1198,112 +1303,124 @@ footer p {
 
   <!-- TIMELINE -->
   <section id="journey" class="reveal">
-    <div class="section-label">Career Journey</div>
-    <div class="section-title">Timeline</div>
+    <div class="section-label">05 — Career Journey</div>
+    <div class="section-title">Timeline.</div>
     <div class="timeline">
 
-      <div class="timeline-item current">
-        <div class="timeline-date">Dec 2025 – Present</div>
-        <div class="timeline-company">PTC</div>
-        <div class="timeline-role">NOC Engineer – Specialist · Pune, India</div>
-        <div class="timeline-highlights">
-          <span class="highlight-tag">24×7 On-Call</span>
-          <span class="highlight-tag">Fortune 500 Clients</span>
-          <span class="highlight-tag">Sev0–Sev3</span>
-          <span class="highlight-tag">Mentoring</span>
-          <span class="highlight-tag">RCA Lead</span>
-        </div>
-        <div class="timeline-desc">
-          Driving incident response, root-cause analysis, and reliability initiatives for enterprise PLM &amp; IIoT platforms. Lead outage coordination across App/DB/Network teams, mentor newer engineers, and own runbook quality for the rotation.
+      <div class="timeline-item">
+        <div class="timeline-date current">Dec 2025 — Present</div>
+        <div>
+          <div class="timeline-company">PTC</div>
+          <div class="timeline-role">NOC Engineer – Specialist · Pune, India</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">24×7 On-Call</span>
+            <span class="highlight-tag">Fortune 500</span>
+            <span class="highlight-tag">Sev0–Sev3</span>
+            <span class="highlight-tag">Mentoring</span>
+            <span class="highlight-tag">RCA Lead</span>
+          </div>
+          <div class="timeline-desc">
+            Driving incident response, root-cause analysis, and reliability initiatives for enterprise PLM &amp; IIoT platforms. Lead outage coordination across App/DB/Network teams, mentor newer engineers, and own runbook quality for the rotation.
+          </div>
         </div>
       </div>
 
       <div class="timeline-item">
-        <div class="timeline-date">Dec 2022 – Nov 2025</div>
-        <div class="timeline-company">PTC</div>
-        <div class="timeline-role">NOC Engineer – Associate · Pune, India</div>
-        <div class="timeline-highlights">
-          <span class="highlight-tag">5,000+ Incidents</span>
-          <span class="highlight-tag">99.9% Uptime</span>
-          <span class="highlight-tag">~30% MTTR ↓</span>
-          <span class="highlight-tag">Customer First Award</span>
-          <span class="highlight-tag">JVM Tuning</span>
-        </div>
-        <div class="timeline-desc">
-          Production operations for Windchill, Windchill+, FlexPLM, and ThingWorx on Azure &amp; AWS. Resolved 5,000+ incidents, authored team-wide runbooks, drove memory alert tuning, and recognized with PTC's Customer First Award.
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-date">Jul 2022 – Nov 2022</div>
-        <div class="timeline-company">Johnson Controls</div>
-        <div class="timeline-role">Intern – Building Management Systems · Pune, India</div>
-        <div class="timeline-highlights">
-          <span class="highlight-tag">BMS</span>
-          <span class="highlight-tag">Smart Buildings</span>
-        </div>
-        <div class="timeline-desc">
-          Supported documentation for Building Management Systems solutions in smart building automation and energy management.
+        <div class="timeline-date">Dec 2022 — Nov 2025</div>
+        <div>
+          <div class="timeline-company">PTC</div>
+          <div class="timeline-role">NOC Engineer – Associate · Pune, India</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">5,000+ Incidents</span>
+            <span class="highlight-tag">99.9% Uptime</span>
+            <span class="highlight-tag">~30% MTTR ↓</span>
+            <span class="highlight-tag">Customer First Award</span>
+            <span class="highlight-tag">JVM Tuning</span>
+          </div>
+          <div class="timeline-desc">
+            Production operations for Windchill, Windchill+, FlexPLM, and ThingWorx on Azure &amp; AWS. Resolved 5,000+ incidents, authored team-wide runbooks, drove memory alert tuning, and recognized with PTC's Customer First Award.
+          </div>
         </div>
       </div>
 
       <div class="timeline-item">
-        <div class="timeline-date">Jan 2022 – Jun 2022</div>
-        <div class="timeline-company">Cognizant Technology Solutions</div>
-        <div class="timeline-role">Programmer Analyst Trainee (Intern) · Bangalore, India</div>
-        <div class="timeline-highlights">
-          <span class="highlight-tag">Java</span>
-          <span class="highlight-tag">Spring Boot</span>
-          <span class="highlight-tag">REST APIs</span>
-          <span class="highlight-tag">MySQL</span>
-        </div>
-        <div class="timeline-desc">
-          Developed a CRUD-based Life Insurance Management application using Java, Spring Boot, and MySQL. Built REST APIs and documented setup procedures.
+        <div class="timeline-date">Jul 2022 — Nov 2022</div>
+        <div>
+          <div class="timeline-company">Johnson Controls</div>
+          <div class="timeline-role">Intern – Building Management Systems · Pune, India</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">BMS</span>
+            <span class="highlight-tag">Smart Buildings</span>
+          </div>
+          <div class="timeline-desc">
+            Supported documentation for Building Management Systems solutions in smart building automation and energy management.
+          </div>
         </div>
       </div>
 
       <div class="timeline-item">
-        <div class="timeline-date">2018 – 2022</div>
-        <div class="timeline-company">Panimalar Engineering College</div>
-        <div class="timeline-role">B.E. Electronics &amp; Instrumentation · CGPA 8.1/10</div>
-        <div class="timeline-highlights">
-          <span class="highlight-tag">🏆 SIH National Winner</span>
-          <span class="highlight-tag">CGPA 8.1</span>
+        <div class="timeline-date">Jan 2022 — Jun 2022</div>
+        <div>
+          <div class="timeline-company">Cognizant Technology Solutions</div>
+          <div class="timeline-role">Programmer Analyst Trainee (Intern) · Bangalore, India</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">Java</span>
+            <span class="highlight-tag">Spring Boot</span>
+            <span class="highlight-tag">REST APIs</span>
+            <span class="highlight-tag">MySQL</span>
+          </div>
+          <div class="timeline-desc">
+            Developed a CRUD-based Life Insurance Management application using Java, Spring Boot, and MySQL. Built REST APIs and documented setup procedures.
+          </div>
         </div>
-        <div class="timeline-desc">
-          Won Smart India Hackathon (National Level) competing against thousands of teams. Built problem-solving and teamwork skills under high-pressure constraints.
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2018 — 2022</div>
+        <div>
+          <div class="timeline-company">Panimalar Engineering College</div>
+          <div class="timeline-role">B.E. Electronics &amp; Instrumentation · CGPA 8.1/10</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">SIH National Winner</span>
+            <span class="highlight-tag">CGPA 8.1</span>
+          </div>
+          <div class="timeline-desc">
+            Won Smart India Hackathon (National Level) competing against thousands of teams. Built problem-solving and teamwork skills under high-pressure constraints.
+          </div>
         </div>
       </div>
 
       <div class="timeline-item">
         <div class="timeline-date">Aug 2021</div>
-        <div class="timeline-company">Defence Research &amp; Development Organisation (DRDO)</div>
-        <div class="timeline-role">R&amp;D Engineering Intern · Avadi, Tamil Nadu</div>
-        <div class="timeline-highlights">
-          <span class="highlight-tag">🛡️ Defence R&amp;D</span>
-          <span class="highlight-tag">Sensor Integration</span>
-        </div>
-        <div class="timeline-desc">
-          Contributed to a defence R&amp;D project involving sensor integration for combat vehicle systems, working in a small team under DRDO supervision. Specifics confidential per defence protocol.
+        <div>
+          <div class="timeline-company">DRDO</div>
+          <div class="timeline-role">R&amp;D Engineering Intern · Avadi, Tamil Nadu</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">Defence R&amp;D</span>
+            <span class="highlight-tag">Sensor Integration</span>
+          </div>
+          <div class="timeline-desc">
+            Contributed to a defence R&amp;D project involving sensor integration for combat vehicle systems, working in a small team under DRDO supervision. Specifics confidential per defence protocol.
+          </div>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- EVENTS / COMMUNITY -->
+  <!-- EVENTS -->
   <section id="events" class="reveal">
-    <div class="section-label">Community &amp; Continuous Learning</div>
-    <div class="section-title">Events &amp; Conferences</div>
+    <div class="section-label">06 — Community</div>
+    <div class="section-title">Events &amp; conferences.</div>
     <div class="events-row">
-      <div class="event-card upcoming">
-        <span class="event-status">⏳ Upcoming</span>
+      <div class="event-card">
+        <div class="event-status">Upcoming</div>
         <h3>KubeCon + CloudNativeCon India 2026</h3>
         <div class="event-date">June 18–19, 2026 · Jio World Convention Centre, Mumbai</div>
         <p class="event-desc">Attending with a curated session schedule focused on K8s observability, SRE practices, and platform engineering. Networking goal: build connections with engineers from GCCs and product companies.</p>
       </div>
-      <div class="event-card attended">
-        <span class="event-status">✓ Attended</span>
+      <div class="event-card">
+        <div class="event-status">Attended</div>
         <h3>KubeCon + CloudNativeCon India 2025</h3>
         <div class="event-date">CNCF · Hyderabad</div>
         <p class="event-desc">Hands-on exposure to cloud-native tooling, observability stacks, and real-world SRE patterns from leading product companies in India.</p>
@@ -1313,15 +1430,15 @@ footer p {
 
   <!-- IMPACT -->
   <section class="reveal">
-    <div class="section-label">Results</div>
-    <div class="section-title">Key Impact</div>
+    <div class="section-label">07 — Results</div>
+    <div class="section-title">Key impact.</div>
     <div class="impact-grid">
       <div class="impact-card">
         <div class="impact-number">5,000+</div>
         <div class="impact-label">Incidents Resolved</div>
       </div>
       <div class="impact-card">
-        <div class="impact-number">↓30%</div>
+        <div class="impact-number">~30%</div>
         <div class="impact-label">MTTR Reduction</div>
       </div>
       <div class="impact-card">
@@ -1345,88 +1462,186 @@ footer p {
 
   <!-- CERTIFICATIONS -->
   <section class="reveal">
-    <div class="section-label">Credentials</div>
-    <div class="section-title">Certifications, Awards &amp; Education</div>
-    <div class="certs-row">
-      <div class="cert-badge">
-        <div class="cert-icon">📜</div>
-        <div class="cert-info">
-          <h4>Azure Fundamentals (AZ-900)</h4>
-          <p>Microsoft Certified</p>
-        </div>
+    <div class="section-label">08 — Credentials</div>
+    <div class="section-title">Certifications, awards &amp; education.</div>
+    <div class="certs-list">
+      <div class="cert-row">
+        <div class="cert-type">Certification</div>
+        <h4>Azure Fundamentals (AZ-900)</h4>
+        <div class="cert-issuer">Microsoft Certified</div>
       </div>
-      <div class="cert-badge">
-        <div class="cert-icon">📜</div>
-        <div class="cert-info">
-          <h4>Azure Data Fundamentals (DP-900)</h4>
-          <p>Microsoft Certified</p>
-        </div>
+      <div class="cert-row">
+        <div class="cert-type">Certification</div>
+        <h4>Azure Data Fundamentals (DP-900)</h4>
+        <div class="cert-issuer">Microsoft Certified</div>
       </div>
-      <div class="cert-badge">
-        <div class="cert-icon">📘</div>
-        <div class="cert-info">
-          <h4>Kubernetes for the Absolute Beginners</h4>
-          <p>KodeKloud · Hands-on Labs</p>
-        </div>
+      <div class="cert-row">
+        <div class="cert-type">Course</div>
+        <h4>Kubernetes for the Absolute Beginners</h4>
+        <div class="cert-issuer">KodeKloud · Hands-on Labs</div>
       </div>
-      <div class="cert-badge">
-        <div class="cert-icon">🏆</div>
-        <div class="cert-info">
-          <h4>Smart India Hackathon Winner</h4>
-          <p>National Level · Government of India</p>
-        </div>
+      <div class="cert-row">
+        <div class="cert-type">Award</div>
+        <h4>Smart India Hackathon Winner</h4>
+        <div class="cert-issuer">National Level · Government of India</div>
       </div>
-      <div class="cert-badge">
-        <div class="cert-icon">⭐</div>
-        <div class="cert-info">
-          <h4>Customer First Award</h4>
-          <p>PTC · Excellence in Issue Resolution</p>
-        </div>
+      <div class="cert-row">
+        <div class="cert-type">Award</div>
+        <h4>Customer First Award</h4>
+        <div class="cert-issuer">PTC · Excellence in Issue Resolution</div>
       </div>
-      <div class="cert-badge">
-        <div class="cert-icon">🎓</div>
-        <div class="cert-info">
-          <h4>MBA – Information Systems &amp; Analytics</h4>
-          <p>Manipal University Jaipur (WILP) · In Progress</p>
-        </div>
+      <div class="cert-row">
+        <div class="cert-type">Education</div>
+        <h4>MBA – Information Systems &amp; Analytics</h4>
+        <div class="cert-issuer">Manipal University Jaipur (WILP) · In Progress</div>
       </div>
-      <div class="cert-badge">
-        <div class="cert-icon">🎓</div>
-        <div class="cert-info">
-          <h4>B.E. Electronics &amp; Instrumentation</h4>
-          <p>Panimalar Engineering College · CGPA 8.1</p>
-        </div>
+      <div class="cert-row">
+        <div class="cert-type">Education</div>
+        <h4>B.E. Electronics &amp; Instrumentation</h4>
+        <div class="cert-issuer">Panimalar Engineering College · CGPA 8.1</div>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <footer id="contact">
-    <h2>Let's Connect</h2>
-    <p>Open to SRE, Cloud Operations Engineer, Production Support, and NOC L2/L3 roles at product companies and GCCs.</p>
+    <h2>Let's connect.</h2>
+    <p class="footer-lede">Open to SRE, Cloud Operations Engineer, Production Support, and NOC L2/L3 roles at product companies and GCCs.</p>
     <div class="social-links">
-      <a href="mailto:dineshravichandiran0808@gmail.com" class="social-link">📧 Email</a>
-      <a href="https://linkedin.com/in/dineshravichandiran" class="social-link" target="_blank" rel="noopener">💼 LinkedIn</a>
-      <a href="https://github.com/dineshravichandiran" class="social-link" target="_blank" rel="noopener">💻 GitHub</a>
-      <a href="resume.pdf" class="social-link" download>📄 Resume</a>
+      <a href="mailto:dineshravichandiran0808@gmail.com" class="social-link">Email</a>
+      <a href="https://linkedin.com/in/dineshravichandiran" class="social-link" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/dineshravichandiran" class="social-link" target="_blank" rel="noopener">GitHub</a>
+      <a href="resume.pdf" class="social-link" download>Resume</a>
     </div>
-    <div class="footer-quote">"Preparation beats panic, every time." — 3+ years of on-call rotations</div>
-    <div class="footer-credit">© 2026 Dinesh Ravichandiran · Built with care · Last updated May 2026</div>
+    <div class="footer-bottom">
+      <span>© 2026 Dinesh Ravichandiran</span>
+      <span>Last updated · May 2026 · Pune, India</span>
+    </div>
   </footer>
 
 </div>
 
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 <script>
+// ===== 3D Hero Element — Rotating Wireframe =====
+(function init3D() {
+  const canvas = document.getElementById('hero3d');
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+  function resize() {
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    renderer.setPixelRatio(window.devicePixelRatio || 1);
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Outer wireframe icosahedron
+  const geo1 = new THREE.IcosahedronGeometry(1.4, 1);
+  const mat1 = new THREE.MeshBasicMaterial({
+    color: 0x1e3a8a,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.55
+  });
+  const shape1 = new THREE.Mesh(geo1, mat1);
+  scene.add(shape1);
+
+  // Inner solid-edge shape for depth
+  const geo2 = new THREE.OctahedronGeometry(0.6, 0);
+  const mat2 = new THREE.MeshBasicMaterial({
+    color: 0x1e40af,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.85
+  });
+  const shape2 = new THREE.Mesh(geo2, mat2);
+  scene.add(shape2);
+
+  // Floating dot accents
+  const dotGroup = new THREE.Group();
+  for (let i = 0; i < 30; i++) {
+    const dotGeo = new THREE.SphereGeometry(0.025, 6, 6);
+    const dotMat = new THREE.MeshBasicMaterial({ color: 0x1e3a8a, transparent: true, opacity: 0.5 });
+    const dot = new THREE.Mesh(dotGeo, dotMat);
+    const r = 2.2 + Math.random() * 0.6;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    dot.position.set(
+      r * Math.sin(phi) * Math.cos(theta),
+      r * Math.sin(phi) * Math.sin(theta),
+      r * Math.cos(phi)
+    );
+    dotGroup.add(dot);
+  }
+  scene.add(dotGroup);
+
+  camera.position.z = 4.5;
+
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    shape1.rotation.x += 0.003;
+    shape1.rotation.y += 0.005;
+    shape2.rotation.x -= 0.006;
+    shape2.rotation.y -= 0.004;
+    dotGroup.rotation.y += 0.002;
+    dotGroup.rotation.x += 0.001;
+
+    // Subtle parallax from mouse
+    camera.position.x += (mouseX - camera.position.x) * 0.05;
+    camera.position.y += (-mouseY - camera.position.y) * 0.05;
+    camera.lookAt(scene.position);
+
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+// ===== 3D Card Tilt on Hover =====
+(function initCardTilt() {
+  const cards = document.querySelectorAll('.about-card, .platform-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const rotateX = ((y - cy) / cy) * -6;
+      const rotateY = ((x - cx) / cx) * 6;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(8px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+})();
+
+// ===== Scroll Reveal =====
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
     }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.05 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+// ===== Smooth Nav =====
 document.querySelectorAll('nav a').forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
