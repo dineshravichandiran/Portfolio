@@ -375,41 +375,46 @@ if (typeof THREE === 'undefined') {
 const MILESTONES = [
   {
     year: '2021',
+    city: 'CHENNAI',
     name: 'DRDO',
     role: 'R&D Engineering Intern',
-    meta: '01 · The Start · Aug 2021',
+    meta: '01 · CHENNAI · Aug 2021',
     body: "Contributed to a defence R&D project at DRDO Avadi involving sensor integration for combat vehicle systems. Worked in a small team under DRDO supervision. The discipline of working on real-world, mission-critical hardware shaped my approach to reliability and documentation.",
-    tags: ['Defence R&D', 'Sensor Integration', 'Hardware', 'Avadi, TN']
+    tags: ['Defence R&D', 'Sensor Integration', 'Hardware', 'Avadi, Chennai']
   },
   {
     year: 'Jan – Jun 2022',
+    city: 'BANGALORE',
     name: 'Cognizant',
     role: 'Programmer Analyst Trainee',
-    meta: '02 · First Software Role · Bangalore',
+    meta: '02 · BANGALORE · First Software Role',
     body: "Developed a CRUD-based Life Insurance Management application using Java, Spring Boot, and MySQL. Built REST APIs and documented setup procedures. First exposure to enterprise software development practices, version control, and team workflows.",
-    tags: ['Java', 'Spring Boot', 'REST APIs', 'MySQL']
+    tags: ['Java', 'Spring Boot', 'REST APIs', 'Bangalore']
   },
   {
     year: 'Jul – Nov 2022',
+    city: 'PUNE',
     name: 'Johnson Controls',
     role: 'BMS Intern',
-    meta: '03 · Smart Buildings · Pune',
+    meta: '03 · PUNE · Smart Buildings',
     body: "Supported documentation for Building Management Systems solutions in smart building automation and energy management. Introduced me to enterprise-scale systems that real businesses depend on 24/7 — a preview of what was to come.",
-    tags: ['BMS', 'Smart Buildings', 'Energy Management']
+    tags: ['BMS', 'Smart Buildings', 'Pune']
   },
   {
     year: 'Dec 2022 – Nov 2025',
+    city: 'PUNE',
     name: 'PTC',
     role: 'NOC Engineer – Associate',
-    meta: '04 · The Foundation · 3 Years',
+    meta: '04 · PUNE · The Foundation · 3 Years',
     body: "Production operations for Windchill, Windchill+, FlexPLM, and ThingWorx on Azure and AWS. Resolved 5,000+ incidents, maintained 99.9% uptime, reduced MTTR by ~30%. Authored team-wide runbooks, drove memory alert tuning, and was recognized with PTC's Customer First Award.",
     tags: ['5,000+ Incidents', '99.9% Uptime', '~30% MTTR ↓', 'Customer First Award', 'Azure & AWS']
   },
   {
     year: 'Dec 2025 – Present',
+    city: 'PUNE',
     name: 'PTC',
     role: 'NOC Engineer – Specialist',
-    meta: '05 · Now · Specialist Track',
+    meta: '05 · PUNE · Now · Specialist Track',
     body: "Driving incident response, root-cause analysis, and reliability initiatives for enterprise PLM and IIoT platforms. Lead outage coordination across App, DB, and Network teams. Mentor newer engineers and own runbook quality for the rotation. Targeting SRE roles at product-first companies.",
     tags: ['24×7 On-Call', 'Sev0–Sev3', 'Mentoring', 'RCA Lead', 'SRE Track']
   }
@@ -485,12 +490,35 @@ scene.add(fillLight);
 // GROUND
 // ====================================================
 const groundGeo = new THREE.PlaneGeometry(200, 200);
-const groundMat = new THREE.MeshLambertMaterial({ color: 0xf0f3f8 });
+const groundMat = new THREE.MeshLambertMaterial({ color: 0xe8eef5 });
 const ground = new THREE.Mesh(groundGeo, groundMat);
 ground.rotation.x = -Math.PI / 2;
 ground.position.y = -0.01;
 ground.receiveShadow = true;
 scene.add(ground);
+
+// Zone-tinted ground patches (only on either side of the road, not on road itself)
+function addZonePatch(xCenter, xWidth, color, opacity) {
+  const patchGeo = new THREE.PlaneGeometry(xWidth, 80);
+  const patchMat = new THREE.MeshLambertMaterial({ color, transparent: true, opacity });
+  // Left strip
+  const patchL = new THREE.Mesh(patchGeo, patchMat);
+  patchL.rotation.x = -Math.PI / 2;
+  patchL.position.set(xCenter, 0, -42);
+  scene.add(patchL);
+  // Right strip
+  const patchR = new THREE.Mesh(patchGeo, patchMat);
+  patchR.rotation.x = -Math.PI / 2;
+  patchR.position.set(xCenter, 0, 42);
+  scene.add(patchR);
+}
+
+// Chennai zone — sandy coastal beige
+addZonePatch(7, 20, 0xeed9a8, 0.5);
+// Bangalore zone — garden city green
+addZonePatch(25, 20, 0xc4d8b8, 0.5);
+// Pune zone — Deccan plateau tan
+addZonePatch(48, 25, 0xd9c7a0, 0.5);
 
 // Grid (subtle)
 const grid = new THREE.GridHelper(200, 80, 0xd4dde8, 0xe6ebf3);
@@ -502,19 +530,19 @@ scene.add(grid);
 // ====================================================
 const pathPoints = [
   new THREE.Vector3(0, 0, 0),       // Start
-  new THREE.Vector3(8, 0, -4),      // Milestone 0: DRDO
-  new THREE.Vector3(16, 0, 2),      // Milestone 1: Cognizant
-  new THREE.Vector3(24, 0, -3),     // Milestone 2: Johnson Controls
-  new THREE.Vector3(34, 0, 4),      // Milestone 3: PTC Associate
-  new THREE.Vector3(46, 0, -2),     // Milestone 4: PTC Specialist
-  new THREE.Vector3(54, 0, 0)       // End buffer
+  new THREE.Vector3(10, 0, 0),      // Milestone 0: DRDO — Chennai area
+  new THREE.Vector3(20, 0, 0),      // Milestone 1: Cognizant — Bangalore
+  new THREE.Vector3(30, 0, 0),      // Milestone 2: Johnson Controls — Pune entry
+  new THREE.Vector3(40, 0, 0),      // Milestone 3: PTC Associate — Pune
+  new THREE.Vector3(50, 0, 0),      // Milestone 4: PTC Specialist — Pune
+  new THREE.Vector3(60, 0, 0)       // End buffer
 ];
 
-// Adjust milestone positions so they align with curve sample points
-const curve = new THREE.CatmullRomCurve3(pathPoints, false, 'catmullrom', 0.4);
+// Straight highway — bike runs in a perfectly straight line
+const curve = new THREE.CatmullRomCurve3(pathPoints, false, 'catmullrom', 0);
 
 // Build a flat road geometry along the curve
-const ROAD_WIDTH = 1.8;
+const ROAD_WIDTH = 2.2;
 const roadSegments = 200;
 const roadShape = [];
 const roadIndices = [];
@@ -700,51 +728,417 @@ function makeCompanySignTexture(name, year, num) {
 }
 
 milestoneT.forEach((t, i) => buildMilestone(t, i, MILESTONES[i]));
+// ====================================================
+// CITY ZONES — Chennai → Bangalore → Pune
+// Each zone has its own landmark style scattered along the highway
+// ====================================================
 
-// ====================================================
-// DECORATIVE TREES / BUSHES
-// ====================================================
-function addTree(x, z, scale = 1) {
-  const group = new THREE.Group();
-  const trunkGeo = new THREE.CylinderGeometry(0.08, 0.1, 0.6, 6);
-  const trunkMat = new THREE.MeshLambertMaterial({ color: 0x6b5b4d });
-  const trunk = new THREE.Mesh(trunkGeo, trunkMat);
-  trunk.position.y = 0.3;
+// X-range for each city zone along the straight highway
+// Total road runs from x=0 to x=60
+// Chennai: 0–15, Bangalore: 15–35, Pune: 35–60
+const ZONES = {
+  CHENNAI:   { xStart: -5,  xEnd: 15,  color: 0x86b8e8 }, // coastal blue tint
+  BANGALORE: { xStart: 15,  xEnd: 35,  color: 0x7fb88a }, // garden city green
+  PUNE:      { xStart: 35,  xEnd: 65,  color: 0xb5a780 }  // dry tan/hill tone
+};
+
+// Helper: random position in a zone, away from the road
+function randomInZone(zone, minDist = 4, maxDist = 16) {
+  const x = zone.xStart + Math.random() * (zone.xEnd - zone.xStart);
+  const side = Math.random() < 0.5 ? 1 : -1;
+  const z = side * (minDist + Math.random() * (maxDist - minDist));
+  return { x, z };
+}
+
+// ---------- CHENNAI: palm trees, lighthouse, sea wall, beach huts ----------
+function addPalmTree(x, z) {
+  const g = new THREE.Group();
+  // Trunk — tall and slim, curved
+  const trunk = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.08, 0.12, 2.5, 8),
+    new THREE.MeshLambertMaterial({ color: 0x6b4f2a })
+  );
+  trunk.position.y = 1.25;
+  trunk.rotation.z = (Math.random() - 0.5) * 0.15;
   trunk.castShadow = true;
-  group.add(trunk);
-
-  const leavesGeo = new THREE.ConeGeometry(0.5, 1.2, 6);
-  const leavesMat = new THREE.MeshLambertMaterial({ color: 0x3f6b3a });
-  const leaves = new THREE.Mesh(leavesGeo, leavesMat);
-  leaves.position.y = 1.2;
-  leaves.castShadow = true;
-  group.add(leaves);
-
-  group.position.set(x, 0, z);
-  group.scale.setScalar(scale * (0.8 + Math.random() * 0.5));
-  group.rotation.y = Math.random() * Math.PI;
-  scene.add(group);
-}
-
-// Scatter trees away from the road
-function isNearRoad(x, z, threshold = 3.5) {
-  for (let i = 0; i <= 30; i++) {
-    const t = i / 30;
-    const p = curve.getPointAt(t);
-    const dx = p.x - x, dz = p.z - z;
-    if (dx * dx + dz * dz < threshold * threshold) return true;
+  g.add(trunk);
+  // Palm fronds — 7 leaves radiating
+  for (let i = 0; i < 7; i++) {
+    const frond = new THREE.Mesh(
+      new THREE.ConeGeometry(0.15, 1.2, 4),
+      new THREE.MeshLambertMaterial({ color: 0x4a7c3e })
+    );
+    const angle = (i / 7) * Math.PI * 2;
+    frond.position.set(Math.cos(angle) * 0.4, 2.5, Math.sin(angle) * 0.4);
+    frond.rotation.z = Math.cos(angle) * 1.1;
+    frond.rotation.x = Math.sin(angle) * 1.1;
+    frond.castShadow = true;
+    g.add(frond);
   }
-  return false;
+  // Coconuts cluster
+  for (let i = 0; i < 3; i++) {
+    const coco = new THREE.Mesh(
+      new THREE.SphereGeometry(0.08, 6, 5),
+      new THREE.MeshLambertMaterial({ color: 0x4a3520 })
+    );
+    coco.position.set((Math.random() - 0.5) * 0.2, 2.4, (Math.random() - 0.5) * 0.2);
+    g.add(coco);
+  }
+  g.position.set(x, 0, z);
+  g.scale.setScalar(0.9 + Math.random() * 0.3);
+  scene.add(g);
 }
 
-for (let i = 0; i < 60; i++) {
-  let x, z, tries = 0;
-  do {
-    x = (Math.random() - 0.3) * 60;
-    z = (Math.random() - 0.5) * 30;
-    tries++;
-  } while (isNearRoad(x, z) && tries < 20);
-  if (!isNearRoad(x, z)) addTree(x, z);
+function addLighthouse(x, z) {
+  const g = new THREE.Group();
+  // Base
+  const base = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.7, 0.9, 0.4, 12),
+    new THREE.MeshLambertMaterial({ color: 0xd6d3c8 })
+  );
+  base.position.y = 0.2;
+  base.castShadow = true;
+  g.add(base);
+  // Tower with red & white stripes
+  for (let i = 0; i < 5; i++) {
+    const stripe = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.4 - i * 0.04, 0.45 - i * 0.04, 0.7, 12),
+      new THREE.MeshLambertMaterial({ color: i % 2 === 0 ? 0xffffff : 0xdc2626 })
+    );
+    stripe.position.y = 0.55 + i * 0.7;
+    stripe.castShadow = true;
+    g.add(stripe);
+  }
+  // Lamp room
+  const lamp = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.3, 0.3, 0.3, 10),
+    new THREE.MeshLambertMaterial({ color: 0x171717 })
+  );
+  lamp.position.y = 4.4;
+  g.add(lamp);
+  // Glowing light
+  const light = new THREE.Mesh(
+    new THREE.SphereGeometry(0.18, 12, 10),
+    new THREE.MeshBasicMaterial({ color: 0xfbbf24 })
+  );
+  light.position.y = 4.4;
+  g.add(light);
+  // Roof
+  const roof = new THREE.Mesh(
+    new THREE.ConeGeometry(0.32, 0.4, 8),
+    new THREE.MeshLambertMaterial({ color: 0xdc2626 })
+  );
+  roof.position.y = 4.75;
+  g.add(roof);
+  g.position.set(x, 0, z);
+  scene.add(g);
+}
+
+function addBeachHut(x, z) {
+  const g = new THREE.Group();
+  // Walls — natural wood color
+  const walls = new THREE.Mesh(
+    new THREE.BoxGeometry(1.2, 0.7, 1.0),
+    new THREE.MeshLambertMaterial({ color: 0xc89058 })
+  );
+  walls.position.y = 0.35;
+  walls.castShadow = true;
+  g.add(walls);
+  // Thatched roof
+  const roof = new THREE.Mesh(
+    new THREE.ConeGeometry(0.95, 0.6, 4),
+    new THREE.MeshLambertMaterial({ color: 0x8b6332 })
+  );
+  roof.position.y = 1.0;
+  roof.rotation.y = Math.PI / 4;
+  roof.castShadow = true;
+  g.add(roof);
+  // Door
+  const door = new THREE.Mesh(
+    new THREE.BoxGeometry(0.25, 0.4, 0.04),
+    new THREE.MeshLambertMaterial({ color: 0x3a2818 })
+  );
+  door.position.set(0, 0.25, 0.51);
+  g.add(door);
+  g.position.set(x, 0, z);
+  g.rotation.y = Math.random() * Math.PI * 2;
+  scene.add(g);
+}
+
+// Populate Chennai zone
+addLighthouse(7, -10);
+for (let i = 0; i < 14; i++) {
+  const p = randomInZone(ZONES.CHENNAI, 4.5, 14);
+  addPalmTree(p.x, p.z);
+}
+for (let i = 0; i < 4; i++) {
+  const p = randomInZone(ZONES.CHENNAI, 5, 10);
+  addBeachHut(p.x, p.z);
+}
+
+// ---------- BANGALORE: tech glass towers, garden city green spaces ----------
+function addGlassTower(x, z) {
+  const g = new THREE.Group();
+  const h = 3.5 + Math.random() * 3;
+  const w = 1.0 + Math.random() * 0.4;
+  // Main tower — light blue glass look
+  const tower = new THREE.Mesh(
+    new THREE.BoxGeometry(w, h, w),
+    new THREE.MeshLambertMaterial({
+      color: 0x7dd3fc,
+      emissive: 0x1e40af,
+      emissiveIntensity: 0.08
+    })
+  );
+  tower.position.y = h / 2;
+  tower.castShadow = true;
+  g.add(tower);
+  // Window grid (darker frame stripes)
+  const floors = Math.floor(h / 0.5);
+  for (let f = 0; f < floors; f++) {
+    const stripe = new THREE.Mesh(
+      new THREE.BoxGeometry(w + 0.02, 0.02, w + 0.02),
+      new THREE.MeshLambertMaterial({ color: 0x1e293b })
+    );
+    stripe.position.y = (f + 0.5) * 0.5;
+    g.add(stripe);
+  }
+  // Rooftop antenna
+  if (Math.random() > 0.5) {
+    const ant = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.03, 0.03, 0.6, 6),
+      new THREE.MeshLambertMaterial({ color: 0x171717 })
+    );
+    ant.position.y = h + 0.3;
+    g.add(ant);
+  }
+  g.position.set(x, 0, z);
+  scene.add(g);
+}
+
+function addBangaloreTree(x, z) {
+  // Garden city — round leafy trees (different from palm)
+  const g = new THREE.Group();
+  const trunk = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.12, 0.16, 1.2, 8),
+    new THREE.MeshLambertMaterial({ color: 0x6b4f2a })
+  );
+  trunk.position.y = 0.6;
+  trunk.castShadow = true;
+  g.add(trunk);
+  // Round canopy made of 3 overlapping spheres
+  const canopyMat = new THREE.MeshLambertMaterial({ color: 0x4a7c3e });
+  for (let i = 0; i < 3; i++) {
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(0.55, 10, 8),
+      canopyMat
+    );
+    sphere.position.set(
+      (Math.random() - 0.5) * 0.3,
+      1.4 + Math.random() * 0.2,
+      (Math.random() - 0.5) * 0.3
+    );
+    sphere.castShadow = true;
+    g.add(sphere);
+  }
+  g.position.set(x, 0, z);
+  scene.add(g);
+}
+
+// Populate Bangalore zone
+for (let i = 0; i < 12; i++) {
+  const p = randomInZone(ZONES.BANGALORE, 5, 13);
+  addGlassTower(p.x, p.z);
+}
+for (let i = 0; i < 10; i++) {
+  const p = randomInZone(ZONES.BANGALORE, 4, 9);
+  addBangaloreTree(p.x, p.z);
+}
+
+// ---------- PUNE: hills, modern apartments, IT campus buildings ----------
+function addPuneHill(x, z) {
+  // Lower foothills — distinctive for Pune
+  const h = 2 + Math.random() * 2;
+  const r = 3 + Math.random() * 2;
+  const hill = new THREE.Mesh(
+    new THREE.ConeGeometry(r, h, 8),
+    new THREE.MeshLambertMaterial({ color: 0xa8997b })
+  );
+  hill.position.set(x, h / 2 - 0.5, z);
+  scene.add(hill);
+}
+
+function addApartmentBlock(x, z) {
+  const g = new THREE.Group();
+  const h = 2 + Math.random() * 1.5;
+  // Mid-rise apartment — beige with red roof
+  const building = new THREE.Mesh(
+    new THREE.BoxGeometry(1.5, h, 1.2),
+    new THREE.MeshLambertMaterial({ color: 0xe8d4a8 })
+  );
+  building.position.y = h / 2;
+  building.castShadow = true;
+  g.add(building);
+  // Sloped roof
+  const roof = new THREE.Mesh(
+    new THREE.BoxGeometry(1.7, 0.15, 1.4),
+    new THREE.MeshLambertMaterial({ color: 0xb43d2a })
+  );
+  roof.position.y = h + 0.07;
+  g.add(roof);
+  // Window grid
+  const windowMat = new THREE.MeshLambertMaterial({
+    color: 0xfacc15,
+    emissive: 0xfbbf24,
+    emissiveIntensity: 0.3
+  });
+  const cols = 3, rows = Math.floor(h / 0.5);
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (Math.random() > 0.3) {
+        const win = new THREE.Mesh(
+          new THREE.BoxGeometry(0.18, 0.22, 0.02),
+          windowMat
+        );
+        win.position.set(
+          (c - 1) * 0.4,
+          0.3 + r * 0.5,
+          0.61
+        );
+        g.add(win);
+      }
+    }
+  }
+  g.position.set(x, 0, z);
+  g.rotation.y = (Math.random() - 0.5) * 0.3;
+  scene.add(g);
+}
+
+function addITCampus(x, z) {
+  const g = new THREE.Group();
+  // Wide low building (typical IT campus)
+  const main = new THREE.Mesh(
+    new THREE.BoxGeometry(2.5, 1.4, 1.6),
+    new THREE.MeshLambertMaterial({ color: 0xe2e8f0 })
+  );
+  main.position.y = 0.7;
+  main.castShadow = true;
+  g.add(main);
+  // Reflective glass band
+  const glass = new THREE.Mesh(
+    new THREE.BoxGeometry(2.6, 0.7, 1.65),
+    new THREE.MeshLambertMaterial({
+      color: 0x3b82f6,
+      emissive: 0x1e40af,
+      emissiveIntensity: 0.2
+    })
+  );
+  glass.position.y = 0.9;
+  g.add(glass);
+  // Logo strip on top
+  const top = new THREE.Mesh(
+    new THREE.BoxGeometry(2.5, 0.15, 0.4),
+    new THREE.MeshLambertMaterial({ color: 0x1e3a8a })
+  );
+  top.position.set(0, 1.45, 0.6);
+  g.add(top);
+  g.position.set(x, 0, z);
+  scene.add(g);
+}
+
+// Populate Pune zone
+for (let i = 0; i < 4; i++) {
+  addPuneHill(40 + Math.random() * 25, -15 - Math.random() * 8);
+  addPuneHill(40 + Math.random() * 25, 15 + Math.random() * 8);
+}
+for (let i = 0; i < 10; i++) {
+  const p = randomInZone(ZONES.PUNE, 5, 13);
+  addApartmentBlock(p.x, p.z);
+}
+for (let i = 0; i < 3; i++) {
+  const p = randomInZone(ZONES.PUNE, 6, 12);
+  addITCampus(p.x, p.z);
+}
+
+// ---------- CITY ENTRY SIGNS (big banners at each zone start) ----------
+function makeCitySign(x, cityName) {
+  const g = new THREE.Group();
+  // Two posts
+  for (let side of [-1, 1]) {
+    const post = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.1, 0.12, 4, 8),
+      new THREE.MeshLambertMaterial({ color: 0x475569 })
+    );
+    post.position.set(0, 2, side * 3.5);
+    post.castShadow = true;
+    g.add(post);
+  }
+  // Banner across the top
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024; canvas.height = 200;
+  const ctx = canvas.getContext('2d');
+  // Background
+  const grad = ctx.createLinearGradient(0, 0, canvas.width, 0);
+  grad.addColorStop(0, '#1e3a8a');
+  grad.addColorStop(1, '#2563eb');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // White inset
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(20, 20, canvas.width - 40, canvas.height - 40);
+  // City name
+  ctx.fillStyle = '#1e3a8a';
+  ctx.font = 'bold 110px Manrope, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('WELCOME TO ' + cityName, canvas.width / 2, canvas.height / 2);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.minFilter = THREE.LinearFilter;
+  const banner = new THREE.Mesh(
+    new THREE.BoxGeometry(7.5, 1.0, 0.1),
+    [
+      new THREE.MeshLambertMaterial({ color: 0x1e3a8a }),
+      new THREE.MeshLambertMaterial({ color: 0x1e3a8a }),
+      new THREE.MeshLambertMaterial({ color: 0x1e3a8a }),
+      new THREE.MeshLambertMaterial({ color: 0x1e3a8a }),
+      new THREE.MeshLambertMaterial({ map: tex }),
+      new THREE.MeshLambertMaterial({ map: tex })
+    ]
+  );
+  banner.position.set(0, 3.8, 0);
+  banner.rotation.y = Math.PI / 2;
+  banner.castShadow = true;
+  g.add(banner);
+  g.position.set(x, 0, 0);
+  scene.add(g);
+}
+
+makeCitySign(2,  'CHENNAI');
+makeCitySign(17, 'BANGALORE');
+makeCitySign(37, 'PUNE');
+
+// ---------- KILOMETER MARKERS along the highway ----------
+function addKmMarker(x, side) {
+  const g = new THREE.Group();
+  // Post
+  const post = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.06, 0.08, 0.6, 6),
+    new THREE.MeshLambertMaterial({ color: 0xfafafa })
+  );
+  post.position.y = 0.3;
+  g.add(post);
+  // Top cap with stripe
+  const cap = new THREE.Mesh(
+    new THREE.BoxGeometry(0.18, 0.12, 0.04),
+    new THREE.MeshLambertMaterial({ color: 0xdc2626 })
+  );
+  cap.position.y = 0.55;
+  g.add(cap);
+  g.position.set(x, 0, side * 1.6);
+  scene.add(g);
+}
+for (let x = 3; x < 60; x += 5) {
+  addKmMarker(x, -1);
 }
 
 // ====================================================
@@ -902,330 +1296,426 @@ window.addEventListener('touchmove', (e) => {
 }, { passive: true });
 
 // ====================================================
-// THE SCOOTER (Indian-style scooty: Honda Activa proportions)
+// THE HARLEY-DAVIDSON STYLE MOTORCYCLE (long, low, chrome heavy)
 // ====================================================
 const bike = new THREE.Group();
 
-// Color palette
-const SCOOTER_BODY = 0x1e3a8a;     // Navy blue main body
-const SCOOTER_TRIM = 0x1e40af;     // Lighter navy accents
-const SCOOTER_DARK = 0x171717;     // Black plastic / matte
-const CHROME = 0xb8c0cc;           // Mirror / chrome
-const TIRE = 0x1a1a1a;             // Tire rubber
-const RIM = 0x8b95a3;              // Alloy rim
-const HEADLIGHT = 0xfff8dc;        // Warm headlight
+// Color palette — classic Harley look
+const HARLEY_TANK = 0x1e3a8a;      // Navy blue tank
+const HARLEY_TANK_TRIM = 0xfacc15;  // Gold pinstripe
+const HARLEY_BLACK = 0x0a0a0a;      // Matte black frame
+const HARLEY_LEATHER = 0x3a1f1a;    // Brown leather seat
+const HARLEY_CHROME = 0xc8cdd6;     // Polished chrome
+const HARLEY_TIRE = 0x111111;       // Tire
+const HARLEY_RIM = 0x6b7280;        // Spoke rims
+const HARLEY_ENGINE = 0x4a4a4a;     // Engine grey
+const HARLEY_EXHAUST = 0xdcdce5;    // Chrome exhaust
 
-// ---------- WHEELS ----------
-const WHEEL_RADIUS = 0.26;
-function makeWheel() {
+const blackMat = new THREE.MeshLambertMaterial({ color: HARLEY_BLACK });
+const chromeMat = new THREE.MeshLambertMaterial({ color: HARLEY_CHROME, emissive: 0x333333, emissiveIntensity: 0.05 });
+const engineMat = new THREE.MeshLambertMaterial({ color: HARLEY_ENGINE });
+const tankMat = new THREE.MeshLambertMaterial({ color: HARLEY_TANK });
+const leatherMat = new THREE.MeshLambertMaterial({ color: HARLEY_LEATHER });
+
+// ---------- WHEELS (BIG, with spokes — Harley style) ----------
+const WHEEL_RADIUS = 0.42;
+function makeHarleyWheel() {
   const w = new THREE.Group();
-  // Tire (default torus = upright wheel facing the correct way)
+  // Fat tire (torus, default orientation = standing wheel rolling forward)
   const tire = new THREE.Mesh(
-    new THREE.TorusGeometry(WHEEL_RADIUS, 0.07, 10, 24),
-    new THREE.MeshLambertMaterial({ color: TIRE })
+    new THREE.TorusGeometry(WHEEL_RADIUS, 0.12, 12, 32),
+    new THREE.MeshLambertMaterial({ color: HARLEY_TIRE })
   );
   tire.castShadow = true;
   w.add(tire);
-  // Alloy rim/disc inside the tire
+  // Chrome rim
   const rim = new THREE.Mesh(
-    new THREE.CylinderGeometry(WHEEL_RADIUS - 0.07, WHEEL_RADIUS - 0.07, 0.08, 16),
-    new THREE.MeshLambertMaterial({ color: RIM })
+    new THREE.CylinderGeometry(WHEEL_RADIUS - 0.12, WHEEL_RADIUS - 0.12, 0.12, 24),
+    chromeMat
   );
   rim.rotation.x = Math.PI / 2;
   w.add(rim);
-  // Hub
+  // Hub (chrome)
   const hub = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.04, 0.04, 0.1, 8),
-    new THREE.MeshLambertMaterial({ color: SCOOTER_DARK })
+    new THREE.CylinderGeometry(0.08, 0.08, 0.16, 12),
+    chromeMat
   );
   hub.rotation.x = Math.PI / 2;
   w.add(hub);
+  // Spokes — 8 of them
+  for (let i = 0; i < 8; i++) {
+    const spoke = new THREE.Mesh(
+      new THREE.BoxGeometry(0.02, WHEEL_RADIUS * 1.7, 0.02),
+      chromeMat
+    );
+    spoke.rotation.z = (i / 8) * Math.PI;
+    w.add(spoke);
+  }
   return w;
 }
 
-const wheelF = makeWheel();
-wheelF.position.set(0.6, WHEEL_RADIUS, 0);
+const wheelF = makeHarleyWheel();
+wheelF.position.set(1.1, WHEEL_RADIUS, 0);
 bike.add(wheelF);
 
-const wheelB = makeWheel();
-wheelB.position.set(-0.6, WHEEL_RADIUS, 0);
+const wheelB = makeHarleyWheel();
+wheelB.position.set(-1.0, WHEEL_RADIUS, 0);
+wheelB.scale.set(1, 1, 1.15); // Wider rear tire (Harley feature)
 bike.add(wheelB);
 
-// ---------- BODY MATERIALS ----------
-const bodyMat = new THREE.MeshLambertMaterial({ color: SCOOTER_BODY });
-const trimMat = new THREE.MeshLambertMaterial({ color: SCOOTER_TRIM });
-const darkMat = new THREE.MeshLambertMaterial({ color: SCOOTER_DARK });
-const chromeMat = new THREE.MeshLambertMaterial({ color: CHROME });
+// ---------- FRONT FORK (long, angled — chopper style) ----------
+function makeFork(zSide) {
+  const fork = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.04, 0.04, 1.0, 10),
+    chromeMat
+  );
+  fork.position.set(1.0, 0.7, zSide);
+  fork.rotation.z = -0.25; // Raked forward like a chopper
+  fork.castShadow = true;
+  return fork;
+}
+bike.add(makeFork(0.1));
+bike.add(makeFork(-0.1));
 
-// ---------- FLOORBOARD (where feet rest) ----------
-const floor = new THREE.Mesh(
-  new THREE.BoxGeometry(0.7, 0.06, 0.42),
-  darkMat
-);
-floor.position.set(-0.05, 0.18, 0);
-floor.castShadow = true;
-bike.add(floor);
-
-// Side rails (floorboard edges, navy)
-const railL = new THREE.Mesh(
-  new THREE.BoxGeometry(0.7, 0.05, 0.04),
-  bodyMat
-);
-railL.position.set(-0.05, 0.22, 0.21);
-bike.add(railL);
-const railR = railL.clone();
-railR.position.z = -0.21;
-bike.add(railR);
-
-// ---------- FRONT LEG SHIELD (curved fairing) ----------
-const shieldLower = new THREE.Mesh(
-  new THREE.BoxGeometry(0.22, 0.6, 0.42),
-  bodyMat
-);
-shieldLower.position.set(0.32, 0.5, 0);
-shieldLower.castShadow = true;
-bike.add(shieldLower);
-
-// Upper shield tilts back toward rider
-const shieldUpper = new THREE.Mesh(
-  new THREE.BoxGeometry(0.18, 0.32, 0.42),
-  bodyMat
-);
-shieldUpper.position.set(0.34, 0.92, 0);
-shieldUpper.rotation.z = -0.25;
-shieldUpper.castShadow = true;
-bike.add(shieldUpper);
-
-// Front trim accent
-const frontTrim = new THREE.Mesh(
-  new THREE.BoxGeometry(0.02, 0.5, 0.42),
-  trimMat
-);
-frontTrim.position.set(0.44, 0.5, 0);
-bike.add(frontTrim);
-
-// ---------- MAIN BODY / UNDER-SEAT STORAGE ----------
-const mainBody = new THREE.Mesh(
-  new THREE.BoxGeometry(0.7, 0.4, 0.38),
-  bodyMat
-);
-mainBody.position.set(-0.3, 0.55, 0);
-mainBody.castShadow = true;
-bike.add(mainBody);
-
-// Rounded back of body
-const bodyBack = new THREE.Mesh(
-  new THREE.BoxGeometry(0.18, 0.36, 0.38),
-  bodyMat
-);
-bodyBack.position.set(-0.64, 0.55, 0);
-bodyBack.rotation.z = 0.2;
-bike.add(bodyBack);
-
-// Side panel trim accent
-const sidePanelL = new THREE.Mesh(
-  new THREE.BoxGeometry(0.55, 0.06, 0.02),
-  trimMat
-);
-sidePanelL.position.set(-0.3, 0.45, 0.19);
-bike.add(sidePanelL);
-const sidePanelR = sidePanelL.clone();
-sidePanelR.position.z = -0.19;
-bike.add(sidePanelR);
-
-// ---------- SEAT ----------
-const seatBase = new THREE.Mesh(
-  new THREE.BoxGeometry(0.7, 0.08, 0.32),
-  darkMat
-);
-seatBase.position.set(-0.3, 0.79, 0);
-seatBase.castShadow = true;
-bike.add(seatBase);
-
-// Seat hump (rear cushion taller)
-const seatHump = new THREE.Mesh(
-  new THREE.BoxGeometry(0.22, 0.1, 0.3),
-  darkMat
-);
-seatHump.position.set(-0.55, 0.85, 0);
-seatHump.castShadow = true;
-bike.add(seatHump);
-
-// ---------- HANDLEBAR ASSEMBLY ----------
-// Stem (rises from front leg shield)
-const stem = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.04, 0.04, 0.32, 10),
+// Front headlight (big round chrome)
+const headlightHousing = new THREE.Mesh(
+  new THREE.SphereGeometry(0.22, 16, 12),
   chromeMat
 );
-stem.position.set(0.4, 1.12, 0);
-stem.rotation.z = -0.18;
-bike.add(stem);
+headlightHousing.position.set(1.18, 1.0, 0);
+headlightHousing.scale.set(0.65, 1, 1);
+headlightHousing.castShadow = true;
+bike.add(headlightHousing);
 
-// Handlebar (horizontal cylinder across)
-const bar = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.025, 0.025, 0.62, 10),
-  darkMat
+// Headlight glass with glow
+const headlight = new THREE.Mesh(
+  new THREE.CircleGeometry(0.16, 24),
+  new THREE.MeshBasicMaterial({ color: 0xfff8dc })
 );
-bar.position.set(0.38, 1.27, 0);
-bar.rotation.x = Math.PI / 2;
-bar.castShadow = true;
-bike.add(bar);
+headlight.position.set(1.32, 1.0, 0);
+headlight.rotation.y = Math.PI / 2;
+bike.add(headlight);
 
-// Handlebar grips
-function makeGrip(z) {
-  const g = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.04, 0.04, 0.12, 10),
-    darkMat
+// Front mudguard (chrome fender)
+const frontFender = new THREE.Mesh(
+  new THREE.BoxGeometry(0.5, 0.06, 0.32),
+  chromeMat
+);
+frontFender.position.set(1.05, 0.85, 0);
+frontFender.castShadow = true;
+bike.add(frontFender);
+
+// ---------- MAIN FRAME (low-slung tubular frame) ----------
+const mainFrame = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.05, 0.05, 1.8, 10),
+  blackMat
+);
+mainFrame.rotation.z = Math.PI / 2;
+mainFrame.position.set(0, 0.6, 0);
+mainFrame.castShadow = true;
+bike.add(mainFrame);
+
+const lowerFrame = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.04, 0.04, 1.4, 10),
+  blackMat
+);
+lowerFrame.rotation.z = Math.PI / 2;
+lowerFrame.position.set(0, 0.42, 0);
+bike.add(lowerFrame);
+
+// Frame side struts
+for (let z of [0.18, -0.18]) {
+  const strut = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.03, 0.03, 0.4, 8),
+    blackMat
   );
-  g.rotation.x = Math.PI / 2;
-  g.position.set(0.38, 1.27, z);
-  return g;
+  strut.position.set(0.3, 0.55, z);
+  strut.rotation.z = -0.3;
+  bike.add(strut);
 }
-bike.add(makeGrip(0.28));
-bike.add(makeGrip(-0.28));
 
-// Speedometer cluster
-const speedo = new THREE.Mesh(
-  new THREE.BoxGeometry(0.16, 0.1, 0.18),
-  darkMat
+// ---------- FUEL TANK (the signature Harley teardrop shape) ----------
+const tank = new THREE.Mesh(
+  new THREE.SphereGeometry(0.42, 18, 14),
+  tankMat
 );
-speedo.position.set(0.38, 1.18, 0);
+tank.position.set(0.2, 0.92, 0);
+tank.scale.set(1.4, 0.7, 0.85);
+tank.castShadow = true;
+bike.add(tank);
+
+// Gold pinstripe down the tank (classic Harley pinstriping)
+const pinstripe = new THREE.Mesh(
+  new THREE.BoxGeometry(1.0, 0.03, 0.04),
+  new THREE.MeshLambertMaterial({ color: HARLEY_TANK_TRIM, emissive: HARLEY_TANK_TRIM, emissiveIntensity: 0.2 })
+);
+pinstripe.position.set(0.2, 1.05, 0);
+bike.add(pinstripe);
+
+// Tank emblem (gold circle)
+const emblem = new THREE.Mesh(
+  new THREE.CircleGeometry(0.1, 16),
+  new THREE.MeshLambertMaterial({ color: HARLEY_TANK_TRIM, emissive: HARLEY_TANK_TRIM, emissiveIntensity: 0.15 })
+);
+emblem.position.set(0.2, 0.92, 0.34);
+emblem.rotation.y = Math.PI / 2;
+bike.add(emblem);
+
+// ---------- V-TWIN ENGINE (signature Harley engine block) ----------
+const engineBlock = new THREE.Mesh(
+  new THREE.BoxGeometry(0.5, 0.5, 0.5),
+  engineMat
+);
+engineBlock.position.set(-0.05, 0.5, 0);
+engineBlock.castShadow = true;
+bike.add(engineBlock);
+
+// Cylinder 1 (front, angled forward)
+const cylinder1 = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.13, 0.13, 0.45, 12),
+  chromeMat
+);
+cylinder1.position.set(0.05, 0.78, 0);
+cylinder1.rotation.z = -0.35; // V-twin angle
+cylinder1.castShadow = true;
+bike.add(cylinder1);
+
+// Cylinder fins (the heat-dissipating ridges)
+for (let i = 0; i < 6; i++) {
+  const fin = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.16, 0.16, 0.025, 12),
+    chromeMat
+  );
+  fin.position.set(0.05 + i * 0.03 - 0.08, 0.78 - i * 0.06 + 0.18, 0);
+  fin.rotation.z = -0.35;
+  bike.add(fin);
+}
+
+// Cylinder 2 (back, angled rearward)
+const cylinder2 = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.13, 0.13, 0.45, 12),
+  chromeMat
+);
+cylinder2.position.set(-0.18, 0.78, 0);
+cylinder2.rotation.z = 0.35;
+cylinder2.castShadow = true;
+bike.add(cylinder2);
+
+for (let i = 0; i < 6; i++) {
+  const fin = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.16, 0.16, 0.025, 12),
+    chromeMat
+  );
+  fin.position.set(-0.18 - i * 0.03 + 0.08, 0.78 - i * 0.06 + 0.18, 0);
+  fin.rotation.z = 0.35;
+  bike.add(fin);
+}
+
+// ---------- LEATHER SEAT (long, low) ----------
+const seat = new THREE.Mesh(
+  new THREE.BoxGeometry(0.7, 0.12, 0.34),
+  leatherMat
+);
+seat.position.set(-0.55, 0.92, 0);
+seat.castShadow = true;
+bike.add(seat);
+
+// Seat hump (slight backrest)
+const seatBack = new THREE.Mesh(
+  new THREE.BoxGeometry(0.16, 0.18, 0.32),
+  leatherMat
+);
+seatBack.position.set(-0.85, 1.04, 0);
+seatBack.castShadow = true;
+bike.add(seatBack);
+
+// Studded seat trim (chrome studs)
+for (let i = 0; i < 6; i++) {
+  const stud = new THREE.Mesh(
+    new THREE.SphereGeometry(0.025, 8, 6),
+    chromeMat
+  );
+  stud.position.set(-0.3 - i * 0.1, 0.99, 0.17);
+  bike.add(stud);
+  const stud2 = stud.clone();
+  stud2.position.z = -0.17;
+  bike.add(stud2);
+}
+
+// ---------- HANDLEBARS (HIGH and WIDE — ape-hanger style) ----------
+// Vertical stem from front of bike
+const handleStem = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.05, 0.05, 0.6, 10),
+  chromeMat
+);
+handleStem.position.set(0.95, 1.35, 0);
+handleStem.castShadow = true;
+bike.add(handleStem);
+
+// Horizontal handlebar (wide and high)
+const handleBar = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.035, 0.035, 0.95, 12),
+  chromeMat
+);
+handleBar.rotation.x = Math.PI / 2;
+handleBar.position.set(0.95, 1.62, 0);
+handleBar.castShadow = true;
+bike.add(handleBar);
+
+// Vertical risers (the ape-hanger upturn)
+for (let side of [-0.42, 0.42]) {
+  const riser = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.035, 0.035, 0.3, 10),
+    chromeMat
+  );
+  riser.position.set(0.95, 1.7, side);
+  bike.add(riser);
+  // Grip
+  const grip = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.05, 0.05, 0.16, 12),
+    blackMat
+  );
+  grip.position.set(0.95, 1.83, side);
+  bike.add(grip);
+}
+
+// Speedometer cluster on handlebars
+const speedo = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.09, 0.09, 0.12, 16),
+  chromeMat
+);
+speedo.position.set(0.95, 1.5, 0);
+speedo.rotation.x = Math.PI / 2 - 0.5;
 bike.add(speedo);
 
 // Speedo glass face
 const speedoFace = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.06, 0.06, 0.02, 16),
-  new THREE.MeshLambertMaterial({ color: 0x60a5fa, emissive: 0x60a5fa, emissiveIntensity: 0.2 })
+  new THREE.CircleGeometry(0.07, 16),
+  new THREE.MeshBasicMaterial({ color: 0xfafafa })
 );
-speedoFace.rotation.x = Math.PI / 2;
-speedoFace.position.set(0.38, 1.18, 0.1);
+speedoFace.position.set(0.95, 1.5, 0.06);
+speedoFace.rotation.x = -0.5;
 bike.add(speedoFace);
 
-// Side mirrors
+// Mirrors
 function makeMirror(side) {
   const m = new THREE.Group();
   const stalk = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.012, 0.012, 0.18, 6),
+    new THREE.CylinderGeometry(0.015, 0.015, 0.22, 6),
     chromeMat
   );
-  stalk.position.y = 0.09;
+  stalk.position.y = 0.1;
+  stalk.rotation.z = side * 0.3;
   m.add(stalk);
   const head = new THREE.Mesh(
-    new THREE.BoxGeometry(0.12, 0.08, 0.04),
+    new THREE.BoxGeometry(0.16, 0.1, 0.04),
     chromeMat
   );
-  head.position.y = 0.2;
+  head.position.y = 0.22;
+  head.position.x = side * 0.05;
   m.add(head);
-  m.position.set(0.36, 1.3, side * 0.34);
+  m.position.set(0.95, 1.78, side * 0.3);
   return m;
 }
 bike.add(makeMirror(1));
 bike.add(makeMirror(-1));
 
-// ---------- HEADLIGHT ----------
-const headlight = new THREE.Mesh(
-  new THREE.SphereGeometry(0.1, 16, 12),
-  new THREE.MeshLambertMaterial({
-    color: HEADLIGHT,
-    emissive: 0xfff8dc,
-    emissiveIntensity: 0.5
-  })
-);
-headlight.position.set(0.48, 0.92, 0);
-headlight.scale.set(0.6, 1, 1);
-bike.add(headlight);
+// ---------- CHROME EXHAUST PIPES (big, long — Harley signature) ----------
+function makeExhaust(side) {
+  const g = new THREE.Group();
+  // Main pipe
+  const pipe = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.065, 0.065, 1.4, 12),
+    chromeMat
+  );
+  pipe.rotation.z = Math.PI / 2;
+  pipe.position.set(-0.3, 0.32, side * 0.28);
+  pipe.castShadow = true;
+  g.add(pipe);
+  // Muffler (fatter end)
+  const muffler = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.085, 0.085, 0.6, 14),
+    chromeMat
+  );
+  muffler.rotation.z = Math.PI / 2;
+  muffler.position.set(-0.95, 0.32, side * 0.28);
+  muffler.castShadow = true;
+  g.add(muffler);
+  // Exhaust tip
+  const tip = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.09, 0.085, 0.06, 14),
+    blackMat
+  );
+  tip.rotation.z = Math.PI / 2;
+  tip.position.set(-1.27, 0.32, side * 0.28);
+  g.add(tip);
+  return g;
+}
+bike.add(makeExhaust(1));
+bike.add(makeExhaust(-1));
 
-// Headlight rim
-const headlightRim = new THREE.Mesh(
-  new THREE.TorusGeometry(0.11, 0.015, 8, 16),
+// ---------- REAR FENDER & TAIL LIGHT ----------
+const rearFender = new THREE.Mesh(
+  new THREE.BoxGeometry(0.5, 0.06, 0.4),
   chromeMat
 );
-headlightRim.position.set(0.5, 0.92, 0);
-headlightRim.rotation.y = Math.PI / 2;
-bike.add(headlightRim);
+rearFender.position.set(-1.0, 0.78, 0);
+rearFender.castShadow = true;
+bike.add(rearFender);
 
-// ---------- FRONT MUDGUARD ----------
-const mudguard = new THREE.Mesh(
-  new THREE.BoxGeometry(0.22, 0.08, 0.18),
-  bodyMat
+const taillight = new THREE.Mesh(
+  new THREE.SphereGeometry(0.08, 12, 10),
+  new THREE.MeshBasicMaterial({ color: 0xff2d2d })
 );
-mudguard.position.set(0.6, 0.55, 0);
-mudguard.castShadow = true;
-bike.add(mudguard);
+taillight.position.set(-1.2, 0.85, 0);
+taillight.scale.set(0.7, 1, 1);
+bike.add(taillight);
 
-// Front fork
-const forkL = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.022, 0.022, 0.5, 8),
+// Sissy bar (the vertical back rest support)
+const sissyBar = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.025, 0.025, 0.7, 8),
   chromeMat
 );
-forkL.position.set(0.6, 0.5, 0.05);
-forkL.rotation.z = -0.05;
-bike.add(forkL);
-const forkR = forkL.clone();
-forkR.position.z = -0.05;
-bike.add(forkR);
+sissyBar.position.set(-1.05, 1.2, 0);
+sissyBar.rotation.z = -0.15;
+bike.add(sissyBar);
 
-// ---------- REAR LIGHTS & DETAILS ----------
-const tailLight = new THREE.Mesh(
-  new THREE.BoxGeometry(0.04, 0.08, 0.18),
-  new THREE.MeshLambertMaterial({
-    color: 0xdc2626,
-    emissive: 0xdc2626,
-    emissiveIntensity: 0.4
-  })
-);
-tailLight.position.set(-0.73, 0.66, 0);
-bike.add(tailLight);
-
-// Exhaust pipe
-const exhaust = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.04, 0.05, 0.5, 10),
-  chromeMat
-);
-exhaust.position.set(-0.4, 0.28, -0.22);
-exhaust.rotation.z = Math.PI / 2;
-exhaust.castShadow = true;
-bike.add(exhaust);
-
-const exhaustTip = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.055, 0.05, 0.06, 10),
-  darkMat
-);
-exhaustTip.position.set(-0.66, 0.28, -0.22);
-exhaustTip.rotation.z = Math.PI / 2;
-bike.add(exhaustTip);
-
-// Number plate
-const plate = new THREE.Mesh(
-  new THREE.BoxGeometry(0.04, 0.12, 0.18),
-  new THREE.MeshLambertMaterial({ color: 0xfafafa })
-);
-plate.position.set(-0.74, 0.5, 0);
-bike.add(plate);
+// Foot pegs (where rider's feet rest on a Harley)
+function addFootPeg(side) {
+  const peg = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.04, 0.04, 0.12, 8),
+    chromeMat
+  );
+  peg.rotation.z = Math.PI / 2;
+  peg.position.set(0.1, 0.35, side * 0.45);
+  bike.add(peg);
+}
+addFootPeg(1);
+addFootPeg(-1);
 
 // ====================================================
-// THE RIDER (smooth animated character — uses capsules + spheres for soft, character look)
+// THE RIDER (rugged Harley biker — leather jacket, jeans, open-face helmet, sitting on the cruiser)
 // ====================================================
 const rider = new THREE.Group();
 
-// Color palette for rider
+// Color palette for the biker
 const SKIN = 0xd4a87a;
-const HELMET_DARK = 0x1e3a8a;   // Navy helmet matches scooter
-const HELMET_HIGHLIGHT = 0x2563eb;
-const VISOR = 0x0f172a;
-const JACKET = 0x334155;        // Smart charcoal jacket
-const JACKET_TRIM = 0x60a5fa;   // Bright blue trim
-const PANTS = 0x1e293b;
-const SHOES = 0x0f172a;
-const GLOVES = 0x171717;
+const HELMET_COLOR = 0x171717;        // Black helmet
+const HELMET_TRIM = 0xfacc15;          // Gold trim (matches bike pinstripe)
+const SUNGLASSES = 0x0a0a0a;
+const JACKET = 0x1a1a1a;               // Black leather jacket
+const JACKET_TRIM = 0xfacc15;          // Gold zipper detail
+const JEANS = 0x1e3a5f;                // Dark blue jeans
+const BOOTS = 0x2a1810;                // Brown leather boots
+const GLOVES = 0x0f0f0f;               // Black leather gloves
 
-const pantsMat = new THREE.MeshLambertMaterial({ color: PANTS });
+const pantsMat = new THREE.MeshLambertMaterial({ color: JEANS });
 const jacketMat = new THREE.MeshLambertMaterial({ color: JACKET });
 const skinMat = new THREE.MeshLambertMaterial({ color: SKIN });
 const gloveMat = new THREE.MeshLambertMaterial({ color: GLOVES });
-const shoeMat = new THREE.MeshLambertMaterial({ color: SHOES });
+const bootsMat = new THREE.MeshLambertMaterial({ color: BOOTS });
 
-// Helper: create a smooth "capsule" limb (cylinder + sphere caps) as a single Group
+// Helper: smooth capsule limb
 function makeCapsule(length, radius, mat) {
   const g = new THREE.Group();
   const body = new THREE.Mesh(
@@ -1245,239 +1735,281 @@ function makeCapsule(length, radius, mat) {
   return g;
 }
 
-// ---------- HIPS (smooth ellipsoid) ----------
+// ---------- HIPS (sitting on the leather seat) ----------
 const hips = new THREE.Mesh(
-  new THREE.SphereGeometry(0.18, 16, 12),
+  new THREE.SphereGeometry(0.2, 16, 12),
   pantsMat
 );
-hips.position.set(-0.38, 0.92, 0);
-hips.scale.set(1.2, 0.7, 1.1);
+hips.position.set(-0.6, 1.05, 0);
+hips.scale.set(1.3, 0.65, 1.1);
 hips.castShadow = true;
 rider.add(hips);
 
-// ---------- TORSO (smooth tapered body) ----------
+// ---------- TORSO (leather jacket — broader, masculine build) ----------
 const torsoGroup = new THREE.Group();
 const torsoBody = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.14, 0.17, 0.42, 16),
+  new THREE.CylinderGeometry(0.18, 0.22, 0.48, 16),
   jacketMat
 );
 torsoBody.castShadow = true;
 torsoGroup.add(torsoBody);
 
-// Chest sphere on top for smooth shoulders
-const chest = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 12), jacketMat);
-chest.position.y = 0.18;
-chest.scale.set(1.15, 0.7, 1);
+// Broader chest sphere — masculine build
+const chest = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 12), jacketMat);
+chest.position.y = 0.22;
+chest.scale.set(1.3, 0.75, 1.1);
 chest.castShadow = true;
 torsoGroup.add(chest);
 
-torsoGroup.position.set(-0.3, 1.18, 0);
-torsoGroup.rotation.z = -0.22; // Forward lean
+// Leather jacket lapel/collar
+const collar = new THREE.Mesh(
+  new THREE.TorusGeometry(0.18, 0.04, 8, 16, Math.PI),
+  jacketMat
+);
+collar.position.set(0, 0.34, 0);
+collar.rotation.x = Math.PI / 2;
+torsoGroup.add(collar);
+
+torsoGroup.position.set(-0.5, 1.4, 0);
+torsoGroup.rotation.z = -0.15; // Relaxed forward lean (cruiser posture)
 rider.add(torsoGroup);
 
-// Bright blue jacket zipper (visible from front)
+// Gold zipper down the jacket
 const jacketZip = new THREE.Mesh(
-  new THREE.BoxGeometry(0.025, 0.4, 0.018),
-  new THREE.MeshLambertMaterial({ color: JACKET_TRIM, emissive: JACKET_TRIM, emissiveIntensity: 0.2 })
+  new THREE.BoxGeometry(0.025, 0.45, 0.02),
+  new THREE.MeshLambertMaterial({ color: JACKET_TRIM, emissive: JACKET_TRIM, emissiveIntensity: 0.25 })
 );
-jacketZip.position.set(-0.18, 1.18, 0);
-jacketZip.rotation.z = -0.22;
+jacketZip.position.set(-0.4, 1.4, 0);
+jacketZip.rotation.z = -0.15;
 rider.add(jacketZip);
 
-// ---------- LEG: THIGH (angled forward) ----------
+// ---------- LEGS (forward to foot pegs, x=0.1 z=±0.45) ----------
+// Thigh angles forward from hip (-0.6, 0.9) to knee (-0.1, 0.55, 0.35)
 function makeThigh(zSide) {
-  const g = makeCapsule(0.36, 0.075, pantsMat);
-  g.position.set(-0.18, 0.78, zSide);
-  g.rotation.z = Math.PI / 2 - 0.4; // Angled forward to floorboard
+  const g = makeCapsule(0.45, 0.085, pantsMat);
+  g.position.set(-0.35, 0.85, zSide);
+  g.rotation.z = Math.PI / 2 - 0.6; // angled forward
+  g.rotation.y = -zSide * 0.4; // splay outward to wider foot pegs
   return g;
 }
-const thighL = makeThigh(0.12);
-const thighR = makeThigh(-0.12);
+const thighL = makeThigh(0.2);
+const thighR = makeThigh(-0.2);
 rider.add(thighL);
 rider.add(thighR);
 
-// ---------- KNEE JOINTS ----------
-const kneeGeo = new THREE.SphereGeometry(0.08, 12, 10);
+// Knees
+const kneeGeo = new THREE.SphereGeometry(0.09, 12, 10);
 const kneeL = new THREE.Mesh(kneeGeo, pantsMat);
-kneeL.position.set(0.05, 0.65, 0.13);
+kneeL.position.set(-0.05, 0.65, 0.34);
 kneeL.castShadow = true;
 rider.add(kneeL);
 const kneeR = new THREE.Mesh(kneeGeo, pantsMat);
-kneeR.position.set(0.05, 0.65, -0.13);
+kneeR.position.set(-0.05, 0.65, -0.34);
 kneeR.castShadow = true;
 rider.add(kneeR);
 
-// ---------- LEG: CALF (vertical down to footrest) ----------
+// Calves
 function makeCalf(zSide) {
-  const g = makeCapsule(0.36, 0.065, pantsMat);
-  g.position.set(0.05, 0.5, zSide);
-  g.rotation.z = 0.06;
+  const g = makeCapsule(0.42, 0.07, pantsMat);
+  g.position.set(0.03, 0.5, zSide);
+  g.rotation.z = 0.1;
   return g;
 }
-const calfL = makeCalf(0.13);
-const calfR = makeCalf(-0.13);
+const calfL = makeCalf(0.4);
+const calfR = makeCalf(-0.4);
 rider.add(calfL);
 rider.add(calfR);
 
-// ---------- FEET (rounded shoes) ----------
-function makeShoe(zSide) {
+// ---------- BOOTS (heavy leather riding boots on foot pegs) ----------
+function makeBoot(zSide) {
   const g = new THREE.Group();
   const sole = new THREE.Mesh(
-    new THREE.BoxGeometry(0.16, 0.04, 0.09),
-    shoeMat
+    new THREE.BoxGeometry(0.22, 0.05, 0.11),
+    bootsMat
   );
   sole.castShadow = true;
   g.add(sole);
-  // Toe cap (rounded)
-  const toe = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 8), shoeMat);
-  toe.position.set(0.07, 0.005, 0);
-  toe.scale.set(1, 0.7, 0.95);
-  g.add(toe);
-  // Heel
-  const heel = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 8), shoeMat);
-  heel.position.set(-0.07, 0.005, 0);
-  heel.scale.set(1, 0.7, 0.95);
-  g.add(heel);
-  // Top of shoe (laces area)
-  const top = new THREE.Mesh(
-    new THREE.SphereGeometry(0.05, 10, 8),
-    shoeMat
+  // Boot body — tall (above ankle)
+  const boot = new THREE.Mesh(
+    new THREE.BoxGeometry(0.18, 0.22, 0.1),
+    bootsMat
   );
-  top.position.set(0, 0.035, 0);
-  top.scale.set(2.4, 0.7, 1);
-  g.add(top);
-  g.position.set(0.12, 0.28, zSide);
+  boot.position.y = 0.13;
+  boot.castShadow = true;
+  g.add(boot);
+  // Toe
+  const toe = new THREE.Mesh(new THREE.SphereGeometry(0.06, 10, 8), bootsMat);
+  toe.position.set(0.1, 0.02, 0);
+  toe.scale.set(1, 0.8, 1);
+  g.add(toe);
+  // Heel (rounded)
+  const heel = new THREE.Mesh(new THREE.SphereGeometry(0.06, 10, 8), bootsMat);
+  heel.position.set(-0.1, 0.02, 0);
+  heel.scale.set(1, 0.8, 1);
+  g.add(heel);
+  g.position.set(0.1, 0.42, zSide);
   return g;
 }
-const footL = makeShoe(0.13);
-const footR = makeShoe(-0.13);
+const footL = makeBoot(0.45);
+const footR = makeBoot(-0.45);
 rider.add(footL);
 rider.add(footR);
 
-// ---------- SHOULDERS ----------
-const shoulderGeo = new THREE.SphereGeometry(0.085, 14, 10);
+// ---------- SHOULDERS (broad, leather jacket) ----------
+const shoulderGeo = new THREE.SphereGeometry(0.11, 14, 10);
 const shoulderL = new THREE.Mesh(shoulderGeo, jacketMat);
-shoulderL.position.set(-0.18, 1.4, 0.2);
+shoulderL.position.set(-0.42, 1.68, 0.28);
 shoulderL.castShadow = true;
 rider.add(shoulderL);
 const shoulderR = new THREE.Mesh(shoulderGeo, jacketMat);
-shoulderR.position.set(-0.18, 1.4, -0.2);
+shoulderR.position.set(-0.42, 1.68, -0.28);
 shoulderR.castShadow = true;
 rider.add(shoulderR);
 
-// ---------- UPPER ARMS (smooth capsules, angled to handlebars) ----------
+// ---------- ARMS (reaching forward and UP to the high ape-hanger bars) ----------
+// Hands go to grips at (0.95, 1.83, ±0.42), so arms reach forward and slightly up
 function makeUpperArm(zSide) {
-  const g = makeCapsule(0.3, 0.058, jacketMat);
-  g.position.set(-0.1, 1.28, zSide);
-  g.rotation.z = Math.PI / 2 - 0.55;
+  const g = makeCapsule(0.38, 0.07, jacketMat);
+  // Position: from shoulder to elbow
+  g.position.set(-0.18, 1.65, zSide * 0.32);
+  g.rotation.z = Math.PI / 2 - 0.55; // angled forward
   return g;
 }
-const upperArmL = makeUpperArm(0.2);
-const upperArmR = makeUpperArm(-0.2);
+const upperArmL = makeUpperArm(1);
+const upperArmR = makeUpperArm(-1);
 rider.add(upperArmL);
 rider.add(upperArmR);
 
-// ---------- ELBOW JOINTS ----------
-const elbowL = new THREE.Mesh(new THREE.SphereGeometry(0.065, 12, 10), jacketMat);
-elbowL.position.set(0.0, 1.14, 0.22);
+// Elbow joints
+const elbowL = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 10), jacketMat);
+elbowL.position.set(0.1, 1.55, 0.38);
 elbowL.castShadow = true;
 rider.add(elbowL);
-const elbowR = new THREE.Mesh(new THREE.SphereGeometry(0.065, 12, 10), jacketMat);
-elbowR.position.set(0.0, 1.14, -0.22);
+const elbowR = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 10), jacketMat);
+elbowR.position.set(0.1, 1.55, -0.38);
 elbowR.castShadow = true;
 rider.add(elbowR);
 
-// ---------- FOREARMS (smooth capsules to grips) ----------
+// Forearms (from elbow up to grips)
 function makeForearm(zSide) {
-  const g = makeCapsule(0.3, 0.052, jacketMat);
-  g.position.set(0.16, 1.22, zSide);
-  g.rotation.z = Math.PI / 2 - 0.2;
+  const g = makeCapsule(0.42, 0.062, jacketMat);
+  g.position.set(0.5, 1.68, zSide);
+  g.rotation.z = Math.PI / 2 - 0.4; // angled forward and up to grip
   return g;
 }
-const forearmL = makeForearm(0.24);
-const forearmR = makeForearm(-0.24);
+const forearmL = makeForearm(0.4);
+const forearmR = makeForearm(-0.4);
 rider.add(forearmL);
 rider.add(forearmR);
 
-// ---------- GLOVED HANDS (rounded, gripping handles) ----------
+// ---------- GLOVED HANDS (gripping the handlebars) ----------
 function makeHand(zSide) {
   const g = new THREE.Group();
   const palm = new THREE.Mesh(
-    new THREE.SphereGeometry(0.06, 12, 10),
+    new THREE.SphereGeometry(0.075, 12, 10),
     gloveMat
   );
-  palm.scale.set(1.3, 0.8, 1);
+  palm.scale.set(1.3, 0.9, 1);
   palm.castShadow = true;
   g.add(palm);
-  // Knuckles cap
+  // Closed fist around grip
   const knuckles = new THREE.Mesh(
-    new THREE.SphereGeometry(0.04, 10, 8),
+    new THREE.BoxGeometry(0.13, 0.09, 0.07),
     gloveMat
   );
-  knuckles.position.set(0.06, 0.02, 0);
-  knuckles.scale.set(1.2, 0.6, 1.1);
+  knuckles.position.set(0.04, 0.04, 0);
+  knuckles.castShadow = true;
   g.add(knuckles);
-  g.position.set(0.36, 1.26, zSide);
+  g.position.set(0.95, 1.83, zSide);
   return g;
 }
-const handL = makeHand(0.27);
-const handR = makeHand(-0.27);
+const handL = makeHand(0.42);
+const handR = makeHand(-0.42);
 rider.add(handL);
 rider.add(handR);
 
 // ---------- NECK ----------
 const neck = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.052, 0.062, 0.1, 12),
+  new THREE.CylinderGeometry(0.065, 0.075, 0.13, 12),
   skinMat
 );
-neck.position.set(-0.26, 1.44, 0);
+neck.position.set(-0.48, 1.78, 0);
 neck.castShadow = true;
 rider.add(neck);
 
-// ---------- HEAD GROUP (helmet + visor — animates as one) ----------
+// ---------- HEAD GROUP (open-face helmet with sunglasses — Harley biker look) ----------
 const headGroup = new THREE.Group();
-headGroup.position.set(-0.24, 1.6, 0);
+headGroup.position.set(-0.48, 1.95, 0);
 
-// Main helmet shell — smoother, slightly egg-shaped
-const helmetShell = new THREE.Mesh(
-  new THREE.SphereGeometry(0.17, 24, 20),
-  new THREE.MeshLambertMaterial({ color: HELMET_DARK })
+// Skin face (visible since open-face helmet)
+const face = new THREE.Mesh(
+  new THREE.SphereGeometry(0.18, 18, 16),
+  skinMat
 );
-helmetShell.scale.set(1, 1.1, 1);
-helmetShell.castShadow = true;
-headGroup.add(helmetShell);
+face.scale.set(1, 1.05, 1);
+face.castShadow = true;
+headGroup.add(face);
 
-// Helmet front extension (chin/jaw guard for full-face look)
-const chinGuard = new THREE.Mesh(
-  new THREE.SphereGeometry(0.16, 20, 16),
-  new THREE.MeshLambertMaterial({ color: HELMET_DARK })
+// HALF HELMET (open-face — the classic Harley shorty helmet)
+const halfHelmet = new THREE.Mesh(
+  new THREE.SphereGeometry(0.2, 20, 16, 0, Math.PI * 2, 0, Math.PI / 2),
+  new THREE.MeshLambertMaterial({ color: HELMET_COLOR })
 );
-chinGuard.position.set(0.035, -0.04, 0);
-chinGuard.scale.set(1.08, 0.85, 1.05);
-chinGuard.castShadow = true;
-headGroup.add(chinGuard);
+halfHelmet.position.set(0.02, 0.04, 0);
+halfHelmet.scale.set(1.05, 1, 1.05);
+halfHelmet.castShadow = true;
+headGroup.add(halfHelmet);
 
-// Visor — wider tinted strip across the front
-const visorGeo = new THREE.SphereGeometry(0.175, 24, 16, 0, Math.PI * 2, Math.PI * 0.28, Math.PI * 0.24);
-const visor = new THREE.Mesh(
-  visorGeo,
+// Gold pinstripe around helmet edge (matches bike's gold trim)
+const helmetStripe = new THREE.Mesh(
+  new THREE.TorusGeometry(0.21, 0.015, 8, 32),
   new THREE.MeshLambertMaterial({
-    color: VISOR,
-    emissive: 0x60a5fa,
+    color: HELMET_TRIM,
+    emissive: HELMET_TRIM,
     emissiveIntensity: 0.25
   })
 );
-visor.scale.set(1.02, 1.1, 1.02);
-headGroup.add(visor);
-
-// Helmet accent stripe (the bright blue trim down the center)
-const helmetStripe = new THREE.Mesh(
-  new THREE.BoxGeometry(0.34, 0.04, 0.06),
-  new THREE.MeshLambertMaterial({ color: HELMET_HIGHLIGHT, emissive: HELMET_HIGHLIGHT, emissiveIntensity: 0.2 })
-);
-helmetStripe.position.set(0, 0.13, 0);
-helmetStripe.rotation.z = Math.PI / 2;
+helmetStripe.position.set(0.02, 0.04, 0);
+helmetStripe.scale.set(1.05, 1, 1.05);
+helmetStripe.rotation.x = Math.PI / 2;
 headGroup.add(helmetStripe);
+
+// SUNGLASSES (signature biker look — black aviators)
+// Frame
+const sunglasses = new THREE.Mesh(
+  new THREE.BoxGeometry(0.3, 0.06, 0.04),
+  new THREE.MeshLambertMaterial({ color: SUNGLASSES })
+);
+sunglasses.position.set(0.16, 0.0, 0);
+headGroup.add(sunglasses);
+
+// Left lens
+const lensL = new THREE.Mesh(
+  new THREE.SphereGeometry(0.07, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2),
+  new THREE.MeshLambertMaterial({
+    color: 0x0a0a0a,
+    emissive: 0x1e3a8a,
+    emissiveIntensity: 0.15
+  })
+);
+lensL.position.set(0.17, 0.0, 0.08);
+lensL.rotation.x = Math.PI / 2;
+lensL.scale.set(1, 0.4, 1);
+headGroup.add(lensL);
+
+// Right lens
+const lensR = lensL.clone();
+lensR.position.set(0.17, 0.0, -0.08);
+headGroup.add(lensR);
+
+// Mustache/beard hint (small dark patch on lower face — biker style)
+const beard = new THREE.Mesh(
+  new THREE.SphereGeometry(0.1, 12, 10),
+  new THREE.MeshLambertMaterial({ color: 0x2a1810 })
+);
+beard.position.set(0.12, -0.1, 0);
+beard.scale.set(1, 0.5, 1.1);
+headGroup.add(beard);
 
 rider.add(headGroup);
 
@@ -1491,8 +2023,10 @@ const riderParts = {
   thighL, thighR, calfL, calfR, footL, footR,
   upperArmL, upperArmR, forearmL, forearmR,
   elbowL, elbowR, kneeL, kneeR,
-  baseY: { hips: 0.92, torsoY: 1.18, headY: 1.6 }
+  baseY: { hips: 1.05, torsoY: 1.4, headY: 1.95 }
 };
+
+
 
 // ====================================================
 // CAMERA — follow bike
@@ -1520,20 +2054,21 @@ function updateBikePosition(delta) {
   wheelF.rotation.z -= 0.1 + movement * 0.3;
   wheelB.rotation.z -= 0.1 + movement * 0.3;
 
-  // Camera follows (with mouse parallax offset baked in)
+  // Camera follows the Harley from behind and above (cinematic biker chase shot)
   const tangentDir = curve.getTangentAt(currentT).normalize();
-  const behind = tangentDir.clone().multiplyScalar(-5);
-  const parallaxX = mouse.x * 1.5;
-  const parallaxY = -mouse.y * 0.8;
+  const behind = tangentDir.clone().multiplyScalar(-7);
+  const sideways = new THREE.Vector3().crossVectors(tangentDir, new THREE.Vector3(0, 1, 0)).normalize();
+  const parallaxX = mouse.x * 2;
+  const parallaxY = -mouse.y * 1.2;
   const targetCamPos = new THREE.Vector3(
-    pos.x + behind.x + parallaxX,
-    pos.y + 3.5 + parallaxY,
-    pos.z + behind.z
+    pos.x + behind.x + sideways.x * 1.5 + parallaxX,
+    pos.y + 4.5 + parallaxY,
+    pos.z + behind.z + sideways.z * 1.5
   );
   camera.position.lerp(targetCamPos, 0.06);
 
-  const lookAhead = curve.getPointAt(Math.min(currentT + 0.05, 1));
-  camera.lookAt(lookAhead.x + parallaxX * 0.3, 1.0, lookAhead.z);
+  const lookAhead = curve.getPointAt(Math.min(currentT + 0.04, 1));
+  camera.lookAt(lookAhead.x + parallaxX * 0.3, 1.5, lookAhead.z);
 }
 
 // ====================================================
