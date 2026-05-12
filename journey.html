@@ -341,7 +341,7 @@ padding: 1.2rem;
   <div class="info-tags" id="infoTags"></div>
 </div>
 
-<div class="hint">↑ Click a milestone above to ride there</div>
+<div class="hint">↑ Click milestone to ride · Click bike for 360° view</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -530,16 +530,16 @@ scene.add(grid);
 // ====================================================
 const pathPoints = [
   new THREE.Vector3(0, 0, 0),       // Start
-  new THREE.Vector3(10, 0, 0),      // Milestone 0: DRDO — Chennai area
-  new THREE.Vector3(20, 0, 0),      // Milestone 1: Cognizant — Bangalore
-  new THREE.Vector3(30, 0, 0),      // Milestone 2: Johnson Controls — Pune entry
-  new THREE.Vector3(40, 0, 0),      // Milestone 3: PTC Associate — Pune
-  new THREE.Vector3(50, 0, 0),      // Milestone 4: PTC Specialist — Pune
+  new THREE.Vector3(10, 0, -2),     // Milestone 0: DRDO — Chennai (gentle left curve)
+  new THREE.Vector3(20, 0, 1.5),    // Milestone 1: Cognizant — Bangalore (back right)
+  new THREE.Vector3(30, 0, -1.5),   // Milestone 2: Johnson Controls — entering Pune
+  new THREE.Vector3(40, 0, 2),      // Milestone 3: PTC Associate — Pune
+  new THREE.Vector3(50, 0, -1),     // Milestone 4: PTC Specialist — Pune
   new THREE.Vector3(60, 0, 0)       // End buffer
 ];
 
-// Straight highway — bike runs in a perfectly straight line
-const curve = new THREE.CatmullRomCurve3(pathPoints, false, 'catmullrom', 0);
+// Gentle highway curves (tension 0.3 = smooth banks, not sharp turns)
+const curve = new THREE.CatmullRomCurve3(pathPoints, false, 'catmullrom', 0.3);
 
 // Build a flat road geometry along the curve
 const ROAD_WIDTH = 2.2;
@@ -625,35 +625,66 @@ function buildMilestone(t, index, data) {
   base.castShadow = true;
   group.add(base);
 
-  // Sign board with company name baked into the FRONT and BACK faces (no z-fighting)
+  // Sign board — CURVED billboard (cylinder segment, like real highway signs)
   const tex = makeCompanySignTexture(data.name, data.year, index + 1);
-  const whiteMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
-  const faceMat = new THREE.MeshLambertMaterial({ map: tex });
+  const faceMat = new THREE.MeshLambertMaterial({ map: tex, side: THREE.DoubleSide });
 
-  // BoxGeometry face order: [+X, -X, +Y, -Y, +Z, -Z]
-  // We want the texture on +Z (front) and -Z (back), white sides on the rest
-  const signGeo = new THREE.BoxGeometry(2.4, 1.1, 0.12);
-  const sign = new THREE.Mesh(signGeo, [
-    whiteMat, whiteMat, // left/right sides
-    whiteMat, whiteMat, // top/bottom
-    faceMat,            // FRONT (+Z) — company name shown
-    faceMat             // BACK (-Z) — same name, also readable
-  ]);
+  // Curved sign: a cylinder segment subtending 60° of arc, radius 2.4, height 1.1
+  const SIGN_RADIUS = 2.4;
+  const SIGN_ARC = Math.PI / 3; // 60 degrees of arc
+  const SIGN_HEIGHT = 1.1;
+
+  // Build curved sign with explicit UV coordinates so the texture wraps right
+  const signGeo = new THREE.CylinderGeometry(
+    SIGN_RADIUS, SIGN_RADIUS,
+    SIGN_HEIGHT,
+    32, 1,
+    true,                                // open-ended (no top/bottom caps)
+    -SIGN_ARC / 2,                       // theta start (centered)
+    SIGN_ARC                             // theta length
+  );
+  const sign = new THREE.Mesh(signGeo, faceMat);
   sign.position.y = 2.6;
   sign.castShadow = true;
   group.add(sign);
 
-  // Sign border (navy frame, slightly behind so it forms a frame around the sign)
-  const borderGeo = new THREE.BoxGeometry(2.6, 1.3, 0.06);
-  const borderMat = new THREE.MeshLambertMaterial({ color: 0x1e3a8a });
-  const border = new THREE.Mesh(borderGeo, borderMat);
-  border.position.y = 2.6;
-  border.position.z = 0;
-  group.add(border);
+  // Curved navy frame BEHIND the sign (slightly bigger radius and arc to form a border)
+  const FRAME_OUT = SIGN_RADIUS + 0.05;
+  const FRAME_HEIGHT = SIGN_HEIGHT + 0.15;
+  const frameGeo = new THREE.CylinderGeometry(
+    FRAME_OUT, FRAME_OUT,
+    FRAME_HEIGHT,
+    32, 1, true,
+    -(SIGN_ARC + 0.06) / 2,
+    SIGN_ARC + 0.06
+  );
+  const frameMat = new THREE.MeshLambertMaterial({
+    color: 0x1e3a8a,
+    side: THREE.DoubleSide
+  });
+  const frame = new THREE.Mesh(frameGeo, frameMat);
+  frame.position.y = 2.6;
+  group.add(frame);
 
-  // Make the whole sign face the road (turn slightly toward the bike's path)
+  // Two support struts running from post to back of sign
+  for (let side of [-1, 1]) {
+    const strut = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.03, 0.03, 0.5, 6),
+      new THREE.MeshLambertMaterial({ color: 0x1e3a8a })
+    );
+    // Position behind the curved sign, angled
+    strut.position.set(-0.4, 2.6 + side * 0.4, 0);
+    strut.rotation.z = side * Math.PI / 4;
+    group.add(strut);
+  }
+
+  // The cylinder geometry is centered around its own Y-axis;
+  // we need to orient the sign to face the road (the CONVEX side faces outward toward viewers)
   const lookTarget = pos.clone();
   group.lookAt(lookTarget.x, group.position.y, lookTarget.z);
+  // Cylinder default opens facing +Z, but our lookAt orients -Z toward target.
+  // We want the convex/curve to face the road, so rotate 180 if needed
+  group.rotateY(Math.PI);
 
   // Glow ring at base (pulses when active)
   const ringGeo = new THREE.RingGeometry(0.8, 1.1, 32);
@@ -703,22 +734,29 @@ function makeCompanySignTexture(name, year, num) {
   ctx.textBaseline = 'middle';
   ctx.fillText(num.toString(), 85, 88);
 
-  // Company name (main)
+  // Company name (main) — auto-shrink to fit, measured by actual pixel width
   ctx.fillStyle = '#0a0a0a';
-  ctx.font = 'bold 90px Manrope, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  // Truncate very long names for the sign
-  let displayName = name;
-  if (displayName.length > 18) {
-    ctx.font = 'bold 68px Manrope, sans-serif';
+  const maxNameWidth = c.width - 200; // leave padding on both sides
+  let nameFontSize = 100;
+  ctx.font = `bold ${nameFontSize}px Manrope, sans-serif`;
+  while (ctx.measureText(name).width > maxNameWidth && nameFontSize > 40) {
+    nameFontSize -= 4;
+    ctx.font = `bold ${nameFontSize}px Manrope, sans-serif`;
   }
-  ctx.fillText(displayName, c.width / 2, c.height / 2 - 10);
+  ctx.fillText(name, c.width / 2, c.height / 2 - 10);
 
-  // Year (subtitle)
+  // Year (subtitle) — also auto-shrink for long date ranges
   ctx.fillStyle = '#1e3a8a';
-  ctx.font = '600 38px JetBrains Mono, monospace';
-  ctx.fillText(year, c.width / 2, c.height / 2 + 75);
+  const maxYearWidth = c.width - 160;
+  let yearFontSize = 44;
+  ctx.font = `600 ${yearFontSize}px JetBrains Mono, monospace`;
+  while (ctx.measureText(year).width > maxYearWidth && yearFontSize > 22) {
+    yearFontSize -= 2;
+    ctx.font = `600 ${yearFontSize}px JetBrains Mono, monospace`;
+  }
+  ctx.fillText(year, c.width / 2, c.height / 2 + 80);
 
   const tex = new THREE.CanvasTexture(c);
   tex.minFilter = THREE.LinearFilter;
@@ -1073,42 +1111,74 @@ function makeCitySign(x, cityName) {
     post.castShadow = true;
     g.add(post);
   }
-  // Banner across the top
+
+  // Banner — wider canvas to match the wider banner geometry (8:1.2 ratio)
   const canvas = document.createElement('canvas');
-  canvas.width = 1024; canvas.height = 200;
+  canvas.width = 1600;
+  canvas.height = 280;
   const ctx = canvas.getContext('2d');
-  // Background
+
+  // Navy gradient background
   const grad = ctx.createLinearGradient(0, 0, canvas.width, 0);
   grad.addColorStop(0, '#1e3a8a');
   grad.addColorStop(1, '#2563eb');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  // White inset
+
+  // Gold inner border (highway sign style)
+  ctx.strokeStyle = '#facc15';
+  ctx.lineWidth = 6;
+  ctx.strokeRect(18, 18, canvas.width - 36, canvas.height - 36);
+
+  // White inset panel
   ctx.fillStyle = '#ffffff';
-  ctx.fillRect(20, 20, canvas.width - 40, canvas.height - 40);
-  // City name
+  ctx.fillRect(36, 36, canvas.width - 72, canvas.height - 72);
+
+  // "WELCOME TO" — small, top line
   ctx.fillStyle = '#1e3a8a';
-  ctx.font = 'bold 110px Manrope, sans-serif';
+  ctx.font = '600 60px Manrope, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('WELCOME TO ' + cityName, canvas.width / 2, canvas.height / 2);
+  ctx.fillText('WELCOME TO', canvas.width / 2, 90);
+
+  // City name — BIG, auto-sized to fit the canvas width
+  let fontSize = 150;
+  ctx.font = `bold ${fontSize}px Manrope, sans-serif`;
+  const maxWidth = canvas.width - 120;
+  while (ctx.measureText(cityName).width > maxWidth && fontSize > 60) {
+    fontSize -= 5;
+    ctx.font = `bold ${fontSize}px Manrope, sans-serif`;
+  }
+  ctx.fillStyle = '#dc2626'; // Red for emphasis (like highway signs)
+  ctx.fillText(cityName, canvas.width / 2, 195);
+
   const tex = new THREE.CanvasTexture(canvas);
   tex.minFilter = THREE.LinearFilter;
+  tex.magFilter = THREE.LinearFilter;
+  tex.anisotropy = 4;
+
+  // Banner — wider and taller to match the new canvas proportions
+  const navyMat = new THREE.MeshLambertMaterial({ color: 0x1e3a8a });
+  const faceMat = new THREE.MeshLambertMaterial({ map: tex });
   const banner = new THREE.Mesh(
-    new THREE.BoxGeometry(7.5, 1.0, 0.1),
-    [
-      new THREE.MeshLambertMaterial({ color: 0x1e3a8a }),
-      new THREE.MeshLambertMaterial({ color: 0x1e3a8a }),
-      new THREE.MeshLambertMaterial({ color: 0x1e3a8a }),
-      new THREE.MeshLambertMaterial({ color: 0x1e3a8a }),
-      new THREE.MeshLambertMaterial({ map: tex }),
-      new THREE.MeshLambertMaterial({ map: tex })
-    ]
+    new THREE.BoxGeometry(8.5, 1.5, 0.12),
+    [navyMat, navyMat, navyMat, navyMat, faceMat, faceMat]
   );
   banner.position.set(0, 3.8, 0);
   banner.rotation.y = Math.PI / 2;
   banner.castShadow = true;
   g.add(banner);
+
+  // Gold trim strip across the bottom of the banner (highway look)
+  const trimGeo = new THREE.BoxGeometry(8.5, 0.08, 0.14);
+  const trim = new THREE.Mesh(
+    trimGeo,
+    new THREE.MeshLambertMaterial({ color: 0xfacc15, emissive: 0xfacc15, emissiveIntensity: 0.2 })
+  );
+  trim.position.set(0, 3.0, 0);
+  trim.rotation.y = Math.PI / 2;
+  g.add(trim);
+
   g.position.set(x, 0, 0);
   scene.add(g);
 }
@@ -2035,6 +2105,13 @@ let currentT = 0;
 let targetT = 0;
 const cameraOffset = new THREE.Vector3(-4, 3.2, 4.5);
 
+// Camera modes: 'follow' (normal chase camera) or 'orbit' (360° around bike when clicked)
+let cameraMode = 'follow';
+let orbitAngle = 0;
+let orbitSpeed = 0.006;
+let orbitRadius = 3.5;
+let orbitHeight = 1.8;
+
 function updateBikePosition(delta) {
   // Ease toward target
   const lerpSpeed = 0.04;
@@ -2054,7 +2131,18 @@ function updateBikePosition(delta) {
   wheelF.rotation.z -= 0.1 + movement * 0.3;
   wheelB.rotation.z -= 0.1 + movement * 0.3;
 
-  // Camera follows the Harley from behind and above (cinematic biker chase shot)
+  // ===== CAMERA: orbit mode (360° around bike) =====
+  if (cameraMode === 'orbit') {
+    orbitAngle += orbitSpeed;
+    const camX = pos.x + Math.cos(orbitAngle) * orbitRadius;
+    const camZ = pos.z + Math.sin(orbitAngle) * orbitRadius;
+    const targetCamPos = new THREE.Vector3(camX, pos.y + orbitHeight, camZ);
+    camera.position.lerp(targetCamPos, 0.08);
+    camera.lookAt(pos.x, 1.2, pos.z);
+    return;
+  }
+
+  // ===== CAMERA: normal follow mode =====
   const tangentDir = curve.getTangentAt(currentT).normalize();
   const behind = tangentDir.clone().multiplyScalar(-7);
   const sideways = new THREE.Vector3().crossVectors(tangentDir, new THREE.Vector3(0, 1, 0)).normalize();
@@ -2079,6 +2167,11 @@ let activeMilestone = -1;
 function rideTo(index) {
   targetT = milestoneT[index];
   activeMilestone = index;
+
+  // If currently in 360° orbit view, return to follow mode so user sees the journey
+  if (cameraMode === 'orbit') {
+    setOrbitMode(false);
+  }
 
   // Update button states
   document.querySelectorAll('.milestone-btn').forEach((btn, i) => {
@@ -2204,6 +2297,103 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ====================================================
+// CLICK BIKE → 360° ORBIT VIEW
+// ====================================================
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+function setOrbitMode(on) {
+  cameraMode = on ? 'orbit' : 'follow';
+  if (on) {
+    orbitAngle = 0; // start orbit from front of bike
+    showOrbitHint();
+  } else {
+    hideOrbitHint();
+  }
+}
+
+// Show a small banner when in orbit mode telling user how to exit
+function showOrbitHint() {
+  let el = document.getElementById('orbitHint');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'orbitHint';
+    el.style.cssText = `
+      position: fixed; bottom: 6rem; left: 50%; transform: translateX(-50%);
+      background: rgba(30, 58, 138, 0.95); color: white; padding: 0.7rem 1.4rem;
+      border-radius: 100px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+      letter-spacing: 0.1em; text-transform: uppercase; z-index: 20;
+      box-shadow: 0 8px 24px rgba(30, 58, 138, 0.35); font-weight: 600;
+      backdrop-filter: blur(8px); cursor: pointer;
+    `;
+    el.textContent = '◉ 360° view — click anywhere to exit';
+    el.addEventListener('click', () => setOrbitMode(false));
+    document.body.appendChild(el);
+  }
+  el.style.display = 'block';
+}
+
+function hideOrbitHint() {
+  const el = document.getElementById('orbitHint');
+  if (el) el.style.display = 'none';
+}
+
+function handleCanvasClick(clientX, clientY) {
+  // Convert to normalized device coordinates
+  pointer.x = (clientX / window.innerWidth) * 2 - 1;
+  pointer.y = -(clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(pointer, camera);
+
+  // Check if user clicked on the bike (recursive: matches any child mesh of the bike group)
+  const hits = raycaster.intersectObject(bike, true);
+
+  if (hits.length > 0 && cameraMode === 'follow') {
+    // Clicked the bike → enter orbit mode
+    setOrbitMode(true);
+  } else if (cameraMode === 'orbit') {
+    // Clicked elsewhere (or anywhere when in orbit mode) → exit orbit
+    setOrbitMode(false);
+  }
+}
+
+// Hover detection — change cursor to pointer when over the bike
+canvas.addEventListener('mousemove', (e) => {
+  if (cameraMode === 'orbit') {
+    canvas.style.cursor = 'pointer';
+    return;
+  }
+  pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+  pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(pointer, camera);
+  const hits = raycaster.intersectObject(bike, true);
+  canvas.style.cursor = hits.length > 0 ? 'pointer' : 'default';
+});
+
+// Click handler — but ignore clicks that originate from UI elements
+canvas.addEventListener('click', (e) => {
+  // Only respond to clicks on the canvas itself
+  if (e.target === canvas) {
+    handleCanvasClick(e.clientX, e.clientY);
+  }
+});
+
+// Touch handler for mobile (tap to orbit / tap to exit)
+canvas.addEventListener('touchend', (e) => {
+  if (e.touches.length === 0 && e.changedTouches.length > 0) {
+    const t = e.changedTouches[0];
+    handleCanvasClick(t.clientX, t.clientY);
+  }
+}, { passive: true });
+
+// ESC key exits orbit mode
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && cameraMode === 'orbit') {
+    setOrbitMode(false);
+  }
 });
 
 // ====================================================
