@@ -29,15 +29,15 @@
 –hover-tint: #f8fafc;
 }
 
-/* ===== CURSOR-FOLLOWING GLOW (page-wide) ===== */
+/* ===== CURSOR-FOLLOWING GLOW (page-wide, multi-layered for stronger effect) ===== */
 .cursor-glow {
 position: fixed;
 top: 0;
 left: 0;
-width: 500px;
-height: 500px;
+width: 700px;
+height: 700px;
 border-radius: 50%;
-background: radial-gradient(circle, rgba(30, 58, 138, 0.18) 0%, rgba(37, 99, 235, 0.08) 35%, transparent 70%);
+background: radial-gradient(circle, rgba(30, 58, 138, 0.28) 0%, rgba(37, 99, 235, 0.15) 30%, rgba(59, 130, 246, 0.05) 60%, transparent 75%);
 pointer-events: none;
 z-index: 1;
 transform: translate(-50%, -50%);
@@ -46,8 +46,41 @@ mix-blend-mode: multiply;
 will-change: transform;
 }
 
+.cursor-glow-2 {
+position: fixed;
+top: 0;
+left: 0;
+width: 200px;
+height: 200px;
+border-radius: 50%;
+background: radial-gradient(circle, rgba(96, 165, 250, 0.35) 0%, transparent 70%);
+pointer-events: none;
+z-index: 2;
+transform: translate(-50%, -50%);
+transition: opacity 0.3s;
+mix-blend-mode: screen;
+will-change: transform;
+}
+
 @media (hover: none) {
-.cursor-glow { display: none; }
+.cursor-glow, .cursor-glow-2 { display: none; }
+}
+
+/* ===== PARTICLE FIELD (3D floating dots that drift with mouse) ===== */
+.particle-field {
+position: fixed;
+inset: 0;
+pointer-events: none;
+z-index: 1;
+overflow: hidden;
+}
+
+.particle {
+position: absolute;
+border-radius: 50%;
+background: radial-gradient(circle, rgba(30, 58, 138, 0.6), transparent);
+will-change: transform;
+transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* ===== BACKGROUND FLOATING GRADIENT ORBS ===== */
@@ -1165,6 +1198,8 @@ transform: translateY(0);
 <body>
 
 <div class="cursor-glow" id="cursorGlow"></div>
+<div class="cursor-glow-2" id="cursorGlow2"></div>
+<div class="particle-field" id="particleField"></div>
 <div class="bg-orbs">
   <div class="bg-orb bg-orb-1"></div>
   <div class="bg-orb bg-orb-2"></div>
@@ -1825,39 +1860,130 @@ transform: translateY(0);
   animate();
 })();
 
-// ===== CURSOR-FOLLOWING GLOW =====
+// ===== Global mouse tracker (used by everything) =====
+const _mouse = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  nx: 0, // normalized -1 to 1
+  ny: 0,
+  smoothX: 0,
+  smoothY: 0
+};
+
+window.addEventListener('mousemove', (e) => {
+  _mouse.x = e.clientX;
+  _mouse.y = e.clientY;
+  _mouse.nx = (e.clientX / window.innerWidth - 0.5) * 2;
+  _mouse.ny = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+// Continuous smoothing loop drives all parallax effects
+(function smoothLoop() {
+  _mouse.smoothX += (_mouse.nx - _mouse.smoothX) * 0.07;
+  _mouse.smoothY += (_mouse.ny - _mouse.smoothY) * 0.07;
+
+  // Move background orbs (they drift with mouse, opposite direction = parallax depth)
+  const orb1 = document.querySelector('.bg-orb-1');
+  const orb2 = document.querySelector('.bg-orb-2');
+  const orb3 = document.querySelector('.bg-orb-3');
+  if (orb1) orb1.style.transform = `translate(${_mouse.smoothX * -60}px, ${_mouse.smoothY * -40}px)`;
+  if (orb2) orb2.style.transform = `translate(${_mouse.smoothX * 80}px, ${_mouse.smoothY * 50}px)`;
+  if (orb3) orb3.style.transform = `translate(${-50 + _mouse.smoothX * -40}%, ${-50 + _mouse.smoothY * -30}%)`;
+
+  requestAnimationFrame(smoothLoop);
+})();
+
+// ===== CURSOR-FOLLOWING GLOW (two-layer for stronger effect) =====
 (function initCursorGlow() {
   const glow = document.getElementById('cursorGlow');
+  const glow2 = document.getElementById('cursorGlow2');
   if (!glow) return;
-  let mx = window.innerWidth / 2;
-  let my = window.innerHeight / 2;
-  let cx = mx, cy = my;
+  let cx = window.innerWidth / 2;
+  let cy = window.innerHeight / 2;
+  let cx2 = cx;
+  let cy2 = cy;
   let visible = false;
 
-  window.addEventListener('mousemove', (e) => {
-    mx = e.clientX;
-    my = e.clientY;
+  window.addEventListener('mousemove', () => {
     if (!visible) {
       glow.style.opacity = '1';
+      if (glow2) glow2.style.opacity = '1';
       visible = true;
     }
   });
 
   document.addEventListener('mouseleave', () => {
     glow.style.opacity = '0';
+    if (glow2) glow2.style.opacity = '0';
     visible = false;
   });
 
   function tick() {
-    cx += (mx - cx) * 0.18;
-    cy += (my - cy) * 0.18;
+    cx += (_mouse.x - cx) * 0.18;
+    cy += (_mouse.y - cy) * 0.18;
+    cx2 += (_mouse.x - cx2) * 0.32; // faster — closer to cursor
+    cy2 += (_mouse.y - cy2) * 0.32;
     glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    if (glow2) glow2.style.transform = `translate(${cx2}px, ${cy2}px) translate(-50%, -50%)`;
     requestAnimationFrame(tick);
   }
   tick();
 })();
 
-// ===== 3D TILT ON ALL CARDS (page-wide) =====
+// ===== PARTICLE FIELD — floating dots that move with mouse =====
+(function initParticles() {
+  const field = document.getElementById('particleField');
+  if (!field) return;
+  // Skip on touch devices for performance
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  const particles = [];
+  const PARTICLE_COUNT = 40;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    const el = document.createElement('div');
+    el.className = 'particle';
+    const size = 3 + Math.random() * 8;
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    const x = Math.random() * w;
+    const y = Math.random() * h;
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    const depth = 0.3 + Math.random() * 1.2; // closer particles move more
+    field.appendChild(el);
+    particles.push({ el, x, y, depth, baseX: x, baseY: y, drift: Math.random() * Math.PI * 2 });
+  }
+
+  function tick() {
+    const t = performance.now() / 1000;
+    particles.forEach((p, i) => {
+      // Mouse-driven parallax shift
+      const parallaxX = _mouse.smoothX * 80 * p.depth;
+      const parallaxY = _mouse.smoothY * 60 * p.depth;
+      // Gentle autonomous drift
+      const driftX = Math.sin(t * 0.3 + p.drift) * 25;
+      const driftY = Math.cos(t * 0.25 + p.drift) * 20;
+      p.el.style.transform = `translate(${parallaxX + driftX}px, ${parallaxY + driftY}px)`;
+    });
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  // Reset positions if window resized
+  window.addEventListener('resize', () => {
+    particles.forEach(p => {
+      p.x = Math.random() * window.innerWidth;
+      p.y = Math.random() * window.innerHeight;
+      p.el.style.left = p.x + 'px';
+      p.el.style.top = p.y + 'px';
+    });
+  });
+})();
+
+// ===== 3D TILT ON ALL CARDS — stronger angles + glare effect =====
 (function initTilt() {
   const cards = document.querySelectorAll(
     '.about-card, .platform-card, .project-item, .event-card, .impact-card, .cert-row, .now-status'
@@ -1873,9 +1999,10 @@ transform: translateY(0);
         const y = e.clientY - rect.top;
         const cx = rect.width / 2;
         const cy = rect.height / 2;
-        const rotateX = ((y - cy) / cy) * -4;
-        const rotateY = ((x - cx) / cx) * 4;
-        card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(6px)`;
+        // STRONGER angles — 8° instead of 4°
+        const rotateX = ((y - cy) / cy) * -8;
+        const rotateY = ((x - cx) / cx) * 8;
+        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px) scale3d(1.01, 1.01, 1.01)`;
       });
     });
 
@@ -1886,7 +2013,7 @@ transform: translateY(0);
   });
 })();
 
-// ===== MAGNETIC BUTTONS (subtle pull toward cursor) =====
+// ===== MAGNETIC BUTTONS — stronger pull =====
 (function initMagneticButtons() {
   const buttons = document.querySelectorAll('.btn, .social-link');
   buttons.forEach(btn => {
@@ -1894,7 +2021,8 @@ transform: translateY(0);
       const rect = btn.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
-      btn.style.transform = `translate(${x * 0.18}px, ${y * 0.25}px) translateY(-2px)`;
+      // Stronger magnetism — 0.3 instead of 0.18
+      btn.style.transform = `translate(${x * 0.3}px, ${y * 0.35}px) translateY(-3px) scale(1.05)`;
     });
     btn.addEventListener('mouseleave', () => {
       btn.style.transform = '';
@@ -1902,26 +2030,65 @@ transform: translateY(0);
   });
 })();
 
-// ===== HERO TEXT PARALLAX =====
+// ===== HERO TEXT PARALLAX — stronger, multi-layer =====
 (function initHeroParallax() {
   const hero = document.querySelector('.hero');
   const heroH1 = document.querySelector('.hero h1');
   const heroLede = document.querySelector('.hero p.lede');
   const heroTag = document.querySelector('.hero-tag');
+  const heroNow = document.querySelector('.now-status');
   if (!hero || !heroH1) return;
 
   hero.addEventListener('mousemove', (e) => {
     const rect = hero.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    if (heroTag) heroTag.style.transform = `translate(${x * 10}px, ${y * 6}px)`;
-    heroH1.style.transform = `translate(${x * 14}px, ${y * 8}px)`;
-    if (heroLede) heroLede.style.transform = `translate(${x * 8}px, ${y * 5}px)`;
+    // Multi-layer parallax: each element moves at a different rate (depth illusion)
+    if (heroTag) heroTag.style.transform = `translate(${x * 25}px, ${y * 14}px)`;
+    heroH1.style.transform = `translate(${x * 35}px, ${y * 20}px)`;
+    if (heroLede) heroLede.style.transform = `translate(${x * 20}px, ${y * 12}px)`;
+    if (heroNow) heroNow.style.transform = `translate(${x * 15}px, ${y * 8}px) perspective(900px) rotateX(${y * -3}deg) rotateY(${x * 3}deg)`;
   });
 
   hero.addEventListener('mouseleave', () => {
-    [heroTag, heroH1, heroLede].forEach(el => {
+    [heroTag, heroH1, heroLede, heroNow].forEach(el => {
       if (el) el.style.transform = '';
+    });
+  });
+})();
+
+// ===== WHOLE-PAGE SECTION TILT (subtle perspective on entire sections as mouse moves) =====
+(function initSectionTilt() {
+  const sections = document.querySelectorAll('section');
+  let raf = null;
+
+  window.addEventListener('mousemove', () => {
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      // Apply a very subtle whole-page perspective shift based on mouse
+      sections.forEach(section => {
+        const rotateX = _mouse.smoothY * -1.2;
+        const rotateY = _mouse.smoothX * 1.2;
+        section.style.transform = `perspective(2400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        section.style.transformStyle = 'preserve-3d';
+        section.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      });
+    });
+  });
+})();
+
+// ===== SECTION TITLE FLOAT (titles drift opposite to mouse for depth) =====
+(function initTitleFloat() {
+  const titles = document.querySelectorAll('.section-title, .section-label');
+  let raf = null;
+  window.addEventListener('mousemove', () => {
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      titles.forEach(el => {
+        // Opposite direction creates a "behind glass" feel
+        el.style.transform = `translate(${_mouse.smoothX * -10}px, ${_mouse.smoothY * -6}px)`;
+        el.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      });
     });
   });
 })();
