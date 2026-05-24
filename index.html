@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -16,1184 +15,1183 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-–bg: #ffffff;
-–surface: #ffffff;
-–text: #0a0a0a;
-–text-secondary: #1f1f1f;
-–text-muted: #404040;
-–border: #e5e7eb;
-–border-strong: #cbd5e1;
-–accent: #1e3a8a;
-–accent-hover: #1e40af;
-–accent-light: #eff6ff;
-–hover-tint: #f8fafc;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: #0a0a0a;
+  --text-secondary: #1f1f1f;
+  --text-muted: #404040;
+  --border: #e5e7eb;
+  --border-strong: #cbd5e1;
+  --accent: #1e3a8a;
+  --accent-hover: #1e40af;
+  --accent-light: #eff6ff;
+  --hover-tint: #f8fafc;
 }
 
 /* ===== CURSOR-FOLLOWING GLOW (page-wide, multi-layered for stronger effect) ===== */
 .cursor-glow {
-position: fixed;
-top: 0;
-left: 0;
-width: 700px;
-height: 700px;
-border-radius: 50%;
-background: radial-gradient(circle, rgba(30, 58, 138, 0.28) 0%, rgba(37, 99, 235, 0.15) 30%, rgba(59, 130, 246, 0.05) 60%, transparent 75%);
-pointer-events: none;
-z-index: 1;
-transform: translate(-50%, -50%);
-transition: opacity 0.3s;
-mix-blend-mode: multiply;
-will-change: transform;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30, 58, 138, 0.28) 0%, rgba(37, 99, 235, 0.15) 30%, rgba(59, 130, 246, 0.05) 60%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+  mix-blend-mode: multiply;
+  will-change: transform;
 }
 
 .cursor-glow-2 {
-position: fixed;
-top: 0;
-left: 0;
-width: 200px;
-height: 200px;
-border-radius: 50%;
-background: radial-gradient(circle, rgba(96, 165, 250, 0.35) 0%, transparent 70%);
-pointer-events: none;
-z-index: 2;
-transform: translate(-50%, -50%);
-transition: opacity 0.3s;
-mix-blend-mode: screen;
-will-change: transform;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.35) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+  mix-blend-mode: screen;
+  will-change: transform;
 }
 
 @media (hover: none) {
-.cursor-glow, .cursor-glow-2 { display: none; }
+  .cursor-glow, .cursor-glow-2 { display: none; }
 }
 
 /* ===== PARTICLE FIELD (3D floating dots that drift with mouse) ===== */
 .particle-field {
-position: fixed;
-inset: 0;
-pointer-events: none;
-z-index: 1;
-overflow: hidden;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
 }
 
 .particle {
-position: absolute;
-border-radius: 50%;
-background: radial-gradient(circle, rgba(30, 58, 138, 0.6), transparent);
-will-change: transform;
-transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30, 58, 138, 0.6), transparent);
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* ===== BACKGROUND FLOATING GRADIENT ORBS ===== */
 .bg-orbs {
-position: fixed;
-inset: 0;
-pointer-events: none;
-z-index: 0;
-overflow: hidden;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
 
 .bg-orb {
-position: absolute;
-border-radius: 50%;
-filter: blur(80px);
-opacity: 0.5;
-will-change: transform;
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  will-change: transform;
 }
 
 .bg-orb-1 {
-width: 600px;
-height: 600px;
-background: radial-gradient(circle, #dbeafe, transparent);
-top: -200px;
-right: -150px;
-animation: orbFloat1 25s ease-in-out infinite;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #dbeafe, transparent);
+  top: -200px;
+  right: -150px;
+  animation: orbFloat1 25s ease-in-out infinite;
 }
 
 .bg-orb-2 {
-width: 500px;
-height: 500px;
-background: radial-gradient(circle, #c7d2fe, transparent);
-bottom: -100px;
-left: -150px;
-animation: orbFloat2 30s ease-in-out infinite;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #c7d2fe, transparent);
+  bottom: -100px;
+  left: -150px;
+  animation: orbFloat2 30s ease-in-out infinite;
 }
 
 .bg-orb-3 {
-width: 400px;
-height: 400px;
-background: radial-gradient(circle, #e0e7ff, transparent);
-top: 50%;
-left: 50%;
-animation: orbFloat3 28s ease-in-out infinite;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #e0e7ff, transparent);
+  top: 50%;
+  left: 50%;
+  animation: orbFloat3 28s ease-in-out infinite;
 }
 
 @keyframes orbFloat1 {
-0%, 100% { transform: translate(0, 0) scale(1); }
-33% { transform: translate(-60px, 40px) scale(1.1); }
-66% { transform: translate(40px, -30px) scale(0.95); }
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-60px, 40px) scale(1.1); }
+  66% { transform: translate(40px, -30px) scale(0.95); }
 }
 
 @keyframes orbFloat2 {
-0%, 100% { transform: translate(0, 0) scale(1); }
-50% { transform: translate(80px, -50px) scale(1.15); }
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(80px, -50px) scale(1.15); }
 }
 
 @keyframes orbFloat3 {
-0%, 100% { transform: translate(-50%, -50%) scale(1); }
-50% { transform: translate(-30%, -60%) scale(1.2); }
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-30%, -60%) scale(1.2); }
 }
 
 /* Make sure content sits above orbs but below cursor glow effect */
 nav, .container, footer {
-position: relative;
-z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 
 /* ===== TILT CARD BASE ===== */
 .tilt-card {
-transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
-transform-style: preserve-3d;
-will-change: transform;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 html { scroll-behavior: smooth; }
 
 body {
-background: var(–bg);
-color: var(–text);
-font-family: ‘Manrope’, -apple-system, BlinkMacSystemFont, sans-serif;
-font-weight: 400;
-line-height: 1.65;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ===== NAVIGATION ===== */
 nav {
-position: sticky;
-top: 0;
-width: 100%;
-padding: 1.25rem 0;
-background: rgba(255, 255, 255, 0.95);
-backdrop-filter: blur(12px);
-border-bottom: 1px solid var(–border);
-z-index: 100;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  padding: 1.25rem 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
 }
 
 nav .nav-inner {
-max-width: 1080px;
-margin: 0 auto;
-padding: 0 2rem;
-display: flex;
-justify-content: space-between;
-align-items: center;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 nav .logo {
-font-weight: 700;
-font-size: 0.95rem;
-color: var(–accent);
-letter-spacing: -0.01em;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--accent);
+  letter-spacing: -0.01em;
 }
 
 nav .nav-links {
-display: flex;
-gap: 2rem;
-list-style: none;
+  display: flex;
+  gap: 2rem;
+  list-style: none;
 }
 
 nav .nav-links a {
-color: var(–text-secondary);
-text-decoration: none;
-font-size: 0.85rem;
-font-weight: 500;
-transition: color 0.2s;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-nav .nav-links a:hover { color: var(–accent); }
+nav .nav-links a:hover { color: var(--accent); }
 
 .container {
-max-width: 1080px;
-margin: 0 auto;
-padding: 0 2rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 section {
-padding: 6rem 0;
-border-bottom: 1px solid var(–border);
+  padding: 6rem 0;
+  border-bottom: 1px solid var(--border);
 }
 
 section:last-of-type { border-bottom: none; }
 
 .section-label {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.72rem;
-font-weight: 600;
-text-transform: uppercase;
-letter-spacing: 0.15em;
-color: var(–accent);
-margin-bottom: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 1rem;
 }
 
 .section-title {
-font-size: 2rem;
-font-weight: 700;
-color: var(–text);
-margin-bottom: 3rem;
-letter-spacing: -0.025em;
-line-height: 1.2;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3rem;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 
 /* ===== HERO ===== */
 .hero {
-padding: 7rem 0 6rem;
-border-bottom: 1px solid var(–border);
-position: relative;
+  padding: 7rem 0 6rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
 }
 
 .hero::before {
-content: ‘’;
-position: absolute;
-top: 0;
-left: 0;
-width: 60px;
-height: 4px;
-background: var(–accent);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--accent);
 }
 
 .hero-3d-canvas {
-position: absolute;
-top: 6rem;
-right: 0;
-width: 380px;
-height: 380px;
-pointer-events: none;
-z-index: 0;
+  position: absolute;
+  top: 6rem;
+  right: 0;
+  width: 380px;
+  height: 380px;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .hero-content {
-position: relative;
-z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 900px) {
-.hero-3d-canvas {
-width: 220px;
-height: 220px;
-top: 4rem;
-right: -2rem;
-opacity: 0.6;
-}
+  .hero-3d-canvas {
+    width: 220px;
+    height: 220px;
+    top: 4rem;
+    right: -2rem;
+    opacity: 0.6;
+  }
 }
 
 @media (max-width: 600px) {
-.hero-3d-canvas { display: none; }
+  .hero-3d-canvas { display: none; }
 }
 
 .hero-tag {
-display: inline-flex;
-align-items: center;
-gap: 0.5rem;
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.72rem;
-color: var(–accent);
-font-weight: 600;
-margin-bottom: 2rem;
-text-transform: uppercase;
-letter-spacing: 0.1em;
-transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-will-change: transform;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
 }
 
 .hero-tag .indicator {
-width: 6px;
-height: 6px;
-background: var(–accent);
-border-radius: 50%;
-box-shadow: 0 0 8px var(–accent);
-animation: pulse 2s ease-in-out infinite;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent);
+  animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes pulse {
-0%, 100% { opacity: 1; transform: scale(1); }
-50% { opacity: 0.5; transform: scale(1.3); }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
 }
 
 .hero h1 {
-font-size: 3.2rem;
-font-weight: 700;
-line-height: 1.1;
-letter-spacing: -0.035em;
-margin-bottom: 1.8rem;
-max-width: 850px;
-color: var(–text);
-transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-will-change: transform;
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  margin-bottom: 1.8rem;
+  max-width: 850px;
+  color: var(--text);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
 }
 
 .hero p.lede {
-font-size: 1.2rem;
-color: var(–text-secondary);
-max-width: 700px;
-margin-bottom: 2.5rem;
-line-height: 1.65;
-transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-will-change: transform;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin-bottom: 2.5rem;
+  line-height: 1.65;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
 }
 
 .hero-buttons {
-display: flex;
-gap: 0.75rem;
-margin-bottom: 4rem;
-flex-wrap: wrap;
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
 }
 
 .btn {
-padding: 0.75rem 1.5rem;
-border-radius: 8px;
-font-size: 0.9rem;
-font-weight: 600;
-text-decoration: none;
-transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s, background 0.25s;
-cursor: pointer;
-border: 1px solid transparent;
-font-family: ‘Manrope’, sans-serif;
-display: inline-flex;
-align-items: center;
-gap: 0.45rem;
-position: relative;
-overflow: hidden;
-will-change: transform;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s, background 0.25s;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: 'Manrope', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
 }
 
 .btn-primary {
-background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-color: #ffffff;
-border-color: transparent;
-box-shadow: 0 4px 14px rgba(30, 58, 138, 0.35), 0 1px 3px rgba(30, 58, 138, 0.2);
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(30, 58, 138, 0.35), 0 1px 3px rgba(30, 58, 138, 0.2);
 }
 
 .btn-primary::before {
-content: ‘’;
-position: absolute;
-top: 0;
-left: -100%;
-width: 100%;
-height: 100%;
-background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-transition: left 0.6s;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 0.6s;
 }
 
 .btn-primary:hover::before {
-left: 100%;
+  left: 100%;
 }
 
 .btn-primary:hover {
-background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-transform: translateY(-2px);
-box-shadow: 0 8px 24px rgba(30, 58, 138, 0.45), 0 2px 6px rgba(30, 58, 138, 0.3);
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.45), 0 2px 6px rgba(30, 58, 138, 0.3);
 }
 
 .btn-outline {
-background: #ffffff;
-color: var(–accent);
-border-color: var(–accent);
-box-shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
+  background: #ffffff;
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
 }
 
 .btn-outline:hover {
-background: var(–accent-light);
-border-color: var(–accent);
-color: var(–accent);
-transform: translateY(-2px);
-box-shadow: 0 6px 16px rgba(30, 58, 138, 0.18);
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(30, 58, 138, 0.18);
 }
 
 /* ===== NOW STATUS ===== */
 .now-status {
-border: 1px solid var(–border);
-border-left: 3px solid var(–accent);
-border-radius: 8px;
-padding: 1.5rem;
-background: var(–surface);
-margin-bottom: 4rem;
-max-width: 760px;
-transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
-transform-style: preserve-3d;
-will-change: transform;
-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: var(--surface);
+  margin-bottom: 4rem;
+  max-width: 760px;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .now-status:hover {
-box-shadow: 0 10px 30px rgba(30, 58, 138, 0.12);
+  box-shadow: 0 10px 30px rgba(30, 58, 138, 0.12);
 }
 
 .now-status .now-label {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.7rem;
-font-weight: 700;
-color: var(–accent);
-text-transform: uppercase;
-letter-spacing: 0.15em;
-margin-bottom: 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.6rem;
 }
 
 .now-status .now-content {
-font-size: 1rem;
-color: var(–text-secondary);
-line-height: 1.7;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
 .now-status .now-content strong {
-color: var(–text);
-font-weight: 600;
+  color: var(--text);
+  font-weight: 600;
 }
 
 /* ===== HERO STATS ===== */
 .hero-stats {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 0;
-border-top: 1px solid var(–border);
-padding-top: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--border);
+  padding-top: 2.5rem;
 }
 
 .stat-item { padding-right: 1.5rem; }
-.stat-item:not(:last-child) { border-right: 1px solid var(–border); }
+.stat-item:not(:last-child) { border-right: 1px solid var(--border); }
 .stat-item:not(:first-child) { padding-left: 1.5rem; }
 
 .stat-item .stat-number {
-font-size: 1.9rem;
-font-weight: 700;
-color: var(–accent);
-letter-spacing: -0.02em;
-line-height: 1.1;
-margin-bottom: 0.3rem;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
 }
 
 .stat-item .stat-label {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.7rem;
-color: var(–text-muted);
-text-transform: uppercase;
-letter-spacing: 0.1em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 /* ===== ABOUT ===== */
 .about-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 0;
-border-top: 1px solid var(–border);
-border-left: 1px solid var(–border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
 .about-card {
-padding: 2rem;
-border-right: 1px solid var(–border);
-border-bottom: 1px solid var(–border);
-background: var(–surface);
-transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s, box-shadow 0.2s;
-position: relative;
-transform-style: preserve-3d;
-will-change: transform;
+  padding: 2rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s, box-shadow 0.2s;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .about-card:hover {
-background: var(–hover-tint);
-box-shadow: inset 3px 0 0 var(–accent), 0 20px 40px -20px rgba(30, 58, 138, 0.15);
+  background: var(--hover-tint);
+  box-shadow: inset 3px 0 0 var(--accent), 0 20px 40px -20px rgba(30, 58, 138, 0.15);
 }
 
 .about-card .card-number {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.78rem;
-color: var(–accent);
-font-weight: 700;
-margin-bottom: 1rem;
-letter-spacing: 0.05em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
 }
 
 .about-card h3 {
-font-size: 1.05rem;
-font-weight: 700;
-margin-bottom: 0.6rem;
-color: var(–text);
-letter-spacing: -0.01em;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
 }
 
 .about-card p {
-font-size: 0.95rem;
-color: var(–text-secondary);
-line-height: 1.7;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
 /* ===== PROJECTS ===== */
 .projects-list {
-display: flex;
-flex-direction: column;
-gap: 0;
-border-top: 1px solid var(–border);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border);
 }
 
 .project-item {
-padding: 2.5rem 0;
-border-bottom: 1px solid var(–border);
-display: grid;
-grid-template-columns: 200px 1fr;
-gap: 3rem;
-transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-transform-style: preserve-3d;
-will-change: transform;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3rem;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .project-meta {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.75rem;
-color: var(–text-muted);
-text-transform: uppercase;
-letter-spacing: 0.1em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .project-meta .meta-year {
-display: block;
-color: var(–accent);
-font-weight: 700;
-margin-bottom: 0.3rem;
+  display: block;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 0.3rem;
 }
 
 .project-content h3 {
-font-size: 1.3rem;
-font-weight: 700;
-color: var(–text);
-margin-bottom: 0.8rem;
-letter-spacing: -0.015em;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.015em;
 }
 
 .project-impact {
-font-size: 0.92rem;
-color: var(–accent);
-font-weight: 700;
-margin-bottom: 1rem;
-padding-bottom: 1rem;
-border-bottom: 1px solid var(–border);
+  font-size: 0.92rem;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .project-content .project-desc {
-font-size: 1rem;
-color: var(–text-secondary);
-margin-bottom: 1.5rem;
-line-height: 1.75;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
 }
 
 .project-flow {
-display: grid;
-grid-template-columns: 1fr 1fr 1fr;
-gap: 1.5rem;
-margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
 .flow-step .flow-label {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.68rem;
-color: var(–accent);
-font-weight: 600;
-text-transform: uppercase;
-letter-spacing: 0.12em;
-margin-bottom: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
 }
 
 .flow-step .flow-text {
-font-size: 0.92rem;
-color: var(–text-secondary);
-line-height: 1.6;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 .project-tags {
-display: flex;
-flex-wrap: wrap;
-gap: 0.4rem;
-margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
 }
 
 .project-tag {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.72rem;
-color: var(–accent);
-background: var(–accent-light);
-padding: 0.3rem 0.7rem;
-border: 1px solid #c7d2fe;
-border-radius: 5px;
-font-weight: 600;
-transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #c7d2fe;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
 .project-tag:hover {
-background: var(–accent);
-color: #ffffff;
-transform: translateY(-2px);
-box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
+  background: var(--accent);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
 }
 
 /* ===== PLATFORMS ===== */
 .platforms-grid {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 0;
-border-top: 1px solid var(–border);
-border-left: 1px solid var(–border);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
 .platform-card {
-padding: 1.75rem;
-border-right: 1px solid var(–border);
-border-bottom: 1px solid var(–border);
-background: var(–surface);
-transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s, box-shadow 0.2s;
-transform-style: preserve-3d;
-will-change: transform;
+  padding: 1.75rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s, box-shadow 0.2s;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .platform-card:hover {
-background: var(–hover-tint);
-box-shadow: inset 0 3px 0 var(–accent), 0 20px 40px -20px rgba(30, 58, 138, 0.15);
+  background: var(--hover-tint);
+  box-shadow: inset 0 3px 0 var(--accent), 0 20px 40px -20px rgba(30, 58, 138, 0.15);
 }
 
 .platform-card .platform-marker {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.7rem;
-color: var(–accent);
-font-weight: 600;
-margin-bottom: 1rem;
-letter-spacing: 0.05em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
 }
 
 .platform-card h3 {
-font-size: 1.05rem;
-font-weight: 700;
-margin-bottom: 0.35rem;
-color: var(–text);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: var(--text);
 }
 
 .platform-card .platform-type {
-font-size: 0.78rem;
-color: var(–text);
-font-weight: 500;
-margin-bottom: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--text);
+  font-weight: 500;
+  margin-bottom: 0.6rem;
 }
 
 .platform-card .platform-desc {
-font-size: 0.88rem;
-color: var(–text-secondary);
-line-height: 1.6;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 /* ===== TOOLS ===== */
 .tools-categories {
-display: flex;
-flex-direction: column;
-gap: 0;
-border-top: 1px solid var(–border);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border);
 }
 
 .tool-category {
-padding: 2rem 0;
-border-bottom: 1px solid var(–border);
-display: grid;
-grid-template-columns: 200px 1fr;
-gap: 3rem;
-align-items: start;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3rem;
+  align-items: start;
 }
 
 .tool-category h3 {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.75rem;
-font-weight: 600;
-text-transform: uppercase;
-letter-spacing: 0.12em;
-color: var(–accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
 }
 
 .tool-badges {
-display: flex;
-flex-wrap: wrap;
-gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .tool-badge {
-padding: 0.5rem 1rem;
-background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-border: 1px solid #c7d2fe;
-border-radius: 8px;
-font-size: 0.85rem;
-color: var(–accent);
-font-weight: 600;
-transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s, background 0.25s;
-position: relative;
-box-shadow: 0 1px 3px rgba(30, 58, 138, 0.08);
-cursor: default;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid #c7d2fe;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 600;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s, background 0.25s;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(30, 58, 138, 0.08);
+  cursor: default;
 }
 
 .tool-badge:hover {
-background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-color: #ffffff;
-border-color: var(–accent);
-transform: translateY(-3px) scale(1.03);
-box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: #ffffff;
+  border-color: var(--accent);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
 }
 
 .tool-badge.learning {
-background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-color: #92400e;
-border-color: #fcd34d;
-border-style: dashed;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  border-color: #fcd34d;
+  border-style: dashed;
 }
 
 .tool-badge.learning:hover {
-background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-color: #ffffff;
-border-color: #d97706;
-border-style: solid;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #ffffff;
+  border-color: #d97706;
+  border-style: solid;
 }
 
 /* ===== TIMELINE ===== */
-.timeline { border-top: 1px solid var(–border); }
+.timeline { border-top: 1px solid var(--border); }
 
 .timeline-item {
-padding: 2.5rem 0;
-border-bottom: 1px solid var(–border);
-display: grid;
-grid-template-columns: 200px 1fr;
-gap: 3rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3rem;
 }
 
 .timeline-date {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.78rem;
-color: var(–accent);
-font-weight: 600;
-text-transform: uppercase;
-letter-spacing: 0.1em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .timeline-date.current::before {
-content: ’● ’;
-color: var(–accent);
+  content: '● ';
+  color: var(--accent);
 }
 
 .timeline-company {
-font-size: 1.2rem;
-font-weight: 700;
-margin-bottom: 0.3rem;
-color: var(–text);
-letter-spacing: -0.015em;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+  letter-spacing: -0.015em;
 }
 
 .timeline-role {
-font-size: 1rem;
-color: var(–text-secondary);
-margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
 }
 
 .timeline-highlights {
-display: flex;
-flex-wrap: wrap;
-gap: 0.4rem;
-margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
 }
 
 .highlight-tag {
-padding: 0.3rem 0.75rem;
-border: 1px solid #c7d2fe;
-background: var(–accent-light);
-border-radius: 5px;
-font-size: 0.75rem;
-color: var(–accent);
-font-family: ‘JetBrains Mono’, monospace;
-font-weight: 600;
-transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid #c7d2fe;
+  background: var(--accent-light);
+  border-radius: 5px;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
 .highlight-tag:hover {
-background: var(–accent);
-color: #ffffff;
-transform: translateY(-2px);
-box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
+  background: var(--accent);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
 }
 
 .timeline-desc {
-font-size: 0.98rem;
-color: var(–text-secondary);
-line-height: 1.75;
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
 }
 
 /* ===== 3D JOURNEY ===== */
 .journey-3d {
-margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .journey-canvas-wrap {
-position: relative;
-width: 100%;
-height: 480px;
-border: 1px solid var(–border);
-border-radius: 12px;
-overflow: hidden;
-background: linear-gradient(180deg, #e0f2fe 0%, #f8fafc 60%, #e5e7eb 100%);
-box-shadow: 0 20px 50px -25px rgba(30, 58, 138, 0.25);
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #e0f2fe 0%, #f8fafc 60%, #e5e7eb 100%);
+  box-shadow: 0 20px 50px -25px rgba(30, 58, 138, 0.25);
 }
 
 .journey-canvas {
-display: block;
-width: 100%;
-height: 100%;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .journey-overlay-hint {
-position: absolute;
-bottom: 1rem;
-left: 1rem;
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.7rem;
-color: var(–text-muted);
-background: rgba(255, 255, 255, 0.85);
-padding: 0.4rem 0.8rem;
-border-radius: 5px;
-border: 1px solid var(–border);
-letter-spacing: 0.05em;
-text-transform: uppercase;
-font-weight: 600;
-pointer-events: none;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  pointer-events: none;
 }
 
 .journey-controls {
-display: flex;
-flex-wrap: wrap;
-gap: 0.5rem;
-margin-top: 1.5rem;
-padding-top: 1.5rem;
-border-top: 1px solid var(–border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
 }
 
 .journey-btn {
-flex: 1 1 auto;
-min-width: 140px;
-padding: 0.7rem 1rem;
-background: #ffffff;
-border: 1px solid var(–border-strong);
-border-radius: 6px;
-color: var(–text);
-font-family: ‘Manrope’, sans-serif;
-font-size: 0.82rem;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.2s;
-text-align: left;
-line-height: 1.3;
+  flex: 1 1 auto;
+  min-width: 140px;
+  padding: 0.7rem 1rem;
+  background: #ffffff;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  line-height: 1.3;
 }
 
 .journey-btn:hover {
-border-color: var(–accent);
-color: var(–accent);
-background: var(–accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
 }
 
 .journey-btn.active {
-background: var(–accent);
-color: #ffffff;
-border-color: var(–accent);
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
 }
 
 .journey-btn .btn-year {
-display: block;
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.65rem;
-font-weight: 500;
-letter-spacing: 0.05em;
-opacity: 0.7;
-margin-bottom: 0.2rem;
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  margin-bottom: 0.2rem;
 }
 
 .journey-info {
-margin-top: 1.5rem;
-padding: 1.5rem;
-background: #ffffff;
-border: 1px solid var(–border);
-border-left: 3px solid var(–accent);
-border-radius: 8px;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
 }
 
 .journey-info .info-year {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.75rem;
-color: var(–accent);
-font-weight: 700;
-text-transform: uppercase;
-letter-spacing: 0.1em;
-margin-bottom: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
 }
 
 .journey-info h3 {
-font-size: 1.25rem;
-font-weight: 700;
-color: var(–text);
-margin-bottom: 0.3rem;
-letter-spacing: -0.015em;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.015em;
 }
 
 .journey-info .info-role {
-font-size: 1rem;
-color: var(–text-secondary);
-margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
 }
 
 .journey-info .info-tags {
-display: flex;
-flex-wrap: wrap;
-gap: 0.4rem;
-margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
 }
 
 .journey-info .info-tag {
-padding: 0.25rem 0.7rem;
-border: 1px solid var(–border-strong);
-border-radius: 4px;
-font-size: 0.75rem;
-color: var(–text-secondary);
-font-family: ‘JetBrains Mono’, monospace;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .journey-info .info-desc {
-font-size: 0.95rem;
-color: var(–text-secondary);
-line-height: 1.7;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
 @media (max-width: 768px) {
-.journey-canvas-wrap { height: 320px; }
-.journey-btn { min-width: calc(50% - 0.5rem); }
+  .journey-canvas-wrap { height: 320px; }
+  .journey-btn { min-width: calc(50% - 0.5rem); }
 }
 
 /* ===== EVENTS ===== */
 .events-row {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 0;
-border-top: 1px solid var(–border);
-border-left: 1px solid var(–border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
 .event-card {
-padding: 2rem;
-border-right: 1px solid var(–border);
-border-bottom: 1px solid var(–border);
-background: var(–surface);
-transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
-transform-style: preserve-3d;
-will-change: transform;
+  padding: 2rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .event-status {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.7rem;
-text-transform: uppercase;
-letter-spacing: 0.12em;
-color: var(–accent);
-font-weight: 600;
-margin-bottom: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .event-card h3 {
-font-size: 1.1rem;
-font-weight: 700;
-margin-bottom: 0.4rem;
-color: var(–text);
-letter-spacing: -0.01em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
 }
 
 .event-card .event-date {
-font-size: 0.85rem;
-color: var(–text-secondary);
-margin-bottom: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.8rem;
 }
 
 .event-card .event-desc {
-font-size: 0.95rem;
-color: var(–text-secondary);
-line-height: 1.7;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
 /* ===== IMPACT ===== */
 .impact-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 0;
-border-top: 1px solid var(–border);
-border-left: 1px solid var(–border);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
 .impact-card {
-padding: 2.5rem 2rem;
-border-right: 1px solid var(–border);
-border-bottom: 1px solid var(–border);
-background: var(–surface);
-transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s;
-transform-style: preserve-3d;
-will-change: transform;
+  padding: 2.5rem 2rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-.impact-card:hover { background: var(–hover-tint); }
+.impact-card:hover { background: var(--hover-tint); }
 
 .impact-card .impact-number {
-font-size: 2.6rem;
-font-weight: 700;
-color: var(–accent);
-letter-spacing: -0.025em;
-margin-bottom: 0.5rem;
-line-height: 1;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.025em;
+  margin-bottom: 0.5rem;
+  line-height: 1;
 }
 
 .impact-card .impact-label {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.72rem;
-color: var(–text-muted);
-text-transform: uppercase;
-letter-spacing: 0.1em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 /* ===== CERTIFICATIONS ===== */
-.certs-list { border-top: 1px solid var(–border); }
+.certs-list { border-top: 1px solid var(--border); }
 
 .cert-row {
-display: grid;
-grid-template-columns: 200px 1fr 1fr;
-gap: 2rem;
-padding: 1.5rem 0;
-border-bottom: 1px solid var(–border);
-align-items: center;
-transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-transform-style: preserve-3d;
-will-change: transform;
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .cert-row .cert-type {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.74rem;
-color: var(–accent);
-font-weight: 600;
-text-transform: uppercase;
-letter-spacing: 0.1em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .cert-row h4 {
-font-size: 1rem;
-font-weight: 600;
-color: var(–text);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .cert-row .cert-issuer {
-font-size: 0.92rem;
-color: var(–text-secondary);
+  font-size: 0.92rem;
+  color: var(--text-secondary);
 }
 
 /* ===== FOOTER ===== */
 footer {
-padding: 5rem 0 3rem;
-text-align: left;
-border-top: 1px solid var(–border-strong);
+  padding: 5rem 0 3rem;
+  text-align: left;
+  border-top: 1px solid var(--border-strong);
 }
 
 footer h2 {
-font-size: 2.2rem;
-font-weight: 700;
-margin-bottom: 1rem;
-letter-spacing: -0.025em;
-color: var(–text);
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+  color: var(--text);
 }
 
 footer .footer-lede {
-color: var(–text-secondary);
-margin-bottom: 2.5rem;
-font-size: 1.05rem;
-max-width: 580px;
-line-height: 1.65;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  font-size: 1.05rem;
+  max-width: 580px;
+  line-height: 1.65;
 }
 
 .social-links {
-display: flex;
-gap: 0.6rem;
-flex-wrap: wrap;
-margin-bottom: 4rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 4rem;
 }
 
 .social-link {
-padding: 0.65rem 1.3rem;
-background: transparent;
-border: 1px solid var(–border-strong);
-border-radius: 5px;
-color: var(–text);
-text-decoration: none;
-font-size: 0.85rem;
-font-weight: 500;
-transition: all 0.2s;
+  padding: 0.65rem 1.3rem;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
 }
 
 .social-link:hover {
-border-color: var(–accent);
-background: var(–accent);
-color: #ffffff;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #ffffff;
 }
 
 .footer-bottom {
-padding-top: 2.5rem;
-border-top: 1px solid var(–border);
-display: flex;
-justify-content: space-between;
-flex-wrap: wrap;
-gap: 1rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .footer-bottom span {
-font-family: ‘JetBrains Mono’, monospace;
-font-size: 0.72rem;
-color: var(–text-muted);
-letter-spacing: 0.05em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-.hero h1 { font-size: 2rem; }
-.hero { padding: 5rem 0 4rem; }
-section { padding: 4rem 0; }
-.section-title { font-size: 1.6rem; margin-bottom: 2rem; }
-.container { padding: 0 1.25rem; }
-nav .nav-inner { padding: 0 1.25rem; }
-nav .nav-links { display: none; }
-.about-grid, .events-row, .platforms-grid { grid-template-columns: 1fr; }
-.impact-grid { grid-template-columns: 1fr 1fr; }
-.hero-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; padding-top: 2rem; }
-.stat-item:not(:last-child) { border-right: none; }
-.stat-item:not(:first-child) { padding-left: 0; }
-.stat-item { padding: 1rem 0; border-bottom: 1px solid var(–border); }
-.project-item, .tool-category, .timeline-item, .cert-row {
-grid-template-columns: 1fr;
-gap: 1rem;
-}
-.project-flow { grid-template-columns: 1fr; gap: 1rem; }
-.footer-bottom { flex-direction: column; }
+  .hero h1 { font-size: 2rem; }
+  .hero { padding: 5rem 0 4rem; }
+  section { padding: 4rem 0; }
+  .section-title { font-size: 1.6rem; margin-bottom: 2rem; }
+  .container { padding: 0 1.25rem; }
+  nav .nav-inner { padding: 0 1.25rem; }
+  nav .nav-links { display: none; }
+  .about-grid, .events-row, .platforms-grid { grid-template-columns: 1fr; }
+  .impact-grid { grid-template-columns: 1fr 1fr; }
+  .hero-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; padding-top: 2rem; }
+  .stat-item:not(:last-child) { border-right: none; }
+  .stat-item:not(:first-child) { padding-left: 0; }
+  .stat-item { padding: 1rem 0; border-bottom: 1px solid var(--border); }
+  .project-item, .tool-category, .timeline-item, .cert-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .project-flow { grid-template-columns: 1fr; gap: 1rem; }
+  .footer-bottom { flex-direction: column; }
 }
 
 .reveal {
-opacity: 0;
-transform: translateY(20px);
-transition: opacity 0.6s ease, transform 0.6s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .reveal.visible {
-opacity: 1;
-transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
-
 </head>
 <body>
 
@@ -1223,7 +1221,6 @@ transform: translateY(0);
 <div class="container">
 
   <!-- HERO -->
-
   <section class="hero" id="hero">
     <canvas class="hero-3d-canvas" id="hero3d"></canvas>
     <div class="hero-content">
@@ -1232,46 +1229,42 @@ transform: translateY(0);
       Open to SRE &amp; Cloud Operations roles
     </div>
     <h1>Cloud Operations Engineer keeping Fortune 500 platforms running, 24×7.</h1>
-    <p class="lede">NOC Engineer – Specialist at PTC, supporting enterprise PLM &amp; IIoT platforms on Azure &amp; AWS. 5,000+ incidents resolved, 99.9% uptime maintained, ~30% MTTR reduction.</p>
+    <p class="lede">Cloud NOC Technician at PTC, supporting enterprise PLM &amp; IIoT platforms on Azure &amp; AWS plus MSAI microservices on Kubernetes. 5,000+ incidents resolved, 99.9% uptime maintained, ~30% MTTR reduction.</p>
     <div class="hero-buttons">
       <a href="mailto:dineshravichandiran0808@gmail.com" class="btn btn-primary">Get in touch</a>
       <a href="resume.pdf" class="btn btn-outline" download>Download Resume</a>
       <a href="https://linkedin.com/in/dineshravichandiran" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn</a>
     </div>
 
-```
-<div class="now-status">
-  <div class="now-label">Now</div>
-  <div class="now-content">
-    Currently <strong>NOC Engineer – Specialist</strong> at PTC, running 24×7 production operations for Windchill, ThingWorx &amp; FlexPLM. Pursuing <strong>CKA</strong>, <strong>AWS SAA</strong>, and <strong>RHCSA</strong> alongside an MBA in Information Systems &amp; Analytics. Targeting SRE roles at product-first companies.
-  </div>
-</div>
+    <div class="now-status">
+      <div class="now-label">Now</div>
+      <div class="now-content">
+        Currently a <strong>Cloud NOC Technician</strong> at PTC, running 24×7 production operations for Windchill, ThingWorx &amp; FlexPLM plus the MSAI microservice infrastructure on AKS. Pursuing <strong>CKA</strong>, <strong>AWS SAA</strong>, and <strong>RHCSA</strong> alongside an MBA in Information Systems &amp; Analytics. Targeting SRE roles at product-first companies.
+      </div>
+    </div>
 
-<div class="hero-stats">
-  <div class="stat-item">
-    <div class="stat-number">3+</div>
-    <div class="stat-label">Years</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">5,000+</div>
-    <div class="stat-label">Incidents</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">99.9%</div>
-    <div class="stat-label">Uptime</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">~30%</div>
-    <div class="stat-label">MTTR Reduced</div>
-  </div>
-</div>
-</div>
-```
-
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">3+</div>
+        <div class="stat-label">Years</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5,000+</div>
+        <div class="stat-label">Incidents</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">99.9%</div>
+        <div class="stat-label">Uptime</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">~30%</div>
+        <div class="stat-label">MTTR Reduced</div>
+      </div>
+    </div>
+    </div>
   </section>
 
   <!-- ABOUT -->
-
   <section id="about" class="reveal">
     <div class="section-label">01 — What I Do</div>
     <div class="section-title">Daily operations.</div>
@@ -1288,8 +1281,8 @@ transform: translateY(0);
       </div>
       <div class="about-card">
         <div class="card-number">03</div>
-        <h3>Linux &amp; Kubernetes</h3>
-        <p>Troubleshoot production Linux servers — CPU, memory, disk, networking. Perform AKS diagnostics on pods, nodes, events, and restarts. Comfortable in kubectl, journalctl, and systemd debugging.</p>
+        <h3>Linux, AKS &amp; Containers</h3>
+        <p>Troubleshoot production Linux servers (200+) — CPU, memory, disk, networking, Apache/Tomcat. Work on Azure Kubernetes Service (AKS) using k9s for the MSAI microservice infrastructure — check node and pod health, namespaces, container status, and pull logs. Act on alerts like CrashLoopBackOff, OOMKilled, pod restarts, node scale-downs, and unhealthy containers.</p>
       </div>
       <div class="about-card">
         <div class="card-number">04</div>
@@ -1304,161 +1297,158 @@ transform: translateY(0);
       <div class="about-card">
         <div class="card-number">06</div>
         <h3>Customer Communication</h3>
-        <p>Proactive updates during outages with clear ETAs and status. Coordinate SSL/cert renewals across App, DB, and Incident teams. Execute weekend maintenance windows with zero-customer-impact targets.</p>
+        <p>Proactive updates during outages with clear ETAs and status. Monitor certificate-expiry alerts and escalate to the right teams. Support scheduled maintenance windows.</p>
       </div>
     </div>
   </section>
 
   <!-- PROJECTS -->
-
   <section id="projects" class="reveal">
     <div class="section-label">02 — Featured Work</div>
     <div class="section-title">Projects &amp; initiatives.</div>
     <div class="projects-list">
 
-```
-  <div class="project-item">
-    <div class="project-meta">
-      <span class="meta-year">2024</span>
-      Production · Windchill
-    </div>
-    <div class="project-content">
-      <h3>JVM Heap &amp; Performance Tuning</h3>
-      <div class="project-impact">Reduced recurring OOM incidents · Improved app stability</div>
-      <p class="project-desc">
-        Diagnosed recurring out-of-memory errors and slow garbage collection on a Fortune 500 customer's Windchill production environment. Analyzed heap dumps, GC logs, and thread states to pinpoint memory leaks and inefficient object retention patterns.
-      </p>
-      <div class="project-flow">
-        <div class="flow-step">
-          <div class="flow-label">Problem</div>
-          <div class="flow-text">Frequent OOM crashes and long GC pauses degrading user experience.</div>
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">2024</span>
+          Production · Windchill
         </div>
-        <div class="flow-step">
-          <div class="flow-label">Action</div>
-          <div class="flow-text">Tuned heap sizing, GC algorithm, and added targeted Sumo Logic queries.</div>
-        </div>
-        <div class="flow-step">
-          <div class="flow-label">Result</div>
-          <div class="flow-text">Stabilized production, reduced ticket volume, runbook adopted team-wide.</div>
+        <div class="project-content">
+          <h3>JVM Heap &amp; Performance Tuning</h3>
+          <div class="project-impact">Reduced recurring OOM incidents · Improved app stability</div>
+          <p class="project-desc">
+            Diagnosed recurring out-of-memory errors and slow garbage collection on a Fortune 500 customer's Windchill production environment. Analyzed heap dumps, GC logs, and thread states to pinpoint memory leaks and inefficient object retention patterns.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">Frequent OOM crashes and long GC pauses degrading user experience.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Tuned heap sizing, GC algorithm, and added targeted Sumo Logic queries.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">Stabilized production, reduced ticket volume, runbook adopted team-wide.</div>
+            </div>
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">Java</span>
+            <span class="project-tag">JVM</span>
+            <span class="project-tag">GC Tuning</span>
+            <span class="project-tag">Sumo Logic</span>
+            <span class="project-tag">Windchill</span>
+          </div>
         </div>
       </div>
-      <div class="project-tags">
-        <span class="project-tag">Java</span>
-        <span class="project-tag">JVM</span>
-        <span class="project-tag">GC Tuning</span>
-        <span class="project-tag">Sumo Logic</span>
-        <span class="project-tag">Windchill</span>
-      </div>
-    </div>
-  </div>
 
-  <div class="project-item">
-    <div class="project-meta">
-      <span class="meta-year">2024</span>
-      Platform-wide
-    </div>
-    <div class="project-content">
-      <h3>Memory Alert Threshold Optimization</h3>
-      <div class="project-impact">Reduced false-positive pages · Improved on-call quality</div>
-      <p class="project-desc">
-        Memory alerts across the fleet were firing on transient spikes, causing pager fatigue and missed real incidents. Audited alert behavior across multiple customer environments and proposed data-backed threshold adjustments.
-      </p>
-      <div class="project-flow">
-        <div class="flow-step">
-          <div class="flow-label">Problem</div>
-          <div class="flow-text">High false-positive rate on memory alerts causing on-call burnout.</div>
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">2024</span>
+          Platform-wide
         </div>
-        <div class="flow-step">
-          <div class="flow-label">Action</div>
-          <div class="flow-text">Trend analysis in Zabbix &amp; Sumo Logic, sustained-window thresholds.</div>
-        </div>
-        <div class="flow-step">
-          <div class="flow-label">Result</div>
-          <div class="flow-text">Significant drop in noisy alerts; cleaner signal for genuine incidents.</div>
+        <div class="project-content">
+          <h3>Memory Alert Threshold Optimization</h3>
+          <div class="project-impact">Reduced false-positive pages · Improved on-call quality</div>
+          <p class="project-desc">
+            Memory alerts across the fleet were firing on transient spikes, causing pager fatigue and missed real incidents. Audited alert behavior across multiple customer environments and proposed data-backed threshold adjustments.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">High false-positive rate on memory alerts causing on-call burnout.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Trend analysis in Zabbix &amp; Sumo Logic, sustained-window thresholds.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">Significant drop in noisy alerts; cleaner signal for genuine incidents.</div>
+            </div>
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">Zabbix</span>
+            <span class="project-tag">Sumo Logic</span>
+            <span class="project-tag">Observability</span>
+            <span class="project-tag">SRE Practices</span>
+          </div>
         </div>
       </div>
-      <div class="project-tags">
-        <span class="project-tag">Zabbix</span>
-        <span class="project-tag">Sumo Logic</span>
-        <span class="project-tag">Observability</span>
-        <span class="project-tag">SRE Practices</span>
-      </div>
-    </div>
-  </div>
 
-  <div class="project-item">
-    <div class="project-meta">
-      <span class="meta-year">Ongoing</span>
-      Team-wide
-    </div>
-    <div class="project-content">
-      <h3>Runbook Library &amp; Knowledge Base</h3>
-      <div class="project-impact">Faster onboarding · Reduced repeat escalations</div>
-      <p class="project-desc">
-        Authored a growing library of operational runbooks covering Windchill, ThingWorx, FlexPLM, and AKS troubleshooting. Documented exact commands, decision trees, and verification steps. Articles are now part of the standard handoff for new joiners.
-      </p>
-      <div class="project-flow">
-        <div class="flow-step">
-          <div class="flow-label">Problem</div>
-          <div class="flow-text">Tribal knowledge slowing down resolution and new-hire ramp.</div>
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Ongoing</span>
+          Team-wide
         </div>
-        <div class="flow-step">
-          <div class="flow-label">Action</div>
-          <div class="flow-text">Standardized runbook template; published in Salesforce KB.</div>
-        </div>
-        <div class="flow-step">
-          <div class="flow-label">Result</div>
-          <div class="flow-text">Repeatable resolutions, shorter MTTR for known issues.</div>
+        <div class="project-content">
+          <h3>Runbook Library &amp; Knowledge Base</h3>
+          <div class="project-impact">Faster onboarding · Reduced repeat escalations</div>
+          <p class="project-desc">
+            Authored and improved operational runbooks covering Windchill, ThingWorx, FlexPLM, MSAI alerts, and Linux/Tomcat troubleshooting. Documented exact commands, decision trees, and verification steps. Articles are now part of the standard handoff for new joiners.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">Tribal knowledge slowing down resolution and new-hire ramp.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Standardized runbook template; published in Salesforce KB.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">Repeatable resolutions, shorter MTTR for known issues.</div>
+            </div>
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">Salesforce KB</span>
+            <span class="project-tag">Documentation</span>
+            <span class="project-tag">Toil Reduction</span>
+          </div>
         </div>
       </div>
-      <div class="project-tags">
-        <span class="project-tag">Salesforce KB</span>
-        <span class="project-tag">Documentation</span>
-        <span class="project-tag">Toil Reduction</span>
-      </div>
-    </div>
-  </div>
 
-  <div class="project-item">
-    <div class="project-meta">
-      <span class="meta-year">Recurring</span>
-      Cross-team
-    </div>
-    <div class="project-content">
-      <h3>SSL Certificate Renewal Coordination</h3>
-      <div class="project-impact">Zero outages from cert expiry · Clean cross-team execution</div>
-      <p class="project-desc">
-        Owned end-to-end coordination of SSL/TLS certificate renewals across application, database, and incident teams for Fortune 500 customer environments. Drove pre-validation, change windows, and post-renewal smoke tests.
-      </p>
-      <div class="project-flow">
-        <div class="flow-step">
-          <div class="flow-label">Problem</div>
-          <div class="flow-text">Cert renewals span multiple teams and risk silent expiry-driven outages.</div>
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Ongoing</span>
+          MSAI · Kubernetes
         </div>
-        <div class="flow-step">
-          <div class="flow-label">Action</div>
-          <div class="flow-text">Scheduling, validation checklists, and rollback playbooks.</div>
-        </div>
-        <div class="flow-step">
-          <div class="flow-label">Result</div>
-          <div class="flow-text">Renewals delivered cleanly within maintenance windows.</div>
+        <div class="project-content">
+          <h3>MSAI Microservice Incident Response (AKS)</h3>
+          <div class="project-impact">Faster container recovery · Reduced repeat alerts</div>
+          <p class="project-desc">
+            Front-line response for the MSAI microservice infrastructure running on Azure Kubernetes Service. Triage and act on container and pod-level alerts using k9s and runbooks — CrashLoopBackOff, OOMKilled, pod restarts, node scale-downs, and unhealthy containers (Connection Server, PingFederate, ThingWorx). Pull logs, identify root cause, fix what's in scope, and escalate complex issues.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">Container failures (OOMKilled, CrashLoopBackOff) and unhealthy pods disrupting MSAI services.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Investigate via k9s + logs, follow runbooks, restart/remediate or escalate to the right team.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">Faster recovery for known alerts; documented patterns feed back into runbooks.</div>
+            </div>
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">Azure Kubernetes</span>
+            <span class="project-tag">k9s</span>
+            <span class="project-tag">Pods &amp; Namespaces</span>
+            <span class="project-tag">PostgreSQL</span>
+            <span class="project-tag">Incident Response</span>
+          </div>
         </div>
       </div>
-      <div class="project-tags">
-        <span class="project-tag">SSL/TLS</span>
-        <span class="project-tag">Change Management</span>
-        <span class="project-tag">Cross-team</span>
-      </div>
+
     </div>
-  </div>
-
-</div>
-```
-
   </section>
 
   <!-- PLATFORMS -->
-
   <section id="platforms" class="reveal">
     <div class="section-label">03 — Platforms I Support</div>
     <div class="section-title">Enterprise PLM &amp; IIoT.</div>
@@ -1491,7 +1481,6 @@ transform: translateY(0);
   </section>
 
   <!-- TOOLS -->
-
   <section id="tools" class="reveal">
     <div class="section-label">04 — Tech Stack</div>
     <div class="section-title">Tools &amp; technologies.</div>
@@ -1511,7 +1500,9 @@ transform: translateY(0);
           <span class="tool-badge">Microsoft Azure</span>
           <span class="tool-badge">AWS</span>
           <span class="tool-badge">Kubernetes (AKS)</span>
+          <span class="tool-badge">k9s</span>
           <span class="tool-badge">Linux (RHEL)</span>
+          <span class="tool-badge">Apache / Tomcat</span>
         </div>
       </div>
       <div class="tool-category">
@@ -1538,7 +1529,6 @@ transform: translateY(0);
   </section>
 
   <!-- TIMELINE -->
-
   <section id="journey" class="reveal">
     <div class="section-label">05 — Career Journey</div>
     <div class="section-title">Timeline.</div>
@@ -1549,112 +1539,92 @@ transform: translateY(0);
     </div>
     <div class="timeline">
 
-```
-  <div class="timeline-item">
-    <div class="timeline-date current">Dec 2025 — Present</div>
-    <div>
-      <div class="timeline-company">PTC</div>
-      <div class="timeline-role">NOC Engineer – Specialist · Pune, India</div>
-      <div class="timeline-highlights">
-        <span class="highlight-tag">24×7 On-Call</span>
-        <span class="highlight-tag">Fortune 500</span>
-        <span class="highlight-tag">Sev0–Sev3</span>
-        <span class="highlight-tag">Mentoring</span>
-        <span class="highlight-tag">RCA Lead</span>
+      <div class="timeline-item">
+        <div class="timeline-date current">Dec 2022 — Present</div>
+        <div>
+          <div class="timeline-company">PTC</div>
+          <div class="timeline-role">Cloud NOC Technician · Pune, India</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">24×7 On-Call</span>
+            <span class="highlight-tag">Fortune 500</span>
+            <span class="highlight-tag">5,000+ Incidents</span>
+            <span class="highlight-tag">99.9% Uptime</span>
+            <span class="highlight-tag">~30% MTTR ↓</span>
+            <span class="highlight-tag">Cheers Award</span>
+          </div>
+          <div class="timeline-desc">
+            Production operations for Windchill, Windchill+, FlexPLM, and ThingWorx on Azure &amp; AWS, plus the MSAI microservice infrastructure on AKS. Triage and act on container, server, and application alerts; analyze logs in Sumo Logic; tune memory and thresholds; author and improve runbooks. Recognized with PTC's Customer First and Cheers Awards.
+          </div>
+        </div>
       </div>
-      <div class="timeline-desc">
-        Driving incident response, root-cause analysis, and reliability initiatives for enterprise PLM &amp; IIoT platforms. Lead outage coordination across App/DB/Network teams, mentor newer engineers, and own runbook quality for the rotation.
       </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Jul 2022 — Nov 2022</div>
+        <div>
+          <div class="timeline-company">Johnson Controls</div>
+          <div class="timeline-role">Intern – Building Management Systems · Pune, India</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">BMS</span>
+            <span class="highlight-tag">Smart Buildings</span>
+          </div>
+          <div class="timeline-desc">
+            Supported documentation for Building Management Systems solutions in smart building automation and energy management.
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Jan 2022 — Jun 2022</div>
+        <div>
+          <div class="timeline-company">Cognizant Technology Solutions</div>
+          <div class="timeline-role">Programmer Analyst Trainee (Intern) · Bangalore, India</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">Java</span>
+            <span class="highlight-tag">Spring Boot</span>
+            <span class="highlight-tag">REST APIs</span>
+            <span class="highlight-tag">MySQL</span>
+          </div>
+          <div class="timeline-desc">
+            Developed a CRUD-based Life Insurance Management application using Java, Spring Boot, and MySQL. Built REST APIs and documented setup procedures.
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2018 — 2022</div>
+        <div>
+          <div class="timeline-company">Panimalar Engineering College</div>
+          <div class="timeline-role">B.E. Electronics &amp; Instrumentation · CGPA 8.1/10</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">SIH National Winner</span>
+            <span class="highlight-tag">CGPA 8.1</span>
+          </div>
+          <div class="timeline-desc">
+            Won Smart India Hackathon (National Level) competing against thousands of teams. Built problem-solving and teamwork skills under high-pressure constraints.
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Aug 2021</div>
+        <div>
+          <div class="timeline-company">DRDO</div>
+          <div class="timeline-role">R&amp;D Engineering Intern · Avadi, Tamil Nadu</div>
+          <div class="timeline-highlights">
+            <span class="highlight-tag">Defence R&amp;D</span>
+            <span class="highlight-tag">Sensor Integration</span>
+          </div>
+          <div class="timeline-desc">
+            Contributed to a defence R&amp;D project involving sensor integration for combat vehicle systems, working in a small team under DRDO supervision. Specifics confidential per defence protocol.
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Dec 2022 — Nov 2025</div>
-    <div>
-      <div class="timeline-company">PTC</div>
-      <div class="timeline-role">NOC Engineer – Associate · Pune, India</div>
-      <div class="timeline-highlights">
-        <span class="highlight-tag">5,000+ Incidents</span>
-        <span class="highlight-tag">99.9% Uptime</span>
-        <span class="highlight-tag">~30% MTTR ↓</span>
-        <span class="highlight-tag">Customer First Award</span>
-        <span class="highlight-tag">JVM Tuning</span>
-      </div>
-      <div class="timeline-desc">
-        Production operations for Windchill, Windchill+, FlexPLM, and ThingWorx on Azure &amp; AWS. Resolved 5,000+ incidents, authored team-wide runbooks, drove memory alert tuning, and recognized with PTC's Customer First Award.
-      </div>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Jul 2022 — Nov 2022</div>
-    <div>
-      <div class="timeline-company">Johnson Controls</div>
-      <div class="timeline-role">Intern – Building Management Systems · Pune, India</div>
-      <div class="timeline-highlights">
-        <span class="highlight-tag">BMS</span>
-        <span class="highlight-tag">Smart Buildings</span>
-      </div>
-      <div class="timeline-desc">
-        Supported documentation for Building Management Systems solutions in smart building automation and energy management.
-      </div>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Jan 2022 — Jun 2022</div>
-    <div>
-      <div class="timeline-company">Cognizant Technology Solutions</div>
-      <div class="timeline-role">Programmer Analyst Trainee (Intern) · Bangalore, India</div>
-      <div class="timeline-highlights">
-        <span class="highlight-tag">Java</span>
-        <span class="highlight-tag">Spring Boot</span>
-        <span class="highlight-tag">REST APIs</span>
-        <span class="highlight-tag">MySQL</span>
-      </div>
-      <div class="timeline-desc">
-        Developed a CRUD-based Life Insurance Management application using Java, Spring Boot, and MySQL. Built REST APIs and documented setup procedures.
-      </div>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">2018 — 2022</div>
-    <div>
-      <div class="timeline-company">Panimalar Engineering College</div>
-      <div class="timeline-role">B.E. Electronics &amp; Instrumentation · CGPA 8.1/10</div>
-      <div class="timeline-highlights">
-        <span class="highlight-tag">SIH National Winner</span>
-        <span class="highlight-tag">CGPA 8.1</span>
-      </div>
-      <div class="timeline-desc">
-        Won Smart India Hackathon (National Level) competing against thousands of teams. Built problem-solving and teamwork skills under high-pressure constraints.
-      </div>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Aug 2021</div>
-    <div>
-      <div class="timeline-company">DRDO</div>
-      <div class="timeline-role">R&amp;D Engineering Intern · Avadi, Tamil Nadu</div>
-      <div class="timeline-highlights">
-        <span class="highlight-tag">Defence R&amp;D</span>
-        <span class="highlight-tag">Sensor Integration</span>
-      </div>
-      <div class="timeline-desc">
-        Contributed to a defence R&amp;D project involving sensor integration for combat vehicle systems, working in a small team under DRDO supervision. Specifics confidential per defence protocol.
-      </div>
-    </div>
-  </div>
-
-</div>
-```
-
   </section>
 
   <!-- EVENTS -->
-
   <section id="events" class="reveal">
     <div class="section-label">06 — Community</div>
     <div class="section-title">Events &amp; conferences.</div>
@@ -1675,7 +1645,6 @@ transform: translateY(0);
   </section>
 
   <!-- IMPACT -->
-
   <section class="reveal">
     <div class="section-label">07 — Results</div>
     <div class="section-title">Key impact.</div>
@@ -1708,7 +1677,6 @@ transform: translateY(0);
   </section>
 
   <!-- CERTIFICATIONS -->
-
   <section class="reveal">
     <div class="section-label">08 — Credentials</div>
     <div class="section-title">Certifications, awards &amp; education.</div>
@@ -1739,6 +1707,11 @@ transform: translateY(0);
         <div class="cert-issuer">PTC · Excellence in Issue Resolution</div>
       </div>
       <div class="cert-row">
+        <div class="cert-type">Award</div>
+        <h4>PTC Cheers Award</h4>
+        <div class="cert-issuer">PTC · Performance &amp; Efficiency · May 2026</div>
+      </div>
+      <div class="cert-row">
         <div class="cert-type">Education</div>
         <h4>MBA – Information Systems &amp; Analytics</h4>
         <div class="cert-issuer">Manipal University Jaipur (WILP) · In Progress</div>
@@ -1752,7 +1725,6 @@ transform: translateY(0);
   </section>
 
   <!-- CONTACT -->
-
   <footer id="contact">
     <h2>Let's connect.</h2>
     <p class="footer-lede">Open to SRE, Cloud Operations Engineer, Production Support, and NOC L2/L3 roles at product companies and GCCs.</p>
@@ -1771,7 +1743,6 @@ transform: translateY(0);
 </div>
 
 <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-
 <script>
 // ===== 3D Hero Element — Rotating Wireframe =====
 (function init3D() {
