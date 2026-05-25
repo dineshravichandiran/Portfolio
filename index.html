@@ -1211,6 +1211,7 @@ footer .footer-lede {
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Work</a></li>
       <li><a href="#tools">Stack</a></li>
+      <li><a href="#building">Projects</a></li>
       <li><a href="#journey">Journey</a></li>
       <li><a href="journey.html">Journey 3D ↗</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -1528,9 +1529,142 @@ footer .footer-lede {
     </div>
   </section>
 
+  <!-- BUILDING / GITHUB PROJECTS -->
+  <section id="building" class="reveal">
+    <div class="section-label">05 — Hands-On Projects</div>
+    <div class="section-title">Building toward SRE &amp; DevOps.</div>
+    <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; max-width: 680px; margin-bottom: 2.5rem;">
+      Hands-on cloud and DevOps projects that extend my production operations experience into automation, CI/CD, infrastructure-as-code, and self-healing systems — the skills SRE and DevOps roles are built on. Code and write-ups on <a href="https://github.com/dineshravichandiran" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600;">GitHub</a>.
+    </p>
+    <div class="projects-list">
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Planned</span>
+          CI/CD · Security
+        </div>
+        <div class="project-content">
+          <h3>End-to-End DevSecOps CI Pipeline</h3>
+          <div class="project-impact">Secure, automated build → test → deploy with GitHub Actions</div>
+          <p class="project-desc">
+            A complete DevSecOps pipeline using GitHub Actions — automated build, test, security scanning (SAST/dependency/container scans), and deployment. Security baked into every stage rather than bolted on at the end.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">GitHub Actions</span>
+            <span class="project-tag">DevSecOps</span>
+            <span class="project-tag">CI/CD</span>
+            <span class="project-tag">Security Scanning</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Planned</span>
+          Reliability · AWS
+        </div>
+        <div class="project-content">
+          <h3>Scalable, Self-Healing &amp; Secure Infrastructure on AWS</h3>
+          <div class="project-impact">Auto-scaling, auto-recovery, secure-by-default</div>
+          <p class="project-desc">
+            Build infrastructure and an application deployment on AWS that scales automatically and recovers from failures on its own — auto-scaling groups, health checks, self-healing, and security hardening. The core of what SRE is about: systems that stay up without manual intervention.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">AWS</span>
+            <span class="project-tag">Self-Healing</span>
+            <span class="project-tag">Auto-Scaling</span>
+            <span class="project-tag">Reliability</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Planned</span>
+          Azure · DevOps
+        </div>
+        <div class="project-content">
+          <h3>End-to-End DevOps Project on Azure Cloud</h3>
+          <div class="project-impact">Full pipeline on the cloud I already operate</div>
+          <p class="project-desc">
+            A complete DevOps workflow on Azure — provisioning, CI/CD, containerized deployment, and monitoring. Builds directly on my day-to-day Azure and AKS experience at PTC, turning operational familiarity into hands-on delivery skill.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Azure</span>
+            <span class="project-tag">AKS</span>
+            <span class="project-tag">CI/CD</span>
+            <span class="project-tag">Monitoring</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Planned</span>
+          GitOps · EKS
+        </div>
+        <div class="project-content">
+          <h3>Golden AMI &amp; App Deployment on EKS via ArgoCD GitOps</h3>
+          <div class="project-impact">Immutable images + declarative GitOps delivery</div>
+          <p class="project-desc">
+            Automate golden AMI creation (Packer) and deploy applications to AWS EKS following the ArgoCD GitOps approach — Git as the single source of truth, with automated sync and rollback. Premium DevOps practices that build on my Kubernetes work.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">ArgoCD</span>
+            <span class="project-tag">GitOps</span>
+            <span class="project-tag">AWS EKS</span>
+            <span class="project-tag">Packer</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Starting Soon</span>
+          Cloud Architecture
+        </div>
+        <div class="project-content">
+          <h3>Multi-Region, Multi-Account SaaS on AWS</h3>
+          <div class="project-impact">Enterprise-grade cloud foundation from scratch</div>
+          <p class="project-desc">
+            Set up a multi-region, multi-account SaaS company foundation on AWS — Control Tower guardrails, SCP policies, Security Hub for visibility, Route 53 global routing, and Terraform-managed resources across regions and environments. My most ambitious project, mirroring how real cloud organizations are structured.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">AWS Organizations</span>
+            <span class="project-tag">Control Tower</span>
+            <span class="project-tag">Terraform</span>
+            <span class="project-tag">Multi-Region</span>
+            <span class="project-tag">Route 53</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Planned</span>
+          Linux
+        </div>
+        <div class="project-content">
+          <h3>Logrotate on Linux — Config &amp; Best-Practice Guide</h3>
+          <div class="project-impact">Practical log-rotation reference for production servers</div>
+          <p class="project-desc">
+            A hands-on guide and working configs for log rotation on Linux — sizing, retention, compression, and post-rotate hooks. Grounded in real production server management (200+ servers) where unmanaged logs are a common cause of disk-full incidents.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Linux</span>
+            <span class="project-tag">Logrotate</span>
+            <span class="project-tag">Server Ops</span>
+            <span class="project-tag">Best Practices</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- TIMELINE -->
   <section id="journey" class="reveal">
-    <div class="section-label">05 — Career Journey</div>
+    <div class="section-label">06 — Career Journey</div>
     <div class="section-title">Timeline.</div>
     <div style="margin-bottom: 2.5rem;">
       <a href="journey.html" class="btn btn-outline" style="display: inline-flex;">
@@ -1556,7 +1690,6 @@ footer .footer-lede {
             Production operations for Windchill, Windchill+, FlexPLM, and ThingWorx on Azure &amp; AWS, plus the MSAI microservice infrastructure on AKS. Triage and act on container, server, and application alerts; analyze logs in Sumo Logic; tune memory and thresholds; author and improve runbooks. Recognized with PTC's Customer First and Cheers Awards.
           </div>
         </div>
-      </div>
       </div>
 
       <div class="timeline-item">
@@ -1626,7 +1759,7 @@ footer .footer-lede {
 
   <!-- EVENTS -->
   <section id="events" class="reveal">
-    <div class="section-label">06 — Community</div>
+    <div class="section-label">07 — Community</div>
     <div class="section-title">Events &amp; conferences.</div>
     <div class="events-row">
       <div class="event-card">
@@ -1646,7 +1779,7 @@ footer .footer-lede {
 
   <!-- IMPACT -->
   <section class="reveal">
-    <div class="section-label">07 — Results</div>
+    <div class="section-label">08 — Results</div>
     <div class="section-title">Key impact.</div>
     <div class="impact-grid">
       <div class="impact-card">
@@ -1678,7 +1811,7 @@ footer .footer-lede {
 
   <!-- CERTIFICATIONS -->
   <section class="reveal">
-    <div class="section-label">08 — Credentials</div>
+    <div class="section-label">09 — Credentials</div>
     <div class="section-title">Certifications, awards &amp; education.</div>
     <div class="certs-list">
       <div class="cert-row">
