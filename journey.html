@@ -1467,94 +1467,84 @@ buildBangaloreLandmark(20);
 buildPuneLandmark(44);
 
 
-// ---------- CITY ENTRY SIGNS (big banners at each zone start) ----------
+// ---------- CITY ROADSIDE SIGN (clean highway-exit style, off to the side) ----------
 function makeCitySign(x, cityName) {
   const g = new THREE.Group();
-  // Two posts
-  for (let side of [-1, 1]) {
-    const post = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.1, 0.12, 4, 8),
-      new THREE.MeshLambertMaterial({ color: 0x475569 })
-    );
-    post.position.set(0, 2, side * 3.5);
-    post.castShadow = true;
-    g.add(post);
-  }
 
-  // Banner — wider canvas to match the wider banner geometry (8:1.2 ratio)
+  // Single sturdy pole on the right side of the road
+  const pole = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.08, 0.1, 3, 10),
+    new THREE.MeshLambertMaterial({ color: 0x9ca3af })
+  );
+  pole.position.set(0, 1.5, 0);
+  pole.castShadow = true;
+  g.add(pole);
+
+  // Sign panel canvas — green highway sign with white text
   const canvas = document.createElement('canvas');
-  canvas.width = 1600;
+  canvas.width = 640;
   canvas.height = 280;
   const ctx = canvas.getContext('2d');
 
-  // Navy gradient background
-  const grad = ctx.createLinearGradient(0, 0, canvas.width, 0);
-  grad.addColorStop(0, '#1e3a8a');
-  grad.addColorStop(1, '#2563eb');
-  ctx.fillStyle = grad;
+  // Green highway-sign background
+  ctx.fillStyle = '#15803d';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Gold inner border (highway sign style)
-  ctx.strokeStyle = '#facc15';
-  ctx.lineWidth = 6;
-  ctx.strokeRect(18, 18, canvas.width - 36, canvas.height - 36);
+  // White rounded border
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 10;
+  ctx.strokeRect(16, 16, canvas.width - 32, canvas.height - 32);
 
-  // White inset panel
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(36, 36, canvas.width - 72, canvas.height - 72);
-
-  // "WELCOME TO" — small, top line
-  ctx.fillStyle = '#1e3a8a';
-  ctx.font = '600 60px Manrope, sans-serif';
+  // Small "WELCOME TO" line
+  ctx.fillStyle = '#d1fae5';
+  ctx.font = '600 42px Arial, Helvetica, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('WELCOME TO', canvas.width / 2, 90);
+  ctx.fillText('WELCOME TO', canvas.width / 2, 78);
 
-  // City name — BIG, auto-sized to fit the canvas width
-  let fontSize = 150;
-  ctx.font = `bold ${fontSize}px Manrope, sans-serif`;
-  const maxWidth = canvas.width - 120;
-  while (ctx.measureText(cityName).width > maxWidth && fontSize > 60) {
-    fontSize -= 5;
-    ctx.font = `bold ${fontSize}px Manrope, sans-serif`;
+  // City name — big, white, auto-fit with generous side padding
+  let fontSize = 110;
+  const maxWidth = canvas.width - 140; // 70px padding each side so letters never touch the border
+  ctx.font = `bold ${fontSize}px Arial, Helvetica, sans-serif`;
+  while (ctx.measureText(cityName).width > maxWidth && fontSize > 34) {
+    fontSize -= 3;
+    ctx.font = `bold ${fontSize}px Arial, Helvetica, sans-serif`;
   }
-  ctx.fillStyle = '#dc2626'; // Red for emphasis (like highway signs)
-  ctx.fillText(cityName, canvas.width / 2, 195);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText(cityName, canvas.width / 2, 178);
 
   const tex = new THREE.CanvasTexture(canvas);
   tex.minFilter = THREE.LinearFilter;
   tex.magFilter = THREE.LinearFilter;
   tex.anisotropy = 4;
 
-  // Banner — wider and taller to match the new canvas proportions
-  const navyMat = new THREE.MeshLambertMaterial({ color: 0x1e3a8a });
-  const faceMat = new THREE.MeshLambertMaterial({ map: tex });
-  const banner = new THREE.Mesh(
-    new THREE.BoxGeometry(8.5, 1.5, 0.12),
-    [navyMat, navyMat, navyMat, navyMat, faceMat, faceMat]
+  // Sign panel — modest size, mounted on top of the pole, facing the rider
+  const panelW = 2.6;
+  const panelH = panelW * (280 / 640);
+  const panel = new THREE.Mesh(
+    new THREE.BoxGeometry(panelW, panelH, 0.08),
+    [
+      new THREE.MeshLambertMaterial({ color: 0x15803d }),
+      new THREE.MeshLambertMaterial({ color: 0x15803d }),
+      new THREE.MeshLambertMaterial({ color: 0x15803d }),
+      new THREE.MeshLambertMaterial({ color: 0x15803d }),
+      new THREE.MeshLambertMaterial({ map: tex }),
+      new THREE.MeshLambertMaterial({ map: tex })
+    ]
   );
-  banner.position.set(0, 3.8, 0);
-  banner.rotation.y = Math.PI / 2;
-  banner.castShadow = true;
-  g.add(banner);
+  panel.position.set(0, 3.0, 0);
+  panel.castShadow = true;
+  g.add(panel);
 
-  // Gold trim strip across the bottom of the banner (highway look)
-  const trimGeo = new THREE.BoxGeometry(8.5, 0.08, 0.14);
-  const trim = new THREE.Mesh(
-    trimGeo,
-    new THREE.MeshLambertMaterial({ color: 0xfacc15, emissive: 0xfacc15, emissiveIntensity: 0.2 })
-  );
-  trim.position.set(0, 3.0, 0);
-  trim.rotation.y = Math.PI / 2;
-  g.add(trim);
-
-  g.position.set(x, 0, 0);
+  // Place the signpost OFF to the right side of the road (z = 3.2), angled to face oncoming rider
+  g.position.set(x, 0, 3.2);
+  g.rotation.y = -Math.PI / 2 - 0.35;
   scene.add(g);
 }
 
-makeCitySign(2,  'CHENNAI');
-makeCitySign(17, 'BANGALORE');
-makeCitySign(37, 'PUNE');
+makeCitySign(4,  'CHENNAI');    // after the start so the camera catches it; before DRDO (x~6)
+makeCitySign(12, 'BANGALORE');  // in the gap between DRDO (x~6) and Cognizant (x~17) — no billboard overlap
+makeCitySign(34, 'PUNE');       // gap between Johnson Controls (x~28) and PTC (x~40)
 
 // ---------- KILOMETER MARKERS along the highway ----------
 function addKmMarker(x, side) {
@@ -2181,13 +2171,22 @@ for (let side of [-0.42, 0.42]) {
   );
   riser.position.set(0.95, 1.7, side);
   bike.add(riser);
-  // Grip
+  // Grip — HORIZONTAL bar end (oriented along Z), so the hand can wrap around it
   const grip = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.05, 0.05, 0.16, 12),
+    new THREE.CylinderGeometry(0.045, 0.045, 0.22, 12),
     blackMat
   );
-  grip.position.set(0.95, 1.83, side);
+  grip.rotation.x = Math.PI / 2; // lay it along the Z axis (sideways)
+  grip.position.set(0.95, 1.85, side);
   bike.add(grip);
+  // Grip end cap (chrome)
+  const cap = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.05, 0.05, 0.03, 12),
+    chromeMat
+  );
+  cap.rotation.x = Math.PI / 2;
+  cap.position.set(0.95, 1.85, side + (side > 0 ? 0.12 : -0.12));
+  bike.add(cap);
 }
 
 // Speedometer cluster on handlebars
@@ -2655,77 +2654,99 @@ elbowR.position.set(0.05, 1.5, -0.4);
 elbowR.castShadow = true;
 rider.add(elbowR);
 
-// FOREARMS — tapered to wrist
+// FOREARMS — span exactly from elbow to the wrist where the hand grips (no gap)
+// Elbow is at (0.05, 1.5, ±0.4); hand/grip is at (0.95, 1.85, ±0.42)
+// Forearm ends slightly short of the grip so the wrist + cuff fill the join
 function makeForearm(zSide) {
-  const g = makeTaperedCapsule(0.42, 0.07, 0.055, jacketMat);
-  g.position.set(0.45, 1.64, zSide);
-  g.rotation.z = Math.PI / 2 - 0.35;
+  const elbow = new THREE.Vector3(0.05, 1.5, zSide > 0 ? 0.4 : -0.4);
+  // Aim at the inner edge of the hand (where the cuff sits), not the grip center
+  const wristPoint = new THREE.Vector3(0.86, 1.84, zSide > 0 ? 0.36 : -0.36);
+  const mid = elbow.clone().add(wristPoint).multiplyScalar(0.5);
+  const len = elbow.distanceTo(wristPoint);
+
+  const g = makeTaperedCapsule(len, 0.075, 0.052, jacketMat);
+  g.position.copy(mid);
+
+  const dir = wristPoint.clone().sub(elbow).normalize();
+  const up = new THREE.Vector3(0, 1, 0);
+  const quat = new THREE.Quaternion().setFromUnitVectors(up, dir);
+  g.quaternion.copy(quat);
   return g;
 }
-const forearmL = makeForearm(0.41);
-const forearmR = makeForearm(-0.41);
+const forearmL = makeForearm(0.42);
+const forearmR = makeForearm(-0.42);
 rider.add(forearmL);
 rider.add(forearmR);
 
-// WRISTS
-const wristL = new THREE.Mesh(new THREE.SphereGeometry(0.055, 10, 8), gloveMat);
-wristL.position.set(0.83, 1.79, 0.42);
+// WRISTS — sit right where forearm meets the hand cuff, sealing the join
+const wristL = new THREE.Mesh(new THREE.SphereGeometry(0.058, 12, 10), gloveMat);
+wristL.position.set(0.88, 1.85, 0.35);
+wristL.castShadow = true;
 rider.add(wristL);
-const wristR = new THREE.Mesh(new THREE.SphereGeometry(0.055, 10, 8), gloveMat);
-wristR.position.set(0.83, 1.79, -0.42);
+const wristR = new THREE.Mesh(new THREE.SphereGeometry(0.058, 12, 10), gloveMat);
+wristR.position.set(0.88, 1.85, -0.35);
+wristR.castShadow = true;
 rider.add(wristR);
 
-// HANDS — detailed gloved fists gripping the handlebars
+// HANDS — gloved fists wrapping AROUND the horizontal grip
+// Grip is a horizontal cylinder (along Z) centered at (0.95, 1.85, ±0.42)
 function makeHand(zSide) {
   const g = new THREE.Group();
 
-  // Palm (back of hand)
-  const palm = new THREE.Mesh(
-    new THREE.BoxGeometry(0.13, 0.09, 0.1),
+  // Back of hand — curved plate resting on TOP of the grip
+  const backOfHand = new THREE.Mesh(
+    new THREE.BoxGeometry(0.14, 0.06, 0.13),
     gloveMat
   );
-  palm.castShadow = true;
-  g.add(palm);
+  backOfHand.position.set(0, 0.05, 0);
+  backOfHand.castShadow = true;
+  g.add(backOfHand);
 
-  // Fingers (4 knuckles forming a row)
+  // Four curled fingers — wrap down the FRONT of the grip (toward +X / forward)
   for (let i = 0; i < 4; i++) {
-    const knuckle = new THREE.Mesh(
-      new THREE.SphereGeometry(0.022, 8, 6),
+    const finger = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.02, 0.018, 0.11, 8),
       gloveMat
     );
-    knuckle.position.set(0.075, 0.03, -0.04 + i * 0.025);
-    g.add(knuckle);
+    // Position along the grip length (Z), curling over the front edge
+    finger.position.set(0.05, -0.01, -0.045 + i * 0.03);
+    finger.rotation.z = Math.PI / 2.4; // curl down and forward
+    finger.castShadow = true;
+    g.add(finger);
   }
 
-  // Folded fingers gripping (subtle bumps)
-  const fingers = new THREE.Mesh(
-    new THREE.BoxGeometry(0.05, 0.06, 0.1),
+  // Knuckle ridge on top where fingers bend over the grip
+  const knuckleRidge = new THREE.Mesh(
+    new THREE.BoxGeometry(0.04, 0.04, 0.12),
     gloveMat
   );
-  fingers.position.set(0.08, -0.005, 0);
-  fingers.castShadow = true;
-  g.add(fingers);
+  knuckleRidge.position.set(0.06, 0.03, 0);
+  g.add(knuckleRidge);
 
-  // Thumb wrapping the grip from below
+  // Thumb — wraps up from BELOW/BACK of the grip (toward -X), opposing the fingers
   const thumb = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.025, 0.025, 0.09, 8),
+    new THREE.CylinderGeometry(0.022, 0.022, 0.1, 8),
     gloveMat
   );
-  thumb.position.set(0.05, -0.05, zSide > 0 ? -0.05 : 0.05);
-  thumb.rotation.x = Math.PI / 2;
-  thumb.rotation.z = zSide > 0 ? -0.3 : 0.3;
+  thumb.position.set(-0.04, -0.03, zSide > 0 ? 0.06 : -0.06);
+  thumb.rotation.z = Math.PI / 3;
+  thumb.rotation.y = zSide > 0 ? 0.4 : -0.4;
+  thumb.castShadow = true;
   g.add(thumb);
 
-  // Glove cuff (wider where it meets sleeve)
+  // Glove cuff — where the glove meets the jacket sleeve (on the inner side, toward the wrist)
   const cuff = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.06, 0.055, 0.06, 12),
+    new THREE.CylinderGeometry(0.055, 0.05, 0.07, 12),
     gloveMat
   );
-  cuff.position.set(-0.07, 0, 0);
-  cuff.rotation.z = Math.PI / 2;
+  // Cuff sits on the inner side (toward bike center) where the forearm arrives
+  cuff.position.set(-0.05, 0.02, zSide > 0 ? -0.08 : 0.08);
+  cuff.rotation.x = Math.PI / 2;
+  cuff.rotation.z = 0.3;
   g.add(cuff);
 
-  g.position.set(0.95, 1.83, zSide);
+  // Position the whole hand sitting ON the grip
+  g.position.set(0.95, 1.85, zSide);
   return g;
 }
 const handL = makeHand(0.42);
@@ -3174,10 +3195,10 @@ function animate() {
   // Subtle head turn forward — always looking slightly ahead and down
   riderParts.headGroup.rotation.z = -0.08;
 
-  // Hands twitch slightly with road bumps (very subtle)
+  // Hands stay locked on the handlebar grips (grips are at y=1.83) with a tiny bump twitch
   const handBob = Math.sin(time * 7) * 0.004;
-  riderParts.handL.position.y = 1.26 + handBob;
-  riderParts.handR.position.y = 1.26 - handBob;
+  riderParts.handL.position.y = 1.83 + handBob;
+  riderParts.handR.position.y = 1.83 - handBob;
 
   // Animate clouds — slow horizontal drift, wrap around
   clouds.forEach(cloud => {
