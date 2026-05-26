@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dinesh Ravichandiran — Cloud Operations & SRE Engineer</title>
+<title>Dinesh Ravichandiran — Cloud Operations & SRE</title>
 <meta name="description" content="Cloud Operations Engineer at PTC. 3+ years supporting Fortune 500 PLM & IIoT platforms on Azure & AWS. 5,000+ incidents resolved, 99.9% uptime, ~30% MTTR reduction.">
 <meta name="keywords" content="Dinesh Ravichandiran, Cloud Operations Engineer, SRE, NOC Specialist, Kubernetes, Azure, AWS, PTC, Pune">
-<meta property="og:title" content="Dinesh Ravichandiran — Cloud Operations & SRE Engineer">
+<meta property="og:title" content="Dinesh Ravichandiran — Cloud Operations & SRE">
 <meta property="og:description" content="Cloud Ops Engineer → SRE. 3+ years keeping Fortune 500 platforms running 24×7 on Azure & AWS.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231e3a8a'/%3E%3Ctext x='50' y='68' font-family='serif' font-size='52' font-weight='600' text-anchor='middle' fill='%23ffffff'%3EDR%3C/text%3E%3C/svg%3E">
@@ -1191,6 +1191,152 @@ footer .footer-lede {
   opacity: 1;
   transform: translateY(0);
 }
+/* ===== ROADMAP SECTION ===== */
+.roadmap-intro {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 680px;
+  margin-bottom: 3rem;
+}
+
+/* Horizontal milestone timeline */
+.roadmap-track {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 4rem;
+  padding-top: 1rem;
+  gap: 0.5rem;
+}
+.roadmap-track::before {
+  content: '';
+  position: absolute;
+  top: 1.65rem;
+  left: 5%;
+  right: 5%;
+  height: 3px;
+  background: linear-gradient(to right, var(--accent) 0%, var(--accent) var(--progress, 30%), var(--border) var(--progress, 30%), var(--border) 100%);
+  border-radius: 3px;
+  z-index: 0;
+}
+.roadmap-node {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  text-align: center;
+}
+.roadmap-dot {
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--border);
+  margin: 0 auto 0.75rem;
+  transition: transform 0.3s;
+}
+.roadmap-dot.done { background: var(--accent); border-color: var(--accent); }
+.roadmap-dot.active {
+  background: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 5px var(--accent-light);
+}
+.roadmap-node:hover .roadmap-dot { transform: scale(1.25); }
+.roadmap-node .node-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.roadmap-node .node-label {
+  font-size: 0.82rem;
+  color: var(--text);
+  font-weight: 600;
+  margin-top: 0.2rem;
+  line-height: 1.3;
+}
+
+/* Detailed checklist */
+.roadmap-list { display: flex; flex-direction: column; gap: 1rem; }
+.roadmap-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 1.4rem 1.6rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  border-left: 4px solid var(--border);
+  transition: transform 0.3s, box-shadow 0.3s, border-left-color 0.3s;
+}
+.roadmap-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 12px 32px -16px rgba(30, 58, 138, 0.25);
+}
+.roadmap-item.done { border-left-color: #16a34a; }
+.roadmap-item.progress { border-left-color: var(--accent); }
+.roadmap-item.target { border-left-color: #d97706; }
+
+.roadmap-check {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 0.15rem;
+}
+.roadmap-check.done { background: #dcfce7; color: #16a34a; }
+.roadmap-check.progress { background: var(--accent-light); color: var(--accent); }
+.roadmap-check.target { background: #fef3c7; color: #d97706; }
+
+.roadmap-body { flex: 1; }
+.roadmap-body h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+.roadmap-body p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.roadmap-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  border-radius: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.roadmap-tag.done { background: #dcfce7; color: #16a34a; }
+.roadmap-tag.progress { background: var(--accent-light); color: var(--accent); }
+.roadmap-tag.target { background: #fef3c7; color: #d97706; }
+
+.roadmap-item-head {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.3rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 720px) {
+  .roadmap-track { display: none; }
+  .roadmap-item { padding: 1.1rem 1.2rem; gap: 0.9rem; }
+  .roadmap-tag { margin-left: 0; margin-top: 0.4rem; }
+  .roadmap-item-head { gap: 0.5rem; }
+}
 </style>
 </head>
 <body>
@@ -1212,6 +1358,7 @@ footer .footer-lede {
       <li><a href="#projects">Work</a></li>
       <li><a href="#tools">Stack</a></li>
       <li><a href="#building">Projects</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
       <li><a href="#journey">Journey</a></li>
       <li><a href="journey.html">Journey 3D ↗</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -1293,7 +1440,7 @@ footer .footer-lede {
       <div class="about-card">
         <div class="card-number">05</div>
         <h3>Alert Optimization</h3>
-        <p>Spearheaded memory alert tuning — analyzed firing patterns, adjusted thresholds, and reduced false positives. Cut noisy on-call pages and improved signal-to-noise ratio for the rotation team.</p>
+        <p>Led memory alert tuning — analyzed firing patterns, adjusted thresholds, and reduced false positives. Cut noisy on-call pages and improved signal-to-noise ratio for the rotation team.</p>
       </div>
       <div class="about-card">
         <div class="card-number">06</div>
@@ -1662,9 +1809,140 @@ footer .footer-lede {
     </div>
   </section>
 
+  <!-- ROADMAP -->
+  <section id="roadmap" class="reveal">
+    <div class="section-label">06 — The Roadmap</div>
+    <div class="section-title">SRE by execution, not luck.</div>
+    <p class="roadmap-intro">
+      A disciplined, dated plan to grow from Cloud NOC Technician into a Site Reliability Engineer — certifications, hands-on projects, and skills, each with a real deadline. Updated as I ship. This is how I hold myself accountable.
+    </p>
+
+    <!-- Horizontal milestone timeline -->
+    <div class="roadmap-track" style="--progress: 22%;">
+      <div class="roadmap-node">
+        <div class="roadmap-dot done"></div>
+        <div class="node-date">DONE</div>
+        <div class="node-label">Foundations<br>AZ-900 · DP-900</div>
+      </div>
+      <div class="roadmap-node">
+        <div class="roadmap-dot active"></div>
+        <div class="node-date">AUG 2026</div>
+        <div class="node-label">CKA<br>Kubernetes</div>
+      </div>
+      <div class="roadmap-node">
+        <div class="roadmap-dot"></div>
+        <div class="node-date">NOV 2026</div>
+        <div class="node-label">AWS SAA<br>+ RHCSA</div>
+      </div>
+      <div class="roadmap-node">
+        <div class="roadmap-dot"></div>
+        <div class="node-date">DEC 2026</div>
+        <div class="node-label">3 Projects<br>Shipped</div>
+      </div>
+      <div class="roadmap-node">
+        <div class="roadmap-dot"></div>
+        <div class="node-date">2027</div>
+        <div class="node-label">SRE Role<br>Product Co.</div>
+      </div>
+    </div>
+
+    <!-- Detailed checklist -->
+    <div class="roadmap-list">
+
+      <div class="roadmap-item done">
+        <div class="roadmap-check done">✓</div>
+        <div class="roadmap-body">
+          <div class="roadmap-item-head">
+            <h4>Cloud Foundations</h4>
+            <span class="roadmap-tag done">Done</span>
+          </div>
+          <p>Microsoft Azure (AZ-900) and Azure Data (DP-900) fundamentals certified. Active hands-on labs on KodeKloud.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-item progress">
+        <div class="roadmap-check progress">⟳</div>
+        <div class="roadmap-body">
+          <div class="roadmap-item-head">
+            <h4>CKA — Certified Kubernetes Administrator</h4>
+            <span class="roadmap-tag progress">Target: Aug 2026</span>
+          </div>
+          <p>The highest-priority certification. I already work with AKS, k9s, pods, and namespaces daily — this proves it with a hands-on, proctored exam. Preparing via KodeKloud labs.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-item progress">
+        <div class="roadmap-check progress">⟳</div>
+        <div class="roadmap-body">
+          <div class="roadmap-item-head">
+            <h4>Python for Automation</h4>
+            <span class="roadmap-tag progress">Ongoing</span>
+          </div>
+          <p>Building scripting fluency for toil-reduction and automation — the core of the SRE mindset. Small weekly automation exercises feeding into my projects.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-item target">
+        <div class="roadmap-check target">○</div>
+        <div class="roadmap-body">
+          <div class="roadmap-item-head">
+            <h4>AWS Solutions Architect Associate</h4>
+            <span class="roadmap-tag target">Target: Nov 2026</span>
+          </div>
+          <p>Cloud architecture depth on AWS to complement my Azure operations experience. Pairs with the Terraform and self-healing infrastructure projects.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-item target">
+        <div class="roadmap-check target">○</div>
+        <div class="roadmap-body">
+          <div class="roadmap-item-head">
+            <h4>RHCSA — Red Hat Certified System Administrator</h4>
+            <span class="roadmap-tag target">Target: Nov 2026</span>
+          </div>
+          <p>Certifying the Linux depth I already use across 200+ production servers. Hands-on exam — Linux + Kubernetes is the core SRE foundation.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-item target">
+        <div class="roadmap-check target">○</div>
+        <div class="roadmap-body">
+          <div class="roadmap-item-head">
+            <h4>Ship 3 Portfolio Projects</h4>
+            <span class="roadmap-tag target">Target: Dec 2026</span>
+          </div>
+          <p>DevSecOps CI pipeline, self-healing AWS infrastructure, and an end-to-end DevOps project — each finished, documented, and live on GitHub. Proof of building, not just operating.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-item target">
+        <div class="roadmap-check target">○</div>
+        <div class="roadmap-body">
+          <div class="roadmap-item-head">
+            <h4>MBA — Information Systems &amp; Analytics</h4>
+            <span class="roadmap-tag target">In Progress</span>
+          </div>
+          <p>Manipal University Jaipur (WILP) — combining technical depth with systems and analytics for long-term growth into senior and leadership roles.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-item target">
+        <div class="roadmap-check target">★</div>
+        <div class="roadmap-body">
+          <div class="roadmap-item-head">
+            <h4>Land an SRE / DevOps Role at a Product Company</h4>
+            <span class="roadmap-tag target">Goal: 2027</span>
+          </div>
+          <p>The destination: a Site Reliability or DevOps Engineer role at a product-first company or GCC, backed by certifications, real projects, and proven production experience.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- TIMELINE -->
   <section id="journey" class="reveal">
-    <div class="section-label">06 — Career Journey</div>
+    <div class="section-label">07 — Career Journey</div>
     <div class="section-title">Timeline.</div>
     <div style="margin-bottom: 2.5rem;">
       <a href="journey.html" class="btn btn-outline" style="display: inline-flex;">
@@ -1759,7 +2037,7 @@ footer .footer-lede {
 
   <!-- EVENTS -->
   <section id="events" class="reveal">
-    <div class="section-label">07 — Community</div>
+    <div class="section-label">08 — Community</div>
     <div class="section-title">Events &amp; conferences.</div>
     <div class="events-row">
       <div class="event-card">
@@ -1779,7 +2057,7 @@ footer .footer-lede {
 
   <!-- IMPACT -->
   <section class="reveal">
-    <div class="section-label">08 — Results</div>
+    <div class="section-label">09 — Results</div>
     <div class="section-title">Key impact.</div>
     <div class="impact-grid">
       <div class="impact-card">
@@ -1811,7 +2089,7 @@ footer .footer-lede {
 
   <!-- CERTIFICATIONS -->
   <section class="reveal">
-    <div class="section-label">09 — Credentials</div>
+    <div class="section-label">10 — Credentials</div>
     <div class="section-title">Certifications, awards &amp; education.</div>
     <div class="certs-list">
       <div class="cert-row">
