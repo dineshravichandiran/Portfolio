@@ -1810,498 +1810,380 @@ window.addEventListener('touchmove', (e) => {
 }, { passive: true });
 
 // ====================================================
-// THE HARLEY-DAVIDSON STYLE MOTORCYCLE (long, low, chrome heavy)
+// THE ROYAL ENFIELD METEOR 350 — FIREBALL (green) cruiser
 // ====================================================
 const bike = new THREE.Group();
 
-// Color palette — classic Harley look
-const HARLEY_TANK = 0x1e3a8a;      // Navy blue tank
-const HARLEY_TANK_TRIM = 0xfacc15;  // Gold pinstripe
-const HARLEY_BLACK = 0x0a0a0a;      // Matte black frame
-const HARLEY_LEATHER = 0x3a1f1a;    // Brown leather seat
-const HARLEY_CHROME = 0xc8cdd6;     // Polished chrome
-const HARLEY_TIRE = 0x111111;       // Tire
-const HARLEY_RIM = 0x6b7280;        // Spoke rims
-const HARLEY_ENGINE = 0x4a4a4a;     // Engine grey
-const HARLEY_EXHAUST = 0xdcdce5;    // Chrome exhaust
+// Meteor 350 Fireball colour palette
+const RE_GREEN       = 0x1f6b4a;   // Fireball green tank/fenders
+const RE_GREEN_DARK  = 0x16513a;   // shadow green
+const RE_BLACK       = 0x161616;   // matte black frame/engine
+const RE_CHROME      = 0xcdd2d8;   // chrome
+const RE_SEAT        = 0x241f1b;   // dark brown/black seat
+const RE_TIRE        = 0x121212;   // tyre
+const RE_SILVER      = 0xb9bec6;   // silver engine cases
+const RE_AMBER       = 0xffb347;   // indicator amber
 
-const blackMat = new THREE.MeshLambertMaterial({ color: HARLEY_BLACK });
-const chromeMat = new THREE.MeshLambertMaterial({ color: HARLEY_CHROME, emissive: 0x333333, emissiveIntensity: 0.05 });
-const engineMat = new THREE.MeshLambertMaterial({ color: HARLEY_ENGINE });
-const tankMat = new THREE.MeshLambertMaterial({ color: HARLEY_TANK });
-const leatherMat = new THREE.MeshLambertMaterial({ color: HARLEY_LEATHER });
+const reBlackMat  = new THREE.MeshLambertMaterial({ color: RE_BLACK });
+const reChromeMat = new THREE.MeshLambertMaterial({ color: RE_CHROME, emissive: 0x2a2a2a, emissiveIntensity: 0.05 });
+const reGreenMat  = new THREE.MeshLambertMaterial({ color: RE_GREEN });
+const reSilverMat = new THREE.MeshLambertMaterial({ color: RE_SILVER });
+const reSeatMat   = new THREE.MeshLambertMaterial({ color: RE_SEAT });
 
-// ---------- WHEELS (BIG, with spokes — Harley style) ----------
-const WHEEL_RADIUS = 0.42;
-function makeHarleyWheel() {
+// ---------- WHEELS (spoked, alloy — Meteor uses 19" front / 17" rear) ----------
+function makeREWheel(radius) {
   const w = new THREE.Group();
-  // Fat tire (torus, default orientation = standing wheel rolling forward)
   const tire = new THREE.Mesh(
-    new THREE.TorusGeometry(WHEEL_RADIUS, 0.12, 12, 32),
-    new THREE.MeshLambertMaterial({ color: HARLEY_TIRE })
+    new THREE.TorusGeometry(radius, 0.11, 12, 32),
+    new THREE.MeshLambertMaterial({ color: RE_TIRE })
   );
   tire.castShadow = true;
   w.add(tire);
-  // Chrome rim
+  // Rim
   const rim = new THREE.Mesh(
-    new THREE.CylinderGeometry(WHEEL_RADIUS - 0.12, WHEEL_RADIUS - 0.12, 0.12, 24),
-    chromeMat
+    new THREE.CylinderGeometry(radius - 0.1, radius - 0.1, 0.08, 24),
+    reChromeMat
   );
   rim.rotation.x = Math.PI / 2;
   w.add(rim);
-  // Hub (chrome)
+  // Hub
   const hub = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.08, 0.08, 0.16, 12),
-    chromeMat
+    new THREE.CylinderGeometry(0.07, 0.07, 0.14, 12),
+    reSilverMat
   );
   hub.rotation.x = Math.PI / 2;
   w.add(hub);
-  // Spokes — 8 of them
-  for (let i = 0; i < 8; i++) {
+  // Spokes
+  for (let i = 0; i < 10; i++) {
     const spoke = new THREE.Mesh(
-      new THREE.BoxGeometry(0.02, WHEEL_RADIUS * 1.7, 0.02),
-      chromeMat
+      new THREE.BoxGeometry(0.015, radius * 1.7, 0.015),
+      reChromeMat
     );
-    spoke.rotation.z = (i / 8) * Math.PI;
+    spoke.rotation.z = (i / 10) * Math.PI;
     w.add(spoke);
   }
   return w;
 }
 
-const wheelF = makeHarleyWheel();
-wheelF.position.set(1.1, WHEEL_RADIUS, 0);
+const WHEEL_F_R = 0.44;
+const WHEEL_B_R = 0.40;
+const wheelF = makeREWheel(WHEEL_F_R);
+wheelF.position.set(1.15, WHEEL_F_R, 0);
 bike.add(wheelF);
-
-const wheelB = makeHarleyWheel();
-wheelB.position.set(-1.0, WHEEL_RADIUS, 0);
-wheelB.scale.set(1, 1, 1.15); // Wider rear tire (Harley feature)
+const wheelB = makeREWheel(WHEEL_B_R);
+wheelB.position.set(-1.05, WHEEL_B_R, 0);
 bike.add(wheelB);
 
-// ---------- FRONT FORK (long, angled — chopper style) ----------
-function makeFork(zSide) {
-  const fork = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.04, 0.04, 1.0, 10),
-    chromeMat
-  );
-  fork.position.set(1.0, 0.7, zSide);
-  fork.rotation.z = -0.25; // Raked forward like a chopper
-  fork.castShadow = true;
-  return fork;
-}
-bike.add(makeFork(0.1));
-bike.add(makeFork(-0.1));
-
-// Front headlight (big round chrome)
-const headlightHousing = new THREE.Mesh(
-  new THREE.SphereGeometry(0.22, 16, 12),
-  chromeMat
-);
-headlightHousing.position.set(1.18, 1.0, 0);
-headlightHousing.scale.set(0.65, 1, 1);
-headlightHousing.castShadow = true;
-bike.add(headlightHousing);
-
-// Headlight glass with glow
-const headlight = new THREE.Mesh(
-  new THREE.CircleGeometry(0.16, 24),
-  new THREE.MeshBasicMaterial({ color: 0xfff8dc })
-);
-headlight.position.set(1.32, 1.0, 0);
-headlight.rotation.y = Math.PI / 2;
-bike.add(headlight);
-
-// Front mudguard (chrome fender)
+// ---------- FRONT FENDER (deep valanced — RE classic style, green) ----------
 const frontFender = new THREE.Mesh(
-  new THREE.BoxGeometry(0.5, 0.06, 0.32),
-  chromeMat
+  new THREE.TorusGeometry(WHEEL_F_R + 0.04, 0.07, 8, 20, Math.PI * 0.8),
+  reGreenMat
 );
-frontFender.position.set(1.05, 0.85, 0);
+frontFender.position.set(1.15, WHEEL_F_R + 0.05, 0);
+frontFender.rotation.z = -Math.PI / 2.5;
 frontFender.castShadow = true;
 bike.add(frontFender);
 
-// ---------- MAIN FRAME (low-slung tubular frame) ----------
-const mainFrame = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.05, 0.05, 1.8, 10),
-  blackMat
-);
-mainFrame.rotation.z = Math.PI / 2;
-mainFrame.position.set(0, 0.6, 0);
-mainFrame.castShadow = true;
-bike.add(mainFrame);
-
-const lowerFrame = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.04, 0.04, 1.4, 10),
-  blackMat
-);
-lowerFrame.rotation.z = Math.PI / 2;
-lowerFrame.position.set(0, 0.42, 0);
-bike.add(lowerFrame);
-
-// Frame side struts
-for (let z of [0.18, -0.18]) {
-  const strut = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.03, 0.03, 0.4, 8),
-    blackMat
+// ---------- FRONT FORKS (telescopic, upright — NOT raked like a chopper) ----------
+for (let zSide of [0.12, -0.12]) {
+  const fork = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.04, 0.04, 1.0, 10),
+    reChromeMat
   );
-  strut.position.set(0.3, 0.55, z);
-  strut.rotation.z = -0.3;
-  bike.add(strut);
+  fork.position.set(1.13, 0.85, zSide);
+  fork.rotation.z = -0.12; // slight rake only
+  fork.castShadow = true;
+  bike.add(fork);
 }
 
-// ---------- FUEL TANK (the signature Harley teardrop shape) ----------
-const tank = new THREE.Mesh(
-  new THREE.SphereGeometry(0.42, 18, 14),
-  tankMat
+// ---------- ROUND HEADLIGHT (big chrome bowl — Meteor signature) ----------
+const headlightBowl = new THREE.Mesh(
+  new THREE.SphereGeometry(0.2, 18, 14, 0, Math.PI * 2, 0, Math.PI / 1.7),
+  reChromeMat
 );
-tank.position.set(0.2, 0.92, 0);
-tank.scale.set(1.4, 0.7, 0.85);
+headlightBowl.position.set(1.2, 1.05, 0);
+headlightBowl.rotation.x = -Math.PI / 2;
+headlightBowl.rotation.z = Math.PI;
+headlightBowl.castShadow = true;
+bike.add(headlightBowl);
+const headlightGlass = new THREE.Mesh(
+  new THREE.CircleGeometry(0.17, 24),
+  new THREE.MeshBasicMaterial({ color: 0xfff8e0 })
+);
+headlightGlass.position.set(1.34, 1.05, 0);
+headlightGlass.rotation.y = Math.PI / 2;
+bike.add(headlightGlass);
+
+// Small chrome nacelle/tripper pod above headlight (Meteor has a navigation pod)
+const tripperPod = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.06, 0.06, 0.05, 16),
+  reBlackMat
+);
+tripperPod.position.set(1.16, 1.32, 0.18);
+tripperPod.rotation.x = Math.PI / 2;
+bike.add(tripperPod);
+
+// ---------- TEARDROP FUEL TANK (green with chrome side strip) ----------
+const tank = new THREE.Mesh(
+  new THREE.SphereGeometry(0.4, 20, 16),
+  reGreenMat
+);
+tank.position.set(0.25, 0.95, 0);
+tank.scale.set(1.5, 0.72, 0.92);
 tank.castShadow = true;
 bike.add(tank);
 
-// Gold pinstripe down the tank (classic Harley pinstriping)
-const pinstripe = new THREE.Mesh(
-  new THREE.BoxGeometry(1.0, 0.03, 0.04),
-  new THREE.MeshLambertMaterial({ color: HARLEY_TANK_TRIM, emissive: HARLEY_TANK_TRIM, emissiveIntensity: 0.2 })
-);
-pinstripe.position.set(0.2, 1.05, 0);
-bike.add(pinstripe);
-
-// Custom tank decal — orange flame stripe on each side (classic chopper look)
-function makeFlameTexture() {
-  const c = document.createElement('canvas');
-  c.width = 512; c.height = 256;
-  const ctx = c.getContext('2d');
-  // Transparent background
-  ctx.clearRect(0, 0, c.width, c.height);
-  // Flame shape — gradient from yellow to red
-  const grad = ctx.createLinearGradient(0, 0, c.width, 0);
-  grad.addColorStop(0, 'rgba(251, 191, 36, 0)');
-  grad.addColorStop(0.2, 'rgba(251, 191, 36, 1)');
-  grad.addColorStop(0.6, 'rgba(239, 68, 68, 1)');
-  grad.addColorStop(1, 'rgba(127, 29, 29, 0.7)');
-  ctx.fillStyle = grad;
-  // Draw stylized flame with curves
-  ctx.beginPath();
-  ctx.moveTo(60, 128);
-  ctx.bezierCurveTo(120, 60, 200, 80, 260, 100);
-  ctx.bezierCurveTo(320, 110, 380, 130, 460, 128);
-  ctx.bezierCurveTo(380, 150, 320, 170, 260, 160);
-  ctx.bezierCurveTo(200, 175, 120, 200, 60, 128);
-  ctx.fill();
-  // Inner highlight
-  ctx.fillStyle = 'rgba(255, 255, 200, 0.5)';
-  ctx.beginPath();
-  ctx.moveTo(90, 128);
-  ctx.bezierCurveTo(150, 100, 220, 110, 280, 128);
-  ctx.bezierCurveTo(220, 145, 150, 155, 90, 128);
-  ctx.fill();
-  const tex = new THREE.CanvasTexture(c);
-  tex.minFilter = THREE.LinearFilter;
-  return tex;
-}
-const flameTexture = makeFlameTexture();
-for (let side of [-1, 1]) {
-  const flameDecal = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.95, 0.32),
-    new THREE.MeshLambertMaterial({
-      map: flameTexture,
-      transparent: true,
-      side: THREE.DoubleSide,
-      emissive: 0xfacc15,
-      emissiveIntensity: 0.08
-    })
+// Chrome side panel on tank (Meteor Fireball has a chrome/silver tank strip with badge)
+for (let zSide of [0.34, -0.34]) {
+  const tankStrip = new THREE.Mesh(
+    new THREE.CapsuleGeometry
+      ? new THREE.CylinderGeometry(0.12, 0.12, 0.5, 16)
+      : new THREE.CylinderGeometry(0.12, 0.12, 0.5, 16),
+    reChromeMat
   );
-  flameDecal.position.set(0.2, 0.92, side * 0.345);
-  flameDecal.rotation.y = side > 0 ? Math.PI / 2 : -Math.PI / 2;
-  bike.add(flameDecal);
+  tankStrip.rotation.z = Math.PI / 2;
+  tankStrip.scale.set(1, 1, 0.35);
+  tankStrip.position.set(0.25, 0.92, zSide);
+  bike.add(tankStrip);
 }
 
-// HARLEY badge (text decal) — using canvas texture
-function makeBadgeTexture() {
+// "350" / RE badge on tank sides (canvas texture)
+function makeREbadge() {
   const c = document.createElement('canvas');
   c.width = 256; c.height = 128;
   const ctx = c.getContext('2d');
-  // Shield background
-  ctx.fillStyle = '#1e3a8a';
+  ctx.clearRect(0,0,256,128);
+  // Chrome oval
+  ctx.fillStyle = '#cdd2d8';
   ctx.beginPath();
-  ctx.moveTo(40, 20);
-  ctx.lineTo(216, 20);
-  ctx.lineTo(216, 80);
-  ctx.lineTo(128, 110);
-  ctx.lineTo(40, 80);
-  ctx.closePath();
+  ctx.ellipse(128, 64, 110, 46, 0, 0, Math.PI*2);
   ctx.fill();
-  // Gold border
-  ctx.strokeStyle = '#facc15';
-  ctx.lineWidth = 4;
+  ctx.strokeStyle = '#1f6b4a';
+  ctx.lineWidth = 5;
   ctx.stroke();
-  // White text
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 32px Manrope, sans-serif';
+  // Text
+  ctx.fillStyle = '#16513a';
+  ctx.font = 'bold 34px Georgia, serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('HARLEY', 128, 50);
-  ctx.font = 'bold 18px Manrope, sans-serif';
-  ctx.fillStyle = '#facc15';
-  ctx.fillText('★ DAVIDSON ★', 128, 78);
-  const tex = new THREE.CanvasTexture(c);
-  return tex;
+  ctx.fillText('Royal Enfield', 128, 50);
+  ctx.font = 'bold 26px Georgia, serif';
+  ctx.fillText('METEOR 350', 128, 84);
+  return new THREE.CanvasTexture(c);
 }
-const badgeTex = makeBadgeTexture();
-for (let side of [-1, 1]) {
+const badgeTex = makeREbadge();
+for (let zSide of [0.355, -0.355]) {
   const badge = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.32, 0.16),
-    new THREE.MeshLambertMaterial({
-      map: badgeTex,
-      transparent: true,
-      side: THREE.DoubleSide
-    })
+    new THREE.PlaneGeometry(0.42, 0.21),
+    new THREE.MeshLambertMaterial({ map: badgeTex, transparent: true })
   );
-  badge.position.set(0.6, 0.9, side * 0.36);
-  badge.rotation.y = side > 0 ? Math.PI / 2 : -Math.PI / 2;
+  badge.position.set(0.25, 0.92, zSide + (zSide > 0 ? 0.001 : -0.001));
+  badge.rotation.y = zSide > 0 ? Math.PI / 2 : -Math.PI / 2;
   bike.add(badge);
 }
 
-// ---------- V-TWIN ENGINE (signature Harley engine block) ----------
-const engineBlock = new THREE.Mesh(
-  new THREE.BoxGeometry(0.5, 0.5, 0.5),
-  engineMat
+// ---------- SINGLE-CYLINDER ENGINE (350cc — upright, NOT a V-twin) ----------
+// Crankcase (silver)
+const crankcase = new THREE.Mesh(
+  new THREE.BoxGeometry(0.5, 0.4, 0.46),
+  reSilverMat
 );
-engineBlock.position.set(-0.05, 0.5, 0);
-engineBlock.castShadow = true;
-bike.add(engineBlock);
-
-// Cylinder 1 (front, angled forward)
-const cylinder1 = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.13, 0.13, 0.45, 12),
-  chromeMat
+crankcase.position.set(-0.05, 0.5, 0);
+crankcase.castShadow = true;
+bike.add(crankcase);
+// Single cylinder barrel — upright, slightly forward
+const barrel = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.15, 0.16, 0.42, 14),
+  reSilverMat
 );
-cylinder1.position.set(0.05, 0.78, 0);
-cylinder1.rotation.z = -0.35; // V-twin angle
-cylinder1.castShadow = true;
-bike.add(cylinder1);
-
-// Cylinder fins (the heat-dissipating ridges)
-for (let i = 0; i < 6; i++) {
+barrel.position.set(0.02, 0.82, 0);
+barrel.rotation.z = -0.12;
+barrel.castShadow = true;
+bike.add(barrel);
+// Cooling fins on the barrel
+for (let i = 0; i < 7; i++) {
   const fin = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.16, 0.16, 0.025, 12),
-    chromeMat
+    new THREE.CylinderGeometry(0.18, 0.18, 0.02, 14),
+    reSilverMat
   );
-  fin.position.set(0.05 + i * 0.03 - 0.08, 0.78 - i * 0.06 + 0.18, 0);
-  fin.rotation.z = -0.35;
+  fin.position.set(0.02 + 0.014*i - 0.04, 0.7 + i * 0.05, 0);
+  fin.rotation.z = -0.12;
   bike.add(fin);
 }
-
-// Cylinder 2 (back, angled rearward)
-const cylinder2 = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.13, 0.13, 0.45, 12),
-  chromeMat
+// Chrome cylinder head
+const head = new THREE.Mesh(
+  new THREE.BoxGeometry(0.22, 0.12, 0.28),
+  reChromeMat
 );
-cylinder2.position.set(-0.18, 0.78, 0);
-cylinder2.rotation.z = 0.35;
-cylinder2.castShadow = true;
-bike.add(cylinder2);
+head.position.set(0.05, 1.02, 0);
+head.rotation.z = -0.12;
+bike.add(head);
 
-for (let i = 0; i < 6; i++) {
-  const fin = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.16, 0.16, 0.025, 12),
-    chromeMat
-  );
-  fin.position.set(-0.18 - i * 0.03 + 0.08, 0.78 - i * 0.06 + 0.18, 0);
-  fin.rotation.z = 0.35;
-  bike.add(fin);
-}
-
-// ---------- LEATHER SEAT (long, low) ----------
+// ---------- SINGLE-PIECE SEAT (Meteor has a comfy stepped single seat) ----------
 const seat = new THREE.Mesh(
-  new THREE.BoxGeometry(0.7, 0.12, 0.34),
-  leatherMat
+  new THREE.BoxGeometry(0.95, 0.13, 0.36),
+  reSeatMat
 );
-seat.position.set(-0.55, 0.92, 0);
+seat.position.set(-0.5, 0.92, 0);
 seat.castShadow = true;
 bike.add(seat);
-
-// Seat hump (slight backrest)
-const seatBack = new THREE.Mesh(
-  new THREE.BoxGeometry(0.16, 0.18, 0.32),
-  leatherMat
+// Rear seat hump (slightly raised pillion)
+const seatRear = new THREE.Mesh(
+  new THREE.BoxGeometry(0.32, 0.14, 0.34),
+  reSeatMat
 );
-seatBack.position.set(-0.85, 1.04, 0);
-seatBack.castShadow = true;
-bike.add(seatBack);
+seatRear.position.set(-0.92, 0.97, 0);
+seatRear.castShadow = true;
+bike.add(seatRear);
 
-// Studded seat trim (chrome studs)
-for (let i = 0; i < 6; i++) {
-  const stud = new THREE.Mesh(
-    new THREE.SphereGeometry(0.025, 8, 6),
-    chromeMat
-  );
-  stud.position.set(-0.3 - i * 0.1, 0.99, 0.17);
-  bike.add(stud);
-  const stud2 = stud.clone();
-  stud2.position.z = -0.17;
-  bike.add(stud2);
-}
+// ---------- FRAME (tubular, connecting steering head to rear) ----------
+const frameTop = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.045, 0.045, 1.6, 10),
+  reBlackMat
+);
+frameTop.rotation.z = Math.PI / 2;
+frameTop.position.set(0, 0.7, 0);
+bike.add(frameTop);
+const frameLow = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.04, 0.04, 1.5, 10),
+  reBlackMat
+);
+frameLow.rotation.z = Math.PI / 2;
+frameLow.position.set(-0.1, 0.4, 0);
+bike.add(frameLow);
 
-// ---------- HANDLEBARS (HIGH and WIDE — ape-hanger style) ----------
-// Vertical stem from front of bike
+// ---------- REAR FENDER (deep valanced green, with tail light) ----------
+const rearFender = new THREE.Mesh(
+  new THREE.TorusGeometry(WHEEL_B_R + 0.04, 0.07, 8, 20, Math.PI * 0.9),
+  reGreenMat
+);
+rearFender.position.set(-1.05, WHEEL_B_R + 0.05, 0);
+rearFender.rotation.z = Math.PI / 1.9;
+rearFender.castShadow = true;
+bike.add(rearFender);
+// Round tail light (chrome housing, RE style)
+const tailHousing = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.09, 0.09, 0.08, 16),
+  reChromeMat
+);
+tailHousing.rotation.z = Math.PI / 2;
+tailHousing.position.set(-1.45, 0.7, 0);
+bike.add(tailHousing);
+const tailLight = new THREE.Mesh(
+  new THREE.CircleGeometry(0.07, 16),
+  new THREE.MeshBasicMaterial({ color: 0xff3030 })
+);
+tailLight.position.set(-1.49, 0.7, 0);
+tailLight.rotation.y = -Math.PI / 2;
+bike.add(tailLight);
+
+// ---------- HANDLEBAR (mid-rise cruiser bar — relaxed, NOT ape-hanger) ----------
+// Riser stem from triple clamp
 const handleStem = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.05, 0.05, 0.6, 10),
-  chromeMat
+  new THREE.CylinderGeometry(0.045, 0.045, 0.28, 10),
+  reChromeMat
 );
-handleStem.position.set(0.95, 1.35, 0);
-handleStem.castShadow = true;
+handleStem.position.set(1.0, 1.35, 0);
 bike.add(handleStem);
-
-// Horizontal handlebar (wide and high)
+// Wide horizontal bar
 const handleBar = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.035, 0.035, 0.95, 12),
-  chromeMat
+  new THREE.CylinderGeometry(0.03, 0.03, 0.92, 12),
+  reChromeMat
 );
 handleBar.rotation.x = Math.PI / 2;
-handleBar.position.set(0.95, 1.62, 0);
+handleBar.position.set(1.0, 1.5, 0);
 handleBar.castShadow = true;
 bike.add(handleBar);
 
-// Vertical risers (the ape-hanger upturn)
+// Grips + risers at the bar ends (the hands wrap these)
 for (let side of [-0.42, 0.42]) {
+  // small upward riser to the grip
   const riser = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.035, 0.035, 0.3, 10),
-    chromeMat
+    new THREE.CylinderGeometry(0.03, 0.03, 0.16, 10),
+    reChromeMat
   );
-  riser.position.set(0.95, 1.7, side);
+  riser.position.set(1.0, 1.56, side);
   bike.add(riser);
-  // Grip — HORIZONTAL bar end (oriented along Z), so the hand can wrap around it
+  // Grip — horizontal cylinder along Z (hands wrap around this)
   const grip = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.045, 0.045, 0.22, 12),
-    blackMat
+    new THREE.CylinderGeometry(0.045, 0.045, 0.2, 12),
+    reBlackMat
   );
-  grip.rotation.x = Math.PI / 2; // lay it along the Z axis (sideways)
-  grip.position.set(0.95, 1.85, side);
+  grip.rotation.x = Math.PI / 2;
+  grip.position.set(1.0, 1.64, side);
   bike.add(grip);
-  // Grip end cap (chrome)
+  // chrome end cap
   const cap = new THREE.Mesh(
     new THREE.CylinderGeometry(0.05, 0.05, 0.03, 12),
-    chromeMat
+    reChromeMat
   );
   cap.rotation.x = Math.PI / 2;
-  cap.position.set(0.95, 1.85, side + (side > 0 ? 0.12 : -0.12));
+  cap.position.set(1.0, 1.64, side + (side > 0 ? 0.11 : -0.11));
   bike.add(cap);
 }
 
-// Speedometer cluster on handlebars
+// Round instrument cluster (analog speedo + tripper pod — RE Meteor style)
 const speedo = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.09, 0.09, 0.12, 16),
-  chromeMat
+  new THREE.CylinderGeometry(0.1, 0.1, 0.07, 18),
+  reChromeMat
 );
-speedo.position.set(0.95, 1.5, 0);
-speedo.rotation.x = Math.PI / 2 - 0.5;
+speedo.position.set(1.08, 1.4, -0.12);
+speedo.rotation.x = Math.PI / 2 - 0.4;
 bike.add(speedo);
-
-// Speedo glass face
 const speedoFace = new THREE.Mesh(
-  new THREE.CircleGeometry(0.07, 16),
-  new THREE.MeshBasicMaterial({ color: 0xfafafa })
+  new THREE.CircleGeometry(0.08, 18),
+  new THREE.MeshBasicMaterial({ color: 0xf5f5f5 })
 );
-speedoFace.position.set(0.95, 1.5, 0.06);
-speedoFace.rotation.x = -0.5;
+speedoFace.position.set(1.08, 1.44, -0.12);
+speedoFace.rotation.x = -0.4;
 bike.add(speedoFace);
 
-// Mirrors
-function makeMirror(side) {
-  const m = new THREE.Group();
-  const stalk = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.015, 0.015, 0.22, 6),
-    chromeMat
-  );
-  stalk.position.y = 0.1;
-  stalk.rotation.z = side * 0.3;
-  m.add(stalk);
-  const head = new THREE.Mesh(
-    new THREE.BoxGeometry(0.16, 0.1, 0.04),
-    chromeMat
-  );
-  head.position.y = 0.22;
-  head.position.x = side * 0.05;
-  m.add(head);
-  m.position.set(0.95, 1.78, side * 0.3);
-  return m;
-}
-bike.add(makeMirror(1));
-bike.add(makeMirror(-1));
-
-// ---------- CHROME EXHAUST PIPES (big, long — Harley signature) ----------
-function makeExhaust(side) {
-  const g = new THREE.Group();
-  // Main pipe
-  const pipe = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.065, 0.065, 1.4, 12),
-    chromeMat
-  );
-  pipe.rotation.z = Math.PI / 2;
-  pipe.position.set(-0.3, 0.32, side * 0.28);
-  pipe.castShadow = true;
-  g.add(pipe);
-  // Muffler (fatter end)
-  const muffler = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.085, 0.085, 0.6, 14),
-    chromeMat
-  );
-  muffler.rotation.z = Math.PI / 2;
-  muffler.position.set(-0.95, 0.32, side * 0.28);
-  muffler.castShadow = true;
-  g.add(muffler);
-  // Exhaust tip
-  const tip = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.09, 0.085, 0.06, 14),
-    blackMat
-  );
-  tip.rotation.z = Math.PI / 2;
-  tip.position.set(-1.27, 0.32, side * 0.28);
-  g.add(tip);
-  return g;
-}
-bike.add(makeExhaust(1));
-bike.add(makeExhaust(-1));
-
-// ---------- REAR FENDER & TAIL LIGHT ----------
-const rearFender = new THREE.Mesh(
-  new THREE.BoxGeometry(0.5, 0.06, 0.4),
-  chromeMat
+// ---------- CHROME EXHAUST (single pipe, right side, RE peashooter style) ----------
+const exhaustPipe = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.05, 0.055, 1.5, 14),
+  reChromeMat
 );
-rearFender.position.set(-1.0, 0.78, 0);
-rearFender.castShadow = true;
-bike.add(rearFender);
-
-const taillight = new THREE.Mesh(
-  new THREE.SphereGeometry(0.08, 12, 10),
-  new THREE.MeshBasicMaterial({ color: 0xff2d2d })
+exhaustPipe.rotation.z = Math.PI / 2 - 0.04;
+exhaustPipe.position.set(-0.3, 0.35, 0.3);
+exhaustPipe.castShadow = true;
+bike.add(exhaustPipe);
+const muffler = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.075, 0.07, 0.55, 16),
+  reChromeMat
 );
-taillight.position.set(-1.2, 0.85, 0);
-taillight.scale.set(0.7, 1, 1);
-bike.add(taillight);
-
-// Sissy bar (the vertical back rest support)
-const sissyBar = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.025, 0.025, 0.7, 8),
-  chromeMat
+muffler.rotation.z = Math.PI / 2;
+muffler.position.set(-1.0, 0.38, 0.3);
+muffler.castShadow = true;
+bike.add(muffler);
+const exhaustTip = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.08, 0.075, 0.05, 16),
+  reBlackMat
 );
-sissyBar.position.set(-1.05, 1.2, 0);
-sissyBar.rotation.z = -0.15;
-bike.add(sissyBar);
+exhaustTip.rotation.z = Math.PI / 2;
+exhaustTip.position.set(-1.3, 0.38, 0.3);
+bike.add(exhaustTip);
 
-// Foot pegs (where rider's feet rest on a Harley)
+// ---------- FOOT PEGS (mid-set, cruiser position) ----------
 function addFootPeg(side) {
   const peg = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.04, 0.04, 0.12, 8),
-    chromeMat
+    new THREE.CylinderGeometry(0.035, 0.035, 0.12, 8),
+    reChromeMat
   );
   peg.rotation.z = Math.PI / 2;
-  peg.position.set(0.1, 0.35, side * 0.45);
+  peg.position.set(0.0, 0.35, side * 0.42);
   bike.add(peg);
 }
 addFootPeg(1);
 addFootPeg(-1);
+
+// Side stand hint
+const sideStand = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.025, 0.025, 0.4, 6),
+  reBlackMat
+);
+sideStand.position.set(-0.3, 0.18, 0.4);
+sideStand.rotation.x = 0.3;
+bike.add(sideStand);
 
 // ====================================================
 // THE RIDER (realistic Harley biker — proper anatomy with detailed face, body proportions, clothing)
@@ -2629,10 +2511,10 @@ function makeLimbSegment(a, b, topR, botR, mat, trim) {
 
 function buildArm(zSign) {
   const z = zSign > 0 ? 1 : -1;
-  // Joint positions for this arm
-  const shoulder = new THREE.Vector3(-0.42, 1.70, z * 0.28);
-  const elbow    = new THREE.Vector3(0.08, 1.50, z * 0.40);
-  const wrist    = new THREE.Vector3(0.86, 1.85, z * 0.42);
+  // Joint positions for this arm — reaching to the Meteor's mid-rise grips at (1.0, 1.64, ±0.42)
+  const shoulder = new THREE.Vector3(-0.42, 1.66, z * 0.28);
+  const elbow    = new THREE.Vector3(0.10, 1.42, z * 0.40);
+  const wrist    = new THREE.Vector3(0.90, 1.64, z * 0.42);
 
   // SHOULDER ball
   const shoulderBall = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 12), jacketMat);
@@ -2673,63 +2555,62 @@ const upperArmL = armL.upper, upperArmR = armR.upper;
 const elbowL = armL.elbowBall, elbowR = armR.elbowBall;
 const forearmL = armL.fore, forearmR = armR.fore;
 
-// HANDS — gloved fists wrapping AROUND the horizontal grip
-// Grip is a horizontal cylinder (along Z) centered at (0.95, 1.85, ±0.42)
-// The hand sits so its inner cuff meets the wrist at (0.86, 1.85, ±0.42) — no gap.
+// HANDS — gloved fists wrapping AROUND the Meteor's grip
+// Grip is a horizontal cylinder (along Z) centered at (1.0, 1.64, ±0.42)
 function makeHand(zSide) {
   const g = new THREE.Group();
 
-  // Palm core — wraps over the top of the grip
+  // Palm core — proportionate to wrist (~0.05 radius), wraps over the grip
   const palm = new THREE.Mesh(
-    new THREE.BoxGeometry(0.15, 0.07, 0.14),
+    new THREE.BoxGeometry(0.1, 0.05, 0.1),
     gloveMat
   );
-  palm.position.set(0, 0.04, 0);
+  palm.position.set(0, 0.035, 0);
   palm.castShadow = true;
   g.add(palm);
 
-  // Four curled fingers — wrap down the FRONT of the grip
+  // Four curled fingers — wrap down the front of the grip
   for (let i = 0; i < 4; i++) {
     const finger = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.021, 0.018, 0.13, 8),
+      new THREE.CylinderGeometry(0.014, 0.012, 0.09, 8),
       gloveMat
     );
-    finger.position.set(0.06, -0.02, -0.048 + i * 0.032);
-    finger.rotation.z = Math.PI / 2.2; // curl down over the front
+    finger.position.set(0.045, -0.015, -0.033 + i * 0.022);
+    finger.rotation.z = Math.PI / 2.2;
     finger.castShadow = true;
     g.add(finger);
   }
 
   // Knuckle ridge across the top
   const knuckleRidge = new THREE.Mesh(
-    new THREE.BoxGeometry(0.045, 0.045, 0.13),
+    new THREE.BoxGeometry(0.032, 0.032, 0.09),
     gloveMat
   );
-  knuckleRidge.position.set(0.07, 0.04, 0);
+  knuckleRidge.position.set(0.05, 0.03, 0);
   g.add(knuckleRidge);
 
-  // Thumb — wraps up from below, opposing the fingers
+  // Thumb — wraps up from below
   const thumb = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.024, 0.022, 0.11, 8),
+    new THREE.CylinderGeometry(0.016, 0.014, 0.075, 8),
     gloveMat
   );
-  thumb.position.set(-0.03, -0.05, zSide > 0 ? 0.07 : -0.07);
+  thumb.position.set(-0.02, -0.035, zSide > 0 ? 0.05 : -0.05);
   thumb.rotation.z = Math.PI / 3;
   thumb.rotation.y = zSide > 0 ? 0.4 : -0.4;
   thumb.castShadow = true;
   g.add(thumb);
 
-  // Glove cuff — on the inner side, meeting the wrist (no gap)
+  // Glove cuff — inner side, meeting the wrist
   const cuff = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.058, 0.052, 0.09, 12),
+    new THREE.CylinderGeometry(0.04, 0.036, 0.07, 12),
     gloveMat
   );
-  cuff.rotation.x = Math.PI / 2;          // lay along Z toward the wrist
-  cuff.position.set(-0.04, 0.02, zSide > 0 ? -0.09 : 0.09);
+  cuff.rotation.x = Math.PI / 2;
+  cuff.position.set(-0.03, 0.015, zSide > 0 ? -0.065 : 0.065);
   g.add(cuff);
 
-  // Position hand so it sits ON the grip; offset slightly inward so cuff touches wrist
-  g.position.set(0.95, 1.85, zSide > 0 ? 0.42 : -0.42);
+  // Sit the hand on the Meteor's grip
+  g.position.set(1.0, 1.64, zSide > 0 ? 0.42 : -0.42);
   return g;
 }
 const handL = makeHand(0.42);
@@ -2880,40 +2761,69 @@ for (let side of [-1, 1]) {
   headGroup.add(sideburn);
 }
 
-// HAIR (visible at back/sides under helmet)
+// HAIR — fuller, visible around the sides and back below the helmet
 const hairMat = new THREE.MeshLambertMaterial({ color: HAIR });
+// Back of head hair
 const hairBack = new THREE.Mesh(
-  new THREE.SphereGeometry(0.16, 16, 12, 0, Math.PI, 0, Math.PI),
+  new THREE.SphereGeometry(0.175, 18, 14, 0, Math.PI * 2, Math.PI * 0.35, Math.PI * 0.65),
   hairMat
 );
-hairBack.position.set(-0.04, 0.0, 0);
-hairBack.scale.set(0.95, 1.05, 1.02);
-hairBack.rotation.y = Math.PI;
+hairBack.position.set(-0.05, -0.02, 0);
+hairBack.scale.set(0.98, 1.0, 1.04);
 headGroup.add(hairBack);
 
-// HALF HELMET (open-face Harley shorty — black with gold stripe)
+// Side hair tufts (above the ears, visible under helmet edge)
+for (let side of [-1, 1]) {
+  const sideHair = new THREE.Mesh(
+    new THREE.SphereGeometry(0.07, 10, 8),
+    hairMat
+  );
+  sideHair.position.set(-0.04, -0.04, side * 0.165);
+  sideHair.scale.set(0.8, 0.9, 0.5);
+  headGroup.add(sideHair);
+}
+
+// Short front fringe peeking below the helmet brim
+const fringe = new THREE.Mesh(
+  new THREE.BoxGeometry(0.16, 0.04, 0.28),
+  hairMat
+);
+fringe.position.set(0.12, 0.12, 0);
+fringe.rotation.z = 0.15;
+headGroup.add(fringe);
+
+// OPEN-FACE HELMET (green to match the Meteor, with chrome trim ring)
 const halfHelmet = new THREE.Mesh(
   new THREE.SphereGeometry(0.21, 24, 18, 0, Math.PI * 2, 0, Math.PI / 2),
-  new THREE.MeshLambertMaterial({ color: HELMET_COLOR })
+  new THREE.MeshLambertMaterial({ color: 0x1f6b4a })
 );
 halfHelmet.position.set(0.02, 0.06, 0);
 halfHelmet.scale.set(1.05, 1, 1.05);
 halfHelmet.castShadow = true;
 headGroup.add(halfHelmet);
 
-// Gold pinstripe ring around helmet edge
+// Chrome trim ring around helmet edge
 const helmetStripe = new THREE.Mesh(
-  new THREE.TorusGeometry(0.22, 0.018, 8, 32),
+  new THREE.TorusGeometry(0.22, 0.016, 8, 32),
   new THREE.MeshLambertMaterial({
-    color: HELMET_TRIM,
-    emissive: HELMET_TRIM,
-    emissiveIntensity: 0.3
+    color: 0xcdd2d8,
+    emissive: 0x2a2a2a,
+    emissiveIntensity: 0.1
   })
 );
 helmetStripe.position.set(0.02, 0.06, 0);
 helmetStripe.scale.set(1.05, 1, 1.05);
 helmetStripe.rotation.x = Math.PI / 2;
 headGroup.add(helmetStripe);
+
+// White racing stripe over the top of the helmet (classic detail)
+const helmetTopStripe = new THREE.Mesh(
+  new THREE.BoxGeometry(0.42, 0.05, 0.06),
+  new THREE.MeshLambertMaterial({ color: 0xf5f5f5 })
+);
+helmetTopStripe.position.set(0.02, 0.24, 0);
+helmetTopStripe.rotation.z = 0.0;
+headGroup.add(helmetTopStripe);
 
 // Helmet strap (chin strap, visible going down)
 const chinStrap = new THREE.Mesh(
@@ -2927,62 +2837,52 @@ const chinStrapR = chinStrap.clone();
 chinStrapR.position.z = -0.15;
 headGroup.add(chinStrapR);
 
-// SUNGLASSES — wraparound aviator style
-// Frame
-const sunglassFrame = new THREE.Mesh(
-  new THREE.TorusGeometry(0.04, 0.008, 6, 16),
-  new THREE.MeshLambertMaterial({ color: 0x222222 })
-);
-sunglassFrame.position.set(0.17, 0.02, 0.07);
-sunglassFrame.rotation.y = Math.PI / 2;
-sunglassFrame.scale.set(1, 0.7, 1);
-headGroup.add(sunglassFrame);
-const sunglassFrameR = sunglassFrame.clone();
-sunglassFrameR.position.z = -0.07;
-headGroup.add(sunglassFrameR);
+// SUNGLASSES — clean aviator-style specs with a subtle reflective tint
+const lensMat = new THREE.MeshLambertMaterial({
+  color: 0x0c0c0c,
+  emissive: 0x1a3a5a,
+  emissiveIntensity: 0.25
+});
+const frameMatSG = new THREE.MeshLambertMaterial({ color: 0x1a1a1a });
 
-// Bridge between lenses
+// Rounded lens panels sitting against the face (teardrop aviator shape via scaled cylinders)
+for (let side of [-1, 1]) {
+  const lens = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.055, 0.055, 0.018, 18),
+    lensMat
+  );
+  lens.rotation.z = Math.PI / 2;
+  lens.rotation.y = Math.PI / 2;
+  lens.scale.set(1, 1, 0.82);            // slightly oval
+  lens.position.set(0.172, 0.01, side * 0.075);
+  headGroup.add(lens);
+
+  // Thin metal frame ring around each lens
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(0.056, 0.006, 6, 20),
+    new THREE.MeshLambertMaterial({ color: 0x8a8d92 })
+  );
+  ring.rotation.y = Math.PI / 2;
+  ring.scale.set(1, 0.82, 1);
+  ring.position.set(0.18, 0.01, side * 0.075);
+  headGroup.add(ring);
+}
+
+// Bridge connecting the two lenses across the nose
 const bridge = new THREE.Mesh(
-  new THREE.BoxGeometry(0.03, 0.012, 0.04),
-  new THREE.MeshLambertMaterial({ color: 0x222222 })
+  new THREE.BoxGeometry(0.035, 0.012, 0.045),
+  new THREE.MeshLambertMaterial({ color: 0x8a8d92 })
 );
-bridge.position.set(0.17, 0.02, 0);
+bridge.position.set(0.182, 0.025, 0);
 headGroup.add(bridge);
 
-// LEFT LENS (dark with subtle blue tint)
-const lensMat = new THREE.MeshLambertMaterial({
-  color: 0x0a0a0a,
-  emissive: 0x1e3a8a,
-  emissiveIntensity: 0.2
-});
-const lensL = new THREE.Mesh(
-  new THREE.SphereGeometry(0.05, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2),
-  lensMat
-);
-lensL.position.set(0.18, 0.02, 0.07);
-lensL.rotation.x = Math.PI / 2;
-lensL.scale.set(1, 0.7, 1);
-headGroup.add(lensL);
-
-// RIGHT LENS
-const lensR = new THREE.Mesh(
-  new THREE.SphereGeometry(0.05, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2),
-  lensMat
-);
-lensR.position.set(0.18, 0.02, -0.07);
-lensR.rotation.x = Math.PI / 2;
-lensR.scale.set(1, 0.7, 1);
-headGroup.add(lensR);
-
-// Earpiece/temple of sunglasses (going back to ear)
+// Temple arms going back toward the ears
 for (let side of [-1, 1]) {
   const temple = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.005, 0.005, 0.16, 6),
-    new THREE.MeshLambertMaterial({ color: 0x222222 })
+    new THREE.BoxGeometry(0.13, 0.01, 0.01),
+    frameMatSG
   );
-  temple.position.set(0.07, 0.02, side * 0.13);
-  temple.rotation.x = Math.PI / 2;
-  temple.rotation.z = Math.PI / 2;
+  temple.position.set(0.09, 0.02, side * 0.14);
   headGroup.add(temple);
 }
 
@@ -3178,10 +3078,10 @@ function animate() {
   // Subtle head turn forward — always looking slightly ahead and down
   riderParts.headGroup.rotation.z = -0.08;
 
-  // Hands stay locked on the handlebar grips (grips at y=1.85) — barely-there twitch
+  // Hands stay locked on the Meteor's grips (y=1.64) — barely-there twitch
   const handBob = Math.sin(time * 7) * 0.003;
-  riderParts.handL.position.y = 1.85 + handBob;
-  riderParts.handR.position.y = 1.85 - handBob;
+  riderParts.handL.position.y = 1.64 + handBob;
+  riderParts.handR.position.y = 1.64 - handBob;
 
   // Animate clouds — slow horizontal drift, wrap around
   clouds.forEach(cloud => {
