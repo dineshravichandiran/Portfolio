@@ -391,7 +391,7 @@ const MILESTONES = [
     role: 'R&D Engineering Intern',
     meta: '01 · CHENNAI · Aug 2021',
     body: "Contributed to a defence R&D project at DRDO Avadi involving sensor integration for combat vehicle systems. Worked in a small team under DRDO supervision. The discipline of working on real-world, mission-critical hardware shaped my approach to reliability and documentation.",
-    tags: ['Defence R&D', 'Sensor Integration', 'Hardware', 'Avadi, Chennai']
+    tags: ['Defence R&D', 'Sensor Integration', 'Reliability Mindset', 'Technical Documentation']
   },
   {
     year: 'Jan – Jun 2022',
@@ -400,7 +400,7 @@ const MILESTONES = [
     role: 'Programmer Analyst Trainee',
     meta: '02 · BANGALORE · First Software Role',
     body: "6-month paid final-year internship — trained in full-stack fundamentals, SQL, and databases, then specialized in Java, building a Spring Boot MVC project with MySQL. Earned a full-time offer based on performance. First exposure to enterprise software practices and team workflows.",
-    tags: ['Java', 'Spring Boot', 'MySQL', 'Full-time Offer']
+    tags: ['Java', 'Spring Boot', 'REST APIs', 'MySQL', 'Earned Full-time Offer']
   },
   {
     year: 'Jul – Nov 2022',
@@ -409,7 +409,7 @@ const MILESTONES = [
     role: 'Full-time Intern · Graphics Design, BMS Projects',
     meta: '03 · PUNE · Smart Buildings',
     body: "Designed building visualization graphics for 30+ automation projects serving international clients — floor layouts, walls, and 3D building images using 3D design software, refined in Photoshop. Introduced me to enterprise-scale building systems that businesses depend on 24/7.",
-    tags: ['30+ Projects', 'International Clients', 'Pune']
+    tags: ['Enterprise Systems', 'Client Delivery', '30+ Projects', 'Attention to Detail']
   },
   {
     year: 'Dec 2022 – Nov 2025',
@@ -418,16 +418,16 @@ const MILESTONES = [
     role: 'Cloud NOC Technician Associate',
     meta: '04 · PUNE · The Foundation · 3 Years',
     body: "Triaged and resolved 5,000+ production incidents across AWS and Azure with 99.9% uptime for 50+ Fortune 500 environments. Resolved recurring memory alerts through systematic root cause analysis over 2.5+ years with the Technical Architect team. Linux, Apache and Tomcat troubleshooting across 200+ servers; logs in Sumo Logic and CloudWatch; 3+ runbooks authored. Recognized with PTC's Customer First Award.",
-    tags: ['5,000+ Incidents', '99.9% Uptime', '2.5-Yr Memory RCA', 'Customer First Award', '200+ Servers']
+    tags: ['Incident Management', 'Root Cause Analysis', 'Linux & Tomcat', 'Sumo Logic', '99.9% Uptime', 'Customer First Award']
   },
   {
     year: 'Nov 2025 – Present',
     city: 'PUNE',
     name: 'PTC',
     role: 'Cloud Services Specialist NOC Engineer',
-    meta: '05 · PUNE · Now · Specialist Track',
-    body: "24×7 production support for enterprise SaaS platforms on AWS and Azure for 50+ Fortune 500 customers — leading incident response and platform stability. Pod- and node-level troubleshooting on AKS using kubectl and k9s: CrashLoopBackOff, OOMKilled, OutOfMemoryError, node scale-downs. Mentoring new engineers across a 12-member team. Targeting SRE roles at product-first companies.",
-    tags: ['24×7 Support', 'AKS · kubectl · k9s', 'Mentoring', '12-Member Team', 'SRE Track']
+    meta: '05 · PUNE · Now',
+    body: "24×7 production support for enterprise SaaS platforms on AWS and Azure serving 50+ Fortune 500 customers. Lead incident response, root-cause analysis, and reliability work. Pod- and node-level troubleshooting on Azure Kubernetes Service (AKS) with kubectl and k9s — resolving CrashLoopBackOff, OOMKilled, OutOfMemoryError, and node scale-down events. Log analysis in Sumo Logic, performance and memory tuning, and runbook automation. Targeting SRE roles at product-first companies.",
+    tags: ['Kubernetes (AKS)', 'SRE Practices', 'Incident Response', 'Observability', 'AWS & Azure', 'Linux']
   }
 ];
 
@@ -618,28 +618,29 @@ function buildMilestone(t, index, data) {
   const group = new THREE.Group();
   group.position.copy(pos.clone().add(offset));
 
-  // Post (taller, more prominent)
-  const postGeo = new THREE.CylinderGeometry(0.08, 0.1, 2.4, 8);
+  // Post — rises up to overlap the sign's lower edge so there's no floating gap
+  // Sign center y=2.35, height 1.4 → sign bottom at y=1.65. Post top reaches y=2.0 (overlaps, hidden behind sign).
+  const postGeo = new THREE.CylinderGeometry(0.09, 0.11, 2.0, 8);
   const postMat = new THREE.MeshLambertMaterial({ color: 0x1e3a8a });
   const post = new THREE.Mesh(postGeo, postMat);
-  post.position.y = 1.2;
+  post.position.set(0, 1.0, 0.06);
   post.castShadow = true;
   group.add(post);
 
   // Post base (decorative)
-  const baseGeo = new THREE.CylinderGeometry(0.18, 0.22, 0.15, 12);
+  const baseGeo = new THREE.CylinderGeometry(0.2, 0.24, 0.18, 12);
   const base = new THREE.Mesh(baseGeo, postMat);
-  base.position.y = 0.08;
+  base.position.set(0, 0.09, 0.06);
   base.castShadow = true;
   group.add(base);
 
   // Sign board — CURVED billboard with text always readable
   const tex = makeCompanySignTexture(data.name, data.year, index + 1);
 
-  // Use BufferGeometry to build a curved (convex) plane manually so text orientation is GUARANTEED
-  const SIGN_WIDTH = 2.6;
-  const SIGN_HEIGHT = 1.2;
-  const SIGN_CURVE_DEPTH = 0.25;
+  // Use BufferGeometry to build a gently curved plane (less curve = clearer text)
+  const SIGN_WIDTH = 3.0;
+  const SIGN_HEIGHT = 1.4;
+  const SIGN_CURVE_DEPTH = 0.12;
   const SEGMENTS = 16;
 
   function buildCurvedSign(material, width, height, depth) {
@@ -682,7 +683,7 @@ function buildMilestone(t, index, data) {
     new THREE.MeshLambertMaterial({ map: tex, side: THREE.DoubleSide }),
     SIGN_WIDTH, SIGN_HEIGHT, SIGN_CURVE_DEPTH
   );
-  signFront.position.y = 2.6;
+  signFront.position.y = 2.35;
   signFront.castShadow = true;
   group.add(signFront);
 
@@ -691,20 +692,9 @@ function buildMilestone(t, index, data) {
     new THREE.MeshLambertMaterial({ color: 0x1e3a8a, side: THREE.DoubleSide }),
     SIGN_WIDTH + 0.15, SIGN_HEIGHT + 0.18, SIGN_CURVE_DEPTH + 0.04
   );
-  signFrame.position.y = 2.6;
+  signFrame.position.y = 2.35;
   signFrame.position.z = 0.02;
   group.add(signFrame);
-
-  // Two support struts (visible from behind)
-  for (let side of [-1, 1]) {
-    const strut = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.035, 0.035, 0.55, 6),
-      new THREE.MeshLambertMaterial({ color: 0x1e3a8a })
-    );
-    strut.position.set(0, 2.6 + side * 0.4, 0.1);
-    strut.rotation.x = side * Math.PI / 8;
-    group.add(strut);
-  }
 
   // Make whole sign face the road: the CONVEX side (-Z direction) points outward
   // group.lookAt() points the local -Z axis at the target, which is exactly what we want
@@ -735,57 +725,58 @@ function makeCompanySignTexture(name, year, num) {
   c.height = 448;
   const ctx = c.getContext('2d');
 
-  // White background with subtle gradient
-  const grad = ctx.createLinearGradient(0, 0, 0, c.height);
-  grad.addColorStop(0, '#ffffff');
-  grad.addColorStop(1, '#f8fafc');
-  ctx.fillStyle = grad;
+  // White background
+  ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, c.width, c.height);
 
-  // Inner navy border
-  ctx.strokeStyle = '#1e3a8a';
-  ctx.lineWidth = 6;
-  ctx.strokeRect(20, 20, c.width - 40, c.height - 40);
-
-  // Step number badge (top-left circle)
+  // Navy top band (holds the step number + makes the card pop)
   ctx.fillStyle = '#1e3a8a';
+  ctx.fillRect(0, 0, c.width, 70);
+
+  // Thick navy border
+  ctx.strokeStyle = '#1e3a8a';
+  ctx.lineWidth = 10;
+  ctx.strokeRect(14, 14, c.width - 28, c.height - 28);
+
+  // Step number badge (in the top band)
+  ctx.fillStyle = '#facc15';
   ctx.beginPath();
-  ctx.arc(85, 85, 45, 0, Math.PI * 2);
+  ctx.arc(70, 35, 26, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 56px Manrope, sans-serif';
+  ctx.fillStyle = '#1e3a8a';
+  ctx.font = 'bold 32px Arial, Helvetica, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(num.toString(), 85, 88);
+  ctx.fillText(num.toString(), 70, 36);
 
-  // Company name (main) — auto-shrink to fit, measured by actual pixel width
+  // Company name — BIG, black, bold, auto-fit with system font
   ctx.fillStyle = '#0a0a0a';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const maxNameWidth = c.width - 200; // leave padding on both sides
-  let nameFontSize = 100;
-  ctx.font = `bold ${nameFontSize}px Manrope, sans-serif`;
-  while (ctx.measureText(name).width > maxNameWidth && nameFontSize > 40) {
+  const maxNameWidth = c.width - 120;
+  let nameFontSize = 120;
+  ctx.font = `bold ${nameFontSize}px Arial, Helvetica, sans-serif`;
+  while (ctx.measureText(name).width > maxNameWidth && nameFontSize > 44) {
     nameFontSize -= 4;
-    ctx.font = `bold ${nameFontSize}px Manrope, sans-serif`;
+    ctx.font = `bold ${nameFontSize}px Arial, Helvetica, sans-serif`;
   }
-  ctx.fillText(name, c.width / 2, c.height / 2 - 10);
+  ctx.fillText(name, c.width / 2, 230);
 
-  // Year (subtitle) — also auto-shrink for long date ranges
+  // Year (subtitle) — navy, auto-fit
   ctx.fillStyle = '#1e3a8a';
-  const maxYearWidth = c.width - 160;
-  let yearFontSize = 44;
-  ctx.font = `600 ${yearFontSize}px JetBrains Mono, monospace`;
-  while (ctx.measureText(year).width > maxYearWidth && yearFontSize > 22) {
+  const maxYearWidth = c.width - 120;
+  let yearFontSize = 52;
+  ctx.font = `bold ${yearFontSize}px Arial, Helvetica, sans-serif`;
+  while (ctx.measureText(year).width > maxYearWidth && yearFontSize > 26) {
     yearFontSize -= 2;
-    ctx.font = `600 ${yearFontSize}px JetBrains Mono, monospace`;
+    ctx.font = `bold ${yearFontSize}px Arial, Helvetica, sans-serif`;
   }
-  ctx.fillText(year, c.width / 2, c.height / 2 + 80);
+  ctx.fillText(year, c.width / 2, 340);
 
   const tex = new THREE.CanvasTexture(c);
   tex.minFilter = THREE.LinearFilter;
   tex.magFilter = THREE.LinearFilter;
-  tex.anisotropy = 4;
+  tex.anisotropy = 8;
   return tex;
 }
 
@@ -1936,9 +1927,7 @@ bike.add(tank);
 // Chrome side panel on tank (Meteor Fireball has a chrome/silver tank strip with badge)
 for (let zSide of [0.34, -0.34]) {
   const tankStrip = new THREE.Mesh(
-    new THREE.CapsuleGeometry
-      ? new THREE.CylinderGeometry(0.12, 0.12, 0.5, 16)
-      : new THREE.CylinderGeometry(0.12, 0.12, 0.5, 16),
+    new THREE.CylinderGeometry(0.12, 0.12, 0.5, 16),
     reChromeMat
   );
   tankStrip.rotation.z = Math.PI / 2;
@@ -2268,23 +2257,7 @@ hips.scale.set(1.4, 0.7, 1.2);
 hips.castShadow = true;
 rider.add(hips);
 
-// Belt (visible at the waistline)
-const belt = new THREE.Mesh(
-  new THREE.TorusGeometry(0.24, 0.025, 8, 24),
-  new THREE.MeshLambertMaterial({ color: BELT })
-);
-belt.position.set(-0.6, 1.18, 0);
-belt.rotation.x = Math.PI / 2;
-belt.scale.set(1.3, 1.1, 1);
-rider.add(belt);
-
-// Belt buckle (chrome)
-const buckle = new THREE.Mesh(
-  new THREE.BoxGeometry(0.07, 0.06, 0.02),
-  new THREE.MeshLambertMaterial({ color: 0xc8cdd6, emissive: 0x444444, emissiveIntensity: 0.1 })
-);
-buckle.position.set(-0.45, 1.18, 0);
-rider.add(buckle);
+// (Belt removed — the jacket covers the waistline; a belt ring looked distracting)
 
 // ==================== TORSO (anatomical: ribcage + waist taper) ====================
 const torsoGroup = new THREE.Group();
@@ -2375,53 +2348,56 @@ torsoGroup.position.set(-0.5, 1.4, 0);
 torsoGroup.rotation.z = -0.12;
 rider.add(torsoGroup);
 
-// ==================== LEGS ====================
+// ==================== LEGS (computed chain — hip → knee → ankle → foot peg) ====================
+// Meteor foot pegs are at (0.0, 0.35, ±0.42). Hips at (-0.6, 1.05).
+// Build each leg segment to connect joints exactly, like the arms.
 
-// THIGHS — properly tapered (wider at hip, narrower at knee)
-function makeThigh(zSide) {
-  const g = makeTaperedCapsule(0.42, 0.085, 0.075, jeansMat);
-  g.position.set(-0.35, 0.84, zSide);
-  g.rotation.z = Math.PI / 2 - 0.55; // angled forward strongly to reach foot pegs
-  g.rotation.y = -zSide * 0.3; // splay outward
-  return g;
+function buildLeg(zSign) {
+  const z = zSign > 0 ? 1 : -1;
+  // Joint positions
+  const hip   = new THREE.Vector3(-0.5, 0.98, z * 0.18);  // where leg leaves the pelvis
+  const knee  = new THREE.Vector3(-0.05, 0.62, z * 0.40); // knee bends outward + forward
+  const ankle = new THREE.Vector3(0.05, 0.40, z * 0.42);  // just above the foot peg
+
+  // THIGH — hip → knee (exact)
+  const thigh = makeLimbSegment(hip, knee, 0.1, 0.082, jeansMat);
+  rider.add(thigh);
+
+  // HIP joint ball (fills the pelvis→thigh seam)
+  const hipBall = new THREE.Mesh(new THREE.SphereGeometry(0.1, 14, 10), jeansMat);
+  hipBall.position.copy(hip);
+  hipBall.castShadow = true;
+  rider.add(hipBall);
+
+  // KNEE ball (fills the bend)
+  const kneeBall = new THREE.Mesh(new THREE.SphereGeometry(0.088, 14, 12), jeansMat);
+  kneeBall.position.copy(knee);
+  kneeBall.scale.set(1, 0.95, 1.05);
+  kneeBall.castShadow = true;
+  rider.add(kneeBall);
+
+  // CALF — knee → ankle (exact)
+  const calf = makeLimbSegment(knee, ankle, 0.078, 0.055, jeansMat);
+  rider.add(calf);
+
+  return { thigh, hipBall, kneeBall, calf, ankle };
 }
-const thighL = makeThigh(0.22);
-const thighR = makeThigh(-0.22);
-rider.add(thighL);
-rider.add(thighR);
 
-// Knees — slightly larger spheres with definition
-const kneeGeo = new THREE.SphereGeometry(0.1, 14, 12);
-const kneeL = new THREE.Mesh(kneeGeo, jeansMat);
-kneeL.position.set(-0.05, 0.62, 0.36);
-kneeL.scale.set(1, 0.95, 1.05);
-kneeL.castShadow = true;
-rider.add(kneeL);
-const kneeR = new THREE.Mesh(kneeGeo, jeansMat);
-kneeR.position.set(-0.05, 0.62, -0.36);
-kneeR.scale.set(1, 0.95, 1.05);
-kneeR.castShadow = true;
-rider.add(kneeR);
+const legL = buildLeg(1);
+const legR = buildLeg(-1);
 
-// CALVES — tapered (wider at knee, narrower at ankle)
-function makeCalf(zSide) {
-  const g = makeTaperedCapsule(0.4, 0.075, 0.055, jeansMat);
-  g.position.set(0.05, 0.45, zSide);
-  g.rotation.z = 0.1;
-  return g;
-}
-const calfL = makeCalf(0.42);
-const calfR = makeCalf(-0.42);
-rider.add(calfL);
-rider.add(calfR);
+// Keep references for animation
+const thighL = legL.thigh, thighR = legR.thigh;
+const calfL = legL.calf, calfR = legR.calf;
+const kneeL = legL.kneeBall, kneeR = legR.kneeBall;
 
-// Ankle joints (small spheres)
+// Ankle joints (small, where calf meets boot)
 const ankleGeo = new THREE.SphereGeometry(0.055, 10, 8);
 const ankleL = new THREE.Mesh(ankleGeo, bootsMat);
-ankleL.position.set(0.1, 0.26, 0.42);
+ankleL.position.copy(legL.ankle);
 rider.add(ankleL);
 const ankleR = new THREE.Mesh(ankleGeo, bootsMat);
-ankleR.position.set(0.1, 0.26, -0.42);
+ankleR.position.copy(legR.ankle);
 rider.add(ankleR);
 
 // BOOTS — heavy detailed leather riding boots
@@ -2484,7 +2460,7 @@ function makeBoot(zSide) {
     g.add(lace);
   }
 
-  g.position.set(0.12, 0.4, zSide);
+  g.position.set(0.05, 0.32, zSide);
   return g;
 }
 const footL = makeBoot(0.42);
