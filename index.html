@@ -1337,9 +1337,55 @@ footer .footer-lede {
   .roadmap-tag { margin-left: 0; margin-top: 0.4rem; }
   .roadmap-item-head { gap: 0.5rem; }
 }
-</style>
+/* ===== Custom Glow Cursor ===== */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--accent, #1e3a8a);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  mix-blend-mode: normal;
+}
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(37, 99, 235, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.cursor-ring.cursor-hover {
+  width: 56px;
+  height: 56px;
+  border-color: rgba(37, 99, 235, 0.9);
+  background: rgba(37, 99, 235, 0.08);
+}
+.cursor-dot.cursor-hover {
+  width: 12px;
+  height: 12px;
+  background: #2563eb;
+}
+/* Hide custom cursor on touch devices */
+@media (hover: none) {
+  .cursor-dot, .cursor-ring { display: none !important; }
+}
+
 </head>
 <body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
 <div class="cursor-glow" id="cursorGlow"></div>
 <div class="cursor-glow-2" id="cursorGlow2"></div>
@@ -2338,6 +2384,59 @@ document.querySelectorAll('nav a').forEach(link => {
     if (target) target.scrollIntoView({ behavior: 'smooth' });
   });
 });
+
+/* ===== Custom Glow Cursor ===== */
+(function() {
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  if (!dot || !ring) return;
+  // Skip on touch devices
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  let ringX = mouseX, ringY = mouseY;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    // Dot follows instantly
+    dot.style.left = mouseX + 'px';
+    dot.style.top = mouseY + 'px';
+  });
+
+  // Ring follows smoothly (trailing effect)
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Grow/react on interactive elements
+  const interactive = 'a, button, .about-card, .project-item, .tool-badge, .cert-row, .stat-item, input, textarea, [role="button"]';
+  document.querySelectorAll(interactive).forEach((el) => {
+    el.addEventListener('mouseenter', () => {
+      dot.classList.add('cursor-hover');
+      ring.classList.add('cursor-hover');
+    });
+    el.addEventListener('mouseleave', () => {
+      dot.classList.remove('cursor-hover');
+      ring.classList.remove('cursor-hover');
+    });
+  });
+
+  // Hide when leaving window, show on return
+  document.addEventListener('mouseleave', () => {
+    dot.style.opacity = '0';
+    ring.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    dot.style.opacity = '1';
+    ring.style.opacity = '1';
+  });
+})();
 </script>
 
 </body>
