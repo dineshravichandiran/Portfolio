@@ -390,7 +390,7 @@ const MILESTONES = [
     name: 'DRDO',
     role: 'R&D Engineering Intern',
     meta: '01 · CHENNAI · Aug 2021',
-    body: "Contributed to a defence R&D project at DRDO Avadi involving sensor integration for combat vehicle systems. Worked in a small team under DRDO supervision. The discipline of working on real-world, mission-critical hardware shaped my approach to reliability and documentation.",
+    body: "Contributed to a defence R&D project at DRDO Avadi — sensor integration for combat vehicle systems. Working on mission-critical hardware shaped my approach to reliability and documentation.",
     tags: ['Defence R&D', 'Sensor Integration', 'Reliability Mindset', 'Technical Documentation']
   },
   {
@@ -399,25 +399,16 @@ const MILESTONES = [
     name: 'Cognizant',
     role: 'Programmer Analyst Trainee',
     meta: '02 · BANGALORE · First Software Role',
-    body: "6-month paid final-year internship — trained in full-stack fundamentals, SQL, and databases, then specialized in Java, building a Spring Boot MVC project with MySQL. Earned a full-time offer based on performance. First exposure to enterprise software practices and team workflows.",
+    body: "Six-month paid internship — trained in full-stack fundamentals and SQL, then specialized in Java, building a Spring Boot MVC project with MySQL. Earned a full-time offer on performance.",
     tags: ['Java', 'Spring Boot', 'REST APIs', 'MySQL', 'Earned Full-time Offer']
-  },
-  {
-    year: 'Jul – Nov 2022',
-    city: 'PUNE',
-    name: 'Johnson Controls',
-    role: 'Full-time Intern · Graphics Design, BMS Projects',
-    meta: '03 · PUNE · Smart Buildings',
-    body: "Designed building visualization graphics for 30+ automation projects serving international clients — floor layouts, walls, and 3D building images using 3D design software, refined in Photoshop. Introduced me to enterprise-scale building systems that businesses depend on 24/7.",
-    tags: ['Enterprise Systems', 'Client Delivery', '30+ Projects', 'Attention to Detail']
   },
   {
     year: 'Dec 2022 – Nov 2025',
     city: 'PUNE',
     name: 'PTC',
     role: 'Cloud NOC Technician Associate',
-    meta: '04 · PUNE · The Foundation · 3 Years',
-    body: "Triaged and resolved 5,000+ production incidents across AWS and Azure with 99.9% uptime for 50+ Fortune 500 environments. Resolved recurring memory alerts through systematic root cause analysis over 2.5+ years with the Technical Architect team. Linux, Apache and Tomcat troubleshooting across 200+ servers; logs in Sumo Logic and CloudWatch; 3+ runbooks authored. Recognized with PTC's Customer First Award.",
+    meta: '03 · PUNE · The Foundation',
+    body: "Resolved 5,000+ production incidents across AWS and Azure with 99.9% uptime for 50+ Fortune 500 environments. Memory RCA over 2.5 years with the Technical Architect team. Linux, Apache and Tomcat across 200+ servers; logs in Sumo Logic and CloudWatch. Recognized with PTC's Customer First Award.",
     tags: ['Incident Management', 'Root Cause Analysis', 'Linux & Tomcat', 'Sumo Logic', '99.9% Uptime', 'Customer First Award']
   },
   {
@@ -425,8 +416,8 @@ const MILESTONES = [
     city: 'PUNE',
     name: 'PTC',
     role: 'Cloud Services Specialist NOC Engineer',
-    meta: '05 · PUNE · Now',
-    body: "24×7 production support for enterprise SaaS platforms on AWS and Azure serving 50+ Fortune 500 customers. Lead incident response, root-cause analysis, and reliability work. Pod- and node-level troubleshooting on Azure Kubernetes Service (AKS) with kubectl and k9s — resolving CrashLoopBackOff, OOMKilled, OutOfMemoryError, and node scale-down events. Log analysis in Sumo Logic, performance and memory tuning, and runbook automation. Targeting SRE roles at product-first companies.",
+    meta: '04 · PUNE · Now',
+    body: "24×7 production support on AWS and Azure for 50+ Fortune 500 customers. Lead incident response and RCA. Kubernetes (AKS) pod- and node-level troubleshooting with kubectl and k9s — CrashLoopBackOff, OOMKilled, scale-downs. Log analysis, performance tuning, and runbook automation. Targeting SRE roles.",
     tags: ['Kubernetes (AKS)', 'SRE Practices', 'Incident Response', 'Observability', 'AWS & Azure', 'Linux']
   }
 ];
@@ -538,11 +529,10 @@ addZonePatch(48, 25, 0xc4b888, 0.25);
 // ====================================================
 const pathPoints = [
   new THREE.Vector3(0, 0, 0),       // Start
-  new THREE.Vector3(10, 0, -2),     // Milestone 0: DRDO — Chennai (gentle left curve)
-  new THREE.Vector3(20, 0, 1.5),    // Milestone 1: Cognizant — Bangalore (back right)
-  new THREE.Vector3(30, 0, -1.5),   // Milestone 2: Johnson Controls — entering Pune
-  new THREE.Vector3(40, 0, 2),      // Milestone 3: PTC Associate — Pune
-  new THREE.Vector3(50, 0, -1),     // Milestone 4: PTC Specialist — Pune
+  new THREE.Vector3(12, 0, -2),     // Milestone 0: DRDO — Chennai (gentle left curve)
+  new THREE.Vector3(24, 0, 1.8),    // Milestone 1: Cognizant — Bangalore (back right)
+  new THREE.Vector3(38, 0, -1.5),   // Milestone 2: PTC Associate — Pune
+  new THREE.Vector3(50, 0, 1.5),    // Milestone 3: PTC Specialist — Pune
   new THREE.Vector3(60, 0, 0)       // End buffer
 ];
 
@@ -606,7 +596,7 @@ scene.add(stripe);
 // MILESTONE POSTS (one for each career stop)
 // ====================================================
 // Map each milestone to a t-value along the curve
-const milestoneT = [0.10, 0.28, 0.47, 0.66, 0.86];
+const milestoneT = [0.12, 0.36, 0.62, 0.86];
 const milestoneObjects = [];
 
 function buildMilestone(t, index, data) {
@@ -1454,88 +1444,108 @@ function buildPuneLandmark(x) {
 
 // Place one landmark per city (left side, set back from the road)
 buildChennaiLandmark(8);
-buildBangaloreLandmark(20);
-buildPuneLandmark(44);
+buildBangaloreLandmark(22);
+buildPuneLandmark(42);
 
 
 // ---------- CITY ROADSIDE SIGN (clean highway-exit style, off to the side) ----------
-function makeCitySign(x, cityName) {
+function makeMilestoneStone(x, cityName, kmText) {
   const g = new THREE.Group();
 
-  // Single sturdy pole on the right side of the road
-  const pole = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.08, 0.1, 3, 10),
-    new THREE.MeshLambertMaterial({ color: 0x9ca3af })
+  // ---- Stone body: a short rounded pillar (white) ----
+  // Main white block
+  const bodyMat = new THREE.MeshLambertMaterial({ color: 0xf5f5f0 });
+  const yellowMat = new THREE.MeshLambertMaterial({ color: 0xf4c430 });
+
+  const body = new THREE.Mesh(
+    new THREE.BoxGeometry(0.7, 0.78, 0.42),
+    bodyMat
   );
-  pole.position.set(0, 1.5, 0);
-  pole.castShadow = true;
-  g.add(pole);
+  body.position.set(0, 0.5, 0);
+  body.castShadow = true;
+  g.add(body);
 
-  // Sign panel canvas — green highway sign with white text
-  const canvas = document.createElement('canvas');
-  canvas.width = 640;
-  canvas.height = 280;
-  const ctx = canvas.getContext('2d');
+  // Rounded curved top — the signature milestone dome (yellow)
+  // Build it from a half-cylinder lying along Z so the front face is curved
+  const domeGeo = new THREE.CylinderGeometry(0.35, 0.35, 0.42, 20, 1, false, 0, Math.PI);
+  const dome = new THREE.Mesh(domeGeo, yellowMat);
+  dome.rotation.x = Math.PI / 2;   // lay the half-cylinder so flat side faces down
+  dome.rotation.z = 0;
+  dome.position.set(0, 0.89, 0);
+  dome.castShadow = true;
+  g.add(dome);
 
-  // Green highway-sign background
-  ctx.fillStyle = '#15803d';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Thin flat cap to close the dome top cleanly
+  const domeFront = new THREE.Mesh(
+    new THREE.BoxGeometry(0.7, 0.34, 0.005),
+    yellowMat
+  );
+  // (the curved cylinder already reads as the yellow top; no extra needed)
 
-  // White rounded border
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 10;
-  ctx.strokeRect(16, 16, canvas.width - 32, canvas.height - 32);
-
-  // Small "WELCOME TO" line
-  ctx.fillStyle = '#d1fae5';
-  ctx.font = '600 42px Arial, Helvetica, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('WELCOME TO', canvas.width / 2, 78);
-
-  // City name — big, white, auto-fit with generous side padding
-  let fontSize = 110;
-  const maxWidth = canvas.width - 140; // 70px padding each side so letters never touch the border
-  ctx.font = `bold ${fontSize}px Arial, Helvetica, sans-serif`;
-  while (ctx.measureText(cityName).width > maxWidth && fontSize > 34) {
-    fontSize -= 3;
-    ctx.font = `bold ${fontSize}px Arial, Helvetica, sans-serif`;
+  // ---- Text panels on the curved/flat faces (canvas textures) ----
+  function makeStoneText(w, h, lines) {
+    const c = document.createElement('canvas');
+    c.width = 256; c.height = 256;
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, 256, 256);
+    ctx.fillStyle = '#1a1a1a';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    // City name (auto-fit)
+    let fs = 56;
+    ctx.font = `bold ${fs}px Arial, sans-serif`;
+    while (ctx.measureText(lines[0]).width > 220 && fs > 22) {
+      fs -= 2; ctx.font = `bold ${fs}px Arial, sans-serif`;
+    }
+    ctx.fillText(lines[0], 128, 150);
+    // KM line below
+    if (lines[1]) {
+      ctx.font = 'bold 40px Arial, sans-serif';
+      ctx.fillText(lines[1], 128, 205);
+    }
+    const t = new THREE.CanvasTexture(c);
+    t.minFilter = THREE.LinearFilter; t.magFilter = THREE.LinearFilter;
+    t.anisotropy = 8;
+    return t;
   }
-  ctx.fillStyle = '#ffffff';
-  ctx.fillText(cityName, canvas.width / 2, 178);
 
-  const tex = new THREE.CanvasTexture(canvas);
-  tex.minFilter = THREE.LinearFilter;
-  tex.magFilter = THREE.LinearFilter;
-  tex.anisotropy = 4;
-
-  // Sign panel — modest size, mounted on top of the pole, facing the rider
-  const panelW = 2.6;
-  const panelH = panelW * (280 / 640);
-  const panel = new THREE.Mesh(
-    new THREE.BoxGeometry(panelW, panelH, 0.08),
-    [
-      new THREE.MeshLambertMaterial({ color: 0x15803d }),
-      new THREE.MeshLambertMaterial({ color: 0x15803d }),
-      new THREE.MeshLambertMaterial({ color: 0x15803d }),
-      new THREE.MeshLambertMaterial({ color: 0x15803d }),
-      new THREE.MeshLambertMaterial({ map: tex }),
-      new THREE.MeshLambertMaterial({ map: tex })
-    ]
+  // City name on the WHITE body front (black text)
+  const bodyTex = makeStoneText(0.66, 0.5, [cityName, kmText]);
+  const bodyFace = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.66, 0.66),
+    new THREE.MeshLambertMaterial({ map: bodyTex, transparent: true })
   );
-  panel.position.set(0, 3.0, 0);
-  panel.castShadow = true;
-  g.add(panel);
+  bodyFace.position.set(0, 0.5, 0.215);
+  g.add(bodyFace);
 
-  // Place the signpost OFF to the right side of the road (z = 3.2), angled to face oncoming rider
-  g.position.set(x, 0, 3.2);
-  g.rotation.y = -Math.PI / 2 - 0.35;
+  // City name also on the YELLOW curved top (so it's readable while approaching)
+  const topTex = makeStoneText(0.6, 0.3, [cityName, '']);
+  const topFace = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.6, 0.3),
+    new THREE.MeshLambertMaterial({ map: topTex, transparent: true })
+  );
+  topFace.position.set(0, 0.92, 0.215);
+  topFace.rotation.x = -0.15;
+  g.add(topFace);
+
+  // ---- Small base in the ground ----
+  const stoneBase = new THREE.Mesh(
+    new THREE.BoxGeometry(0.8, 0.12, 0.5),
+    new THREE.MeshLambertMaterial({ color: 0xcfcfc8 })
+  );
+  stoneBase.position.set(0, 0.06, 0);
+  g.add(stoneBase);
+
+  // Place beside the road on the right, facing the oncoming rider
+  g.position.set(x, 0, 2.8);
+  g.rotation.y = -Math.PI / 2 - 0.25;
   scene.add(g);
 }
 
-makeCitySign(4,  'CHENNAI');    // after the start so the camera catches it; before DRDO (x~6)
-makeCitySign(12, 'BANGALORE');  // in the gap between DRDO (x~6) and Cognizant (x~17) — no billboard overlap
-makeCitySign(34, 'PUNE');       // gap between Johnson Controls (x~28) and PTC (x~40)
+// Indian highway milestones — show the next city + a road-trip "km" feel
+makeMilestoneStone(4,  'CHENNAI',   'START');   // before DRDO (x~7)
+makeMilestoneStone(15, 'BANGALORE', '↑');       // between DRDO (x~7) and Cognizant (x~22)
+makeMilestoneStone(30, 'PUNE',      '↑');       // before PTC stops in Pune (x~37, 52)
 
 // ---------- KILOMETER MARKERS along the highway ----------
 function addKmMarker(x, side) {
@@ -2792,14 +2802,7 @@ helmetStripe.scale.set(1.05, 1, 1.05);
 helmetStripe.rotation.x = Math.PI / 2;
 headGroup.add(helmetStripe);
 
-// White racing stripe over the top of the helmet (classic detail)
-const helmetTopStripe = new THREE.Mesh(
-  new THREE.BoxGeometry(0.42, 0.05, 0.06),
-  new THREE.MeshLambertMaterial({ color: 0xf5f5f5 })
-);
-helmetTopStripe.position.set(0.02, 0.24, 0);
-helmetTopStripe.rotation.z = 0.0;
-headGroup.add(helmetTopStripe);
+// (White top stripe removed — looked oversized/floating on the helmet)
 
 // Helmet strap (chin strap, visible going down)
 const chinStrap = new THREE.Mesh(
