@@ -28,41 +28,33 @@
   --hover-tint: #f8fafc;
 }
 
-/* ===== CURSOR-FOLLOWING GLOW (page-wide, multi-layered for stronger effect) ===== */
-.cursor-glow {
+/* ===== COMET TRAIL CURSOR ===== */
+.comet-core {
   position: fixed;
   top: 0;
   left: 0;
-  width: 700px;
-  height: 700px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(30, 58, 138, 0.28) 0%, rgba(37, 99, 235, 0.15) 30%, rgba(59, 130, 246, 0.05) 60%, transparent 75%);
+  background: radial-gradient(circle, #eff6ff 0%, #60a5fa 45%, #2563eb 100%);
+  box-shadow: 0 0 12px #3b82f6, 0 0 24px rgba(37, 99, 235, 0.6);
   pointer-events: none;
-  z-index: 1;
+  z-index: 99999;
   transform: translate(-50%, -50%);
-  transition: opacity 0.3s;
-  mix-blend-mode: multiply;
   will-change: transform;
 }
-
-.cursor-glow-2 {
+.comet-tail {
   position: fixed;
   top: 0;
   left: 0;
-  width: 200px;
-  height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.35) 0%, transparent 70%);
   pointer-events: none;
-  z-index: 2;
+  z-index: 99998;
   transform: translate(-50%, -50%);
-  transition: opacity 0.3s;
-  mix-blend-mode: screen;
-  will-change: transform;
+  will-change: transform, opacity;
 }
-
 @media (hover: none) {
-  .cursor-glow, .cursor-glow-2 { display: none; }
+  .comet-core, .comet-tail { display: none !important; }
 }
 
 /* ===== PARTICLE FIELD (3D floating dots that drift with mouse) ===== */
@@ -1337,58 +1329,12 @@ footer .footer-lede {
   .roadmap-tag { margin-left: 0; margin-top: 0.4rem; }
   .roadmap-item-head { gap: 0.5rem; }
 }
-/* ===== Custom Glow Cursor ===== */
-.cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  background: var(--accent, #1e3a8a);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99999;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
-  mix-blend-mode: normal;
-}
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid rgba(37, 99, 235, 0.5);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99998;
-  transform: translate(-50%, -50%);
-  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-}
-.cursor-ring.cursor-hover {
-  width: 56px;
-  height: 56px;
-  border-color: rgba(37, 99, 235, 0.9);
-  background: rgba(37, 99, 235, 0.08);
-}
-.cursor-dot.cursor-hover {
-  width: 12px;
-  height: 12px;
-  background: #2563eb;
-}
-/* Hide custom cursor on touch devices */
-@media (hover: none) {
-  .cursor-dot, .cursor-ring { display: none !important; }
-}
-
+/* ===== (comet trail cursor handled above) ===== */
+</style>
 </head>
 <body>
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<div class="cursor-glow" id="cursorGlow"></div>
-<div class="cursor-glow-2" id="cursorGlow2"></div>
+<div class="comet-core" id="cometCore"></div>
 <div class="particle-field" id="particleField"></div>
 <div class="bg-orbs">
   <div class="bg-orb bg-orb-1"></div>
@@ -2163,43 +2109,6 @@ window.addEventListener('mousemove', (e) => {
   requestAnimationFrame(smoothLoop);
 })();
 
-// ===== CURSOR-FOLLOWING GLOW (two-layer for stronger effect) =====
-(function initCursorGlow() {
-  const glow = document.getElementById('cursorGlow');
-  const glow2 = document.getElementById('cursorGlow2');
-  if (!glow) return;
-  let cx = window.innerWidth / 2;
-  let cy = window.innerHeight / 2;
-  let cx2 = cx;
-  let cy2 = cy;
-  let visible = false;
-
-  window.addEventListener('mousemove', () => {
-    if (!visible) {
-      glow.style.opacity = '1';
-      if (glow2) glow2.style.opacity = '1';
-      visible = true;
-    }
-  });
-
-  document.addEventListener('mouseleave', () => {
-    glow.style.opacity = '0';
-    if (glow2) glow2.style.opacity = '0';
-    visible = false;
-  });
-
-  function tick() {
-    cx += (_mouse.x - cx) * 0.18;
-    cy += (_mouse.y - cy) * 0.18;
-    cx2 += (_mouse.x - cx2) * 0.32; // faster — closer to cursor
-    cy2 += (_mouse.y - cy2) * 0.32;
-    glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-    if (glow2) glow2.style.transform = `translate(${cx2}px, ${cy2}px) translate(-50%, -50%)`;
-    requestAnimationFrame(tick);
-  }
-  tick();
-})();
-
 // ===== PARTICLE FIELD — floating dots that move with mouse =====
 (function initParticles() {
   const field = document.getElementById('particleField');
@@ -2385,57 +2294,69 @@ document.querySelectorAll('nav a').forEach(link => {
   });
 });
 
-/* ===== Custom Glow Cursor ===== */
-(function() {
-  const dot = document.getElementById('cursorDot');
-  const ring = document.getElementById('cursorRing');
-  if (!dot || !ring) return;
+/* ===== COMET TRAIL CURSOR ===== */
+(function initCometCursor() {
   // Skip on touch devices
   if (window.matchMedia('(hover: none)').matches) return;
 
-  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-  let ringX = mouseX, ringY = mouseY;
+  const core = document.getElementById('cometCore');
+  if (!core) return;
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let coreX = mouseX, coreY = mouseY;
+
+  // Trail segments that follow with increasing delay
+  const TRAIL_LENGTH = 18;
+  const trail = [];
+  for (let i = 0; i < TRAIL_LENGTH; i++) {
+    const seg = document.createElement('div');
+    seg.className = 'comet-tail';
+    const size = 12 * (1 - i / TRAIL_LENGTH) + 2; // taper from big to small
+    seg.style.width = size + 'px';
+    seg.style.height = size + 'px';
+    // Blue gradient fading along the tail
+    const opacity = (1 - i / TRAIL_LENGTH) * 0.6;
+    seg.style.background = `radial-gradient(circle, rgba(96,165,250,${opacity}) 0%, rgba(37,99,235,${opacity * 0.5}) 60%, transparent 80%)`;
+    seg.style.boxShadow = `0 0 ${size}px rgba(59,130,246,${opacity * 0.5})`;
+    document.body.appendChild(seg);
+    trail.push({ el: seg, x: mouseX, y: mouseY });
+  }
 
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    // Dot follows instantly
-    dot.style.left = mouseX + 'px';
-    dot.style.top = mouseY + 'px';
   });
 
-  // Ring follows smoothly (trailing effect)
-  function animateRing() {
-    ringX += (mouseX - ringX) * 0.18;
-    ringY += (mouseY - ringY) * 0.18;
-    ring.style.left = ringX + 'px';
-    ring.style.top = ringY + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  // Grow/react on interactive elements
-  const interactive = 'a, button, .about-card, .project-item, .tool-badge, .cert-row, .stat-item, input, textarea, [role="button"]';
-  document.querySelectorAll(interactive).forEach((el) => {
-    el.addEventListener('mouseenter', () => {
-      dot.classList.add('cursor-hover');
-      ring.classList.add('cursor-hover');
-    });
-    el.addEventListener('mouseleave', () => {
-      dot.classList.remove('cursor-hover');
-      ring.classList.remove('cursor-hover');
-    });
-  });
-
-  // Hide when leaving window, show on return
+  // Hide when leaving the window
   document.addEventListener('mouseleave', () => {
-    dot.style.opacity = '0';
-    ring.style.opacity = '0';
+    core.style.opacity = '0';
+    trail.forEach(t => t.el.style.opacity = '0');
   });
   document.addEventListener('mouseenter', () => {
-    dot.style.opacity = '1';
-    ring.style.opacity = '1';
+    core.style.opacity = '1';
+    trail.forEach(t => t.el.style.opacity = '1');
   });
+
+  function animate() {
+    // Core follows quickly (the bright head)
+    coreX += (mouseX - coreX) * 0.35;
+    coreY += (mouseY - coreY) * 0.35;
+    core.style.transform = `translate(-50%, -50%) translate(${coreX}px, ${coreY}px)`;
+
+    // Each tail segment chases the one before it → smooth comet tail
+    let prevX = coreX, prevY = coreY;
+    trail.forEach((t) => {
+      t.x += (prevX - t.x) * 0.4;
+      t.y += (prevY - t.y) * 0.4;
+      t.el.style.transform = `translate(-50%, -50%) translate(${t.x}px, ${t.y}px)`;
+      prevX = t.x;
+      prevY = t.y;
+    });
+
+    requestAnimationFrame(animate);
+  }
+  animate();
 })();
 </script>
 
