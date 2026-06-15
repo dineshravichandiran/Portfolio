@@ -417,8 +417,8 @@ const MILESTONES = [
     name: 'PTC',
     role: 'Cloud Services Specialist NOC Engineer',
     meta: '04 · PUNE · Now',
-    body: "24×7 production support on AWS and Azure for 50+ Fortune 500 customers. Lead incident response and RCA. Kubernetes (AKS) pod- and node-level troubleshooting with kubectl and k9s — CrashLoopBackOff, OOMKilled, scale-downs. Log analysis, performance tuning, and runbook automation. Targeting SRE roles.",
-    tags: ['Kubernetes (AKS)', 'SRE Practices', 'Incident Response', 'Observability', 'AWS & Azure', 'Linux']
+    body: "24×7 production support on AWS and Azure for 50+ Fortune 500 customers. Lead incident response and RCA. Kubernetes (AKS) pod- and node-level troubleshooting with kubectl and k9s — CrashLoopBackOff, OOMKilled, scale-downs. Log analysis, performance tuning, and runbook automation. Growing fast and ready for the next challenge.",
+    tags: ['Kubernetes (AKS)', 'Incident Response', 'Observability', 'Automation', 'AWS & Azure', 'Linux']
   }
 ];
 
@@ -1048,8 +1048,18 @@ function addCar(x, side) {
     g.add(light);
   }
 
-  g.position.set(x, 0, side * 2.6);
-  g.rotation.y = Math.PI / 2 + (Math.random() - 0.5) * 0.2; // parked parallel to road
+  // Position relative to the actual curved road so the car sits OFF the road, not on it.
+  // Find the nearest road-center z at this x by sampling the curve.
+  let bestT = 0, bestDx = Infinity, roadZ = 0;
+  for (let i = 0; i <= 100; i++) {
+    const t = i / 100;
+    const p = curve.getPointAt(t);
+    const dx = Math.abs(p.x - x);
+    if (dx < bestDx) { bestDx = dx; roadZ = p.z; bestT = t; }
+  }
+  // Offset from the road center, on the chosen side, well clear of the 2.2-wide road
+  g.position.set(x, 0, roadZ + side * 4.2);
+  g.rotation.y = Math.PI / 2 + (Math.random() - 0.5) * 0.15; // parked parallel to road
   scene.add(g);
 }
 
@@ -1119,15 +1129,17 @@ for (let x = 4; x < 60; x += 7) {
   addStreetLamp(x + 3.5, -1);
 }
 
-// Parked cars sprinkled along the roadside
-for (let x = 5; x < 60; x += 9) {
-  if (Math.random() > 0.3) addCar(x + Math.random() * 3, Math.random() > 0.5 ? 1 : -1);
-}
+// Parked cars at fixed spots that avoid milestone stones (x=3,16,34) and bus stops (x=10,26,44)
+// All on the LEFT side (billboards + city stones are on the right, so left keeps them clear)
+addCar(7,  -1);
+addCar(20, -1);
+addCar(31, -1);
+addCar(50, -1);
 
-// A few bus stops
+// A few bus stops (in gaps, clear of stones at x=3,16,34, billboards at x~7,22,39,53, cars on left)
 addBusStop(12, 1);
-addBusStop(30, -1);
-addBusStop(48, 1);
+addBusStop(28, 1);
+addBusStop(46, -1);
 
 
 // ====================================================
@@ -1326,7 +1338,7 @@ function buildBangaloreLandmark(x) {
   panel.position.set(0, 0.5, 1.5);
   g.add(panel);
 
-  g.position.set(x, 0, -9);
+  g.position.set(x - 4, 0, -13);
   g.rotation.y = 0.25;
   scene.add(g);
 }
@@ -1443,9 +1455,9 @@ function buildPuneLandmark(x) {
 }
 
 // Place one landmark per city (left side, set back from the road)
-buildChennaiLandmark(8);
+buildChennaiLandmark(7);
 buildBangaloreLandmark(22);
-buildPuneLandmark(42);
+buildPuneLandmark(46);
 
 
 // ---------- CITY ROADSIDE SIGN (clean highway-exit style, off to the side) ----------
@@ -1453,7 +1465,6 @@ function makeMilestoneStone(x, cityName, kmText) {
   const g = new THREE.Group();
 
   // ---- Stone body: a short rounded pillar (white) ----
-  // Main white block
   const bodyMat = new THREE.MeshLambertMaterial({ color: 0xf5f5f0 });
   const yellowMat = new THREE.MeshLambertMaterial({ color: 0xf4c430 });
 
@@ -1465,24 +1476,24 @@ function makeMilestoneStone(x, cityName, kmText) {
   body.castShadow = true;
   g.add(body);
 
-  // Rounded curved top — the signature milestone dome (yellow)
-  // Build it from a half-cylinder lying along Z so the front face is curved
-  const domeGeo = new THREE.CylinderGeometry(0.35, 0.35, 0.42, 20, 1, false, 0, Math.PI);
+  // Rounded curved top — full dome covering the whole top (yellow)
+  // A flattened sphere sitting on the body reads as a proper milestone cap from all angles
+  const domeGeo = new THREE.SphereGeometry(0.36, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2);
   const dome = new THREE.Mesh(domeGeo, yellowMat);
-  dome.rotation.x = Math.PI / 2;   // lay the half-cylinder so flat side faces down
-  dome.rotation.z = 0;
+  dome.scale.set(1, 0.65, 0.6);   // flatten into a low rounded dome
   dome.position.set(0, 0.89, 0);
   dome.castShadow = true;
   g.add(dome);
 
-  // Thin flat cap to close the dome top cleanly
-  const domeFront = new THREE.Mesh(
-    new THREE.BoxGeometry(0.7, 0.34, 0.005),
+  // A short yellow band where the dome meets the white body (clean transition)
+  const band = new THREE.Mesh(
+    new THREE.BoxGeometry(0.7, 0.1, 0.42),
     yellowMat
   );
-  // (the curved cylinder already reads as the yellow top; no extra needed)
+  band.position.set(0, 0.86, 0);
+  g.add(band);
 
-  // ---- Text panels on the curved/flat faces (canvas textures) ----
+  // ---- Text panels on the faces (canvas textures) ----
   function makeStoneText(w, h, lines) {
     const c = document.createElement('canvas');
     c.width = 256; c.height = 256;
@@ -1491,17 +1502,16 @@ function makeMilestoneStone(x, cityName, kmText) {
     ctx.fillStyle = '#1a1a1a';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    // City name (auto-fit)
-    let fs = 56;
+    let fs = 52;
     ctx.font = `bold ${fs}px Arial, sans-serif`;
-    while (ctx.measureText(lines[0]).width > 220 && fs > 22) {
+    while (ctx.measureText(lines[0]).width > 220 && fs > 20) {
       fs -= 2; ctx.font = `bold ${fs}px Arial, sans-serif`;
     }
-    ctx.fillText(lines[0], 128, 150);
-    // KM line below
+    ctx.fillText(lines[0], 128, lines[1] ? 120 : 128);
     if (lines[1]) {
-      ctx.font = 'bold 40px Arial, sans-serif';
-      ctx.fillText(lines[1], 128, 205);
+      ctx.font = 'bold 36px Arial, sans-serif';
+      ctx.fillStyle = '#c0392b';
+      ctx.fillText(lines[1], 128, 185);
     }
     const t = new THREE.CanvasTexture(c);
     t.minFilter = THREE.LinearFilter; t.magFilter = THREE.LinearFilter;
@@ -1509,24 +1519,23 @@ function makeMilestoneStone(x, cityName, kmText) {
     return t;
   }
 
-  // City name on the WHITE body front (black text)
+  // City name + km marker on the WHITE body front (black text)
   const bodyTex = makeStoneText(0.66, 0.5, [cityName, kmText]);
   const bodyFace = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.66, 0.66),
+    new THREE.PlaneGeometry(0.62, 0.62),
     new THREE.MeshLambertMaterial({ map: bodyTex, transparent: true })
   );
   bodyFace.position.set(0, 0.5, 0.215);
   g.add(bodyFace);
 
-  // City name also on the YELLOW curved top (so it's readable while approaching)
-  const topTex = makeStoneText(0.6, 0.3, [cityName, '']);
-  const topFace = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.6, 0.3),
-    new THREE.MeshLambertMaterial({ map: topTex, transparent: true })
+  // Same text on the BACK of the body too (readable from both directions)
+  const backFace = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.62, 0.62),
+    new THREE.MeshLambertMaterial({ map: bodyTex, transparent: true })
   );
-  topFace.position.set(0, 0.92, 0.215);
-  topFace.rotation.x = -0.15;
-  g.add(topFace);
+  backFace.position.set(0, 0.5, -0.215);
+  backFace.rotation.y = Math.PI;
+  g.add(backFace);
 
   // ---- Small base in the ground ----
   const stoneBase = new THREE.Mesh(
@@ -1543,9 +1552,9 @@ function makeMilestoneStone(x, cityName, kmText) {
 }
 
 // Indian highway milestones — show the next city + a road-trip "km" feel
-makeMilestoneStone(4,  'CHENNAI',   'START');   // before DRDO (x~7)
-makeMilestoneStone(15, 'BANGALORE', '↑');       // between DRDO (x~7) and Cognizant (x~22)
-makeMilestoneStone(30, 'PUNE',      '↑');       // before PTC stops in Pune (x~37, 52)
+makeMilestoneStone(3,  'CHENNAI',   'START');   // before DRDO/Chennai (x~7)
+makeMilestoneStone(16, 'BANGALORE', '↑');       // before Cognizant/Bangalore (x~22)
+makeMilestoneStone(34, 'PUNE',      '↑');       // before PTC/Pune (x~39, 53)
 
 // ---------- KILOMETER MARKERS along the highway ----------
 function addKmMarker(x, side) {
@@ -1564,10 +1573,18 @@ function addKmMarker(x, side) {
   );
   cap.position.y = 0.55;
   g.add(cap);
-  g.position.set(x, 0, side * 1.6);
+  // Follow the curved road so markers sit just off the edge, never on the road
+  let bestDx = Infinity, roadZ = 0;
+  for (let i = 0; i <= 100; i++) {
+    const t = i / 100;
+    const p = curve.getPointAt(t);
+    const dx = Math.abs(p.x - x);
+    if (dx < bestDx) { bestDx = dx; roadZ = p.z; }
+  }
+  g.position.set(x, 0, roadZ + side * 3.2);
   scene.add(g);
 }
-for (let x = 3; x < 60; x += 5) {
+for (let x = 9; x < 58; x += 13) {
   addKmMarker(x, -1);
 }
 
@@ -1650,11 +1667,11 @@ for (let x = 3; x < 60; x += 5) {
   tctx.font = 'bold 90px Manrope, sans-serif';
   tctx.textAlign = 'center';
   tctx.textBaseline = 'middle';
-  tctx.fillText('TO BE CONTINUED', 512, 120);
+  tctx.fillText('THE FUTURE AWAITS', 512, 120);
   // Subtitle
   tctx.fillStyle = '#e2e8f0';
-  tctx.font = '600 42px JetBrains Mono, monospace';
-  tctx.fillText('The journey to SRE continues...', 512, 210);
+  tctx.font = '600 38px JetBrains Mono, monospace';
+  tctx.fillText('Always learning, always growing...', 512, 210);
   const tbcTex = new THREE.CanvasTexture(tbcCanvas);
   tbcTex.minFilter = THREE.LinearFilter;
 
