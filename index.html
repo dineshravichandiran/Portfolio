@@ -178,6 +178,7 @@ nav .nav-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 nav .logo {
@@ -202,6 +203,31 @@ nav .nav-links a {
 }
 
 nav .nav-links a:hover { color: var(--accent); }
+
+/* Hamburger menu button — hidden on desktop */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 200;
+}
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
 
 .container {
   max-width: 1080px;
@@ -1158,7 +1184,41 @@ footer .footer-lede {
   .section-title { font-size: 1.6rem; margin-bottom: 2rem; }
   .container { padding: 0 1.25rem; }
   nav .nav-inner { padding: 0 1.25rem; }
-  nav .nav-links { display: none; }
+
+  /* Show hamburger button */
+  .nav-toggle { display: flex; }
+
+  /* Nav links become a full-width dropdown panel */
+  nav .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.99);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    padding: 0.5rem 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  nav .nav-links.open {
+    max-height: 420px;
+  }
+  nav .nav-links li {
+    width: 100%;
+  }
+  nav .nav-links a {
+    display: block;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  nav .nav-links li:last-child a { border-bottom: none; }
   .about-grid, .events-row, .platforms-grid { grid-template-columns: 1fr; }
   .impact-grid { grid-template-columns: 1fr 1fr; }
   .hero-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; padding-top: 2rem; }
@@ -1345,7 +1405,10 @@ footer .footer-lede {
 <nav>
   <div class="nav-inner">
     <div class="logo">Dinesh Ravichandiran</div>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Work</a></li>
       <li><a href="#tools">Stack</a></li>
@@ -1702,77 +1765,122 @@ footer .footer-lede {
 
   <!-- BUILDING / GITHUB PROJECTS -->
   <section id="building" class="reveal">
-    <div class="section-label">05 — Hands-On Projects</div>
-    <div class="section-title">Hands-on cloud &amp; DevOps work.</div>
+    <div class="section-label">05 — Key Projects</div>
+    <div class="section-title">Projects &amp; initiatives I've delivered.</div>
     <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; max-width: 680px; margin-bottom: 2.5rem;">
-      Hands-on cloud and DevOps projects that extend my production operations experience into automation, CI/CD, infrastructure-as-code, and self-healing systems — practical skills that apply across cloud, DevOps, infrastructure, and reliability roles. Code and write-ups on <a href="https://github.com/dineshravichandiran" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600;">GitHub</a>.
+      Real initiatives I own at PTC — observability, root-cause engineering, and operational standardization across enterprise SaaS platforms — plus work that shows initiative beyond the job. I'm actively extending these into infrastructure-as-code and CI/CD automation; new builds land on <a href="https://github.com/dineshravichandiran" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600;">GitHub</a>.
     </p>
     <div class="projects-list">
 
       <div class="project-item">
         <div class="project-meta">
-          <span class="meta-year">Planned</span>
-          CI/CD · Security
+          <span class="meta-year">Ongoing</span>
+          Observability · Incident Response
         </div>
         <div class="project-content">
-          <h3>End-to-End DevSecOps CI Pipeline</h3>
-          <div class="project-impact">Secure, automated build → test → deploy with GitHub Actions</div>
+          <h3>Enterprise SaaS Observability &amp; Incident Response</h3>
+          <div class="project-impact">99.9% uptime · 5,000+ incidents resolved · 50+ Fortune 500 environments</div>
           <p class="project-desc">
-            A complete DevSecOps pipeline using GitHub Actions — automated build, test, security scanning (SAST/dependency/container scans), and deployment. Security baked into every stage rather than bolted on at the end.
+            Built and manage end-to-end monitoring for enterprise SaaS platforms across Zabbix, Sumo Logic, Prometheus, Grafana, CloudWatch, Catchpoint and PagerDuty. I own the full alert lifecycle, validate monitoring for customer go-lives, and lead 24x7 incident response — sustaining high availability across a large Fortune 500 footprint.
           </p>
           <div class="project-tags">
-            <span class="project-tag">GitHub Actions</span>
-            <span class="project-tag">DevSecOps</span>
-            <span class="project-tag">CI/CD</span>
-            <span class="project-tag">Security Scanning</span>
+            <span class="project-tag">Observability</span>
+            <span class="project-tag">Zabbix</span>
+            <span class="project-tag">Prometheus</span>
+            <span class="project-tag">Grafana</span>
+            <span class="project-tag">Incident Management</span>
+            <span class="project-tag">AWS &amp; Azure</span>
           </div>
         </div>
       </div>
 
       <div class="project-item">
         <div class="project-meta">
-          <span class="meta-year">Planned</span>
-          Reliability · AWS
+          <span class="meta-year">2.5+ yrs</span>
+          Root Cause · Performance
         </div>
         <div class="project-content">
-          <h3>Scalable, Self-Healing &amp; Secure Infrastructure on AWS</h3>
-          <div class="project-impact">Auto-scaling, auto-recovery, secure-by-default</div>
+          <h3>Recurring Memory &amp; Performance Root-Cause Initiative</h3>
+          <div class="project-impact">Improved platform performance · Optimized cloud cost</div>
           <p class="project-desc">
-            Build infrastructure and an application deployment on AWS that scales automatically and recovers from failures on its own — auto-scaling groups, health checks, self-healing, and security hardening. The core of what SRE is about: systems that stay up without manual intervention.
+            Drove recurring memory/OutOfMemory and performance alerts to root cause over 2.5+ years, partnering with the Technical Architect team to improve platform performance and optimize cloud cost across AWS and Azure. Turned repeat incidents into permanent fixes.
           </p>
           <div class="project-tags">
-            <span class="project-tag">AWS</span>
-            <span class="project-tag">Self-Healing</span>
-            <span class="project-tag">Auto-Scaling</span>
-            <span class="project-tag">Reliability</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-item">
-        <div class="project-meta">
-          <span class="meta-year">Planned</span>
-          Azure · DevOps
-        </div>
-        <div class="project-content">
-          <h3>End-to-End DevOps Project on Azure Cloud</h3>
-          <div class="project-impact">Full pipeline on the cloud I already operate</div>
-          <p class="project-desc">
-            A complete DevOps workflow on Azure — provisioning, CI/CD, containerized deployment, and monitoring. Builds directly on my day-to-day Azure and AKS experience at PTC, turning operational familiarity into hands-on delivery skill.
-          </p>
-          <div class="project-tags">
-            <span class="project-tag">Azure</span>
+            <span class="project-tag">Root Cause Analysis</span>
+            <span class="project-tag">Linux</span>
             <span class="project-tag">AKS</span>
-            <span class="project-tag">CI/CD</span>
-            <span class="project-tag">Monitoring</span>
+            <span class="project-tag">Performance Tuning</span>
+            <span class="project-tag">AWS &amp; Azure</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Ongoing</span>
+          ITIL · Knowledge
+        </div>
+        <div class="project-content">
+          <h3>Runbook &amp; Incident-Handling Standardization</h3>
+          <div class="project-impact">10+ team-adopted runbooks · Faster, consistent resolution</div>
+          <p class="project-desc">
+            Authored 10+ team-adopted runbooks under ITIL change management and standardized incident-handling procedures across a 12-member team. Mentor new and junior engineers — turning individual knowledge into team capability.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">ITIL</span>
+            <span class="project-tag">Change Management</span>
+            <span class="project-tag">ServiceNow</span>
+            <span class="project-tag">Documentation</span>
+            <span class="project-tag">Mentoring</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Finished</span>
+          Web · Solo Build
+        </div>
+        <div class="project-content">
+          <h3>Personal Cloud/SRE Portfolio &amp; 3D Career Journey</h3>
+          <div class="project-impact">Designed, built &amp; deployed end-to-end</div>
+          <p class="project-desc">
+            Designed and deployed this portfolio and an interactive 3D career-journey site (HTML/CSS/JavaScript, Three.js) via Netlify — showcasing my cloud, DevOps and SRE focus. Proof I can build and ship, not just operate.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS</span>
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">Three.js</span>
+            <span class="project-tag">Git</span>
+            <span class="project-tag">Netlify</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">2020</span>
+          Hackathon · National Winner
+        </div>
+        <div class="project-content">
+          <h3>Smart India Hackathon 2020 — National Grand Finale Winner</h3>
+          <div class="project-impact">Winner among 10,000+ teams · Built for Bureau of Police Research &amp; Development (Govt. of India)</div>
+          <p class="project-desc">
+            National Grand Finale Winner of Smart India Hackathon 2020 — India's largest hackathon. For the Bureau of Police Research &amp; Development (BPRD), my team of 6 built "Antigen": a web application that detects malicious and rogue chatbots and flags harmful messages across web and social platforms. Coordinated with BPRD on requirements, built the working prototype, and demonstrated it live at the national finale.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">PHP</span>
+            <span class="project-tag">Web App</span>
+            <span class="project-tag">Chatbot</span>
+            <span class="project-tag">Team of 6</span>
           </div>
         </div>
       </div>
 
     </div>
   </section>
-
-  <!-- TIMELINE -->
   <section id="journey" class="reveal">
     <div class="section-label">06 — Career Journey</div>
     <div class="section-title">Timeline.</div>
@@ -2282,6 +2390,35 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.05 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== MOBILE HAMBURGER MENU =====
+(function initMobileMenu() {
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  if (!toggle || !links) return;
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggle.classList.toggle('open');
+    links.classList.toggle('open');
+  });
+
+  // Close the menu when any link is tapped
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      toggle.classList.remove('open');
+      links.classList.remove('open');
+    });
+  });
+
+  // Close if tapping outside the menu
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('nav')) {
+      toggle.classList.remove('open');
+      links.classList.remove('open');
+    }
+  });
+})();
 
 // ===== SMOOTH NAV (only intercepts # anchors; lets other links navigate normally) =====
 document.querySelectorAll('nav a').forEach(link => {
