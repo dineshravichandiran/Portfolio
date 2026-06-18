@@ -208,22 +208,25 @@ nav .nav-links a {
   font-weight: 500;
   padding: 0.5rem 0.9rem;
   border-radius: 8px;
-  transition: color 0.2s, background 0.2s;
+  transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Highlight on hover / touch — a soft pill so you can see which tab you're on */
+/* Bright, lively highlight on hover / touch */
 nav .nav-links a:hover,
 nav .nav-links a:active,
 nav .nav-links a:focus {
-  color: var(--accent);
-  background: var(--accent-light);
+  color: #ffffff;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.45);
 }
 
-/* The currently-viewed section's tab stays highlighted */
+/* The currently-viewed section's tab stays highlighted (bright pill) */
 nav .nav-links a.active {
-  color: var(--accent);
-  background: var(--accent-light);
+  color: #ffffff;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   font-weight: 600;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
 }
 
 /* Hamburger menu button — hidden on desktop */
@@ -1417,12 +1420,6 @@ footer .footer-lede {
 <body>
 
 <div class="comet-core" id="cometCore"></div>
-<div class="particle-field" id="particleField"></div>
-<div class="bg-orbs">
-  <div class="bg-orb bg-orb-1"></div>
-  <div class="bg-orb bg-orb-2"></div>
-  <div class="bg-orb bg-orb-3"></div>
-</div>
 
 <nav>
   <div class="nav-inner">
@@ -1469,19 +1466,19 @@ footer .footer-lede {
 
     <div class="hero-stats">
       <div class="stat-item">
-        <div class="stat-number">3+</div>
+        <div class="stat-number" data-target="3" data-suffix="+">0</div>
         <div class="stat-label">Years</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">5,000+</div>
+        <div class="stat-number" data-target="5000" data-suffix="+" data-comma="1">0</div>
         <div class="stat-label">Incidents</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">99.9%</div>
+        <div class="stat-number" data-target="99.9" data-suffix="%" data-decimals="1">0</div>
         <div class="stat-label">Uptime</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">50+</div>
+        <div class="stat-number" data-target="50" data-suffix="+">0</div>
         <div class="stat-label">Fortune 500 Customers</div>
       </div>
     </div>
@@ -2119,7 +2116,7 @@ footer .footer-lede {
 
 <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 <script>
-// ===== 3D Hero — Colorful Cloud Network Globe =====
+// ===== 3D Hero — SRE / Cloud Monitoring Globe =====
 (function init3D() {
   const canvas = document.getElementById('hero3d');
   if (!canvas || typeof THREE === 'undefined') return;
@@ -2144,71 +2141,95 @@ footer .footer-lede {
 
   const R = 1.5;
 
-  // --- 1. Solid inner sphere (deep ocean blue, glowing core) ---
-  const coreGeo = new THREE.SphereGeometry(R * 0.98, 48, 48);
-  const coreMat = new THREE.MeshBasicMaterial({ color: 0x0b2a6b, transparent: true, opacity: 0.92 });
+  // --- 1. Inner core (deep navy planet) ---
+  const coreGeo = new THREE.SphereGeometry(R * 0.97, 48, 48);
+  const coreMat = new THREE.MeshBasicMaterial({ color: 0x0a1f4d, transparent: true, opacity: 0.95 });
   globe.add(new THREE.Mesh(coreGeo, coreMat));
 
-  // --- 2. Latitude / longitude grid (cyan wireframe) ---
-  const gridGeo = new THREE.SphereGeometry(R, 24, 18);
-  const gridMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, wireframe: true, transparent: true, opacity: 0.35 });
+  // --- 2. Monitoring grid (lat/long wireframe — the "dashboard" look) ---
+  const gridGeo = new THREE.SphereGeometry(R, 28, 20);
+  const gridMat = new THREE.MeshBasicMaterial({ color: 0x2563eb, wireframe: true, transparent: true, opacity: 0.28 });
   globe.add(new THREE.Mesh(gridGeo, gridMat));
 
-  // --- 3. Glowing "continent" dots scattered on the surface (colorful) ---
-  const palette = [0x38bdf8, 0x60a5fa, 0x818cf8, 0x22d3ee, 0xfbbf24, 0x34d399];
-  const surfaceDots = new THREE.Group();
-  const dotPositions = [];
-  for (let i = 0; i < 220; i++) {
+  // --- 3. Server "nodes" on the surface — glowing datacenters ---
+  // SRE color theme: green=healthy, blue=normal, amber=warning (like a status dashboard)
+  const statusColors = [
+    0x22c55e, 0x22c55e, 0x22c55e,   // mostly healthy (green)
+    0x38bdf8, 0x60a5fa, 0x2563eb,   // blue normal
+    0xfbbf24,                        // occasional amber (warning)
+  ];
+  const nodes = new THREE.Group();
+  const nodePositions = [];
+  for (let i = 0; i < 90; i++) {
     const phi = Math.acos(2 * Math.random() - 1);
     const theta = Math.random() * Math.PI * 2;
     const x = R * Math.sin(phi) * Math.cos(theta);
     const y = R * Math.sin(phi) * Math.sin(theta);
     const z = R * Math.cos(phi);
-    const size = 0.012 + Math.random() * 0.022;
-    const dotGeo = new THREE.SphereGeometry(size, 6, 6);
-    const color = palette[Math.floor(Math.random() * palette.length)];
-    const dotMat = new THREE.MeshBasicMaterial({ color });
-    const dot = new THREE.Mesh(dotGeo, dotMat);
-    dot.position.set(x, y, z);
-    surfaceDots.add(dot);
-    if (i % 14 === 0) dotPositions.push(new THREE.Vector3(x, y, z));
+    const color = statusColors[Math.floor(Math.random() * statusColors.length)];
+    // Node = small glowing cube (a "server")
+    const node = new THREE.Mesh(
+      new THREE.BoxGeometry(0.04, 0.04, 0.04),
+      new THREE.MeshBasicMaterial({ color })
+    );
+    node.position.set(x, y, z);
+    node.lookAt(0, 0, 0);
+    nodes.add(node);
+    if (i % 5 === 0) nodePositions.push({ pos: new THREE.Vector3(x, y, z), color });
   }
-  globe.add(surfaceDots);
+  globe.add(nodes);
 
-  // --- 4. Glowing arcs connecting points (like a global network / cloud) ---
+  // --- 4. Network connections between datacenters (glowing arcs) ---
   const arcs = [];
-  for (let i = 0; i < dotPositions.length - 1; i++) {
-    const start = dotPositions[i];
-    const end = dotPositions[(i + 3) % dotPositions.length];
-    const mid = start.clone().add(end).multiplyScalar(0.5).normalize().multiplyScalar(R * 1.5);
+  const pulses = [];
+  for (let i = 0; i < nodePositions.length; i++) {
+    const start = nodePositions[i].pos;
+    const end = nodePositions[(i + 4) % nodePositions.length].pos;
+    const mid = start.clone().add(end).multiplyScalar(0.5).normalize().multiplyScalar(R * 1.55);
     const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-    const pts = curve.getPoints(30);
+    const pts = curve.getPoints(40);
     const arcGeo = new THREE.BufferGeometry().setFromPoints(pts);
-    const arcMat = new THREE.LineBasicMaterial({ color: 0x7dd3fc, transparent: true, opacity: 0.5 });
+    const arcMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.4 });
     const arc = new THREE.Line(arcGeo, arcMat);
     arcs.push(arc);
     globe.add(arc);
+
+    // A "data packet" pulse that travels along this connection
+    const pulse = new THREE.Mesh(
+      new THREE.SphereGeometry(0.035, 8, 8),
+      new THREE.MeshBasicMaterial({ color: 0x7dd3fc })
+    );
+    globe.add(pulse);
+    pulses.push({ mesh: pulse, curve, t: Math.random(), speed: 0.003 + Math.random() * 0.004 });
   }
 
-  // --- 5. Glowing atmosphere halo (soft outer glow) ---
-  const atmGeo = new THREE.SphereGeometry(R * 1.18, 48, 48);
-  const atmMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.08, side: THREE.BackSide });
+  // --- 5. Atmosphere glow (soft outer halo) ---
+  const atmGeo = new THREE.SphereGeometry(R * 1.16, 48, 48);
+  const atmMat = new THREE.MeshBasicMaterial({ color: 0x2563eb, transparent: true, opacity: 0.10, side: THREE.BackSide });
   globe.add(new THREE.Mesh(atmGeo, atmMat));
 
-  // --- 6. Outer orbiting ring of bright dots ---
-  const orbitDots = new THREE.Group();
-  for (let i = 0; i < 40; i++) {
-    const a = (i / 40) * Math.PI * 2;
-    const rr = R * 2.0;
-    const d = new THREE.Mesh(
-      new THREE.SphereGeometry(0.02, 6, 6),
-      new THREE.MeshBasicMaterial({ color: palette[i % palette.length] })
+  // --- 6. Orbiting "satellites" / monitoring probes ---
+  const orbitRing = new THREE.Group();
+  for (let i = 0; i < 3; i++) {
+    const probe = new THREE.Mesh(
+      new THREE.SphereGeometry(0.03, 8, 8),
+      new THREE.MeshBasicMaterial({ color: i === 0 ? 0x22c55e : 0x38bdf8 })
     );
-    d.position.set(Math.cos(a) * rr, Math.sin(a) * 0.3, Math.sin(a) * rr);
-    orbitDots.add(d);
+    const a = (i / 3) * Math.PI * 2;
+    probe.userData = { a, r: R * 1.9, speed: 0.012 + i * 0.004, tilt: 0.4 + i * 0.3 };
+    orbitRing.add(probe);
   }
-  orbitDots.rotation.x = 0.5;
-  globe.add(orbitDots);
+  globe.add(orbitRing);
+
+  // --- 7. Thin orbit ring lines (the probe paths) ---
+  for (let r = 0; r < 2; r++) {
+    const ringGeo = new THREE.RingGeometry(R * 1.88, R * 1.9, 64);
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.12, side: THREE.DoubleSide });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.PI / 2 + (r * 0.5);
+    ring.rotation.y = r * 0.4;
+    globe.add(ring);
+  }
 
   camera.position.z = 4.8;
 
@@ -2222,23 +2243,95 @@ footer .footer-lede {
   function animate() {
     requestAnimationFrame(animate);
     t += 0.01;
-    globe.rotation.y += 0.0035;
-    surfaceDots.rotation.y += 0.0005;
-    orbitDots.rotation.y -= 0.004;
+    globe.rotation.y += 0.0032;
 
-    // Gentle pulsing of the arcs
+    // Pulse the arcs gently (like live network traffic)
     arcs.forEach((arc, i) => {
-      arc.material.opacity = 0.3 + Math.sin(t + i) * 0.2;
+      arc.material.opacity = 0.25 + Math.sin(t * 1.5 + i) * 0.18;
     });
 
-    // Subtle parallax from mouse
-    camera.position.x += (mouseX - camera.position.x) * 0.05;
-    camera.position.y += (-mouseY - camera.position.y) * 0.05;
-    camera.lookAt(scene.position);
+    // Move data packets along their connections
+    pulses.forEach(p => {
+      p.t += p.speed;
+      if (p.t > 1) p.t = 0;
+      const pt = p.curve.getPoint(p.t);
+      p.mesh.position.copy(pt);
+      // fade in/out at ends
+      p.mesh.material.opacity = Math.sin(p.t * Math.PI);
+      p.mesh.material.transparent = true;
+    });
+
+    // Blink some nodes (status heartbeat)
+    nodes.children.forEach((n, i) => {
+      if (i % 7 === 0) {
+        n.scale.setScalar(1 + Math.sin(t * 3 + i) * 0.4);
+      }
+    });
+
+    // Orbit the satellites/probes
+    orbitRing.children.forEach(probe => {
+      const d = probe.userData;
+      d.a += d.speed;
+      probe.position.set(
+        Math.cos(d.a) * d.r,
+        Math.sin(d.a) * d.r * Math.sin(d.tilt),
+        Math.sin(d.a) * d.r * Math.cos(d.tilt)
+      );
+    });
+
+    // Subtle mouse parallax tilt
+    globe.rotation.x += (mouseY * 0.5 - globe.rotation.x) * 0.05;
+    camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
+    camera.lookAt(0, 0, 0);
 
     renderer.render(scene, camera);
   }
   animate();
+})();
+
+// ===== ANIMATED STAT COUNTERS — count up when scrolled into view =====
+(function initCounters() {
+  const stats = document.querySelectorAll('.stat-number[data-target]');
+  if (!stats.length) return;
+
+  function formatNum(value, el) {
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    let num = decimals ? value.toFixed(decimals) : Math.round(value).toString();
+    if (el.dataset.comma === '1') {
+      // Add thousands commas
+      num = parseFloat(num).toLocaleString('en-US', {
+        minimumFractionDigits: decimals, maximumFractionDigits: decimals
+      });
+    }
+    return num + (el.dataset.suffix || '');
+  }
+
+  function animateCount(el) {
+    const target = parseFloat(el.dataset.target);
+    const duration = 1600;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      // ease-out for a nice settle
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = formatNum(target * eased, el);
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = formatNum(target, el);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const seen = new WeakSet();
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !seen.has(entry.target)) {
+        seen.add(entry.target);
+        animateCount(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  stats.forEach(s => obs.observe(s));
 })();
 
 // ===== Global mouse tracker (used by everything) =====
@@ -2258,73 +2351,16 @@ window.addEventListener('mousemove', (e) => {
   _mouse.ny = (e.clientY / window.innerHeight - 0.5) * 2;
 });
 
-// Continuous smoothing loop drives all parallax effects
+// Continuous smoothing loop drives parallax effects (globe responds to mouse)
 (function smoothLoop() {
   _mouse.smoothX += (_mouse.nx - _mouse.smoothX) * 0.07;
   _mouse.smoothY += (_mouse.ny - _mouse.smoothY) * 0.07;
-
-  // Move background orbs (they drift with mouse, opposite direction = parallax depth)
-  const orb1 = document.querySelector('.bg-orb-1');
-  const orb2 = document.querySelector('.bg-orb-2');
-  const orb3 = document.querySelector('.bg-orb-3');
-  if (orb1) orb1.style.transform = `translate(${_mouse.smoothX * -60}px, ${_mouse.smoothY * -40}px)`;
-  if (orb2) orb2.style.transform = `translate(${_mouse.smoothX * 80}px, ${_mouse.smoothY * 50}px)`;
-  if (orb3) orb3.style.transform = `translate(${-50 + _mouse.smoothX * -40}%, ${-50 + _mouse.smoothY * -30}%)`;
-
   requestAnimationFrame(smoothLoop);
 })();
 
-// ===== PARTICLE FIELD — floating dots that move with mouse =====
+// ===== PARTICLE FIELD — removed (replaced by the colorful globe) =====
 (function initParticles() {
-  const field = document.getElementById('particleField');
-  if (!field) return;
-  // Skip on touch devices for performance
-  if (window.matchMedia('(hover: none)').matches) return;
-
-  const particles = [];
-  const PARTICLE_COUNT = 40;
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    const el = document.createElement('div');
-    el.className = 'particle';
-    const size = 3 + Math.random() * 8;
-    el.style.width = size + 'px';
-    el.style.height = size + 'px';
-    const x = Math.random() * w;
-    const y = Math.random() * h;
-    el.style.left = x + 'px';
-    el.style.top = y + 'px';
-    const depth = 0.3 + Math.random() * 1.2; // closer particles move more
-    field.appendChild(el);
-    particles.push({ el, x, y, depth, baseX: x, baseY: y, drift: Math.random() * Math.PI * 2 });
-  }
-
-  function tick() {
-    const t = performance.now() / 1000;
-    particles.forEach((p, i) => {
-      // Mouse-driven parallax shift
-      const parallaxX = _mouse.smoothX * 80 * p.depth;
-      const parallaxY = _mouse.smoothY * 60 * p.depth;
-      // Gentle autonomous drift
-      const driftX = Math.sin(t * 0.3 + p.drift) * 25;
-      const driftY = Math.cos(t * 0.25 + p.drift) * 20;
-      p.el.style.transform = `translate(${parallaxX + driftX}px, ${parallaxY + driftY}px)`;
-    });
-    requestAnimationFrame(tick);
-  }
-  tick();
-
-  // Reset positions if window resized
-  window.addEventListener('resize', () => {
-    particles.forEach(p => {
-      p.x = Math.random() * window.innerWidth;
-      p.y = Math.random() * window.innerHeight;
-      p.el.style.left = p.x + 'px';
-      p.el.style.top = p.y + 'px';
-    });
-  });
+  return; // disabled — the moving background dots were removed per request
 })();
 
 // ===== 3D TILT ON ALL CARDS — stronger angles + glare effect =====
