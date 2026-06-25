@@ -305,12 +305,13 @@ section:last-of-type { border-bottom: none; }
 
 .hero-3d-canvas {
   position: absolute;
-  top: 6rem;
-  right: 0;
-  width: 380px;
-  height: 380px;
+  top: 2rem;
+  right: -3rem;
+  width: 340px;
+  height: 340px;
   pointer-events: none;
   z-index: 0;
+  opacity: 0.85;
 }
 
 .hero-content {
@@ -318,13 +319,33 @@ section:last-of-type { border-bottom: none; }
   z-index: 1;
 }
 
+/* Soft white wash behind the headline text so it stays crisp even where the globe sits behind it */
+.hero-content::before {
+  content: '';
+  position: absolute;
+  top: -2rem;
+  left: -2rem;
+  width: 75%;
+  height: 70%;
+  background: radial-gradient(ellipse at left, rgba(255,255,255,0.95) 40%, rgba(255,255,255,0.7) 65%, transparent 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+@media (max-width: 1100px) {
+  .hero-3d-canvas {
+    right: -5rem;
+    opacity: 0.5;
+  }
+}
+
 @media (max-width: 900px) {
   .hero-3d-canvas {
     width: 220px;
     height: 220px;
-    top: 4rem;
-    right: -2rem;
-    opacity: 0.6;
+    top: 2rem;
+    right: -4rem;
+    opacity: 0.35;
   }
 }
 
@@ -367,8 +388,9 @@ section:last-of-type { border-bottom: none; }
   line-height: 1.1;
   letter-spacing: -0.035em;
   margin-bottom: 1.8rem;
-  max-width: 850px;
+  max-width: 720px;
   color: var(--text);
+  position: relative;
   transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
 }
