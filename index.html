@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dinesh Ravichandiran — Cloud, DevOps & Infrastructure Engineer</title>
-<meta name="description" content="Cloud & Reliability Engineer at PTC. 3+ years supporting 50+ Fortune 500 enterprise SaaS platforms on Azure & AWS. 5,000+ incidents resolved, 99.9% uptime. Building Terraform, CI/CD & Kubernetes skills.">
+<title>Dinesh Ravichandiran — Cloud & Reliability Engineer at PTC | Growth Profile</title>
+<meta name="description" content="Dinesh Ravichandiran — Cloud & Reliability Engineer at PTC. 3+ years supporting 50+ Fortune 500 platforms on Azure & AWS. 5,000+ incidents resolved, 99.9% uptime, PTC Performance & Efficiency award. Ready to grow within PTC.">
 <meta name="keywords" content="Dinesh Ravichandiran, Cloud Services NOC Engineer, SRE, Site Reliability Engineer, Kubernetes, AKS, Azure, AWS, PTC, Pune, DevOps">
 <meta property="og:title" content="Dinesh Ravichandiran — Cloud, DevOps & Infrastructure Engineer">
 <meta property="og:description" content="Cloud & Infrastructure Engineer. 3+ years keeping 50+ Fortune 500 platforms running 24×7 on Azure & AWS.">
@@ -68,7 +68,56 @@
   text-transform: uppercase;
   color: #60a5fa;
   opacity: 0;
-  animation: loaderFade 0.8s ease 0.2s forwards;
+  animation: loaderFade 0.8s ease 2.6s forwards;
+}
+/* Cinematic multi-stage */
+.loader-stage { display: none; }
+.loader-stage.active { display: block; }
+.loader-avatar {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  border: 3px solid rgba(96, 165, 250, 0.6);
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+  margin-bottom: 1.1rem;
+  opacity: 0;
+  animation: loaderFade 0.9s ease 2.5s forwards;
+}
+.hero-photo {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  border: 3px solid #3b82f6;
+  box-shadow: 0 10px 32px rgba(37, 99, 235, 0.25);
+  margin-bottom: 1.3rem;
+  display: block;
+}
+.loader-greeting {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 300;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  animation: greetingInOut 2.4s ease forwards;
+}
+@keyframes greetingInOut {
+  0% { opacity: 0; transform: translateY(15px); }
+  25% { opacity: 1; transform: translateY(0); }
+  75% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-15px); }
+}
+.loader-hint {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 1rem;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  animation: loaderFade 1s ease 6.4s forwards;
 }
 .loader-name {
   font-family: 'Manrope', sans-serif;
@@ -80,7 +129,7 @@
   margin: 1.2rem 0 0.8rem;
   opacity: 0;
   transform: translateY(20px);
-  animation: loaderRise 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s forwards;
+  animation: loaderRise 1s cubic-bezier(0.2, 0.8, 0.2, 1) 2.9s forwards;
 }
 .loader-name .accent {
   background: linear-gradient(120deg, #60a5fa, #3b82f6, #22d3ee);
@@ -93,7 +142,7 @@
   color: #cbd5e1;
   font-weight: 400;
   opacity: 0;
-  animation: loaderFade 1s ease 1.1s forwards;
+  animation: loaderFade 1s ease 3.5s forwards;
   min-height: 1.6em;
 }
 .loader-role .type-cursor {
@@ -111,7 +160,7 @@
   margin-top: 2.2rem;
   flex-wrap: wrap;
   opacity: 0;
-  animation: loaderFade 1s ease 1.7s forwards;
+  animation: loaderFade 1s ease 4.1s forwards;
 }
 .loader-stat { text-align: center; }
 .loader-stat-num {
@@ -134,19 +183,19 @@
   margin: 2.6rem auto 0;
   overflow: hidden;
   opacity: 0;
-  animation: loaderFade 0.6s ease 2.1s forwards;
+  animation: loaderFade 0.6s ease 4.5s forwards;
 }
 .loader-progress-bar {
   height: 100%;
   width: 0;
   background: linear-gradient(90deg, #3b82f6, #22d3ee);
   border-radius: 3px;
-  animation: loaderProgress 1.6s cubic-bezier(0.4, 0, 0.2, 1) 2.2s forwards;
+  animation: loaderProgress 1.6s cubic-bezier(0.4, 0, 0.2, 1) 4.4s forwards;
 }
 .loader-enter {
   margin-top: 2rem;
   opacity: 0;
-  animation: loaderFade 0.6s ease 3.6s forwards;
+  animation: loaderFade 0.6s ease 6.0s forwards;
 }
 .loader-enter-btn {
   background: linear-gradient(120deg, #3b82f6, #2563eb);
@@ -188,6 +237,62 @@ body.loading { overflow: hidden; height: 100vh; }
   color: #fff !important;
   background: linear-gradient(120deg, #3b82f6, #2563eb);
   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+/* ===== CRYSTAL-CLEAR NAVIGATION GUIDE ===== */
+.nav-guide {
+  margin-top: 2.8rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+}
+.nav-guide-title {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+}
+.nav-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.9rem;
+  max-width: 720px;
+}
+.nav-guide-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  padding: 1.1rem 1.2rem;
+  background: #ffffff;
+  border: 1.5px solid rgba(148, 163, 184, 0.25);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  text-align: left;
+  font-family: inherit;
+}
+.nav-guide-card:hover {
+  transform: translateY(-4px);
+  border-color: #3b82f6;
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.18);
+}
+.nav-guide-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.nav-guide-label {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 0.3rem;
+}
+.nav-guide-desc {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+@media (max-width: 600px) {
+  .nav-guide-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ===== COMET TRAIL CURSOR ===== */
@@ -1603,34 +1708,41 @@ footer .footer-lede {
 </head>
 <body class="loading">
 
-<!-- ===== MOVIE-STYLE LOADING SCREEN ===== -->
+<!-- ===== CINEMATIC LOADING SCREEN ===== -->
 <div id="loader">
   <canvas id="loaderCanvas"></canvas>
   <div class="loader-content">
-    <div class="loader-tag">Cloud · Reliability · Engineering</div>
-    <h1 class="loader-name">Dinesh <span class="accent">Ravichandiran</span></h1>
-    <div class="loader-role"><span id="loaderType"></span><span class="type-cursor">&nbsp;</span></div>
-    <div class="loader-stats">
-      <div class="loader-stat">
-        <div class="loader-stat-num">5,000+</div>
-        <div class="loader-stat-label">Incidents</div>
-      </div>
-      <div class="loader-stat">
-        <div class="loader-stat-num">99.9%</div>
-        <div class="loader-stat-label">Uptime</div>
-      </div>
-      <div class="loader-stat">
-        <div class="loader-stat-num">50+</div>
-        <div class="loader-stat-label">Fortune 500</div>
-      </div>
-      <div class="loader-stat">
-        <div class="loader-stat-num">3+ yrs</div>
-        <div class="loader-stat-label">Experience</div>
-      </div>
+    <div class="loader-stage" id="loaderStage1">
+      <div class="loader-greeting">Hello, and welcome.</div>
     </div>
-    <div class="loader-progress"><div class="loader-progress-bar"></div></div>
-    <div class="loader-enter">
-      <button class="loader-enter-btn" id="enterBtn">Enter Portfolio →</button>
+    <div class="loader-stage" id="loaderStage2">
+      <img src="dinesh.jpg" alt="Dinesh Ravichandiran" class="loader-avatar">
+      <div class="loader-tag">Cloud · Reliability · Engineering · PTC</div>
+      <h1 class="loader-name">Dinesh <span class="accent">Ravichandiran</span></h1>
+      <div class="loader-role"><span id="loaderType"></span><span class="type-cursor">&nbsp;</span></div>
+      <div class="loader-stats">
+        <div class="loader-stat">
+          <div class="loader-stat-num">5,000+</div>
+          <div class="loader-stat-label">Incidents Resolved</div>
+        </div>
+        <div class="loader-stat">
+          <div class="loader-stat-num">99.9%</div>
+          <div class="loader-stat-label">Uptime</div>
+        </div>
+        <div class="loader-stat">
+          <div class="loader-stat-num">50+</div>
+          <div class="loader-stat-label">Fortune 500</div>
+        </div>
+        <div class="loader-stat">
+          <div class="loader-stat-num">3+ yrs</div>
+          <div class="loader-stat-label">At PTC</div>
+        </div>
+      </div>
+      <div class="loader-progress"><div class="loader-progress-bar"></div></div>
+      <div class="loader-enter">
+        <button class="loader-enter-btn" id="enterBtn">Explore My Profile →</button>
+        <div class="loader-hint">Click any section at the top to explore</div>
+      </div>
     </div>
   </div>
 </div>
@@ -1644,14 +1756,14 @@ footer .footer-lede {
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#" data-tab="home" class="tab-active">Home</a></li>
-      <li><a href="#" data-tab="about">About</a></li>
-      <li><a href="#" data-tab="work">Work</a></li>
-      <li><a href="#" data-tab="skills">Skills</a></li>
-      <li><a href="#" data-tab="projects">Projects</a></li>
-      <li><a href="#" data-tab="journey">Journey</a></li>
-      <li><a href="#" data-tab="credentials">Credentials</a></li>
-      <li><a href="#" data-tab="contact">Contact</a></li>
+      <li><a href="#" data-tab="home" class="tab-active">🏠 Home</a></li>
+      <li><a href="#" data-tab="about">👤 About Me</a></li>
+      <li><a href="#" data-tab="work">💼 My Work</a></li>
+      <li><a href="#" data-tab="skills">🛠️ Skills</a></li>
+      <li><a href="#" data-tab="projects">🚀 Projects</a></li>
+      <li><a href="#" data-tab="journey">📈 Journey</a></li>
+      <li><a href="#" data-tab="credentials">🏆 Achievements</a></li>
+      <li><a href="#" data-tab="contact">✉️ Contact</a></li>
     </ul>
   </div>
 </nav>
@@ -1664,22 +1776,60 @@ footer .footer-lede {
   <section class="hero" id="hero">
     <canvas class="hero-3d-canvas" id="hero3d"></canvas>
     <div class="hero-content">
+    <img src="dinesh.jpg" alt="Dinesh Ravichandiran" class="hero-photo">
     <div class="hero-tag">
       <span class="indicator"></span>
-      Building in-demand cloud &amp; reliability skills — open to the right opportunity
+      Committed to growing my career at PTC
     </div>
     <h1>Cloud &amp; Reliability Engineer keeping Fortune 500 platforms running, 24×7.</h1>
-    <p class="lede">Cloud &amp; reliability engineer at PTC, keeping enterprise SaaS platforms running 24×7 on AWS &amp; Azure for 50+ Fortune 500 customers. I resolve production issues independently across Kubernetes, Linux, and cloud infrastructure, and I'm actively building the in-demand skills modern teams need — Terraform, CI/CD, and Kubernetes (CKA). 5,000+ incidents resolved, 99.9% uptime maintained.</p>
+    <p class="lede">Cloud &amp; Reliability Engineer at PTC with 3+ years keeping our enterprise SaaS platforms running 24×7 on AWS &amp; Azure for 50+ Fortune 500 customers. I resolve production issues independently across Kubernetes, Linux, and cloud infrastructure, lead high-severity incident response, and drive recurring issues to permanent root cause. 5,000+ incidents resolved, 99.9% uptime maintained, and recognized with the PTC Performance &amp; Efficiency award. I'm eager to keep growing and take on more responsibility within PTC.</p>
     <div class="hero-buttons">
       <a href="mailto:dineshravichandiran0808@gmail.com" class="btn btn-primary">Get in touch</a>
       <a href="resume.pdf" class="btn btn-outline" download>Download Resume</a>
       <a href="https://linkedin.com/in/dineshravichandiran" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn</a>
     </div>
 
+    <!-- CRYSTAL-CLEAR NAVIGATION GUIDE -->
+    <div class="nav-guide">
+      <div class="nav-guide-title">Explore my profile — click any card below or use the menu above</div>
+      <div class="nav-guide-grid">
+        <button class="nav-guide-card" data-goto="about">
+          <span class="nav-guide-icon">👤</span>
+          <span class="nav-guide-label">About Me</span>
+          <span class="nav-guide-desc">What I do &amp; who I am</span>
+        </button>
+        <button class="nav-guide-card" data-goto="work">
+          <span class="nav-guide-icon">💼</span>
+          <span class="nav-guide-label">My Work</span>
+          <span class="nav-guide-desc">Impact &amp; initiatives</span>
+        </button>
+        <button class="nav-guide-card" data-goto="skills">
+          <span class="nav-guide-icon">🛠️</span>
+          <span class="nav-guide-label">Skills</span>
+          <span class="nav-guide-desc">Tools &amp; technologies</span>
+        </button>
+        <button class="nav-guide-card" data-goto="projects">
+          <span class="nav-guide-icon">🚀</span>
+          <span class="nav-guide-label">Projects</span>
+          <span class="nav-guide-desc">What I've built</span>
+        </button>
+        <button class="nav-guide-card" data-goto="journey">
+          <span class="nav-guide-icon">📈</span>
+          <span class="nav-guide-label">Journey</span>
+          <span class="nav-guide-desc">My career timeline</span>
+        </button>
+        <button class="nav-guide-card" data-goto="credentials">
+          <span class="nav-guide-icon">🏆</span>
+          <span class="nav-guide-label">Achievements</span>
+          <span class="nav-guide-desc">Awards &amp; certs</span>
+        </button>
+      </div>
+    </div>
+
     <div class="now-status">
       <div class="now-label">Now</div>
       <div class="now-content">
-        Currently a <strong>Cloud Services Specialist NOC Engineer</strong> at PTC, running 24×7 production operations for Windchill, ThingWorx &amp; FlexPLM plus microservice infrastructure on AKS. I learn new technologies fast and apply them under real production pressure — and I keep growing through an MBA in Information Systems &amp; Analytics, hands-on labs, and continuous self-study. Give me a challenging problem and a team to grow with, and I will deliver.
+        Currently a <strong>Cloud Services Specialist NOC Engineer</strong> at PTC, running 24×7 production operations for Windchill, ThingWorx &amp; FlexPLM plus microservice infrastructure on AKS. I learn new technologies fast and apply them under real production pressure — and I keep growing through an MBA (Dual Specialization: Information Systems Management / Analytics &amp; Data Science), hands-on labs, and continuous self-study. Give me a challenging problem and a team to grow with, and I will deliver.
       </div>
     </div>
 
@@ -1721,7 +1871,7 @@ footer .footer-lede {
       <div class="about-card">
         <div class="card-number">02</div>
         <h3>Root Cause Analysis</h3>
-        <p>Investigate failures by analyzing application logs in Sumo Logic, AWS CloudWatch, and Windchill logs to identify root cause. Document findings, then resolve directly or escalate to the right team. Produce trend analysis on recurring issues to drive permanent fixes.</p>
+        <p>Investigate failures by analyzing application logs in Sumo Logic and Windchill logs to identify root cause, and check and act on alerts surfaced through AWS CloudWatch. Document findings, then resolve directly or escalate to the right team. Produce trend analysis on recurring issues to drive permanent fixes.</p>
       </div>
       <div class="about-card">
         <div class="card-number">03</div>
@@ -1743,6 +1893,27 @@ footer .footer-lede {
         <h3>Ownership &amp; Knowledge</h3>
         <p>Raise and manage change requests following ITIL change management, and perform scheduled maintenance applying remediation recommendations. Authored 10+ published runbooks that the team now relies on. Collaborate with Technical Architects on infrastructure recovery and major incident response, including during large-scale industry-wide outage events.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- BEYOND WORK -->
+  <section class="reveal" style="margin-top: 3rem;">
+    <div class="section-label">Beyond Work</div>
+    <div class="section-title">What keeps me going.</div>
+    <div style="margin-top: 1.5rem; max-width: 780px;">
+      <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-secondary, #475569);">
+        Outside of work, I stay active and love a good challenge. I cycle regularly, including to the office when I can, and I take part in cyclathons and the occasional marathon whenever I get the chance. Endurance sports have taught me the same things that make me good at my job: showing up consistently, staying calm under pressure, pacing myself through long efforts, and pushing through when things get tough.
+      </p>
+      <div class="beyond-badges" style="display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.5rem;">
+        <span class="tool-badge">Cycling</span>
+        <span class="tool-badge">Cyclathons</span>
+        <span class="tool-badge">Marathon Running</span>
+        <span class="tool-badge">Fitness &amp; Endurance</span>
+        <span class="tool-badge">Continuous Learning</span>
+      </div>
+      <p style="font-size: 0.98rem; line-height: 1.75; color: var(--text-secondary, #475569); margin-top: 1.5rem;">
+        I believe the discipline of training carries straight into engineering. Reliability work is a long game, and I bring the same steady, goal-focused mindset to keeping our platforms healthy that I bring to the finish line.
+      </p>
     </div>
   </section>
 
@@ -1964,7 +2135,6 @@ footer .footer-lede {
       <div class="tool-category">
         <h3>Configuration &amp; Automation</h3>
         <div class="tool-badges">
-          <span class="tool-badge">Salt (SaltStack)</span>
           <span class="tool-badge">Bash Scripting</span>
           <span class="tool-badge">Python</span>
           <span class="tool-badge">Java</span>
@@ -2037,7 +2207,7 @@ footer .footer-lede {
           <h3>Enterprise SaaS Observability &amp; Incident Response</h3>
           <div class="project-impact">99.9% uptime · 5,000+ incidents resolved · 50+ Fortune 500 environments</div>
           <p class="project-desc">
-            Built and manage end-to-end monitoring for enterprise SaaS platforms across Zabbix, Sumo Logic, Prometheus, Grafana, CloudWatch, Catchpoint and PagerDuty. I own the full alert lifecycle, validate monitoring for customer go-lives, and lead 24x7 incident response — sustaining high availability across a large Fortune 500 footprint.
+            Manage end-to-end monitoring for enterprise SaaS platforms across Zabbix, Sumo Logic, Prometheus, Grafana, Catchpoint and PagerDuty, and act on alerts surfaced through AWS CloudWatch. I own the alert lifecycle, validate monitoring for customer go-lives, and lead 24x7 incident response — sustaining high availability across a large Fortune 500 footprint.
           </p>
           <div class="project-tags">
             <span class="project-tag">Observability</span>
@@ -2182,7 +2352,7 @@ footer .footer-lede {
             <span class="highlight-tag">Customer First Award</span>
           </div>
           <div class="timeline-desc">
-            Triaged and resolved 5,000+ production incidents across AWS &amp; Azure with 99.9% uptime for 50+ Fortune 500 environments. Resolved recurring memory alerts through systematic RCA over 2.5+ years with the Technical Architect team, improving performance and infrastructure cost. Log analysis in Sumo Logic and AWS CloudWatch; Linux, Apache &amp; Tomcat troubleshooting across 200+ servers; incidents via ServiceNow following ITIL; authored 3+ runbooks on 24×7 rotating shifts.
+            Triaged and resolved 5,000+ production incidents across AWS &amp; Azure with 99.9% uptime for 50+ Fortune 500 environments. Resolved recurring memory alerts through systematic RCA over 2.5+ years with the Technical Architect team, improving performance and optimizing infrastructure cost. Log analysis in Sumo Logic; investigated alerts surfaced through AWS CloudWatch; Linux, Apache &amp; Tomcat troubleshooting across 200+ servers; incidents via ServiceNow following ITIL; authored 10+ runbooks on 24×7 rotating shifts.
           </div>
         </div>
       </div>
@@ -2246,10 +2416,10 @@ footer .footer-lede {
     <div class="section-title">Events &amp; conferences.</div>
     <div class="events-row">
       <div class="event-card">
-        <div class="event-status">Upcoming</div>
+        <div class="event-status">Attended</div>
         <h3>KubeCon + CloudNativeCon India 2026</h3>
         <div class="event-date">June 18–19, 2026 · Jio World Convention Centre, Mumbai</div>
-        <p class="event-desc">At KubeCon Mumbai with a curated schedule focused on Kubernetes observability, SRE practices, and platform engineering. If we met there — great to connect! Reach me anytime via the links below.</p>
+        <p class="event-desc">Attended KubeCon Mumbai with a curated schedule focused on Kubernetes observability, SRE practices, and platform engineering. Brought the learnings back and shared key takeaways and resources with my team and management.</p>
       </div>
       <div class="event-card">
         <div class="event-status">Attended</div>
@@ -2308,11 +2478,6 @@ footer .footer-lede {
         <div class="cert-issuer">Microsoft Certified · 2023</div>
       </div>
       <div class="cert-row">
-        <div class="cert-type">Certification</div>
-        <h4>Advanced Kubernetes Operations &amp; Linux System Administration</h4>
-        <div class="cert-issuer">KodeKloud · 2025</div>
-      </div>
-      <div class="cert-row">
         <div class="cert-type">Award</div>
         <h4>Smart India Hackathon Winner</h4>
         <div class="cert-issuer">National Level · 2020 · 10,000+ competing teams</div>
@@ -2329,7 +2494,7 @@ footer .footer-lede {
       </div>
       <div class="cert-row">
         <div class="cert-type">Education</div>
-        <h4>MBA – Information System Management / Analytics &amp; Data Science</h4>
+        <h4>MBA – Dual Specialization: Information Systems Management / Analytics &amp; Data Science</h4>
         <div class="cert-issuer">Manipal University Jaipur · 2025–2027 (Expected)</div>
       </div>
       <div class="cert-row">
@@ -2347,7 +2512,7 @@ footer .footer-lede {
   <!-- CONTACT -->
   <footer id="contact">
     <h2>Let's connect.</h2>
-    <p class="footer-lede">Open to <strong>Cloud, SRE, DevOps &amp; Platform Engineering</strong> roles. I solve real production problems, learn fast, and take ownership. If you're hiring someone reliable who keeps growing, let's talk.</p>
+    <p class="footer-lede">I'm committed to building my career at <strong>PTC</strong> and ready to take on greater responsibility in Cloud, SRE, and Platform Engineering. I solve real production problems, take ownership, and keep growing my skills. I'd welcome the chance to discuss how I can contribute more and grow within the team.</p>
     <div class="social-links">
       <a href="mailto:dineshravichandiran0808@gmail.com" class="social-link">Email</a>
       <a href="https://linkedin.com/in/dineshravichandiran" class="social-link" target="_blank" rel="noopener">LinkedIn</a>
@@ -2858,13 +3023,25 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   animate();
 })();
 
-// ===== MOVIE-STYLE LOADER =====
+// ===== CINEMATIC LOADER =====
 (function loaderInit() {
   const loader = document.getElementById('loader');
   const enterBtn = document.getElementById('enterBtn');
   const typeEl = document.getElementById('loaderType');
   const canvas = document.getElementById('loaderCanvas');
+  const stage1 = document.getElementById('loaderStage1');
+  const stage2 = document.getElementById('loaderStage2');
   if (!loader) return;
+
+  // --- Two-stage cinematic sequence: greeting -> main reveal ---
+  if (stage1 && stage2) {
+    stage1.classList.add('active');
+    // after greeting plays (~2.4s), switch to main stage
+    setTimeout(() => {
+      stage1.classList.remove('active');
+      stage2.classList.add('active');
+    }, 2400);
+  }
 
   // --- Starfield / data-stream animation on loader ---
   if (canvas) {
@@ -2918,7 +3095,7 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
     setTimeout(type, deleting ? 40 : 90);
   }
-  setTimeout(type, 1200);
+  setTimeout(type, 3600);
 
   // --- Dismiss loader ---
   function dismiss() {
@@ -2933,7 +3110,7 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   // auto-dismiss fallback after the full intro plays (in case they don't click)
   setTimeout(() => {
     if (!loader.classList.contains('hidden')) dismiss();
-  }, 7000);
+  }, 10000);
 })();
 
 // ===== TAB NAVIGATION =====
