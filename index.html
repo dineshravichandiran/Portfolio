@@ -1126,6 +1126,47 @@ section:last-of-type { border-bottom: none; }
 
 .project-link:hover { gap: 0.65rem; }
 
+.project-shots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.project-shot {
+  display: block;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.project-shot img {
+  display: block;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.3s, filter 0.3s;
+  filter: grayscale(15%);
+}
+
+.project-shot:hover img {
+  transform: scale(1.04);
+  filter: grayscale(0%);
+}
+
+.project-shot-caption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  padding: 0.5rem 0.7rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 600px) {
+  .project-shots { grid-template-columns: 1fr; }
+}
+
 /* ===== PLATFORMS ===== */
 .platforms-grid {
   display: grid;
@@ -2398,6 +2439,24 @@ nav .nav-links a,
               <div class="flow-label">Result</div>
               <div class="flow-text">Cut discovered filesystem items by more than half via LLD filters, eliminated alert cascades with trigger dependencies, and can now speak concretely to nodata() triggers, proxy buffer sizing, and RBAC design.</div>
             </div>
+          </div>
+          <div class="project-shots">
+            <a href="screenshots/zabbix-latest-data.png" target="_blank" rel="noopener" class="project-shot">
+              <img src="screenshots/zabbix-latest-data.png" alt="Zabbix Latest Data showing lab-host-02 with 73 live items across memory, CPU, and security tags" loading="lazy">
+              <div class="project-shot-caption">Latest data — live collection</div>
+            </a>
+            <a href="screenshots/zabbix-trigger-dependency.png" target="_blank" rel="noopener" class="project-shot">
+              <img src="screenshots/zabbix-trigger-dependency.png" alt="Zabbix trigger list showing a CPU threshold trigger and a trigger with a configured dependency" loading="lazy">
+              <div class="project-shot-caption">Trigger dependency</div>
+            </a>
+            <a href="screenshots/zabbix-lld-filter.png" target="_blank" rel="noopener" class="project-shot">
+              <img src="screenshots/zabbix-lld-filter.png" alt="Zabbix Mounted filesystem discovery rule with FSNAME and FSTYPE LLD filters configured" loading="lazy">
+              <div class="project-shot-caption">LLD discovery filter</div>
+            </a>
+            <a href="screenshots/zabbix-escalation-action.png" target="_blank" rel="noopener" class="project-shot">
+              <img src="screenshots/zabbix-escalation-action.png" alt="Zabbix trigger action showing staged severity-based escalation operations and a recovery operation" loading="lazy">
+              <div class="project-shot-caption">Severity-based escalation</div>
+            </a>
           </div>
           <div class="project-tags">
             <span class="project-tag">Zabbix</span>
