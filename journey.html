@@ -200,22 +200,6 @@ html, body {
   white-space: nowrap;
 }
 
-/* ===== HINT ===== */
-.hint {
-  position: fixed;
-  bottom: 1.5rem;
-  left: 1.5rem;
-  z-index: 10;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.9);
-  padding: 0.5rem 0.85rem;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  letter-spacing: 0.05em;
-}
-
 /* ===== LOADER ===== */
 .loader {
   position: fixed;
@@ -276,7 +260,6 @@ html, body {
     padding: 1.2rem;
   }
   .info-panel.visible { transform: translateY(0); }
-  .hint { display: none; }
   .back-link { font-size: 0.75rem; padding: 0.5rem 0.85rem; }
   .info-nav-btn { padding: 0.5rem 0.85rem; font-size: 0.78rem; }
   .info-nav .info-nav-counter { font-size: 0.68rem; }
@@ -311,8 +294,6 @@ html, body {
     <button type="button" class="info-nav-btn" id="nextMilestoneBtn" aria-label="Next milestone">Next →</button>
   </div>
 </div>
-
-<div class="hint">Use Back / Next below to ride · Click car or button for 360° view</div>
 
 <button id="orbitToggleBtn" style="
   position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 10;
