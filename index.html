@@ -843,6 +843,156 @@ section:last-of-type { border-bottom: none; }
   .profile-intro { flex-direction: column; }
 }
 
+/* ===== PROJECT TREE (git-graph) ===== */
+.tree-intro {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 680px;
+  margin-bottom: 2.5rem;
+}
+
+.tree-graph-wrap {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  overflow-x: auto;
+  margin-bottom: 2rem;
+  padding: 2.5rem 2rem;
+}
+
+.tree-graph {
+  position: relative;
+}
+
+.tree-svg { position: absolute; top: 0; left: 0; overflow: visible; }
+
+.tree-branch-tag {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  margin-top: -0.6rem;
+}
+
+.tree-root-label {
+  position: absolute;
+  transform: translate(0.9rem, -50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.tree-commit {
+  position: absolute;
+  transform: translate(0.9rem, -50%);
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 0.3rem 0.5rem 0.3rem 0;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.tree-commit .hash {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.tree-commit .title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: color 0.2s;
+  max-width: 148px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tree-commit:hover .title,
+.tree-commit.active .title {
+  color: var(--branch-color, var(--accent));
+}
+
+/* standalone dot, used only for the root node (absolutely positioned on its own) */
+.tree-node {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--branch-color, var(--text-muted));
+  transform: translate(-50%, -50%);
+}
+
+/* dot used inside a .tree-commit button — a normal flex item, not absolutely positioned,
+   so it stays inline with the hash/title instead of escaping the flex layout */
+.tree-commit-dot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--branch-color, var(--text-muted));
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tree-commit:hover .tree-commit-dot,
+.tree-commit.active .tree-commit-dot {
+  transform: scale(1.3);
+  box-shadow: 0 0 10px var(--branch-color, var(--accent));
+}
+
+.tree-detail {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--branch-color, var(--accent));
+  background: var(--surface);
+  padding: 1.75rem 2rem;
+  min-height: 90px;
+  transition: border-color 0.2s;
+}
+
+.tree-detail-empty {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.tree-detail-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--branch-color, var(--accent));
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.6rem;
+}
+
+.tree-detail h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+
+.tree-detail p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
 /* ===== PROJECTS ===== */
 .projects-list {
   display: flex;
@@ -1763,6 +1913,7 @@ nav .nav-links a,
       <li><a href="#" data-tab="work">Work</a></li>
       <li><a href="#" data-tab="skills">Skills</a></li>
       <li><a href="#" data-tab="projects">Projects</a></li>
+      <li><a href="#" data-tab="tree">Tree</a></li>
       <li><a href="#" data-tab="journey">Journey</a></li>
       <li><a href="#" data-tab="credentials">Credentials</a></li>
       <li><a href="#" data-tab="contact">Contact</a></li>
@@ -2309,10 +2460,27 @@ nav .nav-links a,
   </section>
   </div><!-- /tab-projects -->
 
+  <!-- ============ TAB: TREE ============ -->
+  <div class="tab-panel" id="tab-tree">
+  <section id="tree" class="reveal">
+    <div class="section-label">06 — Project Tree</div>
+    <div class="section-title">Everything I've built, branched out.</div>
+    <p class="tree-intro">
+      A git-graph view of my work — one root, five branches: production operations, infrastructure-as-code, personal builds, recognition, and credentials. Click a commit to read more.
+    </p>
+    <div class="tree-graph-wrap">
+      <div class="tree-graph" id="treeGraph"></div>
+    </div>
+    <div class="tree-detail" id="treeDetail">
+      <div class="tree-detail-empty">// click a commit node above to see details</div>
+    </div>
+  </section>
+  </div><!-- /tab-tree -->
+
   <!-- ============ TAB: JOURNEY ============ -->
   <div class="tab-panel" id="tab-journey">
   <section id="journey" class="reveal">
-    <div class="section-label">06 — Career Journey</div>
+    <div class="section-label">07 — Career Journey</div>
     <div class="section-title">Timeline.</div>
     <div style="margin-bottom: 2.5rem;">
       <a href="journey.html" class="btn btn-outline" style="display: inline-flex;">
@@ -2412,7 +2580,7 @@ nav .nav-links a,
   <div class="tab-panel" id="tab-credentials">
   <!-- EVENTS -->
   <section id="events" class="reveal">
-    <div class="section-label">07 — Community</div>
+    <div class="section-label">08 — Community</div>
     <div class="section-title">Events &amp; conferences.</div>
     <div class="events-row">
       <div class="event-card">
@@ -2432,7 +2600,7 @@ nav .nav-links a,
 
   <!-- IMPACT -->
   <section class="reveal">
-    <div class="section-label">08 — Results</div>
+    <div class="section-label">09 — Results</div>
     <div class="section-title">Key impact.</div>
     <div class="impact-grid">
       <div class="impact-card">
@@ -2464,7 +2632,7 @@ nav .nav-links a,
 
   <!-- CERTIFICATIONS -->
   <section class="reveal">
-    <div class="section-label">09 — Credentials</div>
+    <div class="section-label">10 — Credentials</div>
     <div class="section-title">Certifications, awards &amp; education.</div>
     <div class="certs-list">
       <div class="cert-row">
@@ -3146,6 +3314,188 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   // logo click -> home tab
   const logo = document.getElementById('logoBtn');
   if (logo) logo.addEventListener('click', () => showTab('home'));
+})();
+
+// ===== PROJECT TREE (git-graph view) =====
+(function initTree() {
+  const wrap = document.getElementById('treeGraph');
+  const detail = document.getElementById('treeDetail');
+  if (!wrap || !detail) return;
+
+  const BRANCHES = [
+    {
+      name: 'cloud-infra-ops',
+      color: '#3fb950',
+      commits: [
+        {
+          title: 'Enterprise SaaS Observability & Incident Response',
+          meta: 'Ongoing · 50+ Fortune 500 environments',
+          desc: 'Built and manage end-to-end monitoring across Zabbix, Sumo Logic, Prometheus, Grafana, CloudWatch, Catchpoint and PagerDuty. Own the full alert lifecycle, validate monitoring for customer go-lives, and lead 24x7 incident response.'
+        },
+        {
+          title: 'Recurring Memory & Performance Root-Cause Initiative',
+          meta: '2.5+ yrs · Improved platform performance',
+          desc: 'Drove recurring memory/OutOfMemory and performance alerts to root cause over 2.5+ years with the Technical Architect team, improving platform performance and optimizing cloud cost across AWS and Azure.'
+        },
+        {
+          title: 'Runbook & Incident-Handling Standardization',
+          meta: 'Ongoing · 10+ team-adopted runbooks',
+          desc: 'Authored 10+ team-adopted runbooks under ITIL change management and standardized incident-handling procedures across a 12-member team. Mentor new and junior engineers.'
+        }
+      ]
+    },
+    {
+      name: 'devops-iac',
+      color: '#58a6ff',
+      commits: [
+        {
+          title: 'Zabbix Template Automation with Terraform',
+          meta: 'Self-Directed · IaC for monitoring',
+          desc: 'Built hands-on labs to deploy and manage Zabbix monitoring as code — creating custom Zabbix templates (hosts, items, triggers) and provisioning them with Terraform instead of manual UI setup.'
+        }
+      ]
+    },
+    {
+      name: 'personal-builds',
+      color: '#d29922',
+      commits: [
+        {
+          title: 'Personal Cloud/SRE Portfolio & 3D Career Journey',
+          meta: 'Finished · Solo build',
+          desc: 'Designed and deployed this portfolio and an interactive 3D career-journey site (HTML/CSS/JavaScript, Three.js) via Netlify — proof I can build and ship, not just operate.'
+        }
+      ]
+    },
+    {
+      name: 'hackathon',
+      color: '#f85149',
+      commits: [
+        {
+          title: 'Smart India Hackathon 2020 — National Winner',
+          meta: '2020 · 10,000+ competing teams',
+          desc: 'National Grand Finale Winner for the Bureau of Police Research & Development (BPRD). My team of 6 built "Antigen," a web app that detects malicious and rogue chatbots across web and social platforms.'
+        }
+      ]
+    },
+    {
+      name: 'certs-education',
+      color: '#a371f7',
+      commits: [
+        { title: 'Azure Fundamentals (AZ-900)', meta: 'Microsoft Certified · 2023', desc: 'Core Azure cloud concepts, services, and pricing.' },
+        { title: 'Azure Data Fundamentals (DP-900)', meta: 'Microsoft Certified · 2023', desc: 'Core data concepts and Azure data services.' },
+        { title: 'Advanced Kubernetes Operations & Linux System Administration', meta: 'KodeKloud · 2025', desc: 'Hands-on Kubernetes operations and Linux system administration.' },
+        { title: 'MBA – Information System Management / Analytics & Data Science', meta: 'Manipal University Jaipur · 2025–2027 (Expected)', desc: 'Graduate study in information systems management, analytics, and data science.' }
+      ]
+    }
+  ];
+
+  const colWidth = 230, rowHeight = 90, leftPad = 40, topPad = 90, bottomPad = 40;
+  const rootX = leftPad, rootY = topPad;
+  const maxCommits = Math.max(...BRANCHES.map(b => b.commits.length));
+  const width = leftPad * 2 + colWidth * BRANCHES.length;
+  const height = topPad + rowHeight * maxCommits + bottomPad;
+
+  function shortHash(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+    return h.toString(16).padStart(7, '0').slice(0, 7);
+  }
+
+  wrap.style.width = width + 'px';
+  wrap.style.height = height + 'px';
+  wrap.innerHTML = '';
+
+  // --- SVG connector lines (drawn first, sits underneath the HTML labels) ---
+  let svgLines = '';
+  BRANCHES.forEach((branch, i) => {
+    const colX = leftPad + colWidth * i + colWidth / 2;
+    const row1Y = topPad + rowHeight;
+    const midY = (rootY + row1Y) / 2;
+    svgLines += `<path d="M ${rootX} ${rootY} C ${rootX} ${midY}, ${colX} ${midY}, ${colX} ${row1Y}" stroke="${branch.color}" stroke-width="2" fill="none" opacity="0.85"/>`;
+    for (let j = 1; j < branch.commits.length; j++) {
+      const y1 = topPad + rowHeight * j;
+      const y2 = topPad + rowHeight * (j + 1);
+      svgLines += `<line x1="${colX}" y1="${y1}" x2="${colX}" y2="${y2}" stroke="${branch.color}" stroke-width="2" opacity="0.85"/>`;
+    }
+  });
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('class', 'tree-svg');
+  svg.setAttribute('width', width);
+  svg.setAttribute('height', height);
+  svg.innerHTML = svgLines;
+  wrap.appendChild(svg);
+
+  // --- root node + label ---
+  const rootNode = document.createElement('span');
+  rootNode.className = 'tree-node';
+  rootNode.style.left = rootX + 'px';
+  rootNode.style.top = rootY + 'px';
+  wrap.appendChild(rootNode);
+
+  const rootLabel = document.createElement('div');
+  rootLabel.className = 'tree-root-label';
+  rootLabel.style.left = rootX + 'px';
+  rootLabel.style.top = rootY + 'px';
+  rootLabel.textContent = 'Dinesh Ravichandiran';
+  wrap.appendChild(rootLabel);
+
+  // --- branches ---
+  BRANCHES.forEach((branch, i) => {
+    const colX = leftPad + colWidth * i + colWidth / 2;
+
+    const tag = document.createElement('div');
+    tag.className = 'tree-branch-tag';
+    tag.style.left = colX + 'px';
+    tag.style.top = (topPad + rowHeight) + 'px';
+    tag.style.color = branch.color;
+    tag.textContent = branch.name;
+    wrap.appendChild(tag);
+
+    branch.commits.forEach((commit, j) => {
+      const y = topPad + rowHeight * (j + 1);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'tree-commit';
+      btn.title = commit.title;
+      btn.style.left = colX + 'px';
+      btn.style.top = y + 'px';
+      btn.style.setProperty('--branch-color', branch.color);
+
+      const node = document.createElement('span');
+      node.className = 'tree-commit-dot';
+
+      const hash = document.createElement('span');
+      hash.className = 'hash';
+      hash.textContent = shortHash(commit.title);
+
+      const title = document.createElement('span');
+      title.className = 'title';
+      title.textContent = commit.title;
+
+      btn.appendChild(node);
+      btn.appendChild(hash);
+      btn.appendChild(title);
+
+      btn.addEventListener('click', () => {
+        wrap.querySelectorAll('.tree-commit.active').forEach(el => el.classList.remove('active'));
+        btn.classList.add('active');
+        detail.style.setProperty('--branch-color', branch.color);
+        detail.innerHTML = '';
+        const metaEl = document.createElement('div');
+        metaEl.className = 'tree-detail-meta';
+        metaEl.textContent = branch.name + ' · ' + commit.meta;
+        const h4 = document.createElement('h4');
+        h4.textContent = commit.title;
+        const p = document.createElement('p');
+        p.textContent = commit.desc;
+        detail.appendChild(metaEl);
+        detail.appendChild(h4);
+        detail.appendChild(p);
+      });
+
+      wrap.appendChild(btn);
+    });
+  });
 })();
 </script>
 
