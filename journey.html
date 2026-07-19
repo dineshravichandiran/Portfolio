@@ -226,6 +226,57 @@ html, body {
   border: 1px solid rgba(30, 58, 138, 0.15);
 }
 
+/* ===== INFO PANEL NAV (prev/next milestone) ===== */
+.info-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+
+.info-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 0.55rem 1.1rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(30, 58, 138, 0.3);
+}
+
+.info-nav-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.info-nav-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.info-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  box-shadow: none;
+}
+
+.info-nav .info-nav-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
 /* ===== HINT ===== */
 .hint {
   position: fixed;
@@ -312,6 +363,8 @@ html, body {
   .info-panel.visible { transform: translateY(0); }
   .hint { display: none; }
   .back-link { font-size: 0.75rem; padding: 0.5rem 0.85rem; }
+  .info-nav-btn { padding: 0.5rem 0.85rem; font-size: 0.78rem; }
+  .info-nav .info-nav-counter { font-size: 0.68rem; }
 }
 </style>
 </head>
@@ -342,6 +395,11 @@ html, body {
   <div class="info-role" id="infoRole"></div>
   <p class="info-body" id="infoBody"></p>
   <div class="info-tags" id="infoTags"></div>
+  <div class="info-nav">
+    <button type="button" class="info-nav-btn" id="prevMilestoneBtn" aria-label="Previous milestone">← Back</button>
+    <span class="info-nav-counter" id="infoNavCounter"></span>
+    <button type="button" class="info-nav-btn" id="nextMilestoneBtn" aria-label="Next milestone">Next →</button>
+  </div>
 </div>
 
 <div class="hint">↑ Click milestone to ride · Click car or button for 360° view</div>
@@ -2128,7 +2186,21 @@ function showInfo(index) {
     tagsEl.appendChild(tag);
   });
   document.getElementById('infoPanel').classList.add('visible');
+
+  document.getElementById('infoNavCounter').textContent = `${index + 1} / ${MILESTONES.length}`;
+  document.getElementById('prevMilestoneBtn').disabled = index <= 0;
+  document.getElementById('nextMilestoneBtn').disabled = index >= MILESTONES.length - 1;
 }
+
+// ====================================================
+// PREV / NEXT MILESTONE NAV (bottom info panel)
+// ====================================================
+document.getElementById('prevMilestoneBtn').addEventListener('click', () => {
+  if (activeMilestone > 0) rideTo(activeMilestone - 1);
+});
+document.getElementById('nextMilestoneBtn').addEventListener('click', () => {
+  if (activeMilestone < MILESTONES.length - 1) rideTo(activeMilestone + 1);
+});
 
 // ====================================================
 // ANIMATE
