@@ -2243,7 +2243,6 @@ nav .nav-links a,
           <span class="tool-badge">Apache / Tomcat</span>
           <span class="tool-badge">Apache DS</span>
           <span class="tool-badge">Red Hat DS</span>
-          <span class="tool-badge">Terraform (IaC)</span>
         </div>
       </div>
       <div class="tool-category">
@@ -2287,6 +2286,7 @@ nav .nav-links a,
       <div class="tool-category">
         <h3>Building Toward (In-Demand Skills)</h3>
         <div class="tool-badges">
+          <span class="tool-badge learning">Terraform (IaC)</span>
           <span class="tool-badge learning">CI/CD Pipelines</span>
           <span class="tool-badge learning">CKA (Kubernetes)</span>
           <span class="tool-badge learning">Docker</span>
@@ -3349,9 +3349,9 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
       color: '#58a6ff',
       commits: [
         {
-          title: 'Zabbix Template Automation with Terraform',
-          meta: 'Self-Directed · IaC for monitoring',
-          desc: 'Built hands-on labs to deploy and manage Zabbix monitoring as code — creating custom Zabbix templates (hosts, items, triggers) and provisioning them with Terraform instead of manual UI setup.'
+          title: 'Zabbix Monitoring Lab — Platform Deep-Dive',
+          meta: 'Self-Directed · Platform Engineering',
+          desc: 'Production work covers alert tuning and triage — this self-hosted Zabbix lab (Docker) was built to go deeper into the platform-engineering side I don\'t touch daily: discovery rules, preprocessing, escalation logic, RBAC, and the API. Terraform-based provisioning is the next iteration I\'m building toward, extending the same repeatable, version-controlled approach to monitoring-as-code.'
         }
       ]
     },
