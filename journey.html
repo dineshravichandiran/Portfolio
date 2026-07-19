@@ -69,85 +69,8 @@ html, body {
   color: var(--accent);
 }
 
-/* ===== HUD HEADER — hidden since milestones moved to top ===== */
+/* ===== HUD HEADER — hidden since navigation moved to bottom info panel ===== */
 .hud { display: none; }
-
-/* ===== MILESTONE SELECTOR — TOP BAR ===== */
-.milestones {
-  position: fixed;
-  top: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  display: flex;
-  flex-direction: row;
-  gap: 0.4rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 0.5rem;
-  box-shadow: 0 10px 40px -10px rgba(30, 58, 138, 0.2);
-  max-width: calc(100vw - 200px);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.milestones::-webkit-scrollbar { display: none; }
-
-.milestones .ms-label { display: none; }
-
-.milestone-btn {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 100px;
-  padding: 0.55rem 1.1rem;
-  text-align: center;
-  cursor: pointer;
-  font-family: 'Manrope', sans-serif;
-  transition: all 0.2s;
-  color: var(--text);
-  white-space: nowrap;
-  flex-shrink: 0;
-  user-select: none;
-}
-
-.milestone-btn:hover {
-  background: var(--accent-light);
-  color: var(--accent);
-}
-
-.milestone-btn:active {
-  transform: scale(0.96);
-}
-
-.milestone-btn.active {
-  background: var(--accent);
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(30, 58, 138, 0.35);
-}
-
-.milestone-btn .ms-year {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
-  font-weight: 600;
-  color: var(--accent);
-  display: block;
-  letter-spacing: 0.05em;
-}
-
-.milestone-btn.active .ms-year {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.milestone-btn .ms-name {
-  font-size: 0.85rem;
-  font-weight: 700;
-  display: block;
-  margin-top: 0.1rem;
-}
-
-.milestone-btn .ms-role { display: none; }
 
 /* ===== INFO PANEL ===== */
 .info-panel {
@@ -345,14 +268,6 @@ html, body {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .milestones {
-    top: 4rem;
-    max-width: calc(100vw - 1.5rem);
-    padding: 0.35rem;
-  }
-  .milestone-btn { padding: 0.45rem 0.8rem; }
-  .milestone-btn .ms-name { font-size: 0.75rem; }
-  .milestone-btn .ms-year { font-size: 0.55rem; }
   .info-panel {
     width: calc(100vw - 1.5rem);
     left: 0.75rem;
@@ -384,11 +299,6 @@ html, body {
   <div class="sub">2021 → Present · Career Path in 3D</div>
 </div>
 
-<div class="milestones" id="milestoneList">
-  <div class="ms-label">⛛ Select a Stop</div>
-  <!-- buttons injected by JS -->
-</div>
-
 <div class="info-panel" id="infoPanel">
   <div class="info-meta" id="infoMeta"></div>
   <h2 id="infoTitle"></h2>
@@ -402,7 +312,7 @@ html, body {
   </div>
 </div>
 
-<div class="hint">↑ Click milestone to ride · Click car or button for 360° view</div>
+<div class="hint">Use Back / Next below to ride · Click car or button for 360° view</div>
 
 <button id="orbitToggleBtn" style="
   position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 10;
@@ -479,31 +389,6 @@ const MILESTONES = [
     tags: ['Kubernetes (AKS)', 'Incident Response', 'Observability', 'Automation', 'AWS & Azure', 'Linux']
   }
 ];
-
-// ====================================================
-// SETUP MILESTONE BUTTONS
-// ====================================================
-const msList = document.getElementById('milestoneList');
-MILESTONES.forEach((m, i) => {
-  const btn = document.createElement('button');
-  btn.className = 'milestone-btn';
-  btn.dataset.index = i;
-  btn.type = 'button';
-  btn.setAttribute('aria-label', `Ride to ${m.name}, ${m.year}`);
-  btn.innerHTML = `
-    <span class="ms-year">${m.year}</span>
-    <span class="ms-name">${m.name}</span>
-    <span class="ms-role">${m.role}</span>
-  `;
-  const onSelect = (e) => {
-    if (e) { e.preventDefault(); e.stopPropagation(); }
-    console.log('[Journey] Riding to milestone', i, m.name);
-    rideTo(i);
-  };
-  btn.addEventListener('click', onSelect);
-  btn.addEventListener('touchend', onSelect, { passive: false });
-  msList.appendChild(btn);
-});
 
 // ====================================================
 // THREE.JS SETUP
@@ -2148,11 +2033,6 @@ function rideTo(index) {
   if (cameraMode === 'orbit') {
     setOrbitMode(false);
   }
-
-  // Update button states
-  document.querySelectorAll('.milestone-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', i === index);
-  });
 
   // Hide info panel during transition
   const panel = document.getElementById('infoPanel');
