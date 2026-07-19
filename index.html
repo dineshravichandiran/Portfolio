@@ -852,108 +852,120 @@ section:last-of-type { border-bottom: none; }
   margin-bottom: 2.5rem;
 }
 
-.tree-graph-wrap {
-  border: 1px solid var(--border);
-  background: var(--surface);
-  overflow-x: auto;
+.tree-root {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   margin-bottom: 2rem;
-  padding: 2.5rem 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
 }
 
-.tree-graph {
-  position: relative;
-}
-
-.tree-svg { position: absolute; top: 0; left: 0; overflow: visible; }
-
-.tree-branch-tag {
-  position: absolute;
-  transform: translate(-50%, -100%);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  padding: 0.25rem 0.6rem;
-  border-radius: 999px;
-  border: 1px solid currentColor;
-  white-space: nowrap;
-  margin-top: -0.6rem;
+.tree-root .tree-node {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--text-secondary);
 }
 
 .tree-root-label {
-  position: absolute;
-  transform: translate(0.9rem, -50%);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--text);
-  white-space: nowrap;
+}
+
+.tree-root-label .dim {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.tree-branches {
+  position: relative;
+  margin-left: 6px;
+  margin-bottom: 2rem;
+  border-left: 2px solid var(--border-strong);
+}
+
+.tree-branch-row {
+  position: relative;
+  padding: 0 0 2.5rem 2.2rem;
+}
+
+.tree-branch-row:last-child { padding-bottom: 0; }
+
+.tree-fork-dot {
+  position: absolute;
+  left: -7px;
+  top: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--branch-color, var(--accent));
+  box-shadow: 0 0 0 4px var(--surface);
+}
+
+.tree-branch-name {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--branch-color, var(--accent));
+  border: 1px solid var(--branch-color, var(--accent));
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.tree-commit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .tree-commit {
-  position: absolute;
-  transform: translate(0.9rem, -50%);
   display: flex;
   align-items: baseline;
-  gap: 0.6rem;
-  background: none;
-  border: none;
-  cursor: pointer;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 620px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--branch-color, var(--accent));
+  padding: 0.7rem 1rem;
   text-align: left;
-  padding: 0.3rem 0.5rem 0.3rem 0;
-  white-space: nowrap;
+  cursor: pointer;
   font-family: inherit;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.tree-commit:hover,
+.tree-commit.active {
+  background: var(--hover-tint);
+  transform: translateX(4px);
 }
 
 .tree-commit .hash {
+  flex-shrink: 0;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
   color: var(--text-muted);
 }
 
 .tree-commit .title {
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   font-weight: 600;
+  line-height: 1.4;
   color: var(--text);
   transition: color 0.2s;
-  max-width: 148px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .tree-commit:hover .title,
 .tree-commit.active .title {
   color: var(--branch-color, var(--accent));
-}
-
-/* standalone dot, used only for the root node (absolutely positioned on its own) */
-.tree-node {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 2px solid var(--branch-color, var(--text-muted));
-  transform: translate(-50%, -50%);
-}
-
-/* dot used inside a .tree-commit button — a normal flex item, not absolutely positioned,
-   so it stays inline with the hash/title instead of escaping the flex layout */
-.tree-commit-dot {
-  flex-shrink: 0;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 2px solid var(--branch-color, var(--text-muted));
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.tree-commit:hover .tree-commit-dot,
-.tree-commit.active .tree-commit-dot {
-  transform: scale(1.3);
-  box-shadow: 0 0 10px var(--branch-color, var(--accent));
 }
 
 .tree-detail {
@@ -2468,9 +2480,11 @@ nav .nav-links a,
     <p class="tree-intro">
       A git-graph view of my work — one root, five branches: production operations, infrastructure-as-code, personal builds, recognition, and credentials. Click a commit to read more.
     </p>
-    <div class="tree-graph-wrap">
-      <div class="tree-graph" id="treeGraph"></div>
+    <div class="tree-root">
+      <span class="tree-node"></span>
+      <span class="tree-root-label">Dinesh Ravichandiran <span class="dim">· root</span></span>
     </div>
+    <div class="tree-branches" id="treeGraph"></div>
     <div class="tree-detail" id="treeDetail">
       <div class="tree-detail-empty">// click a commit node above to see details</div>
     </div>
@@ -3389,80 +3403,53 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
   ];
 
-  const colWidth = 230, rowHeight = 90, leftPad = 40, topPad = 90, bottomPad = 40;
-  const rootX = leftPad, rootY = topPad;
-  const maxCommits = Math.max(...BRANCHES.map(b => b.commits.length));
-  const width = leftPad * 2 + colWidth * BRANCHES.length;
-  const height = topPad + rowHeight * maxCommits + bottomPad;
-
   function shortHash(str) {
     let h = 0;
     for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
     return h.toString(16).padStart(7, '0').slice(0, 7);
   }
 
-  wrap.style.width = width + 'px';
-  wrap.style.height = height + 'px';
+  function selectCommit(btn, branch, commit) {
+    wrap.querySelectorAll('.tree-commit.active').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+    detail.style.setProperty('--branch-color', branch.color);
+    detail.innerHTML = '';
+    const metaEl = document.createElement('div');
+    metaEl.className = 'tree-detail-meta';
+    metaEl.textContent = branch.name + ' · ' + commit.meta;
+    const h4 = document.createElement('h4');
+    h4.textContent = commit.title;
+    const p = document.createElement('p');
+    p.textContent = commit.desc;
+    detail.appendChild(metaEl);
+    detail.appendChild(h4);
+    detail.appendChild(p);
+  }
+
   wrap.innerHTML = '';
 
-  // --- SVG connector lines (drawn first, sits underneath the HTML labels) ---
-  let svgLines = '';
-  BRANCHES.forEach((branch, i) => {
-    const colX = leftPad + colWidth * i + colWidth / 2;
-    const row1Y = topPad + rowHeight;
-    const midY = (rootY + row1Y) / 2;
-    svgLines += `<path d="M ${rootX} ${rootY} C ${rootX} ${midY}, ${colX} ${midY}, ${colX} ${row1Y}" stroke="${branch.color}" stroke-width="2" fill="none" opacity="0.85"/>`;
-    for (let j = 1; j < branch.commits.length; j++) {
-      const y1 = topPad + rowHeight * j;
-      const y2 = topPad + rowHeight * (j + 1);
-      svgLines += `<line x1="${colX}" y1="${y1}" x2="${colX}" y2="${y2}" stroke="${branch.color}" stroke-width="2" opacity="0.85"/>`;
-    }
-  });
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('class', 'tree-svg');
-  svg.setAttribute('width', width);
-  svg.setAttribute('height', height);
-  svg.innerHTML = svgLines;
-  wrap.appendChild(svg);
+  BRANCHES.forEach(branch => {
+    const row = document.createElement('div');
+    row.className = 'tree-branch-row';
+    row.style.setProperty('--branch-color', branch.color);
 
-  // --- root node + label ---
-  const rootNode = document.createElement('span');
-  rootNode.className = 'tree-node';
-  rootNode.style.left = rootX + 'px';
-  rootNode.style.top = rootY + 'px';
-  wrap.appendChild(rootNode);
+    const forkDot = document.createElement('span');
+    forkDot.className = 'tree-fork-dot';
+    row.appendChild(forkDot);
 
-  const rootLabel = document.createElement('div');
-  rootLabel.className = 'tree-root-label';
-  rootLabel.style.left = rootX + 'px';
-  rootLabel.style.top = rootY + 'px';
-  rootLabel.textContent = 'Dinesh Ravichandiran';
-  wrap.appendChild(rootLabel);
+    const name = document.createElement('div');
+    name.className = 'tree-branch-name';
+    name.textContent = branch.name;
+    row.appendChild(name);
 
-  // --- branches ---
-  BRANCHES.forEach((branch, i) => {
-    const colX = leftPad + colWidth * i + colWidth / 2;
+    const list = document.createElement('div');
+    list.className = 'tree-commit-list';
 
-    const tag = document.createElement('div');
-    tag.className = 'tree-branch-tag';
-    tag.style.left = colX + 'px';
-    tag.style.top = (topPad + rowHeight) + 'px';
-    tag.style.color = branch.color;
-    tag.textContent = branch.name;
-    wrap.appendChild(tag);
-
-    branch.commits.forEach((commit, j) => {
-      const y = topPad + rowHeight * (j + 1);
+    branch.commits.forEach(commit => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'tree-commit';
       btn.title = commit.title;
-      btn.style.left = colX + 'px';
-      btn.style.top = y + 'px';
-      btn.style.setProperty('--branch-color', branch.color);
-
-      const node = document.createElement('span');
-      node.className = 'tree-commit-dot';
 
       const hash = document.createElement('span');
       hash.className = 'hash';
@@ -3472,29 +3459,15 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
       title.className = 'title';
       title.textContent = commit.title;
 
-      btn.appendChild(node);
       btn.appendChild(hash);
       btn.appendChild(title);
+      btn.addEventListener('click', () => selectCommit(btn, branch, commit));
 
-      btn.addEventListener('click', () => {
-        wrap.querySelectorAll('.tree-commit.active').forEach(el => el.classList.remove('active'));
-        btn.classList.add('active');
-        detail.style.setProperty('--branch-color', branch.color);
-        detail.innerHTML = '';
-        const metaEl = document.createElement('div');
-        metaEl.className = 'tree-detail-meta';
-        metaEl.textContent = branch.name + ' · ' + commit.meta;
-        const h4 = document.createElement('h4');
-        h4.textContent = commit.title;
-        const p = document.createElement('p');
-        p.textContent = commit.desc;
-        detail.appendChild(metaEl);
-        detail.appendChild(h4);
-        detail.appendChild(p);
-      });
-
-      wrap.appendChild(btn);
+      list.appendChild(btn);
     });
+
+    row.appendChild(list);
+    wrap.appendChild(row);
   });
 })();
 </script>
