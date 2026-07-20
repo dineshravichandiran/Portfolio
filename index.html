@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dinesh Ravichandiran — Cloud, DevOps & Infrastructure Engineer</title>
-<meta name="description" content="Cloud & Reliability Engineer at PTC. 3+ years supporting 50+ Fortune 500 enterprise SaaS platforms on Azure & AWS. 5,000+ incidents resolved, 99.9% uptime. Building Terraform, CI/CD & Kubernetes skills.">
+<meta name="description" content="Cloud & Reliability Engineer at PTC. 3+ years supporting 50+ Fortune 500 enterprise SaaS platforms on Azure & AWS. 5,000+ incidents resolved, 99.9% uptime. Terraform, CI/CD & GitHub Actions in production-style projects.">
 <meta name="keywords" content="Dinesh Ravichandiran, Cloud Services NOC Engineer, SRE, Site Reliability Engineer, Kubernetes, AKS, Azure, AWS, PTC, Pune, DevOps">
 <meta property="og:title" content="Dinesh Ravichandiran — Cloud, DevOps & Infrastructure Engineer">
 <meta property="og:description" content="Cloud & Infrastructure Engineer. 3+ years keeping 50+ Fortune 500 platforms running 24×7 on Azure & AWS.">
@@ -1263,6 +1263,9 @@ section:last-of-type { border-bottom: none; }
 }
 
 .tool-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   padding: 0.5rem 1rem;
   background: linear-gradient(135deg, #14261d 0%, #0e1b15 100%);
   border: 1px solid #0d2f24;
@@ -1274,6 +1277,14 @@ section:last-of-type { border-bottom: none; }
   position: relative;
   box-shadow: 0 1px 3px rgba(63, 185, 80, 0.08);
   cursor: default;
+}
+
+.tool-badge img {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  opacity: 0.9;
+  object-fit: contain;
 }
 
 .tool-badge:hover {
@@ -2011,7 +2022,7 @@ nav .nav-links a,
       Building in-demand cloud &amp; reliability skills — open to the right opportunity
     </div>
     <h1>Cloud &amp; Reliability Engineer keeping Fortune 500 platforms running, 24×7.</h1>
-    <p class="lede">Cloud &amp; reliability engineer at PTC, keeping enterprise SaaS platforms running 24×7 on AWS &amp; Azure for 50+ Fortune 500 customers. I resolve production issues independently across Kubernetes, Linux, and cloud infrastructure, and I'm actively building the in-demand skills modern teams need — Terraform, CI/CD, and Kubernetes (CKA). 5,000+ incidents resolved, 99.9% uptime maintained.</p>
+    <p class="lede">Cloud &amp; reliability engineer at PTC, keeping enterprise SaaS platforms running 24×7 on AWS &amp; Azure for 50+ Fortune 500 customers. I resolve production issues independently across Kubernetes, Linux, and cloud infrastructure, and I extend that into infrastructure-as-code and CI/CD in my own Terraform and GitHub Actions projects — CKA certification is next up. 5,000+ incidents resolved, 99.9% uptime maintained.</p>
     <div class="hero-buttons">
       <a href="mailto:dineshravichandiran0808@gmail.com" class="btn btn-primary">Get in touch</a>
       <a href="resume.pdf" class="btn btn-outline" download>Download Resume</a>
@@ -2301,38 +2312,47 @@ nav .nav-links a,
       <div class="tool-category">
         <h3>Monitoring &amp; Observability</h3>
         <div class="tool-badges">
-          <span class="tool-badge">Sumo Logic</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/sumologic" alt="">Sumo Logic</span>
           <span class="tool-badge">AWS CloudWatch</span>
           <span class="tool-badge">Zabbix</span>
-          <span class="tool-badge">Prometheus</span>
-          <span class="tool-badge">Grafana</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/prometheus" alt="">Prometheus</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/grafana" alt="">Grafana</span>
           <span class="tool-badge">Catchpoint</span>
-          <span class="tool-badge">PagerDuty</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/pagerduty" alt="">PagerDuty</span>
         </div>
       </div>
       <div class="tool-category">
         <h3>Cloud &amp; Infrastructure</h3>
         <div class="tool-badges">
-          <span class="tool-badge">Microsoft Azure</span>
-          <span class="tool-badge">AWS</span>
-          <span class="tool-badge">Kubernetes (AKS)</span>
+          <span class="tool-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" alt="">Microsoft Azure</span>
+          <span class="tool-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="">AWS</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/kubernetes" alt="">Kubernetes (AKS)</span>
           <span class="tool-badge">kubectl</span>
           <span class="tool-badge">k9s</span>
-          <span class="tool-badge">Linux (RHEL)</span>
-          <span class="tool-badge">Apache / Tomcat</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/linux" alt="">Linux (RHEL)</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/apachetomcat" alt="">Apache / Tomcat</span>
           <span class="tool-badge">Apache DS</span>
-          <span class="tool-badge">Red Hat DS</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/redhat" alt="">Red Hat DS</span>
         </div>
       </div>
       <div class="tool-category">
         <h3>Configuration &amp; Automation</h3>
         <div class="tool-badges">
-          <span class="tool-badge">Salt (SaltStack)</span>
-          <span class="tool-badge">Bash Scripting</span>
-          <span class="tool-badge">Python</span>
-          <span class="tool-badge">Java</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/saltproject" alt="">Salt (SaltStack)</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/gnubash" alt="">Bash Scripting</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/python" alt="">Python</span>
+          <span class="tool-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="">Java</span>
           <span class="tool-badge">Cron / Systemd</span>
-          <span class="tool-badge">Docker</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/docker" alt="">Docker</span>
+        </div>
+      </div>
+      <div class="tool-category">
+        <h3>IaC &amp; CI/CD</h3>
+        <div class="tool-badges">
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/terraform" alt="">Terraform</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/githubactions" alt="">GitHub Actions</span>
+          <span class="tool-badge">CI/CD Pipelines</span>
+          <span class="tool-badge">Python Automation</span>
         </div>
       </div>
       <div class="tool-category">
@@ -2357,20 +2377,16 @@ nav .nav-links a,
         <h3>AI Tools &amp; Productivity</h3>
         <div class="tool-badges">
           <span class="tool-badge">Microsoft Copilot</span>
-          <span class="tool-badge">Claude</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/anthropic" alt="">Claude</span>
           <span class="tool-badge">ChatGPT</span>
-          <span class="tool-badge">Gemini</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/googlegemini" alt="">Gemini</span>
           <span class="tool-badge">AI-Assisted Troubleshooting</span>
         </div>
       </div>
       <div class="tool-category">
         <h3>Building Toward (In-Demand Skills)</h3>
         <div class="tool-badges">
-          <span class="tool-badge learning">Terraform (IaC)</span>
-          <span class="tool-badge learning">CI/CD Pipelines</span>
-          <span class="tool-badge learning">CKA (Kubernetes)</span>
-          <span class="tool-badge learning">GitHub Actions</span>
-          <span class="tool-badge learning">Python Automation</span>
+          <span class="tool-badge learning"><img src="https://cdn.simpleicons.org/kubernetes" alt="">CKA (Kubernetes)</span>
           <span class="tool-badge learning">AWS SAA Prep</span>
         </div>
       </div>
