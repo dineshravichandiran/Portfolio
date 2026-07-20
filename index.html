@@ -2484,6 +2484,89 @@ nav .nav-links a,
 
       <div class="project-item">
         <div class="project-meta">
+          <span class="meta-year">Self-Directed</span>
+          Infrastructure-as-Code · AWS
+        </div>
+        <div class="project-content">
+          <h3>Self-Healing Infrastructure on AWS</h3>
+          <div class="project-impact">Terraform-provisioned auto-recovery &mdash; no human in the loop</div>
+          <p class="project-desc">
+            Auto Scaling Groups only catch one failure mode &mdash; a failed ELB health check. Hardware faults, a process that crashes without the OS noticing, and an instance stopped by mistake all slip through unless something else is watching.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">Native ASG health checks don't cover hypervisor/hardware failures, silent process crashes, or an instance stopped outside the normal lifecycle &mdash; each needed its own detection and recovery path.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Provisioned a VPC/ALB/Auto Scaling Group stack in Terraform, layered CloudWatch alarms for system-level and target-health failures, and wrote Lambda handlers that force ASG replacement or restart a stopped instance &mdash; every remediation publishes its own CloudWatch metric so recovery is provable, not assumed.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text"><code>terraform validate</code> passes clean, both Lambda handlers reviewed line-by-line for correct AWS API usage, and a chaos-test script validates the full detect-to-recover loop end-to-end.</div>
+            </div>
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">Terraform</span>
+            <span class="project-tag">AWS Lambda</span>
+            <span class="project-tag">Auto Scaling</span>
+            <span class="project-tag">CloudWatch</span>
+            <span class="project-tag">EventBridge</span>
+            <span class="project-tag">IAM</span>
+          </div>
+          <a href="https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/self-healing-aws-infra" class="project-link" target="_blank" rel="noopener">View repo →</a>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Self-Directed</span>
+          CI/CD · Security
+        </div>
+        <div class="project-content">
+          <h3>End-to-End DevSecOps CI Pipeline</h3>
+          <div class="project-impact">
+            All 8 stages passing, verified live
+            <img src="https://github.com/dineshravichandiran/cloud-devops-projects/actions/workflows/devsecops-pipeline.yml/badge.svg" alt="DevSecOps CI Pipeline status" style="vertical-align: middle; margin-left: 0.5rem;">
+          </div>
+          <p class="project-desc">
+            A pipeline meant to gate deployments behind security checks is worthless if it's broken &mdash; and this one was, failing on every single push, including pushes that had nothing to do with the pipeline itself.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">Built a GitHub Actions pipeline chaining secret scanning, SAST, SCA, container scanning, and DAST ahead of a staged deploy &mdash; then found it had never actually passed.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Found and fixed three separate real failures blocking it end-to-end: a CodeQL step configured for a language the repo doesn't contain, a missing GitHub token permission, and a third-party action's broken artifact upload &mdash; each diagnosed from actual run logs, not guessed at.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">All 8 jobs pass clean today &mdash; secret scan, SAST, SCA, build, container scan, DAST, staging deploy, policy gate &mdash; re-verified live after each fix, not assumed.</div>
+            </div>
+          </div>
+          <div class="project-shots">
+            <a href="screenshots/devsecops-pipeline-bug-and-fix.png" target="_blank" rel="noopener" class="project-shot">
+              <img src="screenshots/devsecops-pipeline-bug-and-fix.png" alt="GitHub Actions run output showing the DevSecOps pipeline failing on CodeQL, the root cause identified, fixed, and reverified passing" loading="lazy">
+              <div class="project-shot-caption">Bug found, fixed, and reverified live</div>
+            </a>
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">GitHub Actions</span>
+            <span class="project-tag">Gitleaks</span>
+            <span class="project-tag">Semgrep</span>
+            <span class="project-tag">Trivy</span>
+            <span class="project-tag">OWASP ZAP</span>
+            <span class="project-tag">Docker</span>
+          </div>
+          <a href="https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/devsecops-ci-pipeline" class="project-link" target="_blank" rel="noopener">View repo →</a>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
           <span class="meta-year">2.5+ yrs</span>
           Root Cause · Performance
         </div>
@@ -3522,6 +3605,18 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
           meta: 'Self-Directed · Platform Engineering',
           desc: 'Production work covers alert tuning and triage — this self-hosted Zabbix lab (Docker) was built to go deeper into the platform-engineering side I don\'t touch daily: discovery rules, preprocessing, escalation logic, RBAC, and the API. Terraform-based provisioning is the next iteration I\'m building toward, extending the same repeatable, version-controlled approach to monitoring-as-code.',
           link: 'https://github.com/dineshravichandiran/zabbix-monitoring-lab'
+        },
+        {
+          title: 'Self-Healing Infrastructure on AWS',
+          meta: 'Self-Directed · Terraform',
+          desc: 'Terraform-provisioned VPC/ALB/Auto Scaling Group with CloudWatch alarms and Lambda-based auto-remediation for failure modes native ASG health checks don\'t catch — hardware faults, silent process crashes, and instances stopped outside the normal lifecycle. Every remediation publishes its own CloudWatch metric, so recovery is provable, not assumed.',
+          link: 'https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/self-healing-aws-infra'
+        },
+        {
+          title: 'End-to-End DevSecOps CI Pipeline',
+          meta: 'Self-Directed · GitHub Actions',
+          desc: 'A GitHub Actions pipeline gating every deployment behind secret scanning, SAST, SCA, container scanning, and DAST. Found and fixed three separate real failures blocking it end-to-end — a CodeQL language mismatch, a missing token permission, and a third-party action\'s broken artifact upload. All 8 jobs pass clean today, verified live.',
+          link: 'https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/devsecops-ci-pipeline'
         }
       ]
     },
