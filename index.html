@@ -2339,6 +2339,7 @@ nav .nav-links a,
         <h3>Configuration &amp; Automation</h3>
         <div class="tool-badges">
           <span class="tool-badge"><img src="https://cdn.simpleicons.org/saltproject" alt="">Salt (SaltStack)</span>
+          <span class="tool-badge"><img src="https://cdn.simpleicons.org/ansible" alt="">Ansible</span>
           <span class="tool-badge"><img src="https://cdn.simpleicons.org/gnubash" alt="">Bash Scripting</span>
           <span class="tool-badge"><img src="https://cdn.simpleicons.org/python" alt="">Python</span>
           <span class="tool-badge"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="">Java</span>
@@ -2578,6 +2579,53 @@ nav .nav-links a,
             <span class="project-tag">Docker</span>
           </div>
           <a href="https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/devsecops-ci-pipeline" class="project-link" target="_blank" rel="noopener">View repo →</a>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
+          <span class="meta-year">Self-Directed</span>
+          Configuration Management · Ansible
+        </div>
+        <div class="project-content">
+          <h3>Ansible: Zabbix Onboarding + Host Baseline</h3>
+          <div class="project-impact">Idempotent host onboarding &mdash; verified with changed=0 on a clean re-run</div>
+          <p class="project-desc">
+            Manually onboarding a host into monitoring is a checklist: install the agent, point it at the right server, open exactly one firewall port, don't forget time sync, don't forget log rotation. Easy to skip under pressure, easy to get subtly wrong by hand across a fleet.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">Needed that onboarding checklist to be a repeatable, idempotent playbook instead of a manual per-host process &mdash; and needed to actually prove it was idempotent, not just assume it.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Built an Ansible playbook: chrony, a default-deny UFW firewall scoped to SSH + the Zabbix port, unattended security upgrades, log rotation policy, then the full Zabbix agent repo/install/config/service lifecycle. Tested against real systemd containers via Ansible's Docker connection plugin &mdash; found and fixed two real bugs a syntax check would have missed: a log path that pointed at a directory the package never creates (the service was crash-looping), and a live timestamp in the config template that silently broke idempotency.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">A clean re-run reports <code>changed=0</code> on both test hosts, and the agent was verified with real <code>zabbix_get</code> queries returning live data &mdash; not just "service is running."</div>
+            </div>
+          </div>
+          <div class="project-shots">
+            <a href="screenshots/ansible-bugs-and-idempotency.png" target="_blank" rel="noopener" class="project-shot">
+              <img src="screenshots/ansible-bugs-and-idempotency.png" alt="Terminal output showing two real bugs found via testing, both fixed, and idempotency verified with changed=0 on a clean re-run" loading="lazy">
+              <div class="project-shot-caption">Bugs found, fixed, idempotency proven</div>
+            </a>
+            <a href="screenshots/ansible-live-verification.png" target="_blank" rel="noopener" class="project-shot">
+              <img src="screenshots/ansible-live-verification.png" alt="zabbix_get returning real hostname, live CPU load, and agent version, plus chrony, logrotate, and unattended-upgrades verified" loading="lazy">
+              <div class="project-shot-caption">Live agent verification, not assumed</div>
+            </a>
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">Ansible</span>
+            <span class="project-tag">Zabbix</span>
+            <span class="project-tag">Idempotency</span>
+            <span class="project-tag">Docker</span>
+            <span class="project-tag">systemd</span>
+            <span class="project-tag">UFW</span>
+          </div>
+          <a href="https://github.com/dineshravichandiran/ansible-zabbix-baseline" class="project-link" target="_blank" rel="noopener">View repo →</a>
         </div>
       </div>
 
@@ -3633,6 +3681,12 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
           meta: 'Self-Directed · GitHub Actions',
           desc: 'A GitHub Actions pipeline gating every deployment behind secret scanning, SAST, SCA, container scanning, and DAST. Found and fixed three separate real failures blocking it end-to-end — a CodeQL language mismatch, a missing token permission, and a third-party action\'s broken artifact upload. All 8 jobs pass clean today, verified live.',
           link: 'https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/devsecops-ci-pipeline'
+        },
+        {
+          title: 'Ansible: Zabbix Onboarding + Host Baseline',
+          meta: 'Self-Directed · Ansible',
+          desc: 'Idempotent playbook to onboard a fresh host into Zabbix monitoring with a hardened baseline (chrony, scoped UFW, unattended upgrades, log rotation). Tested against real systemd containers — found and fixed two real bugs (a crash-looping service from a wrong log path, and a live timestamp silently breaking idempotency). A clean re-run reports changed=0, and the agent was verified with real zabbix_get queries, not assumed.',
+          link: 'https://github.com/dineshravichandiran/ansible-zabbix-baseline'
         }
       ]
     },
