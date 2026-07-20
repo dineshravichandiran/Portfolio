@@ -2457,15 +2457,15 @@ nav .nav-links a,
           <div class="project-flow">
             <div class="flow-step">
               <div class="flow-label">Problem</div>
-              <div class="flow-text">Needed real reps on LLD tuning, dependent items, proxy architecture, and least-privilege RBAC before being asked to design a Zabbix estate from scratch.</div>
+              <div class="flow-text">Needed real reps on LLD tuning and escalation design before being asked to design a Zabbix estate from scratch — production work is alert triage, not building the platform.</div>
             </div>
             <div class="flow-step">
               <div class="flow-label">Action</div>
-              <div class="flow-text">Deliberately broke and fixed unsupported items; tuned LLD filters on filesystem discovery; built dependent items with JSONPath preprocessing; chained trigger dependencies and severity-based escalation actions; scoped RBAC roles and secret macros; drove host changes via the Zabbix API; deployed a proxy and killed it to observe buffering/backfill.</div>
+              <div class="flow-text">Linked a host to a template instead of hand-building items; tuned LLD filters on filesystem discovery and verified the before/after item count; built a threshold trigger; built a staged severity-escalation action.</div>
             </div>
             <div class="flow-step">
               <div class="flow-label">Result</div>
-              <div class="flow-text">Cut discovered filesystem items by more than half via LLD filters, eliminated alert cascades with trigger dependencies, and can now speak concretely to nodata() triggers, proxy buffer sizing, and RBAC design.</div>
+              <div class="flow-text">Cut discovered filesystem items by more than half via LLD filters, verified with an actual before/after count. Caught and fixed a real escalation-timing bug (a step's "Default" duration silently inherited the action's 1h default instead of its own interval) by checking the computed "Start in" time, not by assuming the config was right because it saved.</div>
             </div>
           </div>
           <div class="project-shots">
@@ -2474,27 +2474,25 @@ nav .nav-links a,
               <div class="project-shot-caption">Latest data — live collection</div>
             </a>
             <a href="screenshots/zabbix-trigger-dependency.png" target="_blank" rel="noopener" class="project-shot">
-              <img src="screenshots/zabbix-trigger-dependency.png" alt="Zabbix trigger list showing a CPU threshold trigger and a trigger with a configured dependency" loading="lazy">
-              <div class="project-shot-caption">Trigger dependency</div>
+              <img src="screenshots/zabbix-trigger-dependency.png" alt="Zabbix trigger list showing the CPU threshold trigger enabled and live" loading="lazy">
+              <div class="project-shot-caption">Threshold trigger, live</div>
             </a>
             <a href="screenshots/zabbix-lld-filter.png" target="_blank" rel="noopener" class="project-shot">
               <img src="screenshots/zabbix-lld-filter.png" alt="Zabbix Mounted filesystem discovery rule with FSNAME and FSTYPE LLD filters configured" loading="lazy">
               <div class="project-shot-caption">LLD discovery filter</div>
             </a>
             <a href="screenshots/zabbix-escalation-action.png" target="_blank" rel="noopener" class="project-shot">
-              <img src="screenshots/zabbix-escalation-action.png" alt="Zabbix trigger action showing staged severity-based escalation operations and a recovery operation" loading="lazy">
-              <div class="project-shot-caption">Severity-based escalation</div>
+              <img src="screenshots/zabbix-escalation-action.png" alt="Zabbix trigger action showing staged severity-based escalation operations and the 1h default step duration that caused a timing bug" loading="lazy">
+              <div class="project-shot-caption">Escalation action + bug caught</div>
             </a>
           </div>
           <div class="project-tags">
             <span class="project-tag">Zabbix</span>
             <span class="project-tag">Docker</span>
             <span class="project-tag">LLD Discovery</span>
-            <span class="project-tag">JSONPath Preprocessing</span>
-            <span class="project-tag">RBAC</span>
-            <span class="project-tag">Zabbix API</span>
-            <span class="project-tag">Proxy Architecture</span>
+            <span class="project-tag">Trigger Escalation</span>
           </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; font-style: italic;">In progress in this lab: JSONPath preprocessing, trigger dependencies, secret macros, RBAC, full API rollback discipline, proxy architecture — see the repo README for exact status.</p>
           <a href="https://github.com/dineshravichandiran/zabbix-monitoring-lab" class="project-link" target="_blank" rel="noopener">View repo →</a>
         </div>
       </div>
