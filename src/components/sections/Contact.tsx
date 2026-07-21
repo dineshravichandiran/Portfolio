@@ -1,12 +1,13 @@
 import BackLink from '../ui/BackLink'
 import MagneticLink from '../ui/MagneticLink'
+import Reveal from '../ui/Reveal'
 import { profile } from '../../data/profile'
 
 export default function Contact() {
   return (
     <div className="container pt-8 pb-0">
       <BackLink />
-      <div className="py-12 pb-16 text-center">
+      <Reveal className="py-12 pb-16 text-center">
         <div className="font-mono text-[0.78rem] text-accent tracking-wide mb-4">// Contact</div>
         <h2 className="text-[clamp(1.8rem,4vw,2.6rem)] font-bold tracking-tight mb-5 text-balance">
           Let's build something <span className="text-accent">reliable</span>.
@@ -36,7 +37,7 @@ export default function Contact() {
             Designed &amp; built by {profile.name} · {profile.location}
           </span>
         </div>
-      </div>
+      </Reveal>
     </div>
   )
 }
