@@ -22,13 +22,29 @@ const featured = FEATURED_TITLES.map((title) => keyProjects.find((p) => p.title 
 export default function FeaturedProjectsScroll() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
+  const badgeRefs = useRef<(HTMLSpanElement | null)[]>([])
+  const activeIndexRef = useRef(-1)
+
+  function setActiveBadge(idx: number) {
+    if (activeIndexRef.current === idx) return
+    badgeRefs.current[activeIndexRef.current]?.classList.remove('badge-active')
+    activeIndexRef.current = idx
+    const el = badgeRefs.current[idx]
+    if (!el) return
+    el.classList.add('badge-active')
+    el.classList.remove('badge-blink')
+    void el.offsetWidth
+    el.classList.add('badge-blink')
+  }
 
   useEffect(() => {
     const section = sectionRef.current
     const track = trackRef.current
     if (!section || !track) return
+    setActiveBadge(0)
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
+    const cards = Array.from(track.children) as HTMLElement[]
     const mm = gsap.matchMedia()
 
     mm.add('(min-width: 900px)', () => {
@@ -43,6 +59,21 @@ export default function FeaturedProjectsScroll() {
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onUpdate: () => {
+            const x = Number(gsap.getProperty(track, 'x')) || 0
+            const centerX = section.clientWidth / 2
+            let closest = 0
+            let minDist = Infinity
+            cards.forEach((card, idx) => {
+              const cardCenter = card.offsetLeft + card.offsetWidth / 2 + x
+              const dist = Math.abs(cardCenter - centerX)
+              if (dist < minDist) {
+                minDist = dist
+                closest = idx
+              }
+            })
+            setActiveBadge(closest)
+          },
         },
       })
 
@@ -75,7 +106,12 @@ export default function FeaturedProjectsScroll() {
             >
               <div className="flex justify-between items-start mb-5">
                 <span className="font-mono text-[0.7rem] text-dim uppercase tracking-wide">{p.meta}</span>
-                <span className="font-mono text-xs w-7 h-7 rounded-full border border-panel-border-strong flex items-center justify-center flex-shrink-0 ml-2">
+                <span
+                  ref={(el) => {
+                    badgeRefs.current[i] = el
+                  }}
+                  className="project-badge font-mono text-xs w-7 h-7 rounded-full border border-panel-border-strong flex items-center justify-center flex-shrink-0 ml-2"
+                >
                   {String(i + 1).padStart(2, '0')}
                 </span>
               </div>
