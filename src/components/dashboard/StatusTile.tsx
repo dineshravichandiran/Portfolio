@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useSpotlight } from '../../hooks/useSpotlight'
 
 interface Props {
   to: string
@@ -11,10 +12,13 @@ interface Props {
 }
 
 export default function StatusTile({ to, name, description, metric, metricLabel, status = 'ok', sparkline }: Props) {
+  const { ref, onMouseMove } = useSpotlight<HTMLAnchorElement>()
   return (
     <Link
+      ref={ref}
+      onMouseMove={onMouseMove}
       to={to}
-      className="block bg-panel border border-panel-border rounded-lg p-5 transition-colors hover:border-panel-border-strong"
+      className="spotlight-card block bg-panel border border-panel-border rounded-lg p-5 transition-colors hover:border-panel-border-strong"
     >
       <div className="flex justify-between items-center mb-3">
         <span className="text-sm font-semibold">{name}</span>

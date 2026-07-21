@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom'
 import NavBar from './NavBar'
-import CometCursor from './CometCursor'
+import CustomCursor from './CustomCursor'
 
 export default function Layout() {
   return (
     <>
-      <CometCursor />
+      <CustomCursor />
       <NavBar />
       <main className="pb-24">
         <Outlet />
