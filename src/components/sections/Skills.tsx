@@ -1,5 +1,6 @@
 import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
+import Reveal from '../ui/Reveal'
 import { platforms, toolCategories } from '../../data/skills'
 
 export default function Skills() {
@@ -9,27 +10,29 @@ export default function Skills() {
       <SectionHeader label="03 — Platforms I Support" title="Enterprise PLM, IIoT & AR." />
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] gap-5 mb-14">
-        {platforms.map((p) => (
-          <div key={p.title} className="bg-panel border border-panel-border rounded-md p-5.5">
-            <div className="font-mono text-xs text-accent mb-2.5 flex gap-2 items-center">
-              {p.marker}
-              {p.soon && (
-                <span className="text-[0.65rem] text-warn border border-warn/40 bg-warn/10 px-1.5 py-0.5 rounded-full uppercase">
-                  {p.soon}
-                </span>
-              )}
+        {platforms.map((p, i) => (
+          <Reveal key={p.title} delayMs={i * 60}>
+            <div className="bg-panel border border-panel-border rounded-md p-5.5 h-full">
+              <div className="font-mono text-xs text-accent mb-2.5 flex gap-2 items-center">
+                {p.marker}
+                {p.soon && (
+                  <span className="text-[0.65rem] text-warn border border-warn/40 bg-warn/10 px-1.5 py-0.5 rounded-full uppercase">
+                    {p.soon}
+                  </span>
+                )}
+              </div>
+              <h3 className="text-base font-bold mb-1.5">{p.title}</h3>
+              <div className="text-xs text-dim mb-2.5">{p.type}</div>
+              <div className="text-[0.88rem] text-text-secondary leading-relaxed">{p.desc}</div>
             </div>
-            <h3 className="text-base font-bold mb-1.5">{p.title}</h3>
-            <div className="text-xs text-dim mb-2.5">{p.type}</div>
-            <div className="text-[0.88rem] text-text-secondary leading-relaxed">{p.desc}</div>
-          </div>
+          </Reveal>
         ))}
       </div>
 
       <SectionHeader label="04 — Tech Stack" title="Tools & technologies." />
 
-      {toolCategories.map((cat) => (
-        <div className="mb-8" key={cat.title}>
+      {toolCategories.map((cat, i) => (
+        <Reveal key={cat.title} delayMs={i * 60} className="mb-8">
           <h3 className="text-[0.85rem] font-bold text-text-secondary uppercase tracking-wide mb-3.5">
             {cat.title}
           </h3>
@@ -48,7 +51,7 @@ export default function Skills() {
               </span>
             ))}
           </div>
-        </div>
+        </Reveal>
       ))}
     </div>
   )

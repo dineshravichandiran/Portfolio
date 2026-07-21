@@ -11,7 +11,7 @@ export const platforms: Platform[] = [
   { marker: 'PLM / 02', title: 'Cloud PLM', type: 'SaaS', desc: 'Next-gen cloud PLM with real-time collaboration.' },
   { marker: 'PLM / 03', title: 'Retail PLM', type: 'SaaS', desc: 'Retail & fashion product lifecycle management.' },
   { marker: 'IIoT / 04', title: 'IIoT Platform', type: 'IIoT Platform', desc: 'Industrial IoT monitoring & manufacturing intelligence.' },
-  { marker: 'AR / 05', title: 'AR Platform', type: 'Augmented Reality', desc: 'Enterprise AR platform for spatial computing and industrial work instructions. Expanding my scope to support this next.', soon: 'Onboarding' },
+  { marker: 'AR / 05', title: 'AR Platform', type: 'Augmented Reality', desc: 'Enterprise AR platform for spatial computing and industrial work instructions.' },
 ]
 
 export interface ToolBadge {

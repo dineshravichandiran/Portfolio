@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
+import Reveal from '../ui/Reveal'
 import { branches } from '../../data/tree'
 import { profile } from '../../data/profile'
 
@@ -42,7 +43,7 @@ export default function Tree() {
 
       <div className="relative ml-1.5 mb-8 border-l-2 border-panel-border-strong">
         {branches.map((branch, bi) => (
-          <div key={branch.name} className="relative pb-10 last:pb-0 pl-9">
+          <Reveal key={branch.name} delayMs={bi * 60} className="relative pb-10 last:pb-0 pl-9">
             <span
               className="absolute -left-[7px] top-0.5 w-3 h-3 rounded-full ring-4 ring-bg"
               style={{ background: branch.color }}
@@ -83,7 +84,7 @@ export default function Tree() {
                 )
               })}
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
 
