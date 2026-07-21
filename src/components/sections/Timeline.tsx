@@ -1,12 +1,47 @@
+import { useEffect, useRef } from 'react'
+import type { RefObject } from 'react'
 import { Link } from 'react-router-dom'
 import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
 import Reveal from '../ui/Reveal'
-import { useScrollActive } from '../../hooks/useScrollActive'
 import { useSpotlight } from '../../hooks/useSpotlight'
 import { milestones, type JourneyMilestone } from '../../data/journey'
 
-function MilestoneCard({ m, scrolling, delayMs }: { m: JourneyMilestone; scrolling: boolean; delayMs: number }) {
+function TravelingBall({ trackRef }: { trackRef: RefObject<HTMLDivElement | null> }) {
+  const ballRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    function onScroll() {
+      const track = trackRef.current
+      const ball = ballRef.current
+      if (!track || !ball) return
+      const rect = track.getBoundingClientRect()
+      const focusLine = window.innerHeight * 0.4
+      const progress = Math.min(1, Math.max(0, (focusLine - rect.top) / rect.height))
+      ball.style.top = `${progress * 100}%`
+      ball.style.opacity = rect.bottom > 0 && rect.top < window.innerHeight ? '1' : '0'
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    onScroll()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [trackRef])
+
+  return (
+    <div
+      ref={ballRef}
+      className="absolute left-[5px] sm:left-[7px] w-3.5 h-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent shadow-[0_0_16px_var(--color-accent)] pointer-events-none transition-[top] duration-150 ease-out"
+    />
+  )
+}
+
+function MilestoneCard({ m, delayMs }: { m: JourneyMilestone; delayMs: number }) {
   const { ref, onMouseMove } = useSpotlight<HTMLDivElement>()
 
   return (
@@ -20,7 +55,7 @@ function MilestoneCard({ m, scrolling, delayMs }: { m: JourneyMilestone; scrolli
       <div
         ref={ref}
         onMouseMove={onMouseMove}
-        className={`glass-panel spotlight-card ${scrolling ? 'glow-active' : ''} border border-panel-border rounded-lg p-6 sm:p-7`}
+        className="spotlight-card border border-panel-border bg-panel rounded-lg p-6 sm:p-7"
       >
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <span className={`font-mono text-xs uppercase tracking-wide ${m.current ? 'text-ok' : 'text-accent'}`}>
@@ -58,7 +93,7 @@ function MilestoneCard({ m, scrolling, delayMs }: { m: JourneyMilestone; scrolli
 
 export default function Timeline() {
   const reversed = [...milestones].reverse()
-  const scrolling = useScrollActive()
+  const trackRef = useRef<HTMLDivElement>(null)
 
   return (
     <div className="container py-8 pb-16">
@@ -67,16 +102,17 @@ export default function Timeline() {
 
       <Link
         to="/journey"
-        className={`glass-panel ${scrolling ? 'glow-active' : ''} inline-flex items-center gap-2 mb-14 px-5 py-2.5 rounded-full text-sm font-semibold border border-panel-border-strong text-text hover:border-accent transition-colors`}
+        className="inline-flex items-center gap-2 mb-14 px-5 py-2.5 rounded-full text-sm font-semibold border border-panel-border-strong text-text hover:border-accent transition-colors"
       >
         ↗ Experience this in 3D
       </Link>
 
-      <div className="relative pl-8 sm:pl-12">
-        <div className="absolute left-[5px] sm:left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-accent via-panel-border-strong to-panel-border" />
+      <div ref={trackRef} className="relative pl-8 sm:pl-12">
+        <div className="absolute left-[5px] sm:left-[7px] top-2 bottom-2 w-px bg-panel-border-strong" />
+        <TravelingBall trackRef={trackRef} />
 
         {reversed.map((m, i) => (
-          <MilestoneCard key={m.id} m={m} scrolling={scrolling} delayMs={i * 90} />
+          <MilestoneCard key={m.id} m={m} delayMs={i * 90} />
         ))}
       </div>
     </div>
