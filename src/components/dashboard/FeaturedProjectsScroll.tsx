@@ -39,9 +39,33 @@ export default function FeaturedProjectsScroll() {
 
   useEffect(() => {
     const section = sectionRef.current
+    if (!section) return
+    activeIndexRef.current = 0
+    badgeRefs.current[0]?.classList.add('badge-active')
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          const dot = badgeRefs.current[0]
+          if (dot) {
+            dot.classList.remove('badge-blink')
+            void dot.offsetWidth
+            dot.classList.add('badge-blink')
+          }
+          observer.disconnect()
+        })
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const section = sectionRef.current
     const track = trackRef.current
     if (!section || !track) return
-    setActiveBadge(0)
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const cards = Array.from(track.children) as HTMLElement[]
@@ -59,7 +83,7 @@ export default function FeaturedProjectsScroll() {
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onUpdate: () => {
+          onUpdate: (self) => {
             const x = Number(gsap.getProperty(track, 'x')) || 0
             const centerX = section.clientWidth / 2
             let closest = 0
@@ -72,6 +96,8 @@ export default function FeaturedProjectsScroll() {
                 closest = idx
               }
             })
+            if (self.progress >= 0.97) closest = cards.length - 1
+            else if (self.progress <= 0.03) closest = 0
             setActiveBadge(closest)
           },
         },
