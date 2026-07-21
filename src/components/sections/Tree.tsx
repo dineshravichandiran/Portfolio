@@ -63,9 +63,9 @@ export default function Tree() {
     <div className="container py-8 pb-16">
       <SectionHeader label="06 — Project Tree" title="Everything I've built, branched out." />
       <p className="text-text-secondary text-[1.05rem] leading-relaxed max-w-[680px] mb-10">
-        A git-graph view of my work — one root, five branches: production operations,
-        infrastructure-as-code, personal builds, recognition, and credentials. Click a commit to
-        read more.
+        A git-graph view of my work — one root, five branches, each named the way I'd tag an
+        internal initiative rather than just a folder path (my own naming convention for this
+        page, not an actual company's internal codenames). Click a commit to read more.
       </p>
 
       <div className="flex items-center gap-2.5 mb-8 pb-6 border-b border-panel-border">
@@ -90,11 +90,14 @@ export default function Tree() {
                 className="marker-dot absolute -left-[7px] top-0.5 w-3 h-3 rounded-full ring-4 ring-bg"
                 style={{ background: branch.color }}
               />
-              <div
-                className="inline-block font-mono text-xs font-bold rounded-full border px-3 py-1 mb-4 tracking-wide"
-                style={{ color: branch.color, borderColor: branch.color }}
-              >
-                {branch.name}
+              <div className="flex items-baseline gap-2.5 flex-wrap mb-4">
+                <div
+                  className="inline-block font-mono text-xs font-bold rounded-full border px-3 py-1 tracking-wide"
+                  style={{ color: branch.color, borderColor: branch.color }}
+                >
+                  {branch.name}
+                </div>
+                <span className="font-mono text-[0.68rem] text-dim uppercase tracking-wide">{branch.category}</span>
               </div>
               <div className="flex flex-col gap-2.5 max-w-[620px]">
                 {branch.commits.map((commit, ci) => {
