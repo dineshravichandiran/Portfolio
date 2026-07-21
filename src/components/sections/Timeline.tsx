@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { RefObject } from 'react'
 import { Link } from 'react-router-dom'
-import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
 import Reveal from '../ui/Reveal'
 import { useSpotlight } from '../../hooks/useSpotlight'
@@ -41,22 +40,34 @@ function TravelingBall({ trackRef }: { trackRef: RefObject<HTMLDivElement | null
   )
 }
 
-function MilestoneCard({ m, delayMs }: { m: JourneyMilestone; delayMs: number }) {
+function MilestoneCard({
+  m,
+  delayMs,
+  dotRef,
+  blockRef,
+}: {
+  m: JourneyMilestone
+  delayMs: number
+  dotRef: (el: HTMLSpanElement | null) => void
+  blockRef: (el: HTMLDivElement | null) => void
+}) {
   const { ref, onMouseMove } = useSpotlight<HTMLDivElement>()
 
   return (
     <Reveal delayMs={delayMs} className="relative pb-12 last:pb-0">
-      <span
-        className={`absolute -left-8 sm:-left-12 top-7 w-3.5 h-3.5 rounded-full ring-4 ring-bg ${
-          m.current ? 'bg-ok shadow-[0_0_14px_var(--color-ok)] animate-pulse' : 'bg-panel-border-strong'
-        }`}
-      />
+      <div ref={blockRef}>
+        <span
+          ref={dotRef}
+          className={`marker-dot absolute -left-8 sm:-left-12 top-7 w-3.5 h-3.5 rounded-full ring-4 ring-bg ${
+            m.current ? 'bg-ok shadow-[0_0_14px_var(--color-ok)] animate-pulse' : 'bg-panel-border-strong'
+          }`}
+        />
 
-      <div
-        ref={ref}
-        onMouseMove={onMouseMove}
-        className="spotlight-card border border-panel-border bg-panel rounded-lg p-6 sm:p-7 transition-colors hover:border-accent"
-      >
+        <div
+          ref={ref}
+          onMouseMove={onMouseMove}
+          className="spotlight-card border border-panel-border bg-panel rounded-lg p-6 sm:p-7 transition-colors hover:border-accent"
+        >
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <span className={`font-mono text-xs uppercase tracking-wide ${m.current ? 'text-ok' : 'text-accent'}`}>
             {m.year}
@@ -86,6 +97,7 @@ function MilestoneCard({ m, delayMs }: { m: JourneyMilestone; delayMs: number })
         </div>
 
         <p className="text-text-secondary text-[0.92rem] leading-relaxed">{m.body}</p>
+        </div>
       </div>
     </Reveal>
   )
@@ -94,10 +106,40 @@ function MilestoneCard({ m, delayMs }: { m: JourneyMilestone; delayMs: number })
 export default function Timeline() {
   const reversed = [...milestones].reverse()
   const trackRef = useRef<HTMLDivElement>(null)
+  const dotRefs = useRef<(HTMLSpanElement | null)[]>([])
+  const blockRefs = useRef<(HTMLDivElement | null)[]>([])
+  const activeRef = useRef(-1)
+
+  useEffect(() => {
+    function setActive(idx: number) {
+      if (activeRef.current === idx) return
+      dotRefs.current[activeRef.current]?.classList.remove('marker-active')
+      activeRef.current = idx
+      const dot = dotRefs.current[idx]
+      if (dot) {
+        dot.classList.add('marker-active')
+        dot.classList.remove('marker-blink')
+        void dot.offsetWidth
+        dot.classList.add('marker-blink')
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          const idx = blockRefs.current.findIndex((el) => el === entry.target)
+          if (idx !== -1) setActive(idx)
+        })
+      },
+      { rootMargin: '-35% 0px -55% 0px', threshold: 0 }
+    )
+    blockRefs.current.forEach((el) => el && observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <div className="container py-8 pb-16">
-      <BackLink />
       <SectionHeader label="07 — Career Journey" title="Timeline." />
 
       <Link
@@ -112,7 +154,17 @@ export default function Timeline() {
         <TravelingBall trackRef={trackRef} />
 
         {reversed.map((m, i) => (
-          <MilestoneCard key={m.id} m={m} delayMs={i * 90} />
+          <MilestoneCard
+            key={m.id}
+            m={m}
+            delayMs={i * 90}
+            dotRef={(el) => {
+              dotRefs.current[i] = el
+            }}
+            blockRef={(el) => {
+              blockRefs.current[i] = el
+            }}
+          />
         ))}
       </div>
     </div>

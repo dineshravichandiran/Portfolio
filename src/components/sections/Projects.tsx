@@ -1,4 +1,3 @@
-import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
 import ProjectCard from '../projects/ProjectCard'
 import Reveal from '../ui/Reveal'
@@ -7,7 +6,6 @@ import { keyProjects } from '../../data/projects'
 export default function Projects() {
   return (
     <div className="container py-8 pb-16">
-      <BackLink />
       <SectionHeader label="05 — Key Projects" title="Projects & initiatives I've delivered." />
       <p className="text-text-secondary text-[1.05rem] leading-relaxed max-w-[680px] mb-10">
         Real initiatives I own at PTC — observability, root-cause engineering, and operational

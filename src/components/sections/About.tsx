@@ -1,4 +1,3 @@
-import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
 import Reveal from '../ui/Reveal'
 import SpotlightCard from '../ui/SpotlightCard'
@@ -8,7 +7,6 @@ import { profile } from '../../data/profile'
 export default function About() {
   return (
     <div className="container py-8 pb-16">
-      <BackLink />
       <SectionHeader label="01 — What I Do" title="Daily operations." />
 
       <div className="flex gap-10 items-center flex-wrap mb-12">
