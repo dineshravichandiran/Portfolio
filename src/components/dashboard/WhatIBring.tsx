@@ -24,11 +24,19 @@ export default function WhatIBring() {
             return (
               <Reveal key={c.title} delayMs={i * 70}>
                 <div className={i > 0 ? 'border-t border-panel-border pt-8 mt-8' : ''}>
-                  <button
-                    type="button"
-                    onClick={() => setOpenIndex(open ? null : i)}
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onMouseEnter={() => setOpenIndex(i)}
+                    onFocus={() => setOpenIndex(i)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        setOpenIndex(i)
+                      }
+                    }}
                     aria-expanded={open}
-                    className="relative block w-full text-left bg-transparent border-0 p-0 py-2 md:py-4 cursor-pointer"
+                    className="relative block w-full text-left py-2 md:py-4 cursor-pointer"
                   >
                     <span
                       className={`block font-black uppercase leading-none tracking-tight whitespace-nowrap select-none transition-colors duration-300 ${
@@ -48,7 +56,7 @@ export default function WhatIBring() {
                       {open ? '−' : '+'}
                     </span>
                     <h3 className="sr-only">{c.title}</h3>
-                  </button>
+                  </div>
 
                   <div
                     className="grid transition-[grid-template-rows] duration-300 ease-out"
