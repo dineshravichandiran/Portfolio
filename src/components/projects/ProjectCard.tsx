@@ -1,8 +1,14 @@
 import type { ProjectItem } from '../../data/projects'
+import { useSpotlight } from '../../hooks/useSpotlight'
 
 export default function ProjectCard({ project }: { project: ProjectItem }) {
+  const { ref, onMouseMove } = useSpotlight<HTMLElement>()
   return (
-    <article className="bg-panel border border-panel-border rounded-md px-8 py-7 mb-6">
+    <article
+      ref={ref}
+      onMouseMove={onMouseMove}
+      className="spotlight-card bg-panel border border-panel-border rounded-md px-8 py-7 mb-6"
+    >
       <div className="font-mono text-xs text-dim uppercase tracking-wide mb-3.5 flex gap-2.5 items-center">
         <span className="text-accent font-bold">{project.year}</span>
         {project.meta}
