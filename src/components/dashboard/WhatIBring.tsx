@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import Reveal from '../ui/Reveal'
 import { capabilities } from '../../data/capabilities'
 
 export default function WhatIBring() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0)
+
   return (
     <section className="border-b border-panel-border py-16 overflow-hidden">
       <div className="container">
@@ -16,36 +19,55 @@ export default function WhatIBring() {
         </h2>
 
         <div className="flex flex-col">
-          {capabilities.map((c, i) => (
-            <Reveal key={c.title} delayMs={i * 70}>
-              <div className={i > 0 ? 'border-t border-panel-border pt-8 mt-8' : ''}>
-                <div className="relative py-2 md:py-4">
-                  <div
-                    className="font-black uppercase leading-none tracking-tight text-accent/15 whitespace-nowrap select-none"
-                    style={{ fontSize: 'clamp(2.6rem, 10vw, 7rem)' }}
-                    aria-hidden="true"
+          {capabilities.map((c, i) => {
+            const open = openIndex === i
+            return (
+              <Reveal key={c.title} delayMs={i * 70}>
+                <div className={i > 0 ? 'border-t border-panel-border pt-8 mt-8' : ''}>
+                  <button
+                    type="button"
+                    onClick={() => setOpenIndex(open ? null : i)}
+                    aria-expanded={open}
+                    className="relative block w-full text-left bg-transparent border-0 p-0 py-2 md:py-4 cursor-pointer"
                   >
-                    {c.title}
-                  </div>
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="font-mono text-xs sm:text-sm md:text-base tracking-[0.15em] text-text-secondary uppercase">
-                      {c.tagline}
+                    <span
+                      className={`block font-black uppercase leading-none tracking-tight whitespace-nowrap select-none transition-colors duration-300 ${
+                        open ? 'text-accent/25' : 'text-accent/12'
+                      }`}
+                      style={{ fontSize: 'clamp(2.6rem, 10vw, 7rem)' }}
+                      aria-hidden="true"
+                    >
+                      {c.title}
                     </span>
+                    <span className="absolute inset-0 flex items-center">
+                      <span className="font-mono text-xs sm:text-sm md:text-base tracking-[0.15em] text-text-secondary uppercase">
+                        {c.tagline}
+                      </span>
+                    </span>
+                    <span className="absolute right-1 top-1/2 -translate-y-1/2 font-mono text-lg text-accent">
+                      {open ? '−' : '+'}
+                    </span>
+                    <h3 className="sr-only">{c.title}</h3>
+                  </button>
+
+                  <div
+                    className="grid transition-[grid-template-rows] duration-300 ease-out"
+                    style={{ gridTemplateRows: open ? '1fr' : '0fr' }}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="bg-accent text-white font-mono font-bold text-sm md:text-base px-5 sm:px-7 py-4 mt-1">
+                        {c.bar}
+                      </div>
+                      <div className="flex items-baseline gap-2 mt-3">
+                        <span className="text-lg font-bold font-mono text-ok">{c.stat.value}</span>
+                        <span className="text-xs text-dim uppercase tracking-wide">{c.stat.label}</span>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="sr-only">{c.title}</h3>
                 </div>
-
-                <div className="bg-accent text-white font-mono font-bold text-sm md:text-base px-5 sm:px-7 py-4 mt-1">
-                  {c.bar}
-                </div>
-
-                <div className="flex items-baseline gap-2 mt-3">
-                  <span className="text-lg font-bold font-mono text-ok">{c.stat.value}</span>
-                  <span className="text-xs text-dim uppercase tracking-wide">{c.stat.label}</span>
-                </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            )
+          })}
         </div>
       </div>
     </section>
