@@ -1,14 +1,8 @@
 import type { ProjectItem } from '../../data/projects'
-import { useTilt } from '../../hooks/useTilt'
 
 export default function ProjectCard({ project }: { project: ProjectItem }) {
-  const tiltRef = useTilt<HTMLElement>(4)
   return (
-    <article
-      ref={tiltRef}
-      className="bg-panel border border-panel-border rounded-md px-8 py-7 mb-6"
-      style={{ transition: 'transform 0.3s ease-out' }}
-    >
+    <article className="bg-panel border border-panel-border rounded-md px-8 py-7 mb-6">
       <div className="font-mono text-xs text-dim uppercase tracking-wide mb-3.5 flex gap-2.5 items-center">
         <span className="text-accent font-bold">{project.year}</span>
         {project.meta}
