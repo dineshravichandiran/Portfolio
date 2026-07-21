@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useTilt } from '../../hooks/useTilt'
 
 interface Props {
   to: string
@@ -11,10 +12,13 @@ interface Props {
 }
 
 export default function StatusTile({ to, name, description, metric, metricLabel, status = 'ok', sparkline }: Props) {
+  const tiltRef = useTilt<HTMLAnchorElement>(6)
   return (
     <Link
+      ref={tiltRef}
       to={to}
-      className="block bg-panel border border-panel-border rounded-lg p-5 hover:border-panel-border-strong transition-colors"
+      className="block bg-panel border border-panel-border rounded-lg p-5 hover:border-panel-border-strong"
+      style={{ transition: 'transform 0.3s ease-out, border-color 0.15s' }}
     >
       <div className="flex justify-between items-center mb-3">
         <span className="text-sm font-semibold">{name}</span>

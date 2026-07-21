@@ -1,5 +1,6 @@
 import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
+import TiltCard from '../ui/TiltCard'
 import { platforms, toolCategories } from '../../data/skills'
 
 export default function Skills() {
@@ -10,7 +11,7 @@ export default function Skills() {
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] gap-5 mb-14">
         {platforms.map((p) => (
-          <div key={p.title} className="bg-panel border border-panel-border rounded-md p-5.5">
+          <TiltCard key={p.title} className="bg-panel border border-panel-border rounded-md p-5.5">
             <div className="font-mono text-xs text-accent mb-2.5 flex gap-2 items-center">
               {p.marker}
               {p.soon && (
@@ -22,7 +23,7 @@ export default function Skills() {
             <h3 className="text-base font-bold mb-1.5">{p.title}</h3>
             <div className="text-xs text-dim mb-2.5">{p.type}</div>
             <div className="text-[0.88rem] text-text-secondary leading-relaxed">{p.desc}</div>
-          </div>
+          </TiltCard>
         ))}
       </div>
 
