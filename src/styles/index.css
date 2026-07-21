@@ -69,3 +69,40 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* RGB-split "glitch" flicker, toggled briefly on scroll */
+@keyframes glitch-flicker {
+  0%,
+  100% {
+    text-shadow: none;
+    transform: translate(0, 0);
+  }
+  20% {
+    text-shadow:
+      -2px 0 rgba(255, 40, 90, 0.85),
+      2px 0 rgba(80, 220, 255, 0.85);
+    transform: translate(-1px, 0);
+  }
+  40% {
+    text-shadow:
+      2px 0 rgba(255, 40, 90, 0.85),
+      -2px 0 rgba(80, 220, 255, 0.85);
+    transform: translate(1px, 0);
+  }
+  60% {
+    text-shadow:
+      -1px 0 rgba(255, 40, 90, 0.6),
+      1px 0 rgba(80, 220, 255, 0.6);
+    transform: translate(0, 1px);
+  }
+  80% {
+    text-shadow:
+      1px 0 rgba(255, 40, 90, 0.6),
+      -1px 0 rgba(80, 220, 255, 0.6);
+    transform: translate(0, -1px);
+  }
+}
+
+.glitch-active {
+  animation: glitch-flicker 0.4s steps(2, end) 1;
+}

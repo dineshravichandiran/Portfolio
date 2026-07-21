@@ -3,9 +3,11 @@ import StatCounter from './StatCounter'
 import MagneticLink from '../ui/MagneticLink'
 import { profile } from '../../data/profile'
 import { useTilt } from '../../hooks/useTilt'
+import { useScrollGlitch } from '../../hooks/useScrollGlitch'
 
 export default function Hero() {
   const nowTiltRef = useTilt<HTMLDivElement>(3)
+  const glitching = useScrollGlitch()
 
   return (
     <section className="relative border-b border-panel-border pt-16 pb-14 overflow-hidden">
@@ -27,7 +29,9 @@ export default function Hero() {
           {profile.tag}
         </div>
 
-        <h1 className="text-[clamp(2rem,5vw,3.2rem)] font-bold leading-[1.15] tracking-tight text-balance max-w-4xl mb-6">
+        <h1
+          className={`text-[clamp(2rem,5vw,3.2rem)] font-bold leading-[1.15] tracking-tight text-balance max-w-4xl mb-6 ${glitching ? 'glitch-active' : ''}`}
+        >
           {profile.headline}
         </h1>
 
