@@ -6,13 +6,13 @@ export default function WhatIBring() {
     <section className="border-b border-panel-border py-16 overflow-hidden">
       <div className="container">
         <div className="flex items-center gap-4 mb-2">
-          <span className="font-mono text-xs text-warn uppercase tracking-[0.2em] whitespace-nowrap">
+          <span className="font-mono text-xs text-accent uppercase tracking-[0.2em] whitespace-nowrap">
             // Showcase
           </span>
           <span className="flex-1 h-px bg-panel-border-strong" />
         </div>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12">
-          What I <span className="text-warn">Bring</span>
+          What I <span className="text-accent">Bring</span>
         </h2>
 
         <div className="flex flex-col">
@@ -21,7 +21,7 @@ export default function WhatIBring() {
               <div className={i > 0 ? 'border-t border-panel-border pt-8 mt-8' : ''}>
                 <div className="relative py-2 md:py-4">
                   <div
-                    className="font-black uppercase leading-none tracking-tight text-warn/15 whitespace-nowrap select-none"
+                    className="font-black uppercase leading-none tracking-tight text-accent/15 whitespace-nowrap select-none"
                     style={{ fontSize: 'clamp(2.6rem, 10vw, 7rem)' }}
                     aria-hidden="true"
                   >
@@ -35,7 +35,7 @@ export default function WhatIBring() {
                   <h3 className="sr-only">{c.title}</h3>
                 </div>
 
-                <div className="bg-warn text-bg font-mono font-bold text-sm md:text-base px-5 sm:px-7 py-4 mt-1">
+                <div className="bg-accent text-white font-mono font-bold text-sm md:text-base px-5 sm:px-7 py-4 mt-1">
                   {c.bar}
                 </div>
 

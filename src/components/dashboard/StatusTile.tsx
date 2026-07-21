@@ -18,7 +18,7 @@ export default function StatusTile({ to, name, description, metric, metricLabel,
       ref={ref}
       onMouseMove={onMouseMove}
       to={to}
-      className="spotlight-card block bg-panel border border-panel-border rounded-lg p-5 transition-colors hover:border-panel-border-strong"
+      className="spotlight-card block bg-panel border border-panel-border rounded-lg p-5 transition-colors hover:border-accent"
     >
       <div className="flex justify-between items-center mb-3">
         <span className="text-sm font-semibold">{name}</span>

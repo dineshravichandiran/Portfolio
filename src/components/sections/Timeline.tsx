@@ -55,7 +55,7 @@ function MilestoneCard({ m, delayMs }: { m: JourneyMilestone; delayMs: number })
       <div
         ref={ref}
         onMouseMove={onMouseMove}
-        className="spotlight-card border border-panel-border bg-panel rounded-lg p-6 sm:p-7"
+        className="spotlight-card border border-panel-border bg-panel rounded-lg p-6 sm:p-7 transition-colors hover:border-accent"
       >
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <span className={`font-mono text-xs uppercase tracking-wide ${m.current ? 'text-ok' : 'text-accent'}`}>

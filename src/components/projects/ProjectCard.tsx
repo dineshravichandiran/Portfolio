@@ -7,7 +7,7 @@ export default function ProjectCard({ project }: { project: ProjectItem }) {
     <article
       ref={ref}
       onMouseMove={onMouseMove}
-      className="spotlight-card bg-panel border border-panel-border rounded-md px-8 py-7 mb-6"
+      className="spotlight-card bg-panel border border-panel-border rounded-md px-8 py-7 mb-6 transition-colors hover:border-accent"
     >
       <div className="font-mono text-xs text-dim uppercase tracking-wide mb-3.5 flex gap-2.5 items-center">
         <span className="text-accent font-bold">{project.year}</span>
