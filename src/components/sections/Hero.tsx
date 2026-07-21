@@ -3,11 +3,11 @@ import StatCounter from './StatCounter'
 import MagneticLink from '../ui/MagneticLink'
 import { profile } from '../../data/profile'
 import { useTilt } from '../../hooks/useTilt'
-import { useScrollGlitch } from '../../hooks/useScrollGlitch'
+import { useScrollActive } from '../../hooks/useScrollActive'
 
 export default function Hero() {
   const nowTiltRef = useTilt<HTMLDivElement>(3)
-  const glitching = useScrollGlitch()
+  const scrolling = useScrollActive()
 
   return (
     <section className="relative border-b border-panel-border pt-16 pb-14 overflow-hidden">
@@ -29,9 +29,7 @@ export default function Hero() {
           {profile.tag}
         </div>
 
-        <h1
-          className={`text-[clamp(2rem,5vw,3.2rem)] font-bold leading-[1.15] tracking-tight text-balance max-w-4xl mb-6 ${glitching ? 'glitch-active' : ''}`}
-        >
+        <h1 className="text-[clamp(2rem,5vw,3.2rem)] font-bold leading-[1.15] tracking-tight text-balance max-w-4xl mb-6">
           {profile.headline}
         </h1>
 
@@ -65,7 +63,7 @@ export default function Hero() {
 
         <div
           ref={nowTiltRef}
-          className="border border-panel-border rounded-lg bg-panel max-w-[760px] overflow-hidden mb-16 shadow-sm"
+          className={`glass-panel ${scrolling ? 'glow-active' : ''} border border-panel-border rounded-lg max-w-[760px] overflow-hidden mb-16`}
           style={{ transition: 'transform 0.3s ease-out' }}
         >
           <div className="flex items-center gap-1.5 px-4 py-2.5 bg-panel-hover border-b border-panel-border">
