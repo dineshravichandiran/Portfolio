@@ -138,3 +138,28 @@ body {
   position: relative;
   z-index: 1;
 }
+
+/* Featured-project index badge: lights up and flashes as the scroll-jacked card becomes active */
+.project-badge {
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-badge.badge-active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-tint);
+  box-shadow: 0 0 12px rgba(62, 142, 222, 0.45);
+}
+
+.project-badge.badge-blink {
+  animation: badge-blink-flash 0.45s ease-in-out 2;
+}
+
+@keyframes badge-blink-flash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
