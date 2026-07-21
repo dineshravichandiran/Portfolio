@@ -1299,7 +1299,6 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   const infoNavCounter = document.getElementById('infoNavCounter')!
   const prevBtn = document.getElementById('prevMilestoneBtn') as HTMLButtonElement
   const nextBtn = document.getElementById('nextMilestoneBtn') as HTMLButtonElement
-  const orbitToggleBtn = document.getElementById('orbitToggleBtn') as HTMLButtonElement
   const loaderEl = document.getElementById('journeyLoader')
 
   function rideTo(index: number) {
@@ -1422,10 +1421,6 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   const raycaster = new THREE.Raycaster()
   const pointer = new THREE.Vector2()
 
-  function refreshOrbitBtnLabel() {
-    orbitToggleBtn.textContent = cameraMode === 'orbit' ? '✕ Exit 360° View' : '◉ 360° View'
-  }
-
   function setOrbitMode(on: boolean) {
     cameraMode = on ? 'orbit' : 'follow'
     if (on) {
@@ -1434,7 +1429,6 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     } else {
       hideOrbitHint()
     }
-    refreshOrbitBtnLabel()
   }
 
   function onOrbitHintClick() {
@@ -1515,12 +1509,6 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   }
   window.addEventListener('keydown', onKeyDown)
 
-  function onOrbitToggleClick(e: MouseEvent) {
-    e.stopPropagation()
-    setOrbitMode(cameraMode !== 'orbit')
-  }
-  orbitToggleBtn.addEventListener('click', onOrbitToggleClick)
-
   // ====================================================
   // START
   // ====================================================
@@ -1548,7 +1536,6 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     canvas.removeEventListener('touchend', onCanvasTouchEnd)
     prevBtn.removeEventListener('click', onPrevClick)
     nextBtn.removeEventListener('click', onNextClick)
-    orbitToggleBtn.removeEventListener('click', onOrbitToggleClick)
     document.getElementById('orbitHint')?.remove()
 
     scene.traverse((obj) => {

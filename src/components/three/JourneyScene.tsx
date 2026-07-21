@@ -52,10 +52,6 @@ export default function JourneyScene() {
           </button>
         </div>
       </div>
-
-      <button type="button" className="journey-orbit-btn" id="orbitToggleBtn">
-        ◉ 360° View
-      </button>
     </div>
   )
 }

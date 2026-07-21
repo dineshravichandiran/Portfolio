@@ -47,27 +47,6 @@
   color: var(--j-accent);
 }
 
-.journey-orbit-btn {
-  position: fixed;
-  right: 1.5rem;
-  bottom: 1.5rem;
-  z-index: 10;
-  padding: 0.7rem 1.3rem;
-  border-radius: 100px;
-  cursor: pointer;
-  background: rgba(30, 58, 138, 0.95);
-  color: white;
-  border: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.35);
-  backdrop-filter: blur(8px);
-  transition: transform 0.2s;
-}
-
 .info-panel {
   position: fixed;
   bottom: 1.5rem;
