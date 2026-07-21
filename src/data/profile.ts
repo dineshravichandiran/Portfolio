@@ -1,3 +1,7 @@
+import { getYearsExperience } from '../utils/experience'
+
+const experience = getYearsExperience()
+
 export const profile = {
   name: 'Dinesh Ravichandiran',
   role: 'Cloud & Reliability Engineer',
@@ -8,7 +12,7 @@ export const profile = {
   tag: 'Building in-demand cloud & reliability skills — open to the right opportunity',
   now: "Currently a Cloud Services Specialist NOC Engineer at PTC, running 24×7 production operations across enterprise PLM, IIoT, and microservice infrastructure on AKS. I learn new technologies fast and apply them under real production pressure — and I keep growing through an MBA in Information Systems & Analytics, hands-on labs, and continuous self-study. Give me a challenging problem and a team to grow with, and I will deliver.",
   stats: [
-    { value: 3, suffix: '+', label: 'Years' },
+    { value: experience.value, suffix: '+', decimals: experience.decimals, label: 'Years' },
     { value: 5000, suffix: '+', comma: true, label: 'Incidents' },
     { value: 99.9, suffix: '%', decimals: 1, label: 'Uptime' },
     { value: 50, suffix: '+', label: 'Fortune 500 Customers' },

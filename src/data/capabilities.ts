@@ -1,3 +1,5 @@
+import { getYearsExperienceLabel } from '../utils/experience'
+
 export interface Capability {
   title: string
   tagline: string
@@ -28,6 +30,6 @@ export const capabilities: Capability[] = [
     title: 'Cloud & Ops',
     tagline: 'AWS · Azure · Kubernetes',
     bar: 'AKS · Linux (RHEL) · PLM Platforms',
-    stat: { value: '3+', label: 'years in production' },
+    stat: { value: getYearsExperienceLabel(), label: 'years in production' },
   },
 ]
