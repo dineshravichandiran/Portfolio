@@ -2629,6 +2629,53 @@ nav .nav-links a,
 
       <div class="project-item">
         <div class="project-meta">
+          <span class="meta-year">Self-Directed</span>
+          Event-Driven Automation · Salt
+        </div>
+        <div class="project-content">
+          <h3>Salt Self-Healing Memory Guard</h3>
+          <div class="project-impact">Real detect &rarr; restart &rarr; log loop &mdash; 3 consecutive cycles verified live, no human involved</div>
+          <p class="project-desc">
+            Built after years of watching memory/OOM alerts get resolved the same way in production: a service leaks, someone eventually restarts it. This closes that loop with Salt's event-driven model instead of a human on call &mdash; a beacon watches a specific process's memory, a reactor restarts it the moment it crosses a threshold, before the kernel OOM-killer does it the hard way.
+          </p>
+          <div class="project-flow">
+            <div class="flow-step">
+              <div class="flow-label">Problem</div>
+              <div class="flow-text">Salt's built-in <code>memusage</code> beacon only watches total system memory, not a specific leaking service &mdash; the more common real-world failure. Needed a beacon that watches one named process, and a reactor that actually remediates, not just alerts.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Action</div>
+              <div class="flow-text">Wrote a custom Salt beacon module (psutil-based per-process RSS check) and a reactor that restarts the service and logs the remediation with PID and memory at the moment of action. Stood up a real salt-master + salt-minion pair in a GitHub Codespace and tested it live &mdash; found and fixed two real bugs along the way: a dead bootstrap URL (decommissioned in Jan 2025) and a reactor event-tag glob that silently never matched the beacon's actual event tag, so the beacon was firing correctly while the reactor sat there doing nothing.</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-label">Result</div>
+              <div class="flow-text">Three consecutive detect &rarr; restart &rarr; log cycles observed back to back on a genuinely leaking demo process &mdash; each restart resets memory to baseline and appends an auditable log line, same "provable, not assumed" standard as the AWS self-healing infra project.</div>
+            </div>
+          </div>
+          <div class="project-shots">
+            <a href="screenshots/salt-beacon-firing.png" target="_blank" rel="noopener" class="project-shot">
+              <img src="screenshots/salt-beacon-firing.png" alt="salt-run state.event showing the custom proc_memory beacon firing real high_memory events with live RSS readings from psutil" loading="lazy">
+              <div class="project-shot-caption">Beacon firing real events, not simulated</div>
+            </a>
+            <a href="screenshots/salt-reactor-remediation.png" target="_blank" rel="noopener" class="project-shot">
+              <img src="screenshots/salt-reactor-remediation.png" alt="self-healing-memory.log showing three REMEDIATED entries and systemctl status confirming the service is on its third restart with memory back at baseline" loading="lazy">
+              <div class="project-shot-caption">Three remediation cycles, back to back</div>
+            </a>
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">Salt</span>
+            <span class="project-tag">Beacons &amp; Reactors</span>
+            <span class="project-tag">Event-Driven</span>
+            <span class="project-tag">Python</span>
+            <span class="project-tag">systemd</span>
+            <span class="project-tag">Docker</span>
+          </div>
+          <a href="https://github.com/dineshravichandiran/salt-self-healing-memory" class="project-link" target="_blank" rel="noopener">View repo →</a>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-meta">
           <span class="meta-year">2.5+ yrs</span>
           Root Cause · Performance
         </div>
@@ -3685,6 +3732,12 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
           meta: 'Self-Directed · Ansible',
           desc: 'Idempotent playbook to onboard a fresh host into Zabbix monitoring with a hardened baseline (chrony, scoped UFW, unattended upgrades, log rotation). Tested against real systemd containers — found and fixed two real bugs (a crash-looping service from a wrong log path, and a live timestamp silently breaking idempotency). A clean re-run reports changed=0, and the agent was verified with real zabbix_get queries, not assumed.',
           link: 'https://github.com/dineshravichandiran/ansible-zabbix-baseline'
+        },
+        {
+          title: 'Salt Self-Healing Memory Guard',
+          meta: 'Self-Directed · Salt',
+          desc: 'Custom Salt beacon watches a named process\'s memory and a reactor restarts it before an OOM kill — closing the loop production incidents usually need a human for. Tested live in a Codespace against a real salt-master/minion pair; found and fixed two real bugs (a decommissioned bootstrap URL, and a reactor event-tag glob that silently never matched the beacon\'s actual tag). Three consecutive detect-restart-log cycles verified back to back.',
+          link: 'https://github.com/dineshravichandiran/salt-self-healing-memory'
         }
       ]
     },
