@@ -1,6 +1,7 @@
 import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
 import ProjectCard from '../projects/ProjectCard'
+import Reveal from '../ui/Reveal'
 import { keyProjects } from '../../data/projects'
 
 export default function Projects() {
@@ -23,8 +24,10 @@ export default function Projects() {
         </a>
         .
       </p>
-      {keyProjects.map((project) => (
-        <ProjectCard project={project} key={project.title} />
+      {keyProjects.map((project, i) => (
+        <Reveal key={project.title} delayMs={Math.min(i, 4) * 70}>
+          <ProjectCard project={project} />
+        </Reveal>
       ))}
     </div>
   )

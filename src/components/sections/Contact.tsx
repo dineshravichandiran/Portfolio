@@ -1,4 +1,5 @@
 import BackLink from '../ui/BackLink'
+import MagneticLink from '../ui/MagneticLink'
 import { profile } from '../../data/profile'
 
 export default function Contact() {
@@ -17,16 +18,16 @@ export default function Contact() {
         </p>
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           {profile.socialLinks.map((link) => (
-            <a
+            <MagneticLink
               key={link.label}
               href={link.href}
-              className="bg-panel border border-panel-border rounded-full px-5 py-2.5 text-sm font-semibold text-text-secondary hover:border-accent hover:text-accent transition-colors"
+              className="bg-panel border border-panel-border rounded-full px-5 py-2.5 text-sm font-semibold text-text-secondary hover:border-accent hover:text-accent"
               target={link.href.startsWith('http') ? '_blank' : undefined}
               rel={link.href.startsWith('http') ? 'noopener' : undefined}
               download={link.download}
             >
               {link.label}
-            </a>
+            </MagneticLink>
           ))}
         </div>
         <div className="flex justify-center gap-6 flex-wrap text-xs text-dim border-t border-panel-border pt-6">
