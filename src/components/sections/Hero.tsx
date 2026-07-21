@@ -2,11 +2,9 @@ import HeroGlobe from '../three/HeroGlobe'
 import StatCounter from './StatCounter'
 import MagneticLink from '../ui/MagneticLink'
 import { profile } from '../../data/profile'
-import { useTilt } from '../../hooks/useTilt'
 import { useScrollActive } from '../../hooks/useScrollActive'
 
 export default function Hero() {
-  const nowTiltRef = useTilt<HTMLDivElement>(3)
   const scrolling = useScrollActive()
 
   return (
@@ -62,9 +60,7 @@ export default function Hero() {
         </div>
 
         <div
-          ref={nowTiltRef}
           className={`glass-panel ${scrolling ? 'glow-active' : ''} border border-panel-border rounded-lg max-w-[760px] overflow-hidden mb-16`}
-          style={{ transition: 'transform 0.3s ease-out' }}
         >
           <div className="flex items-center gap-1.5 px-4 py-2.5 bg-panel-hover border-b border-panel-border">
             <span className="w-2.5 h-2.5 rounded-full bg-crit/70" />

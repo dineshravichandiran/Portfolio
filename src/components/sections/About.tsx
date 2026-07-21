@@ -1,6 +1,5 @@
 import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
-import TiltCard from '../ui/TiltCard'
 import Reveal from '../ui/Reveal'
 import { aboutCards, aboutIntro } from '../../data/about'
 import { profile } from '../../data/profile'
@@ -33,11 +32,11 @@ export default function About() {
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
         {aboutCards.map((card, i) => (
           <Reveal key={card.number} delayMs={i * 60}>
-            <TiltCard className="bg-panel border border-panel-border rounded-md p-6 h-full hover:border-panel-border-strong">
+            <div className="bg-panel border border-panel-border rounded-md p-6 h-full transition-colors hover:border-panel-border-strong">
               <div className="font-mono text-xs text-accent mb-3">{card.number}</div>
               <h3 className="text-[1.05rem] font-bold mb-2.5">{card.title}</h3>
               <p className="text-text-secondary text-sm leading-relaxed">{card.body}</p>
-            </TiltCard>
+            </div>
           </Reveal>
         ))}
       </div>
