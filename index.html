@@ -36,6 +36,8 @@
   --accent-hover: #56d364;
   --accent-light: #10241b;
   --hover-tint: #131c27;
+  --accent-amber: #fbbf24;
+  --accent-amber-light: #2b2110;
 }
 
 /* ===== MOVIE-STYLE LOADING SCREEN ===== */
@@ -445,8 +447,19 @@ section:last-of-type { border-bottom: none; }
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--accent);
+  color: var(--accent-amber);
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  max-width: 140px;
+  background: linear-gradient(90deg, var(--border-strong), transparent);
 }
 
 .section-title {
@@ -525,17 +538,44 @@ section:last-of-type { border-bottom: none; }
   .hero-3d-canvas { display: none; }
 }
 
+.hero-prompt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.1rem;
+  letter-spacing: 0.01em;
+}
+
+.hero-prompt .prompt-user { color: var(--accent-amber); }
+
+.hero-prompt .cursor {
+  display: inline-block;
+  width: 0.55em;
+  background: var(--accent-amber);
+  margin-left: 0.15em;
+  animation: blink-cursor 1.1s step-end infinite;
+}
+
+@keyframes blink-cursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
 .hero-tag {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
-  color: var(--accent);
+  color: var(--accent-amber);
   font-weight: 600;
   margin-bottom: 2rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 100px;
+  background: var(--accent-amber-light);
   transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
 }
@@ -543,9 +583,9 @@ section:last-of-type { border-bottom: none; }
 .hero-tag .indicator {
   width: 6px;
   height: 6px;
-  background: var(--accent);
+  background: var(--accent-amber);
   border-radius: 50%;
-  box-shadow: 0 0 8px var(--accent);
+  box-shadow: 0 0 8px var(--accent-amber);
   animation: pulse 2s ease-in-out infinite;
 }
 
@@ -645,15 +685,14 @@ section:last-of-type { border-bottom: none; }
   box-shadow: 0 6px 16px rgba(63, 185, 80, 0.18);
 }
 
-/* ===== NOW STATUS ===== */
+/* ===== NOW STATUS (terminal-window styling) ===== */
 .now-status {
   border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
   border-radius: 8px;
-  padding: 1.5rem;
   background: var(--surface);
   margin-bottom: 4rem;
   max-width: 760px;
+  overflow: hidden;
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
   transform-style: preserve-3d;
   will-change: transform;
@@ -661,14 +700,41 @@ section:last-of-type { border-bottom: none; }
 }
 
 .now-status:hover {
-  box-shadow: 0 10px 30px rgba(63, 185, 80, 0.12);
+  box-shadow: 0 10px 30px rgba(251, 191, 36, 0.1);
 }
+
+.now-status .now-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1rem;
+  background: var(--hover-tint);
+  border-bottom: 1px solid var(--border);
+}
+
+.now-status .now-titlebar .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+.now-status .now-titlebar .dot:nth-child(1) { background: #ff5f56; }
+.now-status .now-titlebar .dot:nth-child(2) { background: #ffbd2e; }
+.now-status .now-titlebar .dot:nth-child(3) { background: #27c93f; }
+
+.now-status .now-titlebar .now-path {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+}
+
+.now-status .now-body { padding: 1.5rem; }
 
 .now-status .now-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-amber);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin-bottom: 0.6rem;
@@ -1023,7 +1089,10 @@ section:last-of-type { border-bottom: none; }
   border-top: 1px solid var(--border);
 }
 
+.projects-list { counter-reset: proj; }
+
 .project-item {
+  counter-increment: proj;
   padding: 2.5rem 0;
   border-bottom: 1px solid var(--border);
   display: grid;
@@ -1040,6 +1109,17 @@ section:last-of-type { border-bottom: none; }
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+.project-meta::before {
+  content: counter(proj, decimal-leading-zero);
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-amber);
+  opacity: 0.5;
+  letter-spacing: 0;
+  margin-bottom: 0.5rem;
 }
 
 .project-meta .meta-year {
@@ -1059,11 +1139,15 @@ section:last-of-type { border-bottom: none; }
 
 .project-impact {
   font-size: 0.92rem;
-  color: var(--accent);
+  color: var(--accent-amber);
   font-weight: 700;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border);
+}
+
+.project-impact::before {
+  content: '↑ ';
 }
 
 .project-content .project-desc {
@@ -1656,13 +1740,37 @@ footer {
   border-top: 1px solid var(--border-strong);
 }
 
+footer .footer-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent-amber);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+footer .footer-eyebrow::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  max-width: 140px;
+  background: linear-gradient(90deg, var(--border-strong), transparent);
+}
+
 footer h2 {
-  font-size: 2.2rem;
+  font-size: 2.6rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
   color: var(--text);
 }
+
+footer h2 .highlight { color: var(--accent-amber); }
 
 footer .footer-lede {
   color: var(--text-secondary);
@@ -2017,6 +2125,7 @@ nav .nav-links a,
   <section class="hero" id="hero">
     <canvas class="hero-3d-canvas" id="hero3d"></canvas>
     <div class="hero-content">
+    <div class="hero-prompt"><span class="prompt-user">dinesh@ops</span>:~$ whoami<span class="cursor">&nbsp;</span></div>
     <div class="hero-tag">
       <span class="indicator"></span>
       Building in-demand cloud &amp; reliability skills — open to the right opportunity
@@ -2030,9 +2139,15 @@ nav .nav-links a,
     </div>
 
     <div class="now-status">
+      <div class="now-titlebar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="now-path">dinesh@ops:~$ cat now.txt</span>
+      </div>
+      <div class="now-body">
       <div class="now-label">Now</div>
       <div class="now-content">
-        Currently a <strong>Cloud Services Specialist NOC Engineer</strong> at PTC, running 24×7 production operations for Windchill, ThingWorx &amp; FlexPLM plus microservice infrastructure on AKS. I learn new technologies fast and apply them under real production pressure — and I keep growing through an MBA in Information Systems &amp; Analytics, hands-on labs, and continuous self-study. Give me a challenging problem and a team to grow with, and I will deliver.
+        Currently a <strong>Cloud Services Specialist NOC Engineer</strong> at PTC, running 24×7 production operations across enterprise PLM, IIoT, and microservice infrastructure on AKS. I learn new technologies fast and apply them under real production pressure — and I keep growing through an MBA in Information Systems &amp; Analytics, hands-on labs, and continuous self-study. Give me a challenging problem and a team to grow with, and I will deliver.
+      </div>
       </div>
     </div>
 
@@ -2273,33 +2388,33 @@ nav .nav-links a,
     <div class="platforms-grid">
       <div class="platform-card">
         <div class="platform-marker">PLM / 01</div>
-        <h3>Windchill</h3>
+        <h3>Private-Cloud PLM</h3>
         <div class="platform-type">Private Cloud</div>
-        <div class="platform-desc">Core PLM for aerospace, automotive &amp; manufacturing.</div>
+        <div class="platform-desc">Core product lifecycle management for aerospace, automotive &amp; manufacturing.</div>
       </div>
       <div class="platform-card">
         <div class="platform-marker">PLM / 02</div>
-        <h3>Windchill+</h3>
+        <h3>Cloud PLM</h3>
         <div class="platform-type">SaaS</div>
         <div class="platform-desc">Next-gen cloud PLM with real-time collaboration.</div>
       </div>
       <div class="platform-card">
         <div class="platform-marker">PLM / 03</div>
-        <h3>FlexPLM</h3>
+        <h3>Retail PLM</h3>
         <div class="platform-type">SaaS</div>
         <div class="platform-desc">Retail &amp; fashion product lifecycle management.</div>
       </div>
       <div class="platform-card">
         <div class="platform-marker">IIoT / 04</div>
-        <h3>ThingWorx</h3>
+        <h3>IIoT Platform</h3>
         <div class="platform-type">IIoT Platform</div>
         <div class="platform-desc">Industrial IoT monitoring &amp; manufacturing intelligence.</div>
       </div>
       <div class="platform-card">
         <div class="platform-marker">AR / 05 <span class="platform-soon">Onboarding</span></div>
-        <h3>Vuforia</h3>
+        <h3>AR Platform</h3>
         <div class="platform-type">Augmented Reality</div>
-        <div class="platform-desc">PTC's enterprise AR platform for spatial computing and industrial work instructions. Expanding my scope to support this next.</div>
+        <div class="platform-desc">Enterprise AR platform for spatial computing and industrial work instructions. Expanding my scope to support this next.</div>
       </div>
     </div>
   </section>
@@ -3045,7 +3160,8 @@ nav .nav-links a,
   <div class="tab-panel" id="tab-contact">
   <!-- CONTACT -->
   <footer id="contact">
-    <h2>Let's connect.</h2>
+    <div class="footer-eyebrow">// Contact</div>
+    <h2>Let's build something <span class="highlight">reliable</span>.</h2>
     <p class="footer-lede">Open to <strong>Cloud, SRE, DevOps &amp; Platform Engineering</strong> roles. I solve real production problems, learn fast, and take ownership. If you're hiring someone reliable who keeps growing, let's talk.</p>
     <div class="social-links">
       <a href="mailto:dineshravichandiran0808@gmail.com" class="social-link">Email</a>
