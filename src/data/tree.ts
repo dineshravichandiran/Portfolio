@@ -7,13 +7,15 @@ export interface TreeCommit {
 
 export interface TreeBranch {
   name: string
+  category: string
   color: string
   commits: TreeCommit[]
 }
 
 export const branches: TreeBranch[] = [
   {
-    name: 'cloud-infra-ops',
+    name: 'Project Sentinel',
+    category: 'Cloud Infrastructure & Ops',
     color: '#3fb950',
     commits: [
       {
@@ -34,7 +36,8 @@ export const branches: TreeBranch[] = [
     ],
   },
   {
-    name: 'devops-iac',
+    name: 'Project Forge',
+    category: 'DevOps & Infrastructure-as-Code',
     color: '#58a6ff',
     commits: [
       {
@@ -70,7 +73,8 @@ export const branches: TreeBranch[] = [
     ],
   },
   {
-    name: 'personal-builds',
+    name: 'Project Beacon',
+    category: 'Personal Builds',
     color: '#d29922',
     commits: [
       {
@@ -81,7 +85,8 @@ export const branches: TreeBranch[] = [
     ],
   },
   {
-    name: 'hackathon',
+    name: 'Project Antigen',
+    category: 'Recognition & Awards',
     color: '#f85149',
     commits: [
       {
@@ -92,7 +97,8 @@ export const branches: TreeBranch[] = [
     ],
   },
   {
-    name: 'certs-education',
+    name: 'Project Ascent',
+    category: 'Certifications & Education',
     color: '#a371f7',
     commits: [
       { title: 'Azure Fundamentals (AZ-900)', meta: 'Microsoft Certified · 2023', desc: 'Core Azure cloud concepts, services, and pricing.' },
