@@ -11,8 +11,8 @@ function Badge({ b }: { b: ToolBadge }) {
     <span
       ref={ref}
       onMouseMove={onMouseMove}
-      className={`spotlight-card inline-flex items-center gap-1.75 bg-panel border rounded-full px-3.5 py-1.5 text-[0.82rem] ${
-        b.learning ? 'border-warn/40 text-warn' : 'border-panel-border text-text-secondary'
+      className={`spotlight-card inline-flex items-center gap-1.75 bg-panel border rounded-full px-3.5 py-1.5 text-[0.82rem] transition-colors ${
+        b.learning ? 'border-warn/40 text-warn hover:border-warn' : 'border-panel-border text-text-secondary hover:border-accent'
       }`}
     >
       {b.icon && <img src={b.icon} alt="" className="w-3.5 h-3.5" />}
@@ -30,7 +30,7 @@ export default function Skills() {
       <div className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] gap-5 mb-14">
         {platforms.map((p, i) => (
           <Reveal key={p.title} delayMs={i * 60}>
-            <SpotlightCard className="bg-panel border border-panel-border rounded-md p-5.5 h-full">
+            <SpotlightCard className="bg-panel border border-panel-border rounded-md p-5.5 h-full transition-colors hover:border-accent">
               <div className="font-mono text-xs text-accent mb-2.5 flex gap-2 items-center">
                 {p.marker}
                 {p.soon && (
