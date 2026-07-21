@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <section className="relative border-b border-panel-border pt-16 pb-14 overflow-hidden">
       <div
-        className="hidden sm:block absolute top-8 -right-16 w-[220px] h-[220px] opacity-35 lg:-right-12 lg:w-[340px] lg:h-[340px] lg:opacity-85 pointer-events-none z-0"
+        className="hidden sm:block absolute top-8 right-4 w-[220px] h-[220px] opacity-45 lg:right-10 lg:w-[340px] lg:h-[340px] lg:opacity-90 pointer-events-none z-0"
       >
         <HeroGlobe />
       </div>
