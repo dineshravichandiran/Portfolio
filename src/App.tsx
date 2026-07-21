@@ -1,18 +1,12 @@
 import { lazy, Suspense } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/layout/Layout'
 
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
-const AboutPage = lazy(() => import('./pages/AboutPage'))
-const WorkPage = lazy(() => import('./pages/WorkPage'))
-const SkillsPage = lazy(() => import('./pages/SkillsPage'))
-const ProjectsPage = lazy(() => import('./pages/ProjectsPage'))
-const TreePage = lazy(() => import('./pages/TreePage'))
-const TimelinePage = lazy(() => import('./pages/TimelinePage'))
-const CredentialsPage = lazy(() => import('./pages/CredentialsPage'))
-const ContactPage = lazy(() => import('./pages/ContactPage'))
 const JourneyPage = lazy(() => import('./pages/JourneyPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+
+const OLD_SECTION_ROUTES = ['about', 'work', 'skills', 'projects', 'tree', 'timeline', 'credentials', 'contact']
 
 export default function App() {
   return (
@@ -20,14 +14,9 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<DashboardPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/work" element={<WorkPage />} />
-          <Route path="/skills" element={<SkillsPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/tree" element={<TreePage />} />
-          <Route path="/timeline" element={<TimelinePage />} />
-          <Route path="/credentials" element={<CredentialsPage />} />
-          <Route path="/contact" element={<ContactPage />} />
+          {OLD_SECTION_ROUTES.map((slug) => (
+            <Route key={slug} path={`/${slug}`} element={<Navigate to={`/#${slug}`} replace />} />
+          ))}
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/journey" element={<JourneyPage />} />

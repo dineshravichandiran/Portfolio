@@ -163,3 +163,17 @@ body {
     opacity: 0.15;
   }
 }
+
+/* Reading-progress marker (Tree branches, Timeline milestones): flashes + grows as it becomes the in-focus item */
+.marker-dot {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.marker-dot.marker-active {
+  transform: scale(1.35);
+  box-shadow: 0 0 10px var(--color-accent);
+}
+
+.marker-dot.marker-blink {
+  animation: badge-blink-flash 0.45s ease-in-out 2;
+}

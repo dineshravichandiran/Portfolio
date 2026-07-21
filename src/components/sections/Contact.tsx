@@ -1,4 +1,3 @@
-import BackLink from '../ui/BackLink'
 import MagneticLink from '../ui/MagneticLink'
 import Reveal from '../ui/Reveal'
 import { profile } from '../../data/profile'
@@ -6,7 +5,6 @@ import { profile } from '../../data/profile'
 export default function Contact() {
   return (
     <div className="container pt-8 pb-0">
-      <BackLink />
       <Reveal className="py-12 pb-16 text-center">
         <div className="font-mono text-[0.78rem] text-accent tracking-wide mb-4">// Contact</div>
         <h2 className="text-[clamp(1.8rem,4vw,2.6rem)] font-bold tracking-tight mb-5 text-balance">
