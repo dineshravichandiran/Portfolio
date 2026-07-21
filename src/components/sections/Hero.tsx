@@ -1,8 +1,12 @@
 import HeroGlobe from '../three/HeroGlobe'
 import StatCounter from './StatCounter'
+import MagneticLink from '../ui/MagneticLink'
 import { profile } from '../../data/profile'
+import { useTilt } from '../../hooks/useTilt'
 
 export default function Hero() {
+  const nowTiltRef = useTilt<HTMLDivElement>(3)
+
   return (
     <section className="relative border-b border-panel-border pt-16 pb-14 overflow-hidden">
       <div
@@ -32,30 +36,34 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-wrap gap-3 mb-16">
-          <a
+          <MagneticLink
             href={`mailto:${profile.email}`}
-            className="px-6 py-3 rounded-lg text-sm font-semibold bg-accent text-white hover:bg-accent-hover transition-colors"
+            className="px-6 py-3 rounded-lg text-sm font-semibold bg-accent text-white hover:bg-accent-hover"
           >
             Get in touch
-          </a>
-          <a
+          </MagneticLink>
+          <MagneticLink
             href="/resume.pdf"
             download
-            className="px-6 py-3 rounded-lg text-sm font-semibold border border-panel-border-strong text-text hover:border-accent transition-colors"
+            className="px-6 py-3 rounded-lg text-sm font-semibold border border-panel-border-strong text-text hover:border-accent"
           >
             Download Resume
-          </a>
-          <a
+          </MagneticLink>
+          <MagneticLink
             href="https://linkedin.com/in/dineshravichandiran"
             target="_blank"
             rel="noopener"
-            className="px-6 py-3 rounded-lg text-sm font-semibold border border-panel-border-strong text-text hover:border-accent transition-colors"
+            className="px-6 py-3 rounded-lg text-sm font-semibold border border-panel-border-strong text-text hover:border-accent"
           >
             LinkedIn
-          </a>
+          </MagneticLink>
         </div>
 
-        <div className="border border-panel-border rounded-lg bg-panel max-w-[760px] overflow-hidden mb-16 shadow-sm">
+        <div
+          ref={nowTiltRef}
+          className="border border-panel-border rounded-lg bg-panel max-w-[760px] overflow-hidden mb-16 shadow-sm"
+          style={{ transition: 'transform 0.3s ease-out' }}
+        >
           <div className="flex items-center gap-1.5 px-4 py-2.5 bg-panel-hover border-b border-panel-border">
             <span className="w-2.5 h-2.5 rounded-full bg-crit/70" />
             <span className="w-2.5 h-2.5 rounded-full bg-warn/70" />

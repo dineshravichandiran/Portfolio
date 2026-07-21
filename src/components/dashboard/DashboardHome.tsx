@@ -1,4 +1,5 @@
 import StatusTile from './StatusTile'
+import Reveal from '../ui/Reveal'
 import { aboutCards } from '../../data/about'
 import { workProjects, keyProjects } from '../../data/projects'
 import { toolCategories } from '../../data/skills'
@@ -90,8 +91,10 @@ export default function DashboardHome() {
     <div className="container py-4 pb-16">
       <div className="font-mono text-xs text-dim uppercase tracking-wide mb-4">// All services</div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {tiles.map((tile) => (
-          <StatusTile key={tile.to} {...tile} />
+        {tiles.map((tile, i) => (
+          <Reveal key={tile.to} delayMs={i * 50}>
+            <StatusTile {...tile} />
+          </Reveal>
         ))}
       </div>
     </div>
