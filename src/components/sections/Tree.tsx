@@ -63,9 +63,9 @@ export default function Tree() {
                     type="button"
                     title={commit.title}
                     onClick={() => setSelected({ branch: bi, commit: ci })}
-                    className="flex items-baseline gap-3 w-full bg-panel border rounded-sm px-4 py-2.75 text-left transition-[background,transform] hover:translate-x-1"
+                    className="flex items-baseline gap-3 w-full bg-panel border border-panel-border rounded-sm px-4 py-2.75 text-left transition-[background,transform,border-color] hover:translate-x-1 hover:border-accent"
                     style={{
-                      borderColor: isActive ? branch.color : 'var(--color-panel-border)',
+                      borderColor: isActive ? branch.color : undefined,
                       borderLeftColor: branch.color,
                       borderLeftWidth: '3px',
                       background: isActive ? 'var(--color-panel-hover)' : undefined,
