@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { useScrollGlitch } from '../../hooks/useScrollGlitch'
+import { useScrollActive } from '../../hooks/useScrollActive'
 
 const NAV_ITEMS = [
   { to: '/about', label: 'About' },
@@ -16,7 +16,7 @@ const NAV_ITEMS = [
 export default function NavBar() {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
-  const glitching = useScrollGlitch()
+  const scrolling = useScrollActive()
 
   return (
     <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[calc(100vw-2rem)] max-w-fit">
@@ -40,10 +40,11 @@ export default function NavBar() {
         </ul>
       )}
 
-      <div className="flex items-center gap-1 bg-panel/95 backdrop-blur-md border border-panel-border rounded-full pl-4 pr-1.5 py-1.5 shadow-lg">
+      <div
+        className={`glass-panel ${scrolling ? 'glow-active' : ''} flex items-center gap-1 rounded-full pl-4 pr-1.5 py-1.5 overflow-hidden`}
+      >
         <button
-          className={`font-mono text-[0.85rem] font-bold text-text tracking-tight cursor-pointer whitespace-nowrap mr-1 ${glitching ? 'glitch-active' : ''}`}
-          data-text="dinesh@ops"
+          className="font-mono text-[0.85rem] font-bold text-text tracking-tight cursor-pointer whitespace-nowrap mr-1"
           onClick={() => {
             navigate('/')
             setOpen(false)
@@ -60,7 +61,7 @@ export default function NavBar() {
                 className={({ isActive }) =>
                   `block px-3 py-2 rounded-full text-[0.82rem] whitespace-nowrap transition-colors ${
                     isActive ? 'text-text bg-panel-hover' : 'text-dim hover:text-text'
-                  } ${glitching ? 'glitch-active' : ''}`
+                  }`
                 }
               >
                 {item.label}
