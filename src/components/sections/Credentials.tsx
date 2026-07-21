@@ -1,4 +1,3 @@
-import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
 import Reveal from '../ui/Reveal'
 import SpotlightCard from '../ui/SpotlightCard'
@@ -7,7 +6,6 @@ import { events, impactStats, credentials } from '../../data/credentials'
 export default function Credentials() {
   return (
     <div className="container py-8 pb-16">
-      <BackLink />
       <SectionHeader label="08 — Community" title="Events & conferences." />
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5 mb-14">
         {events.map((e, i) => (

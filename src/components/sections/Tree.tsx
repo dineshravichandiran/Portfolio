@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
 import Reveal from '../ui/Reveal'
 import { branches } from '../../data/tree'
@@ -14,6 +13,9 @@ function shortHash(str: string) {
 export default function Tree() {
   const [selected, setSelected] = useState<{ branch: number; commit: number } | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
+  const dotRefs = useRef<(HTMLSpanElement | null)[]>([])
+  const blockRefs = useRef<(HTMLDivElement | null)[]>([])
+  const activeBranchRef = useRef(-1)
 
   useEffect(() => {
     if (selected) {
@@ -21,12 +23,44 @@ export default function Tree() {
     }
   }, [selected])
 
+  useEffect(() => {
+    function setActiveBranch(idx: number) {
+      if (activeBranchRef.current === idx) return
+      const prevDot = dotRefs.current[activeBranchRef.current]
+      if (prevDot) {
+        prevDot.classList.remove('marker-active')
+        prevDot.style.boxShadow = ''
+      }
+      activeBranchRef.current = idx
+      const dot = dotRefs.current[idx]
+      if (dot) {
+        dot.classList.add('marker-active')
+        dot.style.boxShadow = `0 0 10px ${branches[idx].color}`
+        dot.classList.remove('marker-blink')
+        void dot.offsetWidth
+        dot.classList.add('marker-blink')
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          const idx = blockRefs.current.findIndex((el) => el === entry.target)
+          if (idx !== -1) setActiveBranch(idx)
+        })
+      },
+      { rootMargin: '-35% 0px -55% 0px', threshold: 0 }
+    )
+    blockRefs.current.forEach((el) => el && observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
+
   const activeBranch = selected ? branches[selected.branch] : null
   const activeCommit = selected ? activeBranch!.commits[selected.commit] : null
 
   return (
     <div className="container py-8 pb-16">
-      <BackLink />
       <SectionHeader label="06 — Project Tree" title="Everything I've built, branched out." />
       <p className="text-text-secondary text-[1.05rem] leading-relaxed max-w-[680px] mb-10">
         A git-graph view of my work — one root, five branches: production operations,
@@ -44,45 +78,54 @@ export default function Tree() {
       <div className="relative ml-1.5 mb-8 border-l-2 border-panel-border-strong">
         {branches.map((branch, bi) => (
           <Reveal key={branch.name} delayMs={bi * 60} className="relative pb-10 last:pb-0 pl-9">
-            <span
-              className="absolute -left-[7px] top-0.5 w-3 h-3 rounded-full ring-4 ring-bg"
-              style={{ background: branch.color }}
-            />
             <div
-              className="inline-block font-mono text-xs font-bold rounded-full border px-3 py-1 mb-4 tracking-wide"
-              style={{ color: branch.color, borderColor: branch.color }}
+              ref={(el) => {
+                blockRefs.current[bi] = el
+              }}
             >
-              {branch.name}
-            </div>
-            <div className="flex flex-col gap-2.5 max-w-[620px]">
-              {branch.commits.map((commit, ci) => {
-                const isActive = selected?.branch === bi && selected?.commit === ci
-                return (
-                  <button
-                    key={commit.title}
-                    type="button"
-                    title={commit.title}
-                    onClick={() => setSelected({ branch: bi, commit: ci })}
-                    className="flex items-baseline gap-3 w-full bg-panel border border-panel-border rounded-sm px-4 py-2.75 text-left transition-[background,transform,border-color] hover:translate-x-1 hover:border-accent"
-                    style={{
-                      borderColor: isActive ? branch.color : undefined,
-                      borderLeftColor: branch.color,
-                      borderLeftWidth: '3px',
-                      background: isActive ? 'var(--color-panel-hover)' : undefined,
-                    }}
-                  >
-                    <span className="font-mono text-xs text-dim flex-shrink-0">
-                      {shortHash(commit.title)}
-                    </span>
-                    <span
-                      className="text-[0.92rem] font-semibold leading-snug transition-colors"
-                      style={{ color: isActive ? branch.color : 'var(--color-text)' }}
+              <span
+                ref={(el) => {
+                  dotRefs.current[bi] = el
+                }}
+                className="marker-dot absolute -left-[7px] top-0.5 w-3 h-3 rounded-full ring-4 ring-bg"
+                style={{ background: branch.color }}
+              />
+              <div
+                className="inline-block font-mono text-xs font-bold rounded-full border px-3 py-1 mb-4 tracking-wide"
+                style={{ color: branch.color, borderColor: branch.color }}
+              >
+                {branch.name}
+              </div>
+              <div className="flex flex-col gap-2.5 max-w-[620px]">
+                {branch.commits.map((commit, ci) => {
+                  const isActive = selected?.branch === bi && selected?.commit === ci
+                  return (
+                    <button
+                      key={commit.title}
+                      type="button"
+                      title={commit.title}
+                      onClick={() => setSelected({ branch: bi, commit: ci })}
+                      className="flex items-baseline gap-3 w-full bg-panel border border-panel-border rounded-sm px-4 py-2.75 text-left transition-[background,transform,border-color] hover:translate-x-1 hover:border-accent"
+                      style={{
+                        borderColor: isActive ? branch.color : undefined,
+                        borderLeftColor: branch.color,
+                        borderLeftWidth: '3px',
+                        background: isActive ? 'var(--color-panel-hover)' : undefined,
+                      }}
                     >
-                      {commit.title}
-                    </span>
-                  </button>
-                )
-              })}
+                      <span className="font-mono text-xs text-dim flex-shrink-0">
+                        {shortHash(commit.title)}
+                      </span>
+                      <span
+                        className="text-[0.92rem] font-semibold leading-snug transition-colors"
+                        style={{ color: isActive ? branch.color : 'var(--color-text)' }}
+                      >
+                        {commit.title}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
           </Reveal>
         ))}

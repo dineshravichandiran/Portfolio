@@ -1,4 +1,3 @@
-import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
 import Reveal from '../ui/Reveal'
 import SpotlightCard from '../ui/SpotlightCard'
@@ -24,7 +23,6 @@ function Badge({ b }: { b: ToolBadge }) {
 export default function Skills() {
   return (
     <div className="container py-8 pb-16">
-      <BackLink />
       <SectionHeader label="03 — Platforms I Support" title="Enterprise PLM, IIoT & AR." />
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] gap-5 mb-14">
