@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
 import BackLink from '../ui/BackLink'
 import SectionHeader from '../ui/SectionHeader'
+import Reveal from '../ui/Reveal'
+import { useScrollActive } from '../../hooks/useScrollActive'
 import { milestones } from '../../data/journey'
 
 export default function Timeline() {
   const reversed = [...milestones].reverse()
+  const scrolling = useScrollActive()
 
   return (
     <div className="container py-8 pb-16">
@@ -13,26 +16,43 @@ export default function Timeline() {
 
       <Link
         to="/journey"
-        className="inline-flex mb-10 px-5 py-2.5 rounded-full text-sm font-semibold border border-panel-border-strong text-text hover:border-accent transition-colors"
+        className={`glass-panel ${scrolling ? 'glow-active' : ''} inline-flex items-center gap-2 mb-14 px-5 py-2.5 rounded-full text-sm font-semibold border border-panel-border-strong text-text hover:border-accent transition-colors`}
       >
-        Experience this in 3D ↗
+        ↗ Experience this in 3D
       </Link>
 
-      <div className="flex flex-col gap-10">
-        {reversed.map((m) => (
-          <div key={m.id} className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-4 sm:gap-8">
-            <div
-              className={`font-mono text-sm ${m.current ? 'text-ok font-semibold' : 'text-dim'}`}
-            >
-              {m.year}
-            </div>
-            <div>
-              <div className="text-lg font-bold">{m.company}</div>
-              <div className="text-text-secondary text-sm mb-3">
-                {m.role}
-                {m.location && ` · ${m.location}`}
+      <div className="relative pl-8 sm:pl-12">
+        <div className="absolute left-[5px] sm:left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-accent via-panel-border-strong to-panel-border" />
+
+        {reversed.map((m, i) => (
+          <Reveal key={m.id} delayMs={i * 90} className="relative pb-12 last:pb-0">
+            <span
+              className={`absolute -left-8 sm:-left-12 top-7 w-3.5 h-3.5 rounded-full ring-4 ring-bg ${
+                m.current ? 'bg-ok shadow-[0_0_14px_var(--color-ok)] animate-pulse' : 'bg-panel-border-strong'
+              }`}
+            />
+
+            <div className={`glass-panel ${scrolling ? 'glow-active' : ''} border border-panel-border rounded-lg p-6 sm:p-7`}>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span
+                  className={`font-mono text-xs uppercase tracking-wide ${m.current ? 'text-ok' : 'text-accent'}`}
+                >
+                  {m.year}
+                </span>
+                {m.current && (
+                  <span className="font-mono text-[0.65rem] text-ok border border-ok/35 bg-ok/10 rounded-full px-2.5 py-0.5 uppercase tracking-wide">
+                    Current
+                  </span>
+                )}
               </div>
-              <div className="flex flex-wrap gap-2 mb-3">
+
+              <div className="text-xl sm:text-2xl font-bold tracking-tight mb-1">{m.company}</div>
+              <div className="text-text-secondary text-sm mb-4">
+                {m.role}
+                {m.location && <span className="text-dim"> · {m.location}</span>}
+              </div>
+
+              <div className="flex flex-wrap gap-2 mb-4">
                 {m.tags.map((tag) => (
                   <span
                     key={tag}
@@ -42,9 +62,10 @@ export default function Timeline() {
                   </span>
                 ))}
               </div>
+
               <p className="text-text-secondary text-[0.92rem] leading-relaxed">{m.body}</p>
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
     </div>
