@@ -7,7 +7,7 @@ export default function Layout() {
     <>
       <CometCursor />
       <NavBar />
-      <main>
+      <main className="pb-24">
         <Outlet />
       </main>
     </>
