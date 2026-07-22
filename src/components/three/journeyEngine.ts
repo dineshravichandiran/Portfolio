@@ -1153,6 +1153,14 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   hood.rotation.z = -0.1
   bike.add(hood)
 
+  // Sloped trunk deck mirroring the hood, so the roofline tapers down at
+  // both ends instead of dropping straight to a flat trunk — the
+  // continuous fastback line that actually reads as "Tesla" from the side.
+  const trunk = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.2, 1.42), bodyMat)
+  trunk.position.set(-1.35, 0.66, 0)
+  trunk.rotation.z = 0.16
+  bike.add(trunk)
+
   const windshield = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.42, 1.2), glassMat)
   windshield.position.set(0.68, 0.96, 0)
   windshield.rotation.z = 0.62
@@ -1182,11 +1190,13 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   const carWheels: THREE.Group[] = []
   function makeWheel(x: number, z: number) {
     const wheelGroup = new THREE.Group()
-    const tire = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.38, 0.26, 20), tireMat)
+    const tire = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.2, 24), tireMat)
     tire.rotation.x = Math.PI / 2
     tire.castShadow = true
     wheelGroup.add(tire)
-    const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.28, 12), rimMat)
+    // Larger, flush aero-cover rim (closer to the tire's own radius) instead
+    // of a small deep-dish rim — the low-profile EV-wheel look.
+    const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.27, 0.22, 16), rimMat)
     rim.rotation.x = Math.PI / 2
     wheelGroup.add(rim)
     const hub = new THREE.Mesh(
@@ -1196,14 +1206,14 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     hub.rotation.x = Math.PI / 2
     wheelGroup.add(hub)
 
-    wheelGroup.position.set(x, 0.38, z)
+    wheelGroup.position.set(x, 0.34, z)
     bike.add(wheelGroup)
     carWheels.push(wheelGroup)
   }
-  makeWheel(1.0, 0.78)
-  makeWheel(1.0, -0.78)
-  makeWheel(-1.0, 0.78)
-  makeWheel(-1.0, -0.78)
+  makeWheel(1.05, 0.78)
+  makeWheel(1.05, -0.78)
+  makeWheel(-1.05, 0.78)
+  makeWheel(-1.05, -0.78)
 
   const hitBoxGeo = new THREE.BoxGeometry(3.8, 2.4, 2.2)
   const hitBoxMat = new THREE.MeshBasicMaterial({ visible: false })
