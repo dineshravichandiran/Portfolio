@@ -40,7 +40,7 @@ export default function Hero() {
             Get in touch
           </MagneticLink>
           <MagneticLink
-            href="/resume.pdf"
+            href="/Dinesh_Ravichandiran_SRE.pdf"
             download
             className="px-6 py-3 rounded-lg text-sm font-semibold border border-panel-border-strong text-text hover:border-accent"
           >
