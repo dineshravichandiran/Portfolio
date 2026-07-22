@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useScrollActive } from '../../hooks/useScrollActive'
+import { scrollToSection } from '../../utils/scrollToSection'
 
 const NAV_ITEMS = [
   { id: 'about', label: 'About' },
@@ -35,9 +36,23 @@ export default function NavBar() {
     return () => observer.disconnect()
   }, [])
 
+  // Auto-close the mobile menu if the user scrolls without picking anything,
+  // or just leaves it open — it shouldn't linger indefinitely.
+  useEffect(() => {
+    if (!open) return
+    function handleScroll() {
+      setOpen(false)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    const timer = window.setTimeout(() => setOpen(false), 5000)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.clearTimeout(timer)
+    }
+  }, [open])
+
   function goTo(id: string) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    window.history.pushState(null, '', `#${id}`)
+    scrollToSection(id)
     setOpen(false)
   }
 
