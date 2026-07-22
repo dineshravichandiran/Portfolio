@@ -18,7 +18,9 @@ export interface SceneMilestone {
  */
 export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMilestone[]) {
   const scene = new THREE.Scene()
-  scene.fog = new THREE.Fog(0xc5dcf0, 35, 100)
+  // Dusty blue-violet fog blending into the dusk sky gradient below, instead
+  // of a bright pale-daytime haze that clashed with it.
+  scene.fog = new THREE.Fog(0x8b8fc4, 35, 100)
 
   const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200)
 
@@ -35,10 +37,10 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   // ====================================================
   // LIGHTING
   // ====================================================
-  const ambient = new THREE.AmbientLight(0xffffff, 0.55)
+  const ambient = new THREE.AmbientLight(0xb8c4e0, 0.5)
   scene.add(ambient)
 
-  const sun = new THREE.DirectionalLight(0xffffff, 0.9)
+  const sun = new THREE.DirectionalLight(0xffd9a0, 0.85)
   sun.position.set(20, 30, 15)
   sun.castShadow = true
   sun.shadow.mapSize.set(1024, 1024)
@@ -50,7 +52,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   sun.shadow.camera.bottom = -40
   scene.add(sun)
 
-  const fillLight = new THREE.DirectionalLight(0xeff6ff, 0.3)
+  const fillLight = new THREE.DirectionalLight(0xc7d2f0, 0.32)
   fillLight.position.set(-15, 10, -10)
   scene.add(fillLight)
 
@@ -58,7 +60,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   // GROUND
   // ====================================================
   const groundGeo = new THREE.PlaneGeometry(200, 200)
-  const groundMat = new THREE.MeshLambertMaterial({ color: 0x9cb86a })
+  const groundMat = new THREE.MeshLambertMaterial({ color: 0x6f7d4f })
   const ground = new THREE.Mesh(groundGeo, groundMat)
   ground.rotation.x = -Math.PI / 2
   ground.position.y = -0.01
@@ -162,10 +164,10 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     ctx.fillStyle = '#ffffff'
     ctx.fillRect(0, 0, c.width, c.height)
 
-    ctx.fillStyle = '#1e3a8a'
+    ctx.fillStyle = '#3e8ede'
     ctx.fillRect(0, 0, c.width, 70)
 
-    ctx.strokeStyle = '#1e3a8a'
+    ctx.strokeStyle = '#3e8ede'
     ctx.lineWidth = 10
     ctx.strokeRect(14, 14, c.width - 28, c.height - 28)
 
@@ -173,7 +175,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     ctx.beginPath()
     ctx.arc(70, 35, 26, 0, Math.PI * 2)
     ctx.fill()
-    ctx.fillStyle = '#1e3a8a'
+    ctx.fillStyle = '#3e8ede'
     ctx.font = 'bold 32px Arial, Helvetica, sans-serif'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
@@ -191,7 +193,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     }
     ctx.fillText(name, c.width / 2, 230)
 
-    ctx.fillStyle = '#1e3a8a'
+    ctx.fillStyle = '#3e8ede'
     const maxYearWidth = c.width - 120
     let yearFontSize = 52
     ctx.font = `bold ${yearFontSize}px Arial, Helvetica, sans-serif`
@@ -218,7 +220,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     group.position.copy(pos.clone().add(offset))
 
     const postGeo = new THREE.CylinderGeometry(0.09, 0.11, 2.0, 8)
-    const postMat = new THREE.MeshLambertMaterial({ color: 0x1e3a8a })
+    const postMat = new THREE.MeshLambertMaterial({ color: 0x3e8ede })
     const post = new THREE.Mesh(postGeo, postMat)
     post.position.set(0, 1.0, 0.06)
     post.castShadow = true
@@ -279,7 +281,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     group.add(signFront)
 
     const signFrame = buildCurvedSign(
-      new THREE.MeshLambertMaterial({ color: 0x1e3a8a, side: THREE.DoubleSide }),
+      new THREE.MeshLambertMaterial({ color: 0x3e8ede, side: THREE.DoubleSide }),
       SIGN_WIDTH + 0.15,
       SIGN_HEIGHT + 0.18,
       SIGN_CURVE_DEPTH + 0.04,
@@ -292,7 +294,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
 
     const ringGeo = new THREE.RingGeometry(0.8, 1.1, 32)
     const ringMat = new THREE.MeshBasicMaterial({
-      color: 0x1e3a8a,
+      color: 0x3e8ede,
       transparent: true,
       opacity: 0,
       side: THREE.DoubleSide,
@@ -432,7 +434,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     }
 
     if (Math.random() > 0.5) {
-      const tank = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.3, 12), new THREE.MeshLambertMaterial({ color: 0x1e3a8a }))
+      const tank = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.3, 12), new THREE.MeshLambertMaterial({ color: 0x3e8ede }))
       tank.position.set(w / 4, h + 0.35, d / 4)
       const stand = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.15, 0.4), new THREE.MeshLambertMaterial({ color: 0x475569 }))
       stand.position.set(w / 4, h + 0.22, d / 4)
@@ -557,7 +559,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
 
   function addBusStop(x: number, side: number) {
     const g = new THREE.Group()
-    const roof = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.08, 0.7), new THREE.MeshLambertMaterial({ color: 0x1e3a8a }))
+    const roof = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.08, 0.7), new THREE.MeshLambertMaterial({ color: 0x3e8ede }))
     roof.position.y = 1.4
     roof.castShadow = true
     g.add(roof)
@@ -644,7 +646,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     signCanvas.width = 640
     signCanvas.height = 160
     const sctx = signCanvas.getContext('2d')!
-    sctx.fillStyle = '#1e3a8a'
+    sctx.fillStyle = '#3e8ede'
     sctx.fillRect(0, 0, 640, 160)
     sctx.strokeStyle = '#facc15'
     sctx.lineWidth = 8
@@ -732,7 +734,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     signCanvas.width = 640
     signCanvas.height = 160
     const sctx = signCanvas.getContext('2d')!
-    sctx.fillStyle = '#1e3a8a'
+    sctx.fillStyle = '#3e8ede'
     sctx.fillRect(0, 0, 640, 160)
     sctx.strokeStyle = '#facc15'
     sctx.lineWidth = 8
@@ -809,7 +811,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     signCanvas.width = 640
     signCanvas.height = 160
     const sctx = signCanvas.getContext('2d')!
-    sctx.fillStyle = '#1e3a8a'
+    sctx.fillStyle = '#3e8ede'
     sctx.fillRect(0, 0, 640, 160)
     sctx.strokeStyle = '#facc15'
     sctx.lineWidth = 8
@@ -965,7 +967,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     skyCanvas.height = 512
     const sctx = skyCanvas.getContext('2d')!
     const skyGrad = sctx.createLinearGradient(0, 0, 0, 512)
-    skyGrad.addColorStop(0, '#1e3a8a')
+    skyGrad.addColorStop(0, '#3e8ede')
     skyGrad.addColorStop(0.4, '#7c5cbf')
     skyGrad.addColorStop(0.65, '#f472b6')
     skyGrad.addColorStop(0.85, '#fb923c')
@@ -1443,10 +1445,10 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
       el.id = 'orbitHint'
       el.style.cssText = `
         position: fixed; top: 7rem; left: 50%; transform: translateX(-50%);
-        background: rgba(30, 58, 138, 0.95); color: white; padding: 0.7rem 1.4rem;
+        background: rgba(62, 142, 222, 0.95); color: white; padding: 0.7rem 1.4rem;
         border-radius: 100px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
         letter-spacing: 0.1em; text-transform: uppercase; z-index: 20;
-        box-shadow: 0 8px 24px rgba(30, 58, 138, 0.35); font-weight: 600;
+        box-shadow: 0 8px 24px rgba(62, 142, 222, 0.35); font-weight: 600;
         backdrop-filter: blur(8px); cursor: pointer;
       `
       el.textContent = '◉ 360° view — click anywhere to exit'
