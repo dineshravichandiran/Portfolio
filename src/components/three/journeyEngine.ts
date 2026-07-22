@@ -1117,64 +1117,65 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   // ====================================================
   const bike = new THREE.Group()
 
-  const CAR_BODY = 0x2563eb
-  const CAR_DARK = 0x1e40af
+  const CAR_BODY = 0x3e8ede
+  const CAR_DARK = 0x1c4870
   const CAR_GLASS = 0x9fd4ff
   const CAR_TIRE = 0x1a1a1a
-  const CAR_RIM = 0xc8cdd4
-  const CAR_LIGHT = 0xfff3c4
+  const CAR_RIM = 0xdde2e8
+  const CAR_LIGHT = 0xeaf4ff
 
   const bodyMat = new THREE.MeshStandardMaterial({ color: CAR_BODY, metalness: 0.5, roughness: 0.35 })
   const darkMat = new THREE.MeshStandardMaterial({ color: CAR_DARK, metalness: 0.5, roughness: 0.4 })
   const glassMat = new THREE.MeshStandardMaterial({ color: CAR_GLASS, metalness: 0.3, roughness: 0.1, transparent: true, opacity: 0.7 })
   const tireMat = new THREE.MeshStandardMaterial({ color: CAR_TIRE, metalness: 0.1, roughness: 0.85 })
   const rimMat = new THREE.MeshStandardMaterial({ color: CAR_RIM, metalness: 0.8, roughness: 0.3 })
-  const lightMat = new THREE.MeshStandardMaterial({ color: CAR_LIGHT, emissive: 0xfff3c4, emissiveIntensity: 0.4 })
+  const lightMat = new THREE.MeshStandardMaterial({ color: CAR_LIGHT, emissive: 0xcfe9ff, emissiveIntensity: 0.45 })
 
-  const lowerBody = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.5, 1.5), bodyMat)
-  lowerBody.position.set(0, 0.55, 0)
+  // Low, smooth sedan body — no grille, sloped nose, fastback roofline (Tesla-style silhouette)
+  const lowerBody = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.46, 1.5), bodyMat)
+  lowerBody.position.set(0, 0.52, 0)
   lowerBody.castShadow = true
   bike.add(lowerBody)
 
-  const bodyTrim = new THREE.Mesh(new THREE.BoxGeometry(3.3, 0.18, 1.55), darkMat)
-  bodyTrim.position.set(0, 0.36, 0)
+  const bodyTrim = new THREE.Mesh(new THREE.BoxGeometry(3.3, 0.14, 1.55), darkMat)
+  bodyTrim.position.set(0, 0.32, 0)
   bike.add(bodyTrim)
 
-  const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.55, 1.35), bodyMat)
-  cabin.position.set(-0.1, 1.02, 0)
+  const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.46, 1.3), bodyMat)
+  cabin.position.set(-0.12, 0.96, 0)
   cabin.castShadow = true
   bike.add(cabin)
 
-  const hood = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.3, 1.45), bodyMat)
-  hood.position.set(1.35, 0.78, 0)
-  hood.rotation.z = -0.15
+  const hood = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.22, 1.4), bodyMat)
+  hood.position.set(1.4, 0.7, 0)
+  hood.rotation.z = -0.1
   bike.add(hood)
 
-  const windshield = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.45, 1.25), glassMat)
-  windshield.position.set(0.72, 1.02, 0)
-  windshield.rotation.z = 0.5
+  const windshield = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.42, 1.2), glassMat)
+  windshield.position.set(0.68, 0.96, 0)
+  windshield.rotation.z = 0.62
   bike.add(windshield)
-  const rearWindow = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.45, 1.25), glassMat)
-  rearWindow.position.set(-0.92, 1.02, 0)
-  rearWindow.rotation.z = -0.5
+  const rearWindow = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.42, 1.2), glassMat)
+  rearWindow.position.set(-0.94, 0.94, 0)
+  rearWindow.rotation.z = -0.58
   bike.add(rearWindow)
   for (const side of [-1, 1]) {
-    const sideWin = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.4, 0.05), glassMat)
-    sideWin.position.set(-0.1, 1.04, side * 0.68)
+    const sideWin = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.34, 0.05), glassMat)
+    sideWin.position.set(-0.12, 0.98, side * 0.66)
     bike.add(sideWin)
   }
 
+  // Slim LED headlight strips, flush with the nose — no round housings
   for (const side of [-1, 1]) {
-    const headlight = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.18, 0.28), lightMat)
-    headlight.position.set(1.6, 0.62, side * 0.5)
+    const headlight = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.1, 0.4), lightMat)
+    headlight.position.set(1.63, 0.56, side * 0.48)
     bike.add(headlight)
   }
-  const tailMat = new THREE.MeshStandardMaterial({ color: 0xcc2222, emissive: 0xcc2222, emissiveIntensity: 0.5 })
-  for (const side of [-1, 1]) {
-    const taillight = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.16, 0.25), tailMat)
-    taillight.position.set(-1.6, 0.62, side * 0.5)
-    bike.add(taillight)
-  }
+  // Full-width rear light bar — the signature Tesla design cue
+  const tailMat = new THREE.MeshStandardMaterial({ color: 0xcc2222, emissive: 0xcc2222, emissiveIntensity: 0.55 })
+  const tailBar = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.09, 1.42), tailMat)
+  tailBar.position.set(-1.63, 0.58, 0)
+  bike.add(tailBar)
 
   const carWheels: THREE.Group[] = []
   function makeWheel(x: number, z: number) {
