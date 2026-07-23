@@ -94,6 +94,20 @@ export const keyProjects: ProjectItem[] = [
   },
   {
     year: 'Self-Directed',
+    meta: 'AIOps · Machine Learning',
+    title: 'AIOps Alert Correlation & RCA Engine',
+    impact: '76.9% noise reduction · 56.8% RCA accuracy vs. ~12.5% random baseline',
+    desc: "Production work is the operational half of AIOps — triage, RCA, the alert lifecycle. This builds the ML half: a sliding-window event correlator that collapses a noisy raw alert stream into real incidents, an IsolationForest anomaly detector over incident volume, and a RandomForestClassifier that suggests root cause from triage-time metadata alone.",
+    flow: [
+      { label: 'Problem', text: "Traditional monitoring alerts on every threshold breach independently — a single flapping issue can page on-call a dozen times, and nothing suggests where to start looking." },
+      { label: 'Action', text: 'Built a seeded synthetic alert generator (13,833 alerts with realistic flapping and cross-tool duplicate signal), a rolling time-window correlator, an unsupervised anomaly detector, and a classifier trained on service/severity/duration/alert-count — deliberately not the message text, which would give the answer away.' },
+      { label: 'Result', text: '13,833 raw alerts correlated into 3,197 real incidents (76.9% fewer things to triage), 272 anomalous hours flagged automatically, and 56.8% RCA accuracy on held-out data — more than 4x better than the ~12.5% random-chance baseline across 8 root-cause categories. 8 passing tests across all three stages.' },
+    ],
+    tags: ['Python', 'scikit-learn', 'pandas', 'IsolationForest', 'RandomForest', 'AIOps'],
+    link: 'https://github.com/dineshravichandiran/aiops-alert-correlation',
+  },
+  {
+    year: 'Self-Directed',
     meta: 'Platform Engineering · Zabbix',
     title: 'Zabbix Monitoring Lab — Platform Deep-Dive',
     impact: 'Self-built labs · Platform-level Zabbix skills beyond day-to-day alert tuning',
