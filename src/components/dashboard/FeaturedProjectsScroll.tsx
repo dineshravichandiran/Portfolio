@@ -7,6 +7,7 @@ import { keyProjects } from '../../data/projects'
 gsap.registerPlugin(ScrollTrigger)
 
 const FEATURED_TITLES = [
+  'AIOps Alert Correlation & RCA Engine',
   'Zabbix Monitoring Lab — Platform Deep-Dive',
   'Self-Healing Infrastructure on AWS',
   'End-to-End DevSecOps CI Pipeline',
