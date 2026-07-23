@@ -108,6 +108,20 @@ export const keyProjects: ProjectItem[] = [
   },
   {
     year: 'Self-Directed',
+    meta: 'Observability · Grafana',
+    title: 'Grafana + Prometheus Observability Stack',
+    impact: 'Dashboards & alert rules provisioned entirely as code — verified live in a Codespace',
+    desc: 'Production work uses Grafana and Prometheus as consumers of an existing stack. This builds the stack itself: a synthetic metrics exporter, Prometheus scrape config, and a Grafana dashboard plus alert rules that provision automatically on startup — nothing clicked together by hand.',
+    flow: [
+      { label: 'Problem', text: 'Wanted platform-level depth on Grafana/Prometheus specifically — owning the scrape config and dashboards-as-code, not just reading an existing dashboard someone else built.' },
+      { label: 'Action', text: 'Built a Python exporter simulating 8 services with realistic request-rate, error-rate, latency, and memory metrics plus randomly injected incidents; wired it through Prometheus into a Grafana instance with a dashboard and three alert rules (error rate, latency, memory) provisioned entirely from files.' },
+      { label: 'Result', text: 'Verified live in a clean GitHub Codespace, not just locally: all three containers healthy, the exporter emitting real metrics, Prometheus scrape target up, the dashboard and all three alert rules auto-provisioned on first boot.' },
+    ],
+    tags: ['Grafana', 'Prometheus', 'Docker', 'Python', 'Dashboards-as-Code', 'Alerting-as-Code'],
+    link: 'https://github.com/dineshravichandiran/grafana-observability-stack',
+  },
+  {
+    year: 'Self-Directed',
     meta: 'Platform Engineering · Zabbix',
     title: 'Zabbix Monitoring Lab — Platform Deep-Dive',
     impact: 'Self-built labs · Platform-level Zabbix skills beyond day-to-day alert tuning',
