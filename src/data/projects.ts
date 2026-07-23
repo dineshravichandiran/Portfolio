@@ -122,6 +122,20 @@ export const keyProjects: ProjectItem[] = [
   },
   {
     year: 'Self-Directed',
+    meta: 'Kubernetes · Chaos Engineering',
+    title: 'Kubernetes Self-Healing & Chaos Lab',
+    impact: 'Both CrashLoopBackOff and OOMKilled triggered and auto-remediated, verified live',
+    desc: 'Production work is pod- and node-level troubleshooting on AKS — CrashLoopBackOff, OOMKilled, scale-downs, diagnosed and fixed by hand with kubectl and k9s. This closes the loop: a controller that detects both failure modes and remediates them automatically, plus chaos scripts that deliberately trigger them to prove it.',
+    flow: [
+      { label: 'Problem', text: "The two most common recoverable pod failures I triage daily — CrashLoopBackOff and OOMKilled — still need a human to notice and fix them by hand." },
+      { label: 'Action', text: 'Built a deliberately-flaky demo app, a Python controller (Kubernetes API client) that watches for both failure states, and chaos scripts that break the app on purpose and poll for the actual failure condition before declaring success.' },
+      { label: 'Result', text: 'Verified live in a kind cluster inside a GitHub Codespace: CrashLoopBackOff triggered, detected, and rolled back to known-good config within seconds; OOMKilled triggered, detected, and cleared so the deployment rescheduled a healthy pod — both logged with full detect-and-remediate timestamps. 3 passing unit tests.' },
+    ],
+    tags: ['Kubernetes', 'kind', 'Python', 'Chaos Engineering', 'Self-Healing'],
+    link: 'https://github.com/dineshravichandiran/k8s-self-healing-lab',
+  },
+  {
+    year: 'Self-Directed',
     meta: 'Observability · Grafana',
     title: 'Grafana + Prometheus Observability Stack',
     impact: 'Dashboards & alert rules provisioned entirely as code — verified live in a Codespace',
