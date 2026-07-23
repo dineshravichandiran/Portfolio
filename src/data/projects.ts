@@ -108,6 +108,20 @@ export const keyProjects: ProjectItem[] = [
   },
   {
     year: 'Self-Directed',
+    meta: 'Analytics · Tableau',
+    title: 'Cloud Incident & Reliability Analytics',
+    impact: 'Seeded synthetic dataset + full dashboard brief — Tableau build in progress',
+    desc: 'Bridges the operational side of this work with the analytics side of my MBA (Information Systems Management / Analytics & Data Science) — turning an incident log into the SLI/SLO tracking, trend analysis, and forecasting a reliability team would actually present to stakeholders.',
+    flow: [
+      { label: 'Problem', text: 'Wanted to show the BI/analytics half of reliability work — MTTR trend, root-cause Pareto, error-budget burn — not just the operational half already covered elsewhere.' },
+      { label: 'Action', text: 'Built a seeded, reproducible synthetic incident dataset (1,207 rows, realistic severity/root-cause distributions) and a full dashboard brief: 6 sheets, exact calculated-field formulas (uptime %, error-budget burn), and step-by-step Tableau Public build instructions.' },
+      { label: 'Result', text: 'Dataset and brief are done and public. The actual Tableau Public dashboard is next — being upfront that it\'s in progress, not finished.' },
+    ],
+    tags: ['Tableau', 'Data Analytics', 'SLI/SLO', 'Forecasting'],
+    link: 'https://github.com/dineshravichandiran/cloud-incident-analytics',
+  },
+  {
+    year: 'Self-Directed',
     meta: 'Observability · Grafana',
     title: 'Grafana + Prometheus Observability Stack',
     impact: 'Dashboards & alert rules provisioned entirely as code — verified live in a Codespace',
