@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger)
 const FEATURED_TITLES = [
   'AIOps Alert Correlation & RCA Engine',
   'Kubernetes Self-Healing & Chaos Lab',
+  'Runbook Automation Engine',
   'Grafana + Prometheus Observability Stack',
   'Zabbix Monitoring Lab — Platform Deep-Dive',
   'Self-Healing Infrastructure on AWS',

@@ -136,6 +136,20 @@ export const keyProjects: ProjectItem[] = [
   },
   {
     year: 'Self-Directed',
+    meta: 'Automation · Runbooks',
+    title: 'Runbook Automation Engine',
+    impact: 'All 3 failure scenarios detected and auto-remediated, verified live',
+    desc: "I've authored 10+ published runbooks the team relies on — but a runbook is still a wiki page a human has to read and follow by hand during an incident. This makes that shape executable: a YAML file names a check, a remediation, and the engine verifies the fix actually worked before calling it healed.",
+    flow: [
+      { label: 'Problem', text: "Runbooks I write live as documentation, not code — a human still has to notice the alert, open the page, and run each step themselves, under pressure, at 2 a.m." },
+      { label: 'Action', text: 'Built an engine that runs check → remediate → verify from a 3-line YAML runbook, with every stage logged as JSON to an audit trail, plus a dry-run mode. Backed it with three genuine failure scenarios — a real memory-leaking process, a real full scratch directory, a real crashed HTTP service — not simulated flags.' },
+      { label: 'Result', text: 'Verified live in a GitHub Codespace: killed a real service, ran the engine, watched it detect the outage, restart the process, and re-verify it healthy — same for a 980MB real memory leak and a real 60MB disk-fill. Caught and fixed a genuine subprocess-pipe-inheritance bug during verification, documented in the commit history rather than hidden. 5 passing unit tests.' },
+    ],
+    tags: ['Python', 'YAML', 'Automation', 'Runbooks', 'Audit Logging'],
+    link: 'https://github.com/dineshravichandiran/runbook-automation-engine',
+  },
+  {
+    year: 'Self-Directed',
     meta: 'Observability · Grafana',
     title: 'Grafana + Prometheus Observability Stack',
     impact: 'Dashboards & alert rules provisioned entirely as code — verified live in a Codespace',
