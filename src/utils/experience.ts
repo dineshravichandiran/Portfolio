@@ -1,4 +1,4 @@
-/** Continuous tenure at PTC started December 2022 (Cloud Services Associate NOC Engineer). */
+/** Continuous tenure at PTC started December 2022 (Cloud NOC Technician, Associate). */
 const CAREER_START = new Date(2022, 11, 1)
 
 export function getYearsExperience(): { value: number; decimals: number } {
