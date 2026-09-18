@@ -46,8 +46,9 @@ export const credentials: CredentialRow[] = [
   { type: 'Certification', title: 'Azure Data Fundamentals (DP-900)', issuer: 'Microsoft Certified · 2023' },
   { type: 'Certification', title: 'Advanced Kubernetes Operations & Linux System Administration', issuer: 'KodeKloud · 2025' },
   { type: 'Award', title: 'Smart India Hackathon Winner', issuer: 'National Level · 2020 · 10,000+ competing teams' },
-  { type: 'Award', title: 'Customer First Award', issuer: 'PTC · Major incident recovery · Aug 2024' },
-  { type: 'Award', title: 'PTC Cheers Award', issuer: 'Recognition for Performance & Efficiency · May 2026' },
+  { type: 'Award', title: 'SO&S Quality Compliance Award', issuer: 'PTC · Resolved a PagerDuty/Zabbix alert-closure backlog, strengthening ISO audit compliance · 2026' },
+  { type: 'Award', title: 'Performance & Efficiency Award', issuer: 'PTC · Technical Architect collaboration, runbook authoring, cost optimization · Nov 2025 – May 2026' },
+  { type: 'Award', title: 'Crowdstrike and Digicert Recovery Award', issuer: 'PTC · Team recognition for stabilizing customer environments during the CrowdStrike incident and DigiCert expiry' },
   { type: 'Education', title: 'MBA – Information System Management / Analytics & Data Science', issuer: 'Manipal University Jaipur · 2025–2027 (Expected)' },
   { type: 'Education', title: 'B.E. Electronics & Instrumentation', issuer: 'Panimalar Engineering College · 2018–2022 · CGPA 8.1/10' },
 ]
