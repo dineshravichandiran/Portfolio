@@ -11,6 +11,7 @@ export type DomainIconName =
   | 'layers'
   | 'alert'
   | 'scan'
+  | 'cpu'
 
 const base: SVGProps<SVGSVGElement> = {
   viewBox: '0 0 24 24',
@@ -80,6 +81,15 @@ const paths: Record<DomainIconName, ReactElement> = {
       <path d="M17 3h3a1 1 0 0 1 1 1v3" />
       <path d="M21 17v3a1 1 0 0 1-1 1h-3" />
       <path d="M7 21H4a1 1 0 0 1-1-1v-3" />
+    </>
+  ),
+  cpu: (
+    <>
+      <rect x="7" y="7" width="10" height="10" rx="1" />
+      <rect x="10" y="2" width="4" height="3" />
+      <rect x="10" y="19" width="4" height="3" />
+      <rect x="2" y="10" width="3" height="4" />
+      <rect x="19" y="10" width="3" height="4" />
     </>
   ),
 }
