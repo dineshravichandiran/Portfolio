@@ -11,7 +11,7 @@ export default function Contact() {
           Let's build something <span className="text-accent">reliable</span>.
         </h2>
         <p className="text-text-secondary text-[1.05rem] leading-relaxed max-w-[60ch] mx-auto mb-10">
-          Open to <strong>Cloud, SRE, DevOps &amp; Platform Engineering</strong> roles. I solve real
+          Open to <strong>Site Reliability Engineering (SRE)</strong> roles. I solve real
           production problems, learn fast, and take ownership. If you're hiring someone reliable
           who keeps growing, let's talk.
         </p>
