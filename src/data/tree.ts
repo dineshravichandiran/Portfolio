@@ -46,9 +46,9 @@ export const branches: TreeBranch[] = [
     color: '#58a6ff',
     commits: [
       {
-        title: 'ops-toolkits — PLM Health Checks & Deploy Validation',
-        meta: 'Self-Directed · Bash',
-        desc: 'Two dependency-light Bash tools: windchill-ops-toolkit (pre/post-change health checks for Apache, Tomcat, JVM, disk, logs with Nagios-convention exit codes) and deploy-validator (manifest-driven check of whether a deployment landed correctly). Both report-only/read-only by default, tested against real Bash 3.2 and Linux.',
+        title: 'ops-toolkits — Change-Window & Config-Drift Suite',
+        meta: 'Self-Directed · Bash & PowerShell',
+        desc: 'Five ops tools sharing one design (Nagios exit codes, report-only/read-only, no mocks in tests): windchill-ops-toolkit, deploy-validator, upgrade-preflight, db-healthcheck (real Docker Postgres), and webserver-config-audit (independent Bash + PowerShell implementations). 200/200 tests passing, each verified with a real screencapture of the suite running.',
         link: 'https://github.com/dineshravichandiran/ops-toolkits',
       },
       {
