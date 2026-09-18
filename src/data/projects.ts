@@ -25,6 +25,32 @@ export interface ProjectItem {
 
 export const workProjects: ProjectItem[] = [
   {
+    year: '2026',
+    meta: 'Published Runbook · Enterprise PLM',
+    title: 'WTA Runbook: Memory Optimization for Clustered PLM Nodes',
+    impact: 'Adopted as the standard referenced by the org-wide NOC memory-alert runbook · Presented business impact to management',
+    desc: 'Authored an internal knowledge-base runbook (KB 000465274), built cross-functionally with the Technical Architect team — pre-checks, JVM/Solr health gates, a 3-method decision tree, and a mandatory backup/restart/validation sequence for memory-arena tuning on clustered 32GB & 64GB nodes.',
+    flow: [
+      { label: 'Problem', text: 'Memory-tuning fixes for clustered PLM nodes were inconsistent and tribal across the team.' },
+      { label: 'Action', text: 'Built a decision-tree runbook with health gates and a mandatory validation sequence; published as KB 000465274.' },
+      { label: 'Result', text: 'Adopted as the standard referenced by the org-wide NOC memory-alert runbook; presented the impact directly to management.' },
+    ],
+    tags: ['Enterprise PLM', 'Memory Tuning', 'JVM / Solr', 'Runbook Authoring', 'Technical Architects'],
+  },
+  {
+    year: 'Ongoing',
+    meta: 'Internal Tooling · Python',
+    title: 'NOC Note Builder — Incident Note Generator',
+    impact: 'Faster, more consistent incident notes across the team',
+    desc: "Built a zero-dependency tkinter GUI (noc_notes.py) that generates formatted ServiceNow/PagerDuty incident notes by severity (Sev0–Sev4) from a library of reusable templates — standard library only, no internet or API key required.",
+    flow: [
+      { label: 'Problem', text: 'Incident notes varied engineer to engineer, slowing handoffs and reviews.' },
+      { label: 'Action', text: 'Built a severity-based note generator with an "Insert" library of reusable resolution notes, all in the Python standard library.' },
+      { label: 'Result', text: 'Faster, more consistent incident documentation the team pastes straight into ServiceNow or PagerDuty.' },
+    ],
+    tags: ['Python', 'tkinter', 'ServiceNow', 'PagerDuty', 'Internal Tooling'],
+  },
+  {
     year: '2024',
     meta: 'Production · Enterprise PLM',
     title: 'JVM Heap & Performance Tuning',
@@ -250,6 +276,20 @@ export const keyProjects: ProjectItem[] = [
     ],
     tags: ['Salt', 'Beacons & Reactors', 'Event-Driven', 'Python', 'systemd', 'Docker'],
     link: 'https://github.com/dineshravichandiran/salt-self-healing-memory',
+  },
+  {
+    year: 'Self-Directed',
+    meta: 'Bash · PLM Operations',
+    title: 'ops-toolkits — PLM Health Checks & Deploy Validation',
+    impact: 'Nagios-style exit codes; report-only and read-only by default',
+    desc: 'Two dependency-light Bash tools built from patterns I use running controlled changes on production PLM hosts: windchill-ops-toolkit (pre/post-change health checks for Apache, Tomcat, JVM, disk, and logs) and deploy-validator (manifest-driven check of whether a deployment landed correctly — files, versions, services, HTTP endpoints).',
+    flow: [
+      { label: 'Problem', text: '"Did this change break something" was usually a guess, not an evidence-based answer, and post-deploy validation logic was hand-coded per app and rotted over time.' },
+      { label: 'Action', text: 'Built windchill-ops-toolkit to capture a baseline, apply a change, and diff against it with Nagios-convention exit codes any monitoring agent can consume directly; built deploy-validator to check a live host against a versioned YAML/JSON manifest instead of hardcoded checks.' },
+      { label: 'Result', text: 'Both tools are report-only/read-only by default, tested against real Bash 3.2 (macOS) and Linux, and designed to gate a CI/CD pipeline stage on their exit code.' },
+    ],
+    tags: ['Bash', 'Windchill', 'Nagios Exit Codes', 'Deploy Validation', 'CI/CD Gate'],
+    link: 'https://github.com/dineshravichandiran/ops-toolkits',
   },
   {
     year: '2.5+ yrs',

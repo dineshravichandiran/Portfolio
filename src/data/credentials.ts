@@ -35,12 +35,13 @@ export const impactStats: ImpactStat[] = [
 ]
 
 export interface CredentialRow {
-  type: 'Certification' | 'Award' | 'Education'
+  type: 'Publication' | 'Certification' | 'Award' | 'Education'
   title: string
   issuer: string
 }
 
 export const credentials: CredentialRow[] = [
+  { type: 'Publication', title: 'WTA Runbook: Memory Optimization for Clustered PLM Nodes', issuer: 'Internal KB 000465274 · Mar 2026 · Referenced by KB 000463106' },
   { type: 'Certification', title: 'Azure Fundamentals (AZ-900)', issuer: 'Microsoft Certified · 2023' },
   { type: 'Certification', title: 'Azure Data Fundamentals (DP-900)', issuer: 'Microsoft Certified · 2023' },
   { type: 'Certification', title: 'Advanced Kubernetes Operations & Linux System Administration', issuer: 'KodeKloud · 2025' },
