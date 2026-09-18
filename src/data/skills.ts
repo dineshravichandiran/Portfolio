@@ -62,6 +62,7 @@ export const toolCategories: ToolCategory[] = [
       { label: 'Java', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' },
       { label: 'Cron / Systemd' },
       { label: 'Docker', icon: 'https://cdn.simpleicons.org/docker' },
+      { label: 'Rundeck' },
     ],
   },
   {

@@ -68,7 +68,7 @@ export const milestones: JourneyMilestone[] = [
     company: 'PTC',
     role: 'Cloud Services Specialist NOC Engineer',
     meta: '04 · PUNE · Now',
-    body: '24×7 production support on AWS and Azure for 50+ Fortune 500 customers. Lead incident response and RCA. Kubernetes (AKS) pod- and node-level troubleshooting with kubectl and k9s — CrashLoopBackOff, OOMKilled, scale-downs. Log analysis, performance tuning, and runbook automation. Growing fast and ready for the next challenge.',
+    body: "24×7 production support on AWS and Azure for 50+ Fortune 500 customers. Lead incident response and RCA. Authored a memory-optimization runbook for clustered PLM nodes now adopted as the org-wide NOC standard, and presented its business impact to management. Kubernetes (AKS) pod- and node-level troubleshooting with kubectl and k9s — CrashLoopBackOff, OOMKilled, scale-downs. Growing fast and ready for the next challenge.",
     tags: ['Kubernetes (AKS)', 'Incident Response', 'Observability', 'Automation', 'AWS & Azure', 'Linux'],
     current: true,
     sceneT: 0.86,
