@@ -105,6 +105,21 @@ export const branches: TreeBranch[] = [
         meta: '2020 · 10,000+ competing teams',
         desc: 'National Grand Finale Winner for the Bureau of Police Research & Development (BPRD). My team of 6 built "Antigen," a web app that detects malicious and rogue chatbots across web and social platforms.',
       },
+      {
+        title: 'Crowdstrike and Digicert Recovery Award',
+        meta: 'PTC · Associate period (Dec 2022 – Oct 2025)',
+        desc: 'Team recognition for stabilizing customer environments during the CrowdStrike incident and DigiCert certificate expiry through dedication, flexibility, and collaboration under pressure.',
+      },
+      {
+        title: 'Performance & Efficiency Award',
+        meta: 'PTC · Nov 2025 – May 2026',
+        desc: 'Recognized for collaborating with the Technical Architect team on scalable, informed decisions, authoring and enhancing knowledge articles, and improving application performance while optimizing resource utilization and infrastructure cost.',
+      },
+      {
+        title: 'SO&S Quality Compliance Award',
+        meta: 'PTC · 2026',
+        desc: 'Recognized for resolving a backlog of alerts marked closed in PagerDuty but still open in Zabbix, improving monitoring accuracy for ISO audit and compliance.',
+      },
     ],
   },
   {
