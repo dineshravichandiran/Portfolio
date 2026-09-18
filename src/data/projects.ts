@@ -300,6 +300,23 @@ export const keyProjects: ProjectItem[] = [
     link: 'https://github.com/dineshravichandiran/ops-toolkits',
   },
   {
+    year: 'Self-Directed',
+    meta: 'Bash · Networking',
+    title: 'net-healthcheck — OSI-Layer Connectivity Diagnostics',
+    impact: '14/14 tests passing · 3 real bugs caught during testing',
+    desc: 'DNS resolution, TCP reachability, HTTP(S) reachability, and TLS certificate expiry checks in one tool, one Nagios-convention exit code — the "is it DNS, routing, or is the app just down" questions from the first minutes of an incident, answered in one pass instead of four separate commands.',
+    flow: [
+      { label: 'Problem', text: 'Diagnosing "is it DNS, routing, or is the app down" during an incident usually means running dig, nc, curl, and openssl s_client by hand, one at a time.' },
+      { label: 'Action', text: 'Built one tool covering all four OSI-adjacent checks, degrading to UNKNOWN instead of crashing when a dependency is missing, tested against real local servers and a real openssl-generated (including genuinely expired) certificate — no mocks.' },
+      { label: 'Result', text: "14/14 tests passing, and testing against real targets caught 3 real bugs: bash's /dev/tcp silently doesn't work on Apple's shipped bash (compiled without --enable-net-redirections), DNS-checking an IP literal always false-failed, and killed test servers left job-control noise in the output." },
+    ],
+    shots: [
+      { src: '/screenshots/net-healthcheck-tests.png', alt: 'Terminal showing net-healthcheck test suite passing 14 of 14 tests', caption: 'net-healthcheck — 14/14' },
+    ],
+    tags: ['Bash', 'Networking', 'DNS', 'TLS', 'Nagios Exit Codes'],
+    link: 'https://github.com/dineshravichandiran/net-healthcheck',
+  },
+  {
     year: '2.5+ yrs',
     meta: 'Root Cause · Performance',
     title: 'Recurring Memory & Performance Root-Cause Initiative',
