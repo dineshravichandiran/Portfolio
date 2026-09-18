@@ -19,6 +19,11 @@ export const branches: TreeBranch[] = [
     color: '#3fb950',
     commits: [
       {
+        title: 'WTA Runbook: Memory Optimization for Clustered PLM Nodes',
+        meta: '2026 · Published Internal KB 000465274',
+        desc: 'Runbook built cross-functionally with the Technical Architect team — pre-checks, JVM/Solr health gates, a 3-method decision tree, and a mandatory validation sequence for memory-arena tuning on clustered 32GB & 64GB nodes. Adopted as the standard referenced by the org-wide NOC memory-alert runbook.',
+      },
+      {
         title: 'Enterprise SaaS Observability & Incident Response',
         meta: 'Ongoing · 50+ Fortune 500 environments',
         desc: 'Built and manage end-to-end monitoring across Zabbix, Sumo Logic, Prometheus, Grafana, CloudWatch, Catchpoint and PagerDuty. Own the full alert lifecycle, validate monitoring for customer go-lives, and lead 24x7 incident response.',
@@ -40,6 +45,12 @@ export const branches: TreeBranch[] = [
     category: 'DevOps & Infrastructure-as-Code',
     color: '#58a6ff',
     commits: [
+      {
+        title: 'ops-toolkits — PLM Health Checks & Deploy Validation',
+        meta: 'Self-Directed · Bash',
+        desc: 'Two dependency-light Bash tools: windchill-ops-toolkit (pre/post-change health checks for Apache, Tomcat, JVM, disk, logs with Nagios-convention exit codes) and deploy-validator (manifest-driven check of whether a deployment landed correctly). Both report-only/read-only by default, tested against real Bash 3.2 and Linux.',
+        link: 'https://github.com/dineshravichandiran/ops-toolkits',
+      },
       {
         title: 'Zabbix Monitoring Lab — Platform Deep-Dive',
         meta: 'Self-Directed · Platform Engineering',

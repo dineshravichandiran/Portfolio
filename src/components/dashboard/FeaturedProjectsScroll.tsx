@@ -11,6 +11,7 @@ const FEATURED_TITLES = [
   'Kubernetes Self-Healing & Chaos Lab',
   'Runbook Automation Engine',
   'Grafana + Prometheus Observability Stack',
+  'ops-toolkits — PLM Health Checks & Deploy Validation',
   'Zabbix Monitoring Lab — Platform Deep-Dive',
   'Self-Healing Infrastructure on AWS',
   'End-to-End DevSecOps CI Pipeline',
