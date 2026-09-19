@@ -26,6 +26,7 @@ export const profile = {
     { label: 'Credly', href: 'https://www.credly.com/users/dineshravichandiran' },
     { label: 'X', href: 'https://x.com/dineshr_' },
     { label: 'Medium', href: 'https://medium.com/@dineshravichandiran' },
+    { label: 'dev.to', href: 'https://dev.to/dinesh_ravichandiran' },
     { label: 'Resume', href: '/Dinesh_Ravichandiran_SRE.pdf', download: true },
   ],
 }
