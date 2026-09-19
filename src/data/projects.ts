@@ -29,10 +29,10 @@ export const workProjects: ProjectItem[] = [
     meta: 'Published Runbook · Enterprise PLM',
     title: 'WTA Runbook: Memory Optimization for Clustered PLM Nodes',
     impact: 'Adopted as the standard referenced by the org-wide NOC memory-alert runbook · Presented business impact to management',
-    desc: 'Authored an internal knowledge-base runbook (KB 000465274), built cross-functionally with the Technical Architect team — pre-checks, JVM/Solr health gates, a 3-method decision tree, and a mandatory backup/restart/validation sequence for memory-arena tuning on clustered 32GB & 64GB nodes.',
+    desc: 'Authored an internal knowledge-base runbook, built cross-functionally with the Technical Architect team — pre-checks, JVM/Solr health gates, a 3-method decision tree, and a mandatory backup/restart/validation sequence for memory-arena tuning on clustered 32GB & 64GB nodes.',
     flow: [
       { label: 'Problem', text: 'Memory-tuning fixes for clustered PLM nodes were inconsistent and tribal across the team.' },
-      { label: 'Action', text: 'Built a decision-tree runbook with health gates and a mandatory validation sequence; published as KB 000465274.' },
+      { label: 'Action', text: 'Built a decision-tree runbook with health gates and a mandatory validation sequence; published to the internal knowledge base.' },
       { label: 'Result', text: 'Adopted as the standard referenced by the org-wide NOC memory-alert runbook; presented the impact directly to management.' },
     ],
     tags: ['Enterprise PLM', 'Memory Tuning', 'JVM / Solr', 'Runbook Authoring', 'Technical Architects'],
