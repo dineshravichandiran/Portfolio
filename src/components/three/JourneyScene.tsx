@@ -36,6 +36,10 @@ export default function JourneyScene() {
         ← Back to Portfolio
       </Link>
 
+      <button type="button" id="orbitToggleBtn" className="journey-orbit-toggle">
+        ◉ 360° View
+      </button>
+
       <div className="info-panel" id="infoPanel">
         <div className="info-meta" id="infoMeta" />
         <h2 id="infoTitle" />
