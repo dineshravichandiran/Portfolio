@@ -8,7 +8,7 @@ export const profile = {
   location: 'Pune, India',
   email: 'dineshravichandiran0808@gmail.com',
   headline: 'I make production failures rare, then rarer.',
-  lede: "Site Reliability Engineer at PTC, keeping enterprise SaaS platforms running 24×7 on AWS & Azure for 50+ Fortune 500 customers. I resolve production issues independently across Kubernetes, Linux, and cloud infrastructure, and extend that into AIOps, infrastructure-as-code, and CI/CD in my own self-directed projects — CKA certification is next up. 5,000+ incidents resolved, 99.9% uptime maintained.",
+  lede: "Site Reliability Engineer with 3.5+ years of production experience at PTC, keeping enterprise SaaS platforms running 24×7 on AWS & Azure for 50+ Fortune 500 customers. I resolve production issues independently across Kubernetes, Linux, and cloud infrastructure, and extend that into AIOps, infrastructure-as-code, and CI/CD in my own self-directed projects — CKA certification is next up. 5,000+ incidents resolved, 99.9% uptime maintained.",
   tag: 'Open to Site Reliability Engineering (SRE) roles',
   now: "Currently a Cloud Services Specialist NOC Engineer at PTC (promoted Jun 2026, relocated from Gurgaon to Pune that September), running 24×7 production operations across enterprise PLM, IIoT, and microservice infrastructure on AKS. Earlier this year I authored a memory-optimization runbook for clustered PLM nodes that's now the standard referenced by the org-wide NOC memory-alert runbook — I presented its business impact directly to management. I keep growing through an MBA in Information Systems & Analytics, hands-on labs, and continuous self-study. Give me a challenging problem and a team to grow with, and I will deliver.",
   stats: [
