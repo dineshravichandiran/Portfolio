@@ -28,7 +28,7 @@ export default function Tree() {
       if (activeBranchRef.current === idx) return
       const prevDot = dotRefs.current[activeBranchRef.current]
       if (prevDot) {
-        prevDot.classList.remove('marker-active')
+        prevDot.classList.remove('marker-active', 'marker-blink')
         prevDot.style.boxShadow = ''
       }
       activeBranchRef.current = idx
@@ -39,6 +39,7 @@ export default function Tree() {
         dot.classList.remove('marker-blink')
         void dot.offsetWidth
         dot.classList.add('marker-blink')
+        dot.addEventListener('animationend', () => dot.classList.remove('marker-blink'), { once: true })
       }
     }
 
