@@ -32,7 +32,10 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  // PCFSoftShadowMap is deprecated in this Three.js version and was already
+  // silently substituted with PCFShadowMap at runtime (with a console
+  // warning) - setting it explicitly matches what was actually rendering.
+  renderer.shadowMap.type = THREE.PCFShadowMap
 
   // ====================================================
   // LIGHTING
@@ -1384,6 +1387,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   const prevBtn = document.getElementById('prevMilestoneBtn') as HTMLButtonElement
   const nextBtn = document.getElementById('nextMilestoneBtn') as HTMLButtonElement
   const loaderEl = document.getElementById('journeyLoader')
+  const orbitToggleBtn = document.getElementById('orbitToggleBtn') as HTMLButtonElement | null
 
   function rideTo(index: number) {
     targetT = milestoneT[index]
@@ -1438,13 +1442,18 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   // ====================================================
   // ANIMATE
   // ====================================================
-  const clock = new THREE.Clock()
+  // THREE.Clock is deprecated in this version in favor of Timer, which also
+  // fixes a subtle bug the old code had: reading clock.elapsedTime before
+  // calling clock.getDelta() (the thing that actually updates it) meant
+  // `time` was always one frame stale. Timer.update() then getElapsed()
+  // reads the current frame's value correctly.
+  const timer = new THREE.Timer()
   let rafId = 0
 
   function animate() {
     rafId = requestAnimationFrame(animate)
-    const time = clock.elapsedTime
-    clock.getDelta()
+    timer.update()
+    const time = timer.getElapsed()
 
     updateBikePosition()
 
@@ -1513,11 +1522,19 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     } else {
       hideOrbitHint()
     }
+    if (orbitToggleBtn) {
+      orbitToggleBtn.textContent = on ? '✕ Exit 360° View' : '◉ 360° View'
+    }
   }
 
   function onOrbitHintClick() {
     setOrbitMode(false)
   }
+
+  function onOrbitToggleClick() {
+    setOrbitMode(cameraMode !== 'orbit')
+  }
+  orbitToggleBtn?.addEventListener('click', onOrbitToggleClick)
 
   function showOrbitHint() {
     let el = document.getElementById('orbitHint')
@@ -1620,6 +1637,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     canvas.removeEventListener('touchend', onCanvasTouchEnd)
     prevBtn.removeEventListener('click', onPrevClick)
     nextBtn.removeEventListener('click', onNextClick)
+    orbitToggleBtn?.removeEventListener('click', onOrbitToggleClick)
     document.getElementById('orbitHint')?.remove()
 
     scene.traverse((obj) => {
