@@ -82,7 +82,8 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
 
   addZonePatch(7, 20, 0xd4c896, 0.25)
   addZonePatch(25, 20, 0x8db05a, 0.25)
-  addZonePatch(48, 25, 0xc4b888, 0.25)
+  addZonePatch(38, 11, 0x9fb0c4, 0.28)
+  addZonePatch(52, 16, 0xc4b888, 0.25)
 
   // ====================================================
   // ROAD PATH (Curve)
@@ -317,7 +318,8 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   const ZONES = {
     CHENNAI: { xStart: -5, xEnd: 15 },
     BANGALORE: { xStart: 15, xEnd: 35 },
-    PUNE: { xStart: 35, xEnd: 65 },
+    GURGAON: { xStart: 35, xEnd: 45 },
+    PUNE: { xStart: 45, xEnd: 65 },
   }
 
   const MILESTONE_EXCLUSION_X = [6, 17, 28, 40, 52]
@@ -326,7 +328,8 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   const LANDMARK_EXCLUSION = [
     { x: 7, z: -8 },
     { x: 18, z: -13 },
-    { x: 46, z: -9 },
+    { x: 34, z: -9 },
+    { x: 52, z: -9 },
   ]
   const LANDMARK_EXCLUSION_RADIUS = 11
 
@@ -580,14 +583,14 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     scene.add(g)
   }
 
-  ;[ZONES.CHENNAI, ZONES.BANGALORE, ZONES.PUNE].forEach((zone) => {
+  ;[ZONES.CHENNAI, ZONES.BANGALORE, ZONES.GURGAON, ZONES.PUNE].forEach((zone) => {
     for (let i = 0; i < 10; i++) {
       const p = randomInZone(zone, 4, 13)
       addBuilding(p.x, p.z, p.z > 0 ? 1 : -1)
     }
   })
 
-  ;[ZONES.CHENNAI, ZONES.BANGALORE, ZONES.PUNE].forEach((zone) => {
+  ;[ZONES.CHENNAI, ZONES.BANGALORE, ZONES.GURGAON, ZONES.PUNE].forEach((zone) => {
     for (let i = 0; i < 8; i++) {
       const p = randomInZone(zone, 3, 10)
       addTree(p.x, p.z)
@@ -834,9 +837,76 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     scene.add(g)
   }
 
+  function buildGurgaonLandmark(x: number) {
+    const g = new THREE.Group()
+    const glassMat = new THREE.MeshLambertMaterial({ color: 0x4a6fa5 })
+    const glassMatDark = new THREE.MeshLambertMaterial({ color: 0x2d4a73 })
+    const frameMat = new THREE.MeshLambertMaterial({ color: 0xc8cdd4 })
+
+    // Three glass office towers of varying height — Gurgaon's Cyber City skyline
+    const towers = [
+      { h: 5.5, x: -2.2 },
+      { h: 7, x: 0 },
+      { h: 4.5, x: 2.2 },
+    ]
+    towers.forEach(({ h, x: tx }, i) => {
+      const tower = new THREE.Mesh(new THREE.BoxGeometry(1.6, h, 1.6), i === 1 ? glassMatDark : glassMat)
+      tower.position.set(tx, h / 2, 0)
+      tower.castShadow = true
+      g.add(tower)
+
+      // Horizontal mullions read as a window grid from a distance
+      for (let f = 1; f < h; f++) {
+        const mullion = new THREE.Mesh(new THREE.BoxGeometry(1.62, 0.04, 1.62), frameMat)
+        mullion.position.set(tx, f, 0)
+        g.add(mullion)
+      }
+
+      if (i === 1) {
+        const spire = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.05, 1.2, 6), frameMat)
+        spire.position.set(tx, h + 0.6, 0)
+        g.add(spire)
+        const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 6), new THREE.MeshBasicMaterial({ color: 0xff4444 }))
+        beacon.position.set(tx, h + 1.2, 0)
+        g.add(beacon)
+      }
+    })
+
+    const plaza = new THREE.Mesh(new THREE.BoxGeometry(7, 0.15, 2.4), frameMat)
+    plaza.position.set(0, 0.075, 0)
+    g.add(plaza)
+
+    const signCanvas = document.createElement('canvas')
+    signCanvas.width = 640
+    signCanvas.height = 160
+    const sctx = signCanvas.getContext('2d')!
+    sctx.fillStyle = '#3e8ede'
+    sctx.fillRect(0, 0, 640, 160)
+    sctx.strokeStyle = '#facc15'
+    sctx.lineWidth = 8
+    sctx.strokeRect(6, 6, 628, 148)
+    sctx.fillStyle = '#facc15'
+    sctx.font = 'bold 58px Arial, Helvetica, sans-serif'
+    sctx.textAlign = 'center'
+    sctx.textBaseline = 'middle'
+    sctx.fillText('CYBER HUB', 320, 82)
+    const tex = new THREE.CanvasTexture(signCanvas)
+    tex.minFilter = THREE.LinearFilter
+    tex.magFilter = THREE.LinearFilter
+    tex.anisotropy = 8
+    const panel = new THREE.Mesh(new THREE.PlaneGeometry(4, 1.0), new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }))
+    panel.position.set(0, 5.6, 0.9)
+    g.add(panel)
+
+    g.position.set(x, 0, -9)
+    g.rotation.y = 0.25
+    scene.add(g)
+  }
+
   buildChennaiLandmark(7)
   buildBangaloreLandmark(22)
-  buildPuneLandmark(46)
+  buildGurgaonLandmark(34)
+  buildPuneLandmark(52)
 
   // ====================================================
   // CITY ROADSIDE SIGN + KM MARKERS
@@ -911,7 +981,8 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
 
   makeMilestoneStone(3, 'CHENNAI', 'START')
   makeMilestoneStone(16, 'BANGALORE', '↑')
-  makeMilestoneStone(34, 'PUNE', '↑')
+  makeMilestoneStone(28, 'GURGAON', '↑')
+  makeMilestoneStone(40, 'PUNE', '↑')
 
   function addKmMarker(x: number, side: number) {
     const g = new THREE.Group()
