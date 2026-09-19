@@ -20,7 +20,7 @@ export const branches: TreeBranch[] = [
     commits: [
       {
         title: 'WTA Runbook: Memory Optimization for Clustered PLM Nodes',
-        meta: '2026 · Published Internal KB 000465274',
+        meta: '2026 · Published to PTC\'s Internal Knowledge Base',
         desc: 'Runbook built cross-functionally with the Technical Architect team — pre-checks, JVM/Solr health gates, a 3-method decision tree, and a mandatory validation sequence for memory-arena tuning on clustered 32GB & 64GB nodes. Adopted as the standard referenced by the org-wide NOC memory-alert runbook.',
       },
       {
