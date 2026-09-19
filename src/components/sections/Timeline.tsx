@@ -113,7 +113,12 @@ export default function Timeline() {
   useEffect(() => {
     function setActive(idx: number) {
       if (activeRef.current === idx) return
-      dotRefs.current[activeRef.current]?.classList.remove('marker-active')
+      // marker-blink must not linger after its own animation finishes: the
+      // `.marker-dot.marker-blink` selector out-specifies Tailwind's
+      // `.animate-pulse`, so as long as the class is present — even once its
+      // 2-iteration flash has finished playing — the "Current" milestone dot's
+      // continuous pulse stays fully blocked, not just paused.
+      dotRefs.current[activeRef.current]?.classList.remove('marker-active', 'marker-blink')
       activeRef.current = idx
       const dot = dotRefs.current[idx]
       if (dot) {
@@ -121,6 +126,7 @@ export default function Timeline() {
         dot.classList.remove('marker-blink')
         void dot.offsetWidth
         dot.classList.add('marker-blink')
+        dot.addEventListener('animationend', () => dot.classList.remove('marker-blink'), { once: true })
       }
     }
 
