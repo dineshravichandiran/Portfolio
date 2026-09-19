@@ -41,7 +41,7 @@ export interface CredentialRow {
 }
 
 export const credentials: CredentialRow[] = [
-  { type: 'Publication', title: 'WTA Runbook: Memory Optimization for Clustered PLM Nodes', issuer: 'Internal KB 000465274 · Mar 2026 · Referenced by KB 000463106' },
+  { type: 'Publication', title: 'WTA Runbook: Memory Optimization for Clustered PLM Nodes', issuer: 'PTC Internal Knowledge Base · Mar 2026 · Referenced by the org-wide NOC memory-alert runbook' },
   { type: 'Certification', title: 'Azure Fundamentals (AZ-900)', issuer: 'Microsoft Certified · 2023' },
   { type: 'Certification', title: 'Azure Data Fundamentals (DP-900)', issuer: 'Microsoft Certified · 2023' },
   { type: 'Certification', title: 'Advanced Kubernetes Operations & Linux System Administration', issuer: 'KodeKloud · 2025' },
