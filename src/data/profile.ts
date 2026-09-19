@@ -27,6 +27,7 @@ export const profile = {
     { label: 'X', href: 'https://x.com/dineshr_' },
     { label: 'Medium', href: 'https://medium.com/@dineshravichandiran' },
     { label: 'dev.to', href: 'https://dev.to/dinesh_ravichandiran' },
+    { label: 'SRE Blog', href: 'https://jvm-thread-heap-dumps-sre.hashnode.dev' },
     { label: 'Resume', href: '/Dinesh_Ravichandiran_SRE.pdf', download: true },
   ],
 }
