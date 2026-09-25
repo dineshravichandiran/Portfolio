@@ -54,7 +54,7 @@ function MilestoneCard({
   const { ref, onMouseMove } = useSpotlight<HTMLDivElement>()
 
   return (
-    <Reveal delayMs={delayMs} className="relative pb-12 last:pb-0">
+    <Reveal delayMs={delayMs} variant="right" className="relative pb-12 last:pb-0">
       <div ref={blockRef}>
         <span
           ref={dotRef}
