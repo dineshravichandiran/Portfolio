@@ -56,6 +56,21 @@ export default function JourneyScene() {
           </button>
         </div>
       </div>
+
+      <div className="secret-panel" id="secretPanel">
+        <button type="button" className="secret-close-btn" id="secretCloseBtn" aria-label="Close">
+          ✕
+        </button>
+        <div className="secret-meta">🏆 Hidden Trophy Case</div>
+        <h2>You noticed it.</h2>
+        <p className="secret-body">A few wins that don't fit on a roadside sign:</p>
+        <ul className="secret-list">
+          <li>Smart India Hackathon (SIH) 2020 — National Winner, 10,000+ teams</li>
+          <li>PTC Crowdstrike &amp; DigiCert Recovery Award</li>
+          <li>PTC Performance &amp; Efficiency Award</li>
+          <li>PTC SO&amp;S Quality Compliance Award</li>
+        </ul>
+      </div>
     </div>
   )
 }
