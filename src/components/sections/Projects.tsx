@@ -23,7 +23,7 @@ export default function Projects() {
         .
       </p>
       {keyProjects.map((project, i) => (
-        <Reveal key={project.title} delayMs={Math.min(i, 4) * 70}>
+        <Reveal key={project.title} delayMs={Math.min(i, 4) * 70} variant="scale">
           <ProjectCard project={project} />
         </Reveal>
       ))}
