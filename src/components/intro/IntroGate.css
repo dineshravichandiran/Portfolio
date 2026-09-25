@@ -80,6 +80,22 @@
 .intro-gate-text {
   text-align: center;
   transition: opacity 0.3s ease, transform 0.3s ease;
+  animation: intro-text-pop 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes intro-text-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .intro-gate.is-entering .intro-gate-text {
@@ -97,6 +113,31 @@
 
 .intro-gate-name-accent {
   color: #3e8ede;
+}
+
+/* A single light-flash sweeps across each half of the name once, right
+   after it finishes decoding in — the "hero reveal" moment. */
+.intro-gate-name-wrap {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.intro-gate-name-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.9) 50%, transparent 70%);
+  transform: translateX(-150%);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  animation: intro-name-shine 1.1s ease-out 1;
+  animation-delay: 0.9s;
+}
+
+@keyframes intro-name-shine {
+  to {
+    transform: translateX(150%);
+  }
 }
 
 .intro-gate-role {
@@ -134,5 +175,11 @@
   }
   .intro-gate-cue {
     animation: none;
+  }
+  .intro-gate-text {
+    animation: none;
+  }
+  .intro-gate-name-shine {
+    display: none;
   }
 }

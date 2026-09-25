@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { initIntroGlobe } from '../three/introGlobeEngine'
 import { playEnterSound } from '../../lib/sound'
 import { profile } from '../../data/profile'
+import ScrambleText from '../ui/ScrambleText'
 import './IntroGate.css'
 
 const SESSION_KEY = 'portfolio-intro-seen'
@@ -69,7 +70,14 @@ export default function IntroGate() {
       </div>
       <div className="intro-gate-text">
         <div className="intro-gate-name">
-          {firstName} <span className="intro-gate-name-accent">{lastName}</span>
+          <span className="intro-gate-name-wrap">
+            <ScrambleText text={firstName} />
+            <span className="intro-gate-name-shine" aria-hidden="true" />
+          </span>{' '}
+          <span className="intro-gate-name-wrap">
+            <ScrambleText text={lastName} className="intro-gate-name-accent" />
+            <span className="intro-gate-name-shine" aria-hidden="true" />
+          </span>
         </div>
         <div className="intro-gate-role">{profile.role}</div>
         <div className="intro-gate-cue">Click the globe to enter</div>
