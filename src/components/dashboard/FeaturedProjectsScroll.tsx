@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { keyProjects } from '../../data/projects'
+import TechTag from '../ui/TechTag'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -150,12 +151,7 @@ export default function FeaturedProjectsScroll() {
               <p className="text-text-secondary text-sm leading-relaxed mb-4 line-clamp-3">{p.desc}</p>
               <div className="flex flex-wrap gap-1.5 mb-4">
                 {p.tags.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[0.68rem] font-mono text-dim border border-panel-border-strong rounded-full px-2 py-0.5"
-                  >
-                    {tag}
-                  </span>
+                  <TechTag key={tag} label={tag} compact />
                 ))}
               </div>
               <div className="text-xs text-ok font-mono">↑ {p.impact}</div>

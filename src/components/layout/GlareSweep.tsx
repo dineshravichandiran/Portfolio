@@ -52,8 +52,10 @@ export default function GlareSweep() {
       aria-hidden="true"
       className="fixed top-0 left-0 w-full h-[3px] pointer-events-none z-[9000] blur-[1px]"
       style={{
-        background: 'linear-gradient(100deg, transparent 40%, rgba(255,255,255,0.6) 50%, transparent 60%)',
-        opacity: 0.7,
+        // Accent blue instead of white — white read as barely-there against
+        // the dark background; the site's own accent color shows up clearly.
+        background: 'linear-gradient(100deg, transparent 35%, rgba(62, 142, 222, 0.9) 50%, transparent 65%)',
+        opacity: 0.9,
       }}
     />
   )
