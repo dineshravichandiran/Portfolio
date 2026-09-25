@@ -41,13 +41,36 @@ export interface CredentialRow {
   type: 'Publication' | 'Certification' | 'Award' | 'Education'
   title: string
   issuer: string
+  /** Certification only: the exam's own official tier name (or, for non-tiered
+   * courses, a fair descriptive label — noted inline where that's the case). */
+  tier?: string
+  /** Certification only: real topics from the exam's public skills outline. */
+  tags?: string[]
 }
 
 export const credentials: CredentialRow[] = [
   { type: 'Publication', title: 'WTA Runbook: Memory Optimization for Clustered PLM Nodes', issuer: 'PTC Internal Knowledge Base · Mar 2026 · Referenced by the org-wide NOC memory-alert runbook' },
-  { type: 'Certification', title: 'Azure Fundamentals (AZ-900)', issuer: 'Microsoft Certified · 2023' },
-  { type: 'Certification', title: 'Azure Data Fundamentals (DP-900)', issuer: 'Microsoft Certified · 2023' },
-  { type: 'Certification', title: 'Advanced Kubernetes Operations & Linux System Administration', issuer: 'KodeKloud · 2025' },
+  {
+    type: 'Certification',
+    title: 'Azure Fundamentals (AZ-900)',
+    issuer: 'Microsoft Certified · 2023',
+    tier: 'Fundamentals',
+    tags: ['Cloud Concepts', 'Azure Architecture', 'Governance & Compliance'],
+  },
+  {
+    type: 'Certification',
+    title: 'Azure Data Fundamentals (DP-900)',
+    issuer: 'Microsoft Certified · 2023',
+    tier: 'Fundamentals',
+    tags: ['Core Data Concepts', 'Relational & Non-Relational Data', 'Analytics Workloads'],
+  },
+  {
+    type: 'Certification',
+    title: 'Advanced Kubernetes Operations & Linux System Administration',
+    issuer: 'KodeKloud · 2025',
+    tier: 'Specialist',
+    tags: ['Kubernetes Administration', 'Linux System Administration', 'Troubleshooting'],
+  },
   { type: 'Award', title: 'Smart India Hackathon Winner', issuer: 'National Level · 2020 · 10,000+ competing teams' },
   { type: 'Award', title: 'SO&S Quality Compliance Award', issuer: 'PTC · Resolved a PagerDuty/Zabbix alert-closure backlog, strengthening ISO audit compliance · 2026' },
   { type: 'Award', title: 'Performance & Efficiency Award', issuer: 'PTC · Technical Architect collaboration, runbook authoring, cost optimization · Nov 2025 – May 2026' },
