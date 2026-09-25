@@ -3,13 +3,12 @@ import MagneticLink from '../ui/MagneticLink'
 import Reveal from '../ui/Reveal'
 import { profile } from '../../data/profile'
 
-function OutlineReliable() {
-  const ref = useRef<HTMLSpanElement>(null)
+function Headline() {
+  const ref = useRef<HTMLHeadingElement>(null)
   const [inView, setInView] = useState(false)
 
-  // Deliberately one-shot (unlike the rest of the site's bidirectional
-  // reveals) — this word hollows out once and stays that way, it doesn't
-  // flip back to solid if you scroll away and return.
+  // One-shot: the line wipes in once and stays revealed, it doesn't
+  // replay if you scroll away and back.
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -20,16 +19,22 @@ function OutlineReliable() {
           observer.unobserve(el)
         }
       },
-      { threshold: 0.5 },
+      { threshold: 0.4 },
     )
     observer.observe(el)
     return () => observer.disconnect()
   }, [])
 
   return (
-    <span ref={ref} className={`word-reliable ${inView ? 'in-view' : ''}`}>
-      reliable
-    </span>
+    <h2
+      ref={ref}
+      className={`headline-reveal ${inView ? 'in-view' : ''} text-[clamp(1.8rem,4vw,2.6rem)] font-bold tracking-tight mb-5 text-balance`}
+    >
+      <span className="headline-reveal-text">
+        Let's build something <span className="word-reliable">reliable</span>.
+      </span>
+      <span className="headline-reveal-bar" aria-hidden="true" />
+    </h2>
   )
 }
 
@@ -38,9 +43,7 @@ export default function Contact() {
     <div className="container pt-8 pb-0">
       <Reveal className="py-12 pb-16 text-center">
         <div className="font-mono text-[0.78rem] text-accent tracking-wide mb-4">// Contact</div>
-        <h2 className="text-[clamp(1.8rem,4vw,2.6rem)] font-bold tracking-tight mb-5 text-balance">
-          Let's build something <OutlineReliable />.
-        </h2>
+        <Headline />
         <p className="text-text-secondary text-[1.05rem] leading-relaxed max-w-[60ch] mx-auto mb-10">
           Open to <strong>Site Reliability Engineering (SRE)</strong> roles. I solve real
           production problems, learn fast, and take ownership. If you're hiring someone reliable
