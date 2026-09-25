@@ -1,12 +1,33 @@
+import { useEffect, useRef, useState } from 'react'
 import MagneticLink from '../ui/MagneticLink'
 import Reveal from '../ui/Reveal'
-import { useReveal } from '../../hooks/useReveal'
 import { profile } from '../../data/profile'
 
 function OutlineReliable() {
-  const { ref, visible } = useReveal<HTMLSpanElement>()
+  const ref = useRef<HTMLSpanElement>(null)
+  const [inView, setInView] = useState(false)
+
+  // Deliberately one-shot (unlike the rest of the site's bidirectional
+  // reveals) — this word hollows out once and stays that way, it doesn't
+  // flip back to solid if you scroll away and return.
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true)
+          observer.unobserve(el)
+        }
+      },
+      { threshold: 0.5 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <span ref={ref} className={`word-reliable ${visible ? 'in-view' : ''}`}>
+    <span ref={ref} className={`word-reliable ${inView ? 'in-view' : ''}`}>
       reliable
     </span>
   )
