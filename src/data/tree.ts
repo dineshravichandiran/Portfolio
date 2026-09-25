@@ -19,8 +19,8 @@ export const branches: TreeBranch[] = [
     color: '#3fb950',
     commits: [
       {
-        title: 'WTA Runbook: Memory Optimization for Clustered PLM Nodes',
-        meta: '2026 · Published to PTC\'s Internal Knowledge Base',
+        title: 'Runbook: Memory Optimization for Clustered PLM Nodes',
+        meta: 'PTC · 2026',
         desc: 'Runbook built cross-functionally with the Technical Architect team — pre-checks, JVM/Solr health gates, a 3-method decision tree, and a mandatory validation sequence for memory-arena tuning on clustered 32GB & 64GB nodes. Adopted as the standard referenced by the org-wide NOC memory-alert runbook.',
       },
       {
@@ -91,7 +91,7 @@ export const branches: TreeBranch[] = [
       {
         title: 'Personal Cloud/SRE Portfolio & 3D Career Journey',
         meta: 'Finished · Solo build',
-        desc: 'Designed and deployed this portfolio and an interactive 3D career-journey site (React, TypeScript, Three.js) via Netlify — proof I can build and ship, not just operate.',
+        desc: 'Designed and deployed this portfolio and an interactive 3D career-journey site (React, TypeScript, Three.js, GSAP) via Netlify — proof I can build and ship, not just operate.',
       },
     ],
   },
