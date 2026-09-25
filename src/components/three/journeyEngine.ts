@@ -1189,6 +1189,42 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   const floaters: THREE.Object3D[] = []
 
   // ====================================================
+  // HIDDEN ACHIEVEMENT HOTSPOT
+  // A small glowing gem, easy to miss, floating off to the side near the
+  // final milestone. Rewards attentive visitors with a bonus "trophy case"
+  // card of achievements that don't fit on a roadside sign.
+  // ====================================================
+  const hotspotT = 0.93
+  const hotspotBasePos = curve.getPointAt(hotspotT)
+  const hotspotTangent = curve.getTangentAt(hotspotT).normalize()
+  const hotspotSide = new THREE.Vector3().crossVectors(hotspotTangent, upVec).normalize()
+  const hotspotPos = hotspotBasePos.clone().addScaledVector(hotspotSide, -4.6)
+  hotspotPos.y = 2.6
+
+  const hotspot = new THREE.Group()
+  hotspot.position.copy(hotspotPos)
+
+  const gemMat = new THREE.MeshStandardMaterial({
+    color: 0xfacc15,
+    emissive: 0xfbbf24,
+    emissiveIntensity: 0.9,
+    metalness: 0.6,
+    roughness: 0.25,
+  })
+  const gem = new THREE.Mesh(new THREE.OctahedronGeometry(0.22, 0), gemMat)
+  hotspot.add(gem)
+
+  const haloMat = new THREE.MeshBasicMaterial({ color: 0xfde68a, transparent: true, opacity: 0.22 })
+  const halo = new THREE.Mesh(new THREE.SphereGeometry(0.42, 16, 12), haloMat)
+  hotspot.add(halo)
+
+  const hotspotHit = new THREE.Mesh(new THREE.SphereGeometry(0.85, 12, 10), new THREE.MeshBasicMaterial({ visible: false }))
+  hotspotHit.name = 'hotspotHit'
+  hotspot.add(hotspotHit)
+
+  scene.add(hotspot)
+
+  // ====================================================
   // THE CAR
   // ====================================================
   const bike = new THREE.Group()
@@ -1388,6 +1424,16 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   const nextBtn = document.getElementById('nextMilestoneBtn') as HTMLButtonElement
   const loaderEl = document.getElementById('journeyLoader')
   const orbitToggleBtn = document.getElementById('orbitToggleBtn') as HTMLButtonElement | null
+  const secretPanel = document.getElementById('secretPanel')
+  const secretCloseBtn = document.getElementById('secretCloseBtn') as HTMLButtonElement | null
+
+  function showSecret() {
+    secretPanel?.classList.add('visible')
+  }
+  function hideSecret() {
+    secretPanel?.classList.remove('visible')
+  }
+  secretCloseBtn?.addEventListener('click', hideSecret)
 
   function rideTo(index: number) {
     targetT = milestoneT[index]
@@ -1491,6 +1537,13 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
       ring.scale.setScalar(1 + Math.sin(time * 3) * 0.15)
     }
 
+    gem.rotation.y += 0.012
+    gem.rotation.x += 0.007
+    const gemPulse = 1 + Math.sin(time * 2) * 0.15
+    gem.scale.setScalar(gemPulse)
+    halo.scale.setScalar(1 + Math.sin(time * 2) * 0.3)
+    haloMat.opacity = 0.16 + Math.sin(time * 2) * 0.1
+
     renderer.render(scene, camera)
   }
   animate()
@@ -1566,6 +1619,13 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     pointer.y = -(clientY / window.innerHeight) * 2 + 1
 
     raycaster.setFromCamera(pointer, camera)
+
+    const hotspotHits = raycaster.intersectObject(hotspotHit, true)
+    if (hotspotHits.length > 0) {
+      showSecret()
+      return
+    }
+
     const hits = raycaster.intersectObject(bike, true)
 
     if (hits.length > 0 && cameraMode === 'follow') {
@@ -1583,7 +1643,8 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     pointer.x = (e.clientX / window.innerWidth) * 2 - 1
     pointer.y = -(e.clientY / window.innerHeight) * 2 + 1
     raycaster.setFromCamera(pointer, camera)
-    const hits = raycaster.intersectObject(bike, true)
+    const hotspotHits = raycaster.intersectObject(hotspotHit, true)
+    const hits = hotspotHits.length > 0 ? hotspotHits : raycaster.intersectObject(bike, true)
     canvas.style.cursor = hits.length > 0 ? 'pointer' : 'default'
   }
   canvas.addEventListener('mousemove', onCanvasMouseMove)
@@ -1638,6 +1699,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     prevBtn.removeEventListener('click', onPrevClick)
     nextBtn.removeEventListener('click', onNextClick)
     orbitToggleBtn?.removeEventListener('click', onOrbitToggleClick)
+    secretCloseBtn?.removeEventListener('click', hideSecret)
     document.getElementById('orbitHint')?.remove()
 
     scene.traverse((obj) => {
