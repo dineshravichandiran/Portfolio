@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SectionHeader from '../ui/SectionHeader'
 import { credentials } from '../../data/credentials'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const certifications = credentials.filter((c) => c.type === 'Certification')
 
 const FAN_ROTATE_DEG = 14
 const FAN_OFFSET_X = 160
 const FAN_OFFSET_Y = 10
+const AUTO_INTERVAL_MS = 3500
+const RESUME_DELAY_MS = 4000
 
 const TIER_COLOR: Record<string, string> = {
   Fundamentals: 'var(--color-accent)',
@@ -28,29 +26,81 @@ function BadgeIcon({ color }: { color: string }) {
 
 export default function Certifications() {
   const [active, setActive] = useState(Math.floor(certifications.length / 2))
+  const [entered, setEntered] = useState(false)
   const stageRef = useRef<HTMLDivElement>(null)
+  const autoTimerRef = useRef<number | null>(null)
+  const resumeTimeoutRef = useRef<number | null>(null)
+  const inViewRef = useRef(false)
 
+  function step(delta: number) {
+    setActive((prev) => ((prev + delta) % certifications.length + certifications.length) % certifications.length)
+  }
+
+  function stopAuto() {
+    if (autoTimerRef.current !== null) {
+      window.clearInterval(autoTimerRef.current)
+      autoTimerRef.current = null
+    }
+  }
+
+  function startAuto() {
+    stopAuto()
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    autoTimerRef.current = window.setInterval(() => step(1), AUTO_INTERVAL_MS)
+  }
+
+  // Any manual pick (click, wheel) pauses the auto-cycle for a bit so it
+  // doesn't immediately fight what the visitor just chose, then resumes.
+  function pauseThenResume() {
+    stopAuto()
+    if (resumeTimeoutRef.current !== null) window.clearTimeout(resumeTimeoutRef.current)
+    resumeTimeoutRef.current = window.setTimeout(() => {
+      if (inViewRef.current) startAuto()
+    }, RESUME_DELAY_MS)
+  }
+
+  function pick(i: number) {
+    setActive(i)
+    pauseThenResume()
+  }
+
+  // A single React-owned "entered" flag drives the fan-in/out — combined
+  // into the same transform/opacity each card already computes below —
+  // instead of a separate GSAP tween fighting React for the same
+  // properties (transform, opacity) on every render.
   useEffect(() => {
     const stage = stageRef.current
     if (!stage) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setEntered(entry.isIntersecting)
+        inViewRef.current = entry.isIntersecting
+        if (entry.isIntersecting) startAuto()
+        else stopAuto()
+      },
+      { threshold: 0.3 },
+    )
+    observer.observe(stage)
+    return () => {
+      observer.disconnect()
+      stopAuto()
+      if (resumeTimeoutRef.current !== null) window.clearTimeout(resumeTimeoutRef.current)
+    }
+  }, [])
 
-    const cards = Array.from(stage.children) as HTMLElement[]
-    gsap.set(cards, { opacity: 0, y: 40, scale: 0.85 })
-    const fanIn = () =>
-      gsap.to(cards, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out', stagger: 0.08, overwrite: true })
-    const fanOut = () =>
-      gsap.to(cards, { opacity: 0, y: 40, scale: 0.85, duration: 0.35, ease: 'power1.in', stagger: 0.04, overwrite: true })
-
-    const trigger = ScrollTrigger.create({
-      trigger: stage,
-      start: 'top 85%',
-      onEnter: fanIn,
-      onEnterBack: fanIn,
-      onLeave: fanOut,
-      onLeaveBack: fanOut,
-    })
-    return () => trigger.kill()
+  // Scroll the mouse wheel over the deck to browse cards instead of only
+  // being able to click one to the front.
+  useEffect(() => {
+    const stage = stageRef.current
+    if (!stage) return
+    function onWheel(e: WheelEvent) {
+      if (Math.abs(e.deltaY) < 4) return
+      e.preventDefault()
+      step(e.deltaY > 0 ? 1 : -1)
+      pauseThenResume()
+    }
+    stage.addEventListener('wheel', onWheel, { passive: false })
+    return () => stage.removeEventListener('wheel', onWheel)
   }, [])
 
   return (
@@ -72,11 +122,11 @@ export default function Certifications() {
             <button
               key={c.title}
               type="button"
-              onClick={() => setActive(i)}
+              onClick={() => pick(i)}
               aria-label={`Bring "${c.title}" to front`}
               className="absolute w-[230px] sm:w-[260px] bg-panel border rounded-xl p-5 text-left cursor-pointer transition-[transform,filter,box-shadow,border-color,opacity] duration-500 ease-out flex flex-col"
               style={{
-                transform: `translateX(${offset * FAN_OFFSET_X}px) translateY(${Math.abs(offset) * FAN_OFFSET_Y}px) rotateY(${-offset * FAN_ROTATE_DEG}deg) scale(${isActive ? 1.05 : 0.88})`,
+                transform: `translateX(${offset * FAN_OFFSET_X}px) translateY(${Math.abs(offset) * FAN_OFFSET_Y + (entered ? 0 : 40)}px) rotateY(${-offset * FAN_ROTATE_DEG}deg) scale(${(isActive ? 1.05 : 0.88) * (entered ? 1 : 0.85)})`,
                 filter: isActive ? 'none' : 'blur(2px)',
                 zIndex: 10 - Math.abs(offset),
                 borderColor: isActive ? tierColor : 'var(--color-panel-border)',
@@ -84,8 +134,9 @@ export default function Certifications() {
                 boxShadow: isActive
                   ? `0 22px 44px -14px color-mix(in srgb, ${tierColor} 45%, transparent)`
                   : '0 10px 24px -10px rgba(0, 0, 0, 0.5)',
-                opacity: hidden ? 0 : isActive ? 1 : 0.55,
-                pointerEvents: hidden ? 'none' : 'auto',
+                opacity: hidden || !entered ? 0 : isActive ? 1 : 0.55,
+                pointerEvents: hidden || !entered ? 'none' : 'auto',
+                transitionDelay: entered ? `${Math.abs(offset) * 80}ms` : '0ms',
               }}
             >
               <div className="flex items-center justify-between mb-3.5">
@@ -131,7 +182,7 @@ export default function Certifications() {
           <button
             key={c.title}
             type="button"
-            onClick={() => setActive(i)}
+            onClick={() => pick(i)}
             aria-label={`Show ${c.title}`}
             className={`w-2 h-2 rounded-full cursor-pointer transition-colors ${
               i === active ? 'bg-accent' : 'bg-panel-border-strong hover:bg-panel-border-strong/70'

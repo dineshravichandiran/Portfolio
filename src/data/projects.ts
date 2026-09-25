@@ -27,12 +27,12 @@ export const workProjects: ProjectItem[] = [
   {
     year: '2026',
     meta: 'Published Runbook · Enterprise PLM',
-    title: 'WTA Runbook: Memory Optimization for Clustered PLM Nodes',
+    title: 'Runbook: Memory Optimization for Clustered PLM Nodes',
     impact: 'Adopted as the standard referenced by the org-wide NOC memory-alert runbook · Presented business impact to management',
-    desc: 'Authored an internal knowledge-base runbook, built cross-functionally with the Technical Architect team — pre-checks, JVM/Solr health gates, a 3-method decision tree, and a mandatory backup/restart/validation sequence for memory-arena tuning on clustered 32GB & 64GB nodes.',
+    desc: 'Authored a runbook, built cross-functionally with the Technical Architect team — pre-checks, JVM/Solr health gates, a 3-method decision tree, and a mandatory backup/restart/validation sequence for memory-arena tuning on clustered 32GB & 64GB nodes.',
     flow: [
       { label: 'Problem', text: 'Memory-tuning fixes for clustered PLM nodes were inconsistent and tribal across the team.' },
-      { label: 'Action', text: 'Built a decision-tree runbook with health gates and a mandatory validation sequence; published to the internal knowledge base.' },
+      { label: 'Action', text: "Built a decision-tree runbook with health gates and a mandatory validation sequence; published as the team's standard reference." },
       { label: 'Result', text: 'Adopted as the standard referenced by the org-wide NOC memory-alert runbook; presented the impact directly to management.' },
     ],
     tags: ['Enterprise PLM', 'Memory Tuning', 'JVM / Solr', 'Runbook Authoring', 'Technical Architects'],
@@ -347,13 +347,13 @@ export const keyProjects: ProjectItem[] = [
     meta: 'Web · Solo Build',
     title: 'Personal Cloud/SRE Portfolio & 3D Career Journey',
     impact: 'Designed, built & deployed end-to-end',
-    desc: 'Designed and deployed this portfolio and an interactive 3D career-journey site (React, TypeScript, Three.js) via Netlify — showcasing my cloud, DevOps and SRE focus. Proof I can build and ship, not just operate.',
+    desc: 'Designed and deployed this portfolio and an interactive 3D career-journey site (React, TypeScript, Three.js, GSAP) via Netlify — showcasing my cloud, DevOps and SRE focus. Proof I can build and ship, not just operate.',
     flow: [
       { label: 'Problem', text: "Most of my daily work runs on infrastructure I operate but didn't build — needed proof I can design and ship something from scratch too." },
-      { label: 'Action', text: 'Designed and built this portfolio and a separate interactive 3D career-journey experience from scratch (React, TypeScript, Three.js), then shipped both via Netlify.' },
+      { label: 'Action', text: 'Designed and built this portfolio and a separate interactive 3D career-journey experience from scratch (React, TypeScript, Three.js, GSAP-driven scroll animation), then shipped both via Netlify.' },
       { label: 'Result', text: 'A live, self-authored site I keep iterating on — same incremental, version-controlled approach I bring to infrastructure work.' },
     ],
-    tags: ['React', 'TypeScript', 'Vite', 'Three.js', 'Git', 'Netlify'],
+    tags: ['React', 'TypeScript', 'Vite', 'Three.js', 'Tailwind CSS', 'GSAP', 'Git', 'Netlify'],
   },
   {
     year: '2020',
