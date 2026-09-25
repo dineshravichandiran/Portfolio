@@ -40,7 +40,7 @@ function TimelineRow({ commit, color, side }: { commit: TreeCommit; color: strin
   return (
     <div className="relative sm:grid sm:grid-cols-[1fr_60px_1fr] sm:items-center mb-7 sm:mb-8 last:mb-0">
       <span
-        className="absolute left-0 top-1.5 sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-3 h-3 rounded-full ring-4 ring-bg sm:col-start-2 z-10"
+        className="absolute left-0 top-1.5 sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-3 h-3 rounded-full ring-4 ring-bg z-10"
         style={{ background: color }}
       />
       <div
