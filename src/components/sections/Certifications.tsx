@@ -7,8 +7,6 @@ const certifications = credentials.filter((c) => c.type === 'Certification')
 const FAN_ROTATE_DEG = 14
 const FAN_OFFSET_X = 160
 const FAN_OFFSET_Y = 10
-const AUTO_INTERVAL_MS = 3500
-const RESUME_DELAY_MS = 4000
 
 const TIER_COLOR: Record<string, string> = {
   Fundamentals: 'var(--color-accent)',
@@ -28,40 +26,13 @@ export default function Certifications() {
   const [active, setActive] = useState(Math.floor(certifications.length / 2))
   const [entered, setEntered] = useState(false)
   const stageRef = useRef<HTMLDivElement>(null)
-  const autoTimerRef = useRef<number | null>(null)
-  const resumeTimeoutRef = useRef<number | null>(null)
-  const inViewRef = useRef(false)
 
   function step(delta: number) {
     setActive((prev) => ((prev + delta) % certifications.length + certifications.length) % certifications.length)
   }
 
-  function stopAuto() {
-    if (autoTimerRef.current !== null) {
-      window.clearInterval(autoTimerRef.current)
-      autoTimerRef.current = null
-    }
-  }
-
-  function startAuto() {
-    stopAuto()
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    autoTimerRef.current = window.setInterval(() => step(1), AUTO_INTERVAL_MS)
-  }
-
-  // Any manual pick (click, wheel) pauses the auto-cycle for a bit so it
-  // doesn't immediately fight what the visitor just chose, then resumes.
-  function pauseThenResume() {
-    stopAuto()
-    if (resumeTimeoutRef.current !== null) window.clearTimeout(resumeTimeoutRef.current)
-    resumeTimeoutRef.current = window.setTimeout(() => {
-      if (inViewRef.current) startAuto()
-    }, RESUME_DELAY_MS)
-  }
-
   function pick(i: number) {
     setActive(i)
-    pauseThenResume()
   }
 
   // A single React-owned "entered" flag drives the fan-in/out — combined
@@ -71,25 +42,14 @@ export default function Certifications() {
   useEffect(() => {
     const stage = stageRef.current
     if (!stage) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setEntered(entry.isIntersecting)
-        inViewRef.current = entry.isIntersecting
-        if (entry.isIntersecting) startAuto()
-        else stopAuto()
-      },
-      { threshold: 0.3 },
-    )
+    const observer = new IntersectionObserver(([entry]) => setEntered(entry.isIntersecting), { threshold: 0.3 })
     observer.observe(stage)
-    return () => {
-      observer.disconnect()
-      stopAuto()
-      if (resumeTimeoutRef.current !== null) window.clearTimeout(resumeTimeoutRef.current)
-    }
+    return () => observer.disconnect()
   }, [])
 
-  // Scroll the mouse wheel over the deck to browse cards instead of only
-  // being able to click one to the front.
+  // Scroll the mouse wheel over the deck to browse cards, in addition to
+  // clicking a card or the left/right arrows below — purely manual, no
+  // auto-advance.
   useEffect(() => {
     const stage = stageRef.current
     if (!stage) return
@@ -97,7 +57,6 @@ export default function Certifications() {
       if (Math.abs(e.deltaY) < 4) return
       e.preventDefault()
       step(e.deltaY > 0 ? 1 : -1)
-      pauseThenResume()
     }
     stage.addEventListener('wheel', onWheel, { passive: false })
     return () => stage.removeEventListener('wheel', onWheel)
@@ -175,6 +134,23 @@ export default function Certifications() {
             </button>
           )
         })}
+
+        <button
+          type="button"
+          onClick={() => step(-1)}
+          aria-label="Previous certification"
+          className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-panel-border-strong bg-panel/80 backdrop-blur-sm text-text-secondary flex items-center justify-center cursor-pointer transition-colors hover:border-accent hover:text-accent"
+        >
+          ←
+        </button>
+        <button
+          type="button"
+          onClick={() => step(1)}
+          aria-label="Next certification"
+          className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-panel-border-strong bg-panel/80 backdrop-blur-sm text-text-secondary flex items-center justify-center cursor-pointer transition-colors hover:border-accent hover:text-accent"
+        >
+          →
+        </button>
       </div>
 
       <div className="flex justify-center gap-2">
