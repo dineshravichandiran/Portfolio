@@ -75,6 +75,7 @@ export const credentials: CredentialRow[] = [
   { type: 'Award', title: 'SO&S Quality Compliance Award', issuer: 'PTC · Resolved a PagerDuty/Zabbix alert-closure backlog, strengthening ISO audit compliance · 2026' },
   { type: 'Award', title: 'Performance & Efficiency Award', issuer: 'PTC · Technical Architect collaboration, runbook authoring, cost optimization · Nov 2025 – May 2026' },
   { type: 'Award', title: 'Crowdstrike and Digicert Recovery Award', issuer: 'PTC · Team recognition for stabilizing customer environments during the CrowdStrike incident and DigiCert expiry' },
+  { type: 'Award', title: 'Team Leadership & Mentoring', issuer: 'PTC · Mentor to new and junior engineers · Standardized incident-handling procedures across a 12-member team · Lead outage coordination across App, DB & Network teams during high-severity incidents' },
   { type: 'Education', title: 'MBA – Information System Management / Analytics & Data Science', issuer: 'Manipal University Jaipur · 2025–2027 (Expected)' },
   { type: 'Education', title: 'B.E. Electronics & Instrumentation', issuer: 'Panimalar Engineering College · 2018–2022 · CGPA 8.1/10' },
 ]
