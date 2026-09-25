@@ -347,13 +347,13 @@ export const keyProjects: ProjectItem[] = [
     meta: 'Web · Solo Build',
     title: 'Personal Cloud/SRE Portfolio & 3D Career Journey',
     impact: 'Designed, built & deployed end-to-end',
-    desc: 'Designed and deployed this portfolio and an interactive 3D career-journey site (React, TypeScript, Three.js, GSAP) via Netlify — showcasing my cloud, DevOps and SRE focus. Proof I can build and ship, not just operate.',
+    desc: 'Designed and deployed this portfolio and an interactive 3D career-journey site (React, TypeScript, Three.js, GSAP) via Vercel — showcasing my cloud, DevOps and SRE focus. Proof I can build and ship, not just operate.',
     flow: [
       { label: 'Problem', text: "Most of my daily work runs on infrastructure I operate but didn't build — needed proof I can design and ship something from scratch too." },
-      { label: 'Action', text: 'Designed and built this portfolio and a separate interactive 3D career-journey experience from scratch (React, TypeScript, Three.js, GSAP-driven scroll animation), then shipped both via Netlify.' },
+      { label: 'Action', text: 'Designed and built this portfolio and a separate interactive 3D career-journey experience from scratch (React, TypeScript, Three.js, GSAP-driven scroll animation), then shipped both via Vercel.' },
       { label: 'Result', text: 'A live, self-authored site I keep iterating on — same incremental, version-controlled approach I bring to infrastructure work.' },
     ],
-    tags: ['React', 'TypeScript', 'Vite', 'Three.js', 'Tailwind CSS', 'GSAP', 'Git', 'Netlify'],
+    tags: ['React', 'TypeScript', 'Vite', 'Three.js', 'Tailwind CSS', 'GSAP', 'Git', 'Vercel'],
   },
   {
     year: '2020',

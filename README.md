@@ -2,7 +2,7 @@
 
 **Dinesh Ravichandiran** — Cloud Services Specialist NOC Engineer, personal portfolio site.
 
-🔗 **Live:** [dinesh-ravichandiran.netlify.app](https://dinesh-ravichandiran.netlify.app/)
+🔗 **Live:** [dineshravichandiran.vercel.app](https://dineshravichandiran.vercel.app/)
 
 ## Tech Stack
 
@@ -14,7 +14,7 @@
 <img src="https://img.shields.io/badge/GSAP-88CE02?style=flat-square&logo=greensock&logoColor=white" />
 <img src="https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
 <img src="https://img.shields.io/badge/React_Router-CA4245?style=flat-square&logo=reactrouter&logoColor=white" />
-<img src="https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white" />
+<img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white" />
 </p>
 
 ## What's in it
@@ -48,5 +48,5 @@ npm run preview    # serve the production build locally
 
 ## Deployment
 
-Netlify, auto-deployed from `main`. SPA routing handled via a catch-all
-redirect in `netlify.toml`.
+Vercel, auto-deployed from `main`. SPA routing handled via a catch-all
+rewrite in `vercel.json`.
