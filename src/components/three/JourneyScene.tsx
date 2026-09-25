@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { initJourneyScene } from './journeyEngine'
 import { sceneMilestones } from '../../data/journey'
+import CustomCursor from '../layout/CustomCursor'
 import './JourneyScene.css'
 
 const ENGINE_MILESTONES = sceneMilestones.map((m) => ({
@@ -25,6 +26,7 @@ export default function JourneyScene() {
 
   return (
     <div className="journey-page">
+      <CustomCursor />
       <div className="journey-loader" id="journeyLoader">
         <div className="journey-loader-text">Loading the Journey</div>
         <div className="journey-loader-bar" />
@@ -47,13 +49,15 @@ export default function JourneyScene() {
         <p className="info-body" id="infoBody" />
         <div className="info-tags" id="infoTags" />
         <div className="info-nav">
-          <button type="button" className="info-nav-btn" id="prevMilestoneBtn" aria-label="Previous milestone">
-            ← Back
-          </button>
           <span className="info-nav-counter" id="infoNavCounter" />
-          <button type="button" className="info-nav-btn" id="nextMilestoneBtn" aria-label="Next milestone">
-            Next →
-          </button>
+          <div className="info-nav-btns">
+            <button type="button" className="info-nav-btn" id="prevMilestoneBtn" aria-label="Previous milestone">
+              ← Back
+            </button>
+            <button type="button" className="info-nav-btn" id="nextMilestoneBtn" aria-label="Next milestone">
+              Next →
+            </button>
+          </div>
         </div>
       </div>
 

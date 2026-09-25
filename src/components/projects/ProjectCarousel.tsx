@@ -2,8 +2,8 @@ import { useState } from 'react'
 import type { ProjectItem } from '../../data/projects'
 import ProjectCard from './ProjectCard'
 
-const ARROW_BTN =
-  'journey-cta-glow w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-accent/70 bg-panel text-accent flex items-center justify-center cursor-pointer transition-[transform,border-color,color] hover:border-accent hover:text-accent-hover hover:scale-110'
+const NAV_BTN =
+  'w-9 h-9 sm:w-10 sm:h-10 rounded-full text-accent flex items-center justify-center cursor-pointer transition-[transform,color] hover:text-accent-hover hover:scale-110'
 
 function ArrowIcon({ direction }: { direction: 'left' | 'right' }) {
   return (
@@ -37,38 +37,24 @@ export default function ProjectCarousel({ projects }: { projects: ProjectItem[] 
           <span className="text-text">{String(active + 1).padStart(2, '0')}</span>
           <span>/ {String(projects.length).padStart(2, '0')}</span>
         </div>
-        <div className="flex items-center gap-1.5 text-accent text-xs font-mono font-semibold uppercase tracking-wide animate-pulse">
-          <span>← click to browse →</span>
+        <div className="journey-cta-glow relative flex items-center gap-0.5 rounded-full border-2 border-accent/70 bg-panel px-1.5 py-1.5">
+          <span className="journey-cta-ring" aria-hidden="true" />
+          <button type="button" onClick={() => step(-1)} aria-label="Previous project" className={NAV_BTN}>
+            <ArrowIcon direction="left" />
+          </button>
+          <span className="w-px h-5 bg-panel-border" aria-hidden="true" />
+          <button type="button" onClick={() => step(1)} aria-label="Next project" className={NAV_BTN}>
+            <ArrowIcon direction="right" />
+          </button>
         </div>
       </div>
 
-      <div className="relative">
-        <div
-          key={active}
-          className="project-slide"
-          style={{ '--project-slide-from': `${dir * 16}px` } as React.CSSProperties}
-        >
-          <ProjectCard project={project} />
-        </div>
-
-        <button
-          type="button"
-          onClick={() => step(-1)}
-          aria-label="Previous project"
-          className={`absolute -left-4 sm:-left-6 top-1/2 -translate-y-1/2 z-20 ${ARROW_BTN}`}
-        >
-          <span className="journey-cta-ring" aria-hidden="true" />
-          <ArrowIcon direction="left" />
-        </button>
-        <button
-          type="button"
-          onClick={() => step(1)}
-          aria-label="Next project"
-          className={`absolute -right-4 sm:-right-6 top-1/2 -translate-y-1/2 z-20 ${ARROW_BTN}`}
-        >
-          <span className="journey-cta-ring" aria-hidden="true" />
-          <ArrowIcon direction="right" />
-        </button>
+      <div
+        key={active}
+        className="project-slide"
+        style={{ '--project-slide-from': `${dir * 16}px` } as React.CSSProperties}
+      >
+        <ProjectCard project={project} />
       </div>
     </div>
   )

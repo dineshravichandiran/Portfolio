@@ -350,3 +350,28 @@ body {
     animation: none;
   }
 }
+
+/* Hero is above the fold, so it can't rely on the scroll-triggered Reveal
+   used everywhere else — without this, it was the one section on the page
+   that just snapped in with no entrance at all. A plain on-mount stagger
+   instead, each block a little later than the last. */
+.hero-fade-up {
+  animation: hero-fade-up 0.7s var(--ease-out-smooth) both;
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade-up {
+    animation: none;
+  }
+}
