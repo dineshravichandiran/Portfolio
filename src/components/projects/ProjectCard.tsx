@@ -1,5 +1,6 @@
 import type { ProjectItem } from '../../data/projects'
 import { useSpotlight } from '../../hooks/useSpotlight'
+import TechTag from '../ui/TechTag'
 
 export default function ProjectCard({ project, active = true }: { project: ProjectItem; active?: boolean }) {
   const { ref, onMouseMove } = useSpotlight<HTMLElement>()
@@ -51,12 +52,7 @@ export default function ProjectCard({ project, active = true }: { project: Proje
 
       <div className="flex flex-wrap gap-2 mb-4">
         {project.tags.map((tag) => (
-          <span
-            key={tag}
-            className="text-xs font-mono text-dim border border-panel-border-strong rounded-full px-2.5 py-1"
-          >
-            {tag}
-          </span>
+          <TechTag key={tag} label={tag} />
         ))}
       </div>
 

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { keyProjects } from '../../data/projects'
+import TechTag from '../ui/TechTag'
 
 const SELECTED_TITLES = [
   'Enterprise SaaS Observability & Incident Response',
@@ -70,12 +71,7 @@ export default function SelectedWork() {
               <p className="text-text-secondary text-[0.95rem] sm:text-base leading-relaxed mb-6">{p.desc}</p>
               <div className="flex flex-wrap gap-2 mb-7">
                 {p.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs font-mono text-dim border border-panel-border-strong rounded-full px-2.5 py-1"
-                  >
-                    {tag}
-                  </span>
+                  <TechTag key={tag} label={tag} />
                 ))}
               </div>
               <div className="text-xs text-ok font-mono mb-6">↑ {p.impact}</div>

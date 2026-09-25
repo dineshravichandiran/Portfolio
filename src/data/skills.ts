@@ -121,3 +121,13 @@ export const toolCategories: ToolCategory[] = [
     ],
   },
 ]
+
+/**
+ * label -> icon URL, flattened from every badge above that has one. Lets
+ * project/work tags (plain strings elsewhere in the data) opportunistically
+ * pick up the same icon shown in the Tech Stack section, without
+ * duplicating icon URLs in multiple data files.
+ */
+export const TOOL_ICON_MAP: Record<string, string> = Object.fromEntries(
+  toolCategories.flatMap((cat) => cat.badges).filter((b) => b.icon).map((b) => [b.label, b.icon as string]),
+)
