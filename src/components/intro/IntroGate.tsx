@@ -23,6 +23,9 @@ export default function IntroGate() {
   const [phase, setPhase] = useState<Phase>('idle')
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const engineRef = useRef<ReturnType<typeof initIntroGlobe> | null>(null)
+  const [reducedMotion] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  )
 
   useEffect(() => {
     if (!mounted) return
@@ -51,6 +54,16 @@ export default function IntroGate() {
 
   return (
     <div className={`intro-gate ${phase === 'entering' ? 'is-entering' : ''} ${phase === 'exiting' ? 'is-exiting' : ''}`}>
+      <video
+        className="intro-gate-bg-video"
+        src="/media/intro-hero-desk.mp4"
+        poster="/media/intro-hero-desk-poster.jpg"
+        autoPlay={!reducedMotion}
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+      />
       <div className="intro-gate-flash" />
       <div
         className="intro-gate-globe"
