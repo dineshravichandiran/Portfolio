@@ -3,6 +3,7 @@
 **Dinesh Ravichandiran** — Cloud Services Specialist NOC Engineer, personal portfolio site.
 
 🔗 **Live:** [dineshravichandiran.vercel.app](https://dineshravichandiran.vercel.app/)
+📄 **Resume:** [Dinesh_Ravichandiran_SRE.pdf](https://dineshravichandiran.vercel.app/Dinesh_Ravichandiran_SRE.pdf)
 
 ## Tech Stack
 
