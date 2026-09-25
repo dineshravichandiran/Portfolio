@@ -21,17 +21,20 @@ export const events: EventItem[] = [
 ]
 
 export interface ImpactStat {
-  number: string
+  target: number
+  suffix?: string
+  decimals?: number
+  comma?: boolean
   label: string
 }
 
 export const impactStats: ImpactStat[] = [
-  { number: '5,000+', label: 'Incidents Resolved' },
-  { number: '10+', label: 'Runbooks Authored' },
-  { number: '99.9%', label: 'Platform Availability' },
-  { number: '50+', label: 'Fortune 500 Customers' },
-  { number: '200+', label: 'Production Servers' },
-  { number: '24×7', label: 'On-Call Operations' },
+  { target: 5000, suffix: '+', comma: true, label: 'Incidents Resolved' },
+  { target: 10, suffix: '+', label: 'Runbooks Authored' },
+  { target: 99.9, suffix: '%', decimals: 1, label: 'Platform Availability' },
+  { target: 50, suffix: '+', label: 'Fortune 500 Customers' },
+  { target: 200, suffix: '+', label: 'Production Servers' },
+  { target: 24, suffix: '×7', label: 'On-Call Operations' },
 ]
 
 export interface CredentialRow {

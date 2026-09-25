@@ -2,11 +2,33 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SectionHeader from '../ui/SectionHeader'
-import { impactStats, credentials } from '../../data/credentials'
+import { useCountUp } from '../../hooks/useCountUp'
+import { impactStats, credentials, type ImpactStat } from '../../data/credentials'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const recognition = credentials.filter((c) => c.type === 'Award' || c.type === 'Publication')
+
+function StatTile({ stat, index }: { stat: ImpactStat; index: number }) {
+  const { ref, display } = useCountUp({
+    target: stat.target,
+    suffix: stat.suffix,
+    decimals: stat.decimals,
+    comma: stat.comma,
+  })
+  // Alternates accent-blue / white per tile so the grid doesn't read as one
+  // flat block of identically-colored numbers.
+  const color = index % 2 === 0 ? 'text-accent' : 'text-text'
+  return (
+    <div ref={ref}>
+      <div className={`font-mono text-[2.5rem] sm:text-[2.75rem] leading-none font-black ${color} tabular-nums mb-2.5`}>
+        {display}
+      </div>
+      <div className="text-xs text-dim uppercase tracking-wide mb-3">{stat.label}</div>
+      <div className="achv-bar h-[3px] w-full bg-accent rounded-full" />
+    </div>
+  )
+}
 
 export default function Achievements() {
   const statsRef = useRef<HTMLDivElement>(null)
@@ -61,14 +83,8 @@ export default function Achievements() {
     <div className="container py-8 pb-16">
       <SectionHeader label="09 — Results" title="Key impact." />
       <div ref={statsRef} className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-x-8 gap-y-10 mb-16">
-        {impactStats.map((s) => (
-          <div key={s.label}>
-            <div className="font-mono text-[2.5rem] sm:text-[2.75rem] leading-none font-black text-accent tabular-nums mb-2.5">
-              {s.number}
-            </div>
-            <div className="text-xs text-dim uppercase tracking-wide mb-3">{s.label}</div>
-            <div className="achv-bar h-[3px] w-full bg-accent rounded-full" />
-          </div>
+        {impactStats.map((s, i) => (
+          <StatTile key={s.label} stat={s} index={i} />
         ))}
       </div>
 
