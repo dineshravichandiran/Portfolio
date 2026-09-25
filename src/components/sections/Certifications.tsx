@@ -135,22 +135,25 @@ export default function Certifications() {
           )
         })}
 
-        <button
-          type="button"
-          onClick={() => step(-1)}
-          aria-label="Previous certification"
-          className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-panel-border-strong bg-panel/80 backdrop-blur-sm text-text-secondary flex items-center justify-center cursor-pointer transition-colors hover:border-accent hover:text-accent"
-        >
-          ←
-        </button>
-        <button
-          type="button"
-          onClick={() => step(1)}
-          aria-label="Next certification"
-          className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-panel-border-strong bg-panel/80 backdrop-blur-sm text-text-secondary flex items-center justify-center cursor-pointer transition-colors hover:border-accent hover:text-accent"
-        >
-          →
-        </button>
+        <div className="absolute right-2 sm:right-6 top-3 z-20 flex items-center gap-0.5 rounded-full border border-panel-border-strong bg-panel/80 backdrop-blur-sm px-1 py-1">
+          <button
+            type="button"
+            onClick={() => step(-1)}
+            aria-label="Previous certification"
+            className="w-8 h-8 rounded-full text-text-secondary flex items-center justify-center cursor-pointer transition-colors hover:text-accent"
+          >
+            ←
+          </button>
+          <span className="w-px h-4 bg-panel-border-strong" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={() => step(1)}
+            aria-label="Next certification"
+            className="w-8 h-8 rounded-full text-text-secondary flex items-center justify-center cursor-pointer transition-colors hover:text-accent"
+          >
+            →
+          </button>
+        </div>
       </div>
 
       <div className="flex justify-center gap-2">

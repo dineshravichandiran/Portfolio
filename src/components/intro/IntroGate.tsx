@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
-import { initIntroGlobe } from '../three/introGlobeEngine'
+import type { initIntroGlobe } from '../three/introGlobeEngine'
 import { playEnterSound } from '../../lib/sound'
 import { profile } from '../../data/profile'
 import ScrambleText from '../ui/ScrambleText'
 import './IntroGate.css'
 
-const SESSION_KEY = 'portfolio-intro-seen'
+export const INTRO_SESSION_KEY = 'portfolio-intro-seen'
+export const INTRO_DISMISSED_EVENT = 'portfolio-intro-dismissed'
+const SESSION_KEY = INTRO_SESSION_KEY
 
 type Phase = 'idle' | 'entering' | 'exiting'
 
@@ -31,8 +33,19 @@ export default function IntroGate() {
     if (!mounted) return
     const canvas = canvasRef.current
     if (!canvas) return
-    engineRef.current = initIntroGlobe(canvas)
-    return () => engineRef.current?.cleanup()
+    let cancelled = false
+    // Three.js is the single heaviest thing in the whole bundle — loading it
+    // as a dynamic import moves that parse/eval cost off the initial
+    // critical path (and out of the main JS chunk entirely) instead of
+    // blocking first paint on every visit just to draw the globe.
+    import('../three/introGlobeEngine').then(({ initIntroGlobe }) => {
+      if (cancelled) return
+      engineRef.current = initIntroGlobe(canvas)
+    })
+    return () => {
+      cancelled = true
+      engineRef.current?.cleanup()
+    }
   }, [mounted])
 
   if (!mounted) return null
@@ -43,6 +56,7 @@ export default function IntroGate() {
     setPhase('entering')
     engineRef.current?.enter(() => {
       setPhase('exiting')
+      window.dispatchEvent(new Event(INTRO_DISMISSED_EVENT))
       try {
         sessionStorage.setItem(SESSION_KEY, '1')
       } catch {
@@ -54,46 +68,50 @@ export default function IntroGate() {
 
   return (
     <div className={`intro-gate ${phase === 'entering' ? 'is-entering' : ''} ${phase === 'exiting' ? 'is-exiting' : ''}`}>
-      <video
-        className="intro-gate-bg-video"
-        src="/media/intro-hero-desk.mp4"
-        poster="/media/intro-hero-desk-poster.jpg"
-        autoPlay={!reducedMotion}
-        muted
-        loop
-        playsInline
-        aria-hidden="true"
-      />
       <div className="intro-gate-flash" />
-      <div
-        className="intro-gate-globe"
-        role="button"
-        tabIndex={0}
-        aria-label="Click the globe to enter the portfolio"
-        onClick={handleEnter}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault()
-            handleEnter()
-          }
-        }}
-      >
-        <canvas ref={canvasRef} />
-        <div className="intro-gate-ring" />
-      </div>
-      <div className="intro-gate-text">
-        <div className="intro-gate-name">
-          <span className="intro-gate-name-wrap">
-            <ScrambleText text={firstName} />
-            <span className="intro-gate-name-shine" aria-hidden="true" />
-          </span>{' '}
-          <span className="intro-gate-name-wrap">
-            <ScrambleText text={lastName} className="intro-gate-name-accent" />
-            <span className="intro-gate-name-shine" aria-hidden="true" />
-          </span>
+      <div className="intro-gate-video-wrap">
+        <div className="intro-gate-video-box">
+          <video
+            className="intro-gate-bg-video"
+            src="/media/intro-hero-desk.mp4"
+            poster="/media/intro-hero-desk-poster.jpg"
+            autoPlay={!reducedMotion}
+            muted
+            loop
+            playsInline
+            aria-hidden="true"
+          />
         </div>
-        <div className="intro-gate-role">{profile.role}</div>
-        <div className="intro-gate-cue">Click the globe to enter</div>
+        <div className="intro-gate-caption">
+          <div className="intro-gate-name">
+            <span className="intro-gate-name-wrap">
+              <ScrambleText text={firstName} /> <ScrambleText text={lastName} className="intro-gate-name-accent" />
+              <span className="intro-gate-name-shine" aria-hidden="true" />
+            </span>
+          </div>
+          <div className="intro-gate-role">{profile.role}</div>
+        </div>
+      </div>
+      <div className="intro-gate-content">
+        <div
+          className="intro-gate-globe"
+          role="button"
+          tabIndex={0}
+          aria-label="Click the globe to enter the portfolio"
+          onClick={handleEnter}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              handleEnter()
+            }
+          }}
+        >
+          <canvas ref={canvasRef} />
+          <div className="intro-gate-ring" />
+        </div>
+        <div className="intro-gate-text">
+          <div className="intro-gate-cue">Click the globe to enter</div>
+        </div>
       </div>
     </div>
   )

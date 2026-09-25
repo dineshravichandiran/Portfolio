@@ -26,7 +26,7 @@ export const branches: TreeBranch[] = [
       {
         title: 'Enterprise SaaS Observability & Incident Response',
         meta: 'Ongoing · 50+ Fortune 500 environments',
-        desc: 'Built and manage end-to-end monitoring across Zabbix, Sumo Logic, Prometheus, Grafana, CloudWatch, Catchpoint and PagerDuty. Own the full alert lifecycle, validate monitoring for customer go-lives, and lead 24x7 incident response.',
+        desc: 'Six-tool monitoring stack, one owner: full alert lifecycle across go-lives and 24x7 response. (Full write-up in Key Projects below.)',
       },
       {
         title: 'Recurring Memory & Performance Root-Cause Initiative',

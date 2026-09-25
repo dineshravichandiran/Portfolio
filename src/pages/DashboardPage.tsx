@@ -4,7 +4,6 @@ import Hero from '../components/sections/Hero'
 import LiveOpsSection from '../components/dashboard/LiveOpsSection'
 import DomainsGrid from '../components/dashboard/DomainsGrid'
 import FeaturedProjectsScroll from '../components/dashboard/FeaturedProjectsScroll'
-import SelectedWork from '../components/dashboard/SelectedWork'
 import WhatIBring from '../components/dashboard/WhatIBring'
 import About from '../components/sections/About'
 import Work from '../components/sections/Work'
@@ -49,11 +48,6 @@ export default function DashboardPage() {
 
       <section id="featured-projects">
         <FeaturedProjectsScroll />
-      </section>
-      <NextSection to="selected-work" label="Selected Work" />
-
-      <section id="selected-work">
-        <SelectedWork />
       </section>
       <NextSection to="what-i-bring" label="What I Bring" />
 
