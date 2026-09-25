@@ -165,6 +165,12 @@
   border-top: 1px solid var(--j-border);
 }
 
+.info-nav-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .info-nav-btn {
   display: inline-flex;
   align-items: center;

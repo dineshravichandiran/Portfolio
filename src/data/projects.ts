@@ -114,7 +114,7 @@ export const keyProjects: ProjectItem[] = [
     flow: [
       { label: 'Problem', text: 'Monitoring fragmented across six tools and 50+ Fortune 500 environments — a missed or duplicated alert risks an availability commitment.' },
       { label: 'Action', text: 'Own the full alert lifecycle across Zabbix, Sumo Logic, Prometheus, Grafana, CloudWatch, Catchpoint and PagerDuty; validate monitoring at every customer go-live; lead 24x7 incident response.' },
-      { label: 'Result', text: '99.9% uptime sustained and 5,000+ incidents resolved across the Fortune 500 footprint.' },
+      { label: 'Result', text: 'High availability sustained across the full customer footprint, with monitoring accuracy strong enough to hold up under ISO audit and compliance review.' },
     ],
     tags: ['Observability', 'Zabbix', 'Prometheus', 'Grafana', 'Incident Management', 'AWS & Azure'],
   },
