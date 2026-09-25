@@ -42,6 +42,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Native cursor stays visible on touch devices and when reduced-motion is
+   requested — CustomCursor.tsx hides its own dot/ring in exactly those same
+   cases, so this condition must mirror its JS check. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body {
+    cursor: none;
+  }
+}
+
 .container {
   max-width: var(--container-w);
   margin: 0 auto;
