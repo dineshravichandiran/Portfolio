@@ -1,4 +1,4 @@
-import HeroGlobe from '../three/HeroGlobe'
+import CursorTrackingCharacter from '../three/CursorTrackingCharacter'
 import StatCounter from './StatCounter'
 import MagneticLink from '../ui/MagneticLink'
 import { profile } from '../../data/profile'
@@ -7,9 +7,9 @@ export default function Hero() {
   return (
     <section className="relative border-b border-panel-border pt-16 pb-14 overflow-hidden">
       <div
-        className="hidden sm:block absolute top-8 right-4 w-[220px] h-[220px] opacity-45 lg:right-10 lg:w-[340px] lg:h-[340px] lg:opacity-90 pointer-events-none z-0"
+        className="hidden sm:block absolute top-8 right-4 w-[220px] h-[220px] opacity-80 lg:right-10 lg:w-[340px] lg:h-[340px] lg:opacity-100 pointer-events-none z-0 shadow-[0_0_60px_rgba(62,142,222,0.25)] rounded-full"
       >
-        <HeroGlobe />
+        <CursorTrackingCharacter />
       </div>
 
       <div className="container relative z-10">
