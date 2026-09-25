@@ -150,8 +150,9 @@ export default function Timeline() {
 
       <Link
         to="/journey"
-        className="inline-flex items-center gap-2 mb-14 px-5 py-2.5 rounded-full text-sm font-semibold border border-panel-border-strong text-text hover:border-accent transition-colors"
+        className="journey-cta-glow relative inline-flex items-center gap-2 mb-14 px-6 py-3 rounded-full text-sm font-bold bg-accent text-white hover:bg-accent-hover transition-colors"
       >
+        <span className="journey-cta-ring" aria-hidden="true" />
         ↗ Experience this in 3D
       </Link>
 
