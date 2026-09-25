@@ -21,19 +21,35 @@ export default function DomainsGrid() {
     const cards = Array.from(grid.children) as HTMLElement[]
     gsap.set(cards, { opacity: 0, scale: 1.08, filter: 'blur(10px)' })
 
+    // Replays every time a card crosses in or out of view, in either scroll
+    // direction, instead of a one-shot reveal that only ever plays once.
+    const focusIn = (batch: Element[]) =>
+      gsap.to(batch, {
+        opacity: 1,
+        scale: 1,
+        filter: 'blur(0px)',
+        duration: 0.7,
+        ease: 'power2.out',
+        stagger: 0.09,
+        overwrite: true,
+      })
+    const focusOut = (batch: Element[]) =>
+      gsap.to(batch, {
+        opacity: 0,
+        scale: 1.08,
+        filter: 'blur(10px)',
+        duration: 0.4,
+        ease: 'power1.in',
+        stagger: 0.04,
+        overwrite: true,
+      })
+
     const batches = ScrollTrigger.batch(cards, {
       start: 'top 88%',
-      once: true,
-      onEnter: (batch) =>
-        gsap.to(batch, {
-          opacity: 1,
-          scale: 1,
-          filter: 'blur(0px)',
-          duration: 0.7,
-          ease: 'power2.out',
-          stagger: 0.09,
-          overwrite: true,
-        }),
+      onEnter: focusIn,
+      onEnterBack: focusIn,
+      onLeave: focusOut,
+      onLeaveBack: focusOut,
     })
 
     return () => batches.forEach((t) => t.kill())
