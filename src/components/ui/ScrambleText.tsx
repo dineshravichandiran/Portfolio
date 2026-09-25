@@ -5,9 +5,10 @@ const DEFAULT_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 
 /**
  * Terminal-style "decode" reveal: shows the real text immediately (no FOUC,
- * no layout shift, works with JS disabled or reduced-motion), then once it
- * scrolls into view, briefly scrambles through random characters before
- * settling back on the real string, left to right.
+ * no layout shift, works with JS disabled or reduced-motion). Every time it
+ * scrolls into view — scrolling down OR back up — it briefly scrambles
+ * through random characters before settling back on the real string, left
+ * to right.
  */
 export default function ScrambleText({
   text,
@@ -22,7 +23,7 @@ export default function ScrambleText({
 }) {
   const [display, setDisplay] = useState(text)
   const ref = useRef<HTMLSpanElement>(null)
-  const played = useRef(false)
+  const playing = useRef(false)
 
   useEffect(() => {
     const el = ref.current
@@ -33,9 +34,8 @@ export default function ScrambleText({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting || played.current) return
-          played.current = true
-          observer.disconnect()
+          if (!entry.isIntersecting || playing.current) return
+          playing.current = true
 
           const duration = 500
           const start = performance.now()
@@ -51,8 +51,12 @@ export default function ScrambleText({
               out += i < revealCount ? text[i] : charset[Math.floor(Math.random() * charset.length)]
             }
             setDisplay(out)
-            if (p < 1) rafId = requestAnimationFrame(tick)
-            else setDisplay(text)
+            if (p < 1) {
+              rafId = requestAnimationFrame(tick)
+            } else {
+              setDisplay(text)
+              playing.current = false
+            }
           }
           rafId = requestAnimationFrame(tick)
         })
