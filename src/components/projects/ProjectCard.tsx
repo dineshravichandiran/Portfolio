@@ -1,13 +1,15 @@
 import type { ProjectItem } from '../../data/projects'
 import { useSpotlight } from '../../hooks/useSpotlight'
 
-export default function ProjectCard({ project }: { project: ProjectItem }) {
+export default function ProjectCard({ project, active = true }: { project: ProjectItem; active?: boolean }) {
   const { ref, onMouseMove } = useSpotlight<HTMLElement>()
   return (
     <article
       ref={ref}
       onMouseMove={onMouseMove}
-      className="spotlight-card bg-panel border border-panel-border rounded-md px-8 py-7 mb-6 transition-colors hover:border-accent"
+      className={`spotlight-card bg-panel border border-panel-border rounded-md px-8 py-7 mb-6 transition-[opacity,transform,border-color] duration-500 ease-out hover:border-accent ${
+        active ? 'opacity-100 scale-100' : 'opacity-50 scale-[0.98]'
+      }`}
     >
       <div className="font-mono text-xs text-dim uppercase tracking-wide mb-3.5 flex gap-2.5 items-center">
         <span className="text-accent font-bold">{project.year}</span>

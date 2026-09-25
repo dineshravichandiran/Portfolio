@@ -42,19 +42,23 @@ function TravelingBall({ trackRef }: { trackRef: RefObject<HTMLDivElement | null
 
 function MilestoneCard({
   m,
+  index,
   delayMs,
   dotRef,
   blockRef,
 }: {
   m: JourneyMilestone
+  index: number
   delayMs: number
   dotRef: (el: HTMLSpanElement | null) => void
   blockRef: (el: HTMLDivElement | null) => void
 }) {
   const { ref, onMouseMove } = useSpotlight<HTMLDivElement>()
 
+  // Alternates left/right per entry instead of every card arriving from the
+  // same side, so the sequence reads as a zigzag as you scroll through it.
   return (
-    <Reveal delayMs={delayMs} className="relative pb-12 last:pb-0">
+    <Reveal delayMs={delayMs} variant={index % 2 === 0 ? 'left' : 'right'} className="relative pb-12 last:pb-0">
       <div ref={blockRef}>
         <span
           ref={dotRef}
@@ -164,6 +168,7 @@ export default function Timeline() {
           <MilestoneCard
             key={m.id}
             m={m}
+            index={i}
             delayMs={i * 90}
             dotRef={(el) => {
               dotRefs.current[i] = el

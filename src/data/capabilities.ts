@@ -32,4 +32,10 @@ export const capabilities: Capability[] = [
     bar: 'AKS · Linux (RHEL) · PLM Platforms',
     stat: { value: getYearsExperienceLabel(), label: 'years in production' },
   },
+  {
+    title: 'AI-Native Dev',
+    tagline: 'Full-Stack · LLM Agents · Self-Taught',
+    bar: 'React/Node · Claude Code · Google Antigravity',
+    stat: { value: 'This site', label: 'built solo with AI tooling' },
+  },
 ]

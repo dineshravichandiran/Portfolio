@@ -4,6 +4,7 @@ import Hero from '../components/sections/Hero'
 import LiveOpsSection from '../components/dashboard/LiveOpsSection'
 import DomainsGrid from '../components/dashboard/DomainsGrid'
 import FeaturedProjectsScroll from '../components/dashboard/FeaturedProjectsScroll'
+import SelectedWork from '../components/dashboard/SelectedWork'
 import WhatIBring from '../components/dashboard/WhatIBring'
 import About from '../components/sections/About'
 import Work from '../components/sections/Work'
@@ -11,7 +12,10 @@ import Skills from '../components/sections/Skills'
 import Projects from '../components/sections/Projects'
 import Tree from '../components/sections/Tree'
 import Timeline from '../components/sections/Timeline'
-import Credentials from '../components/sections/Credentials'
+import Events from '../components/sections/Events'
+import Achievements from '../components/sections/Achievements'
+import Certifications from '../components/sections/Certifications'
+import Education from '../components/sections/Education'
 import Contact from '../components/sections/Contact'
 import NextSection from '../components/ui/NextSection'
 
@@ -45,6 +49,11 @@ export default function DashboardPage() {
 
       <section id="featured-projects">
         <FeaturedProjectsScroll />
+      </section>
+      <NextSection to="selected-work" label="Selected Work" />
+
+      <section id="selected-work">
+        <SelectedWork />
       </section>
       <NextSection to="what-i-bring" label="What I Bring" />
 
@@ -81,10 +90,25 @@ export default function DashboardPage() {
       <section id="timeline" className="border-b border-panel-border">
         <Timeline />
       </section>
-      <NextSection to="credentials" label="Credentials" />
+      <NextSection to="events" label="Events & Community" />
 
-      <section id="credentials" className="border-b border-panel-border">
-        <Credentials />
+      <section id="events" className="border-b border-panel-border">
+        <Events />
+      </section>
+      <NextSection to="achievements" label="Achievements" />
+
+      <section id="achievements" className="border-b border-panel-border">
+        <Achievements />
+      </section>
+      <NextSection to="certifications" label="Certifications" />
+
+      <section id="certifications" className="border-b border-panel-border">
+        <Certifications />
+      </section>
+      <NextSection to="education" label="Education" />
+
+      <section id="education" className="border-b border-panel-border">
+        <Education />
       </section>
       <NextSection to="contact" label="Contact" />
 

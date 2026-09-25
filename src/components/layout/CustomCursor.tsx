@@ -37,7 +37,9 @@ export default function CustomCursor() {
 
     function onMouseOver(e: MouseEvent) {
       const target = e.target as HTMLElement
-      hovering = !!target.closest('a, button, [role="button"]')
+      const isInteractive = !!target.closest('a, button, [role="button"]')
+      hovering = isInteractive
+      ring!.style.background = isInteractive ? 'rgba(62, 142, 222, 0.12)' : 'transparent'
     }
 
     function onMouseLeaveWindow() {
@@ -55,14 +57,18 @@ export default function CustomCursor() {
     document.addEventListener('mouseenter', onMouseEnterWindow)
 
     let rafId = 0
-    function animate() {
+    function animate(time: number) {
       ringX += (mouseX - ringX) * 0.18
       ringY += (mouseY - ringY) * 0.18
       ringScale += ((hovering ? 1.6 : 1) - ringScale) * 0.15
-      ring!.style.transform = `translate(-50%, -50%) translate(${ringX}px, ${ringY}px) scale(${ringScale})`
+      // Gentle ambient breathing (1 -> 1.15 -> 1) so the ring reads as
+      // alive even when the cursor is sitting still, layered on top of
+      // (not instead of) the hover scale-up above.
+      const pulse = 1.075 + Math.sin(time / 280) * 0.075
+      ring!.style.transform = `translate(-50%, -50%) translate(${ringX}px, ${ringY}px) scale(${ringScale * pulse})`
       rafId = requestAnimationFrame(animate)
     }
-    animate()
+    rafId = requestAnimationFrame(animate)
 
     return () => {
       cancelAnimationFrame(rafId)
@@ -103,7 +109,8 @@ export default function CustomCursor() {
           pointerEvents: 'none',
           zIndex: 9998,
           border: '1.5px solid var(--color-accent)',
-          transition: 'opacity 0.3s',
+          background: 'transparent',
+          transition: 'opacity 0.3s, background 0.25s',
         }}
       />
     </>
