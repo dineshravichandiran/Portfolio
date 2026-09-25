@@ -103,6 +103,17 @@ export const toolCategories: ToolCategory[] = [
     ],
   },
   {
+    title: 'Full-Stack & AI-Agent Dev (Self-Taught)',
+    badges: [
+      { label: 'React', icon: 'https://cdn.simpleicons.org/react', learning: true },
+      { label: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript', learning: true },
+      { label: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs', learning: true },
+      { label: 'Claude Code', icon: 'https://cdn.simpleicons.org/anthropic', learning: true },
+      { label: 'Google Antigravity', learning: true },
+      { label: 'LLM & Agent Workflows', learning: true },
+    ],
+  },
+  {
     title: 'Building Toward (In-Demand Skills)',
     badges: [
       { label: 'CKA (Kubernetes)', icon: 'https://cdn.simpleicons.org/kubernetes', learning: true },

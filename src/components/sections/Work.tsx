@@ -8,7 +8,7 @@ export default function Work() {
     <div className="container py-8 pb-16">
       <SectionHeader label="02 — Featured Work" title="Projects & initiatives." />
       {workProjects.map((project, i) => (
-        <Reveal key={project.title} delayMs={i * 70}>
+        <Reveal key={project.title} delayMs={i * 70} variant="right">
           <ProjectCard project={project} />
         </Reveal>
       ))}

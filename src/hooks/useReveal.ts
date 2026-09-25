@@ -8,10 +8,13 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
     const el = ref.current
     if (!el) return
 
+    // Bidirectional: replays every time the element crosses into/out of
+    // view, whichever way the user is scrolling, rather than a one-shot
+    // reveal that only ever fires once on the way down.
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) setVisible(true)
+          setVisible(entry.isIntersecting)
         })
       },
       { threshold: 0.05 },

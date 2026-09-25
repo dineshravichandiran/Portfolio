@@ -42,6 +42,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Native cursor stays visible on touch devices and when reduced-motion is
+   requested — CustomCursor.tsx hides its own dot/ring in exactly those same
+   cases, so this condition must mirror its JS check. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body {
+    cursor: none;
+  }
+}
+
 .container {
   max-width: var(--container-w);
   margin: 0 auto;
@@ -176,6 +185,26 @@ body {
 
 .marker-dot.marker-blink {
   animation: badge-blink-flash 0.45s ease-in-out 2;
+}
+
+/* Contact headline: "reliable" fills solid, then hollows out to an
+   outline once the section scrolls into view — the fill fades to
+   transparent as the stroke grows in, rather than both snapping at once. */
+.word-reliable {
+  color: var(--color-accent);
+  -webkit-text-stroke: 0px var(--color-accent);
+  transition: color 0.7s ease, -webkit-text-stroke-width 0.7s ease;
+}
+
+.word-reliable.in-view {
+  color: transparent;
+  -webkit-text-stroke-width: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word-reliable {
+    transition: none;
+  }
 }
 
 /* "Experience this in 3D" CTA (Timeline): a filled button alone reads as
