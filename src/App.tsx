@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import Layout from './components/layout/Layout'
 import IntroGate from './components/intro/IntroGate'
 
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/journey" element={<JourneyPage />} />
         </Routes>
       </Suspense>
+      <Analytics />
     </>
   )
 }
