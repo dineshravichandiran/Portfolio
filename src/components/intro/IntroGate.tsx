@@ -8,6 +8,9 @@ const SESSION_KEY = 'portfolio-intro-seen'
 
 type Phase = 'idle' | 'entering' | 'exiting'
 
+const [firstName, ...restName] = profile.name.split(' ')
+const lastName = restName.join(' ')
+
 export default function IntroGate() {
   const [mounted, setMounted] = useState(() => {
     try {
@@ -65,7 +68,9 @@ export default function IntroGate() {
         <div className="intro-gate-ring" />
       </div>
       <div className="intro-gate-text">
-        <div className="intro-gate-name">{profile.name}</div>
+        <div className="intro-gate-name">
+          {firstName} <span className="intro-gate-name-accent">{lastName}</span>
+        </div>
         <div className="intro-gate-role">{profile.role}</div>
         <div className="intro-gate-cue">Click the globe to enter</div>
       </div>

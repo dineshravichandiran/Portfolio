@@ -1,8 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SectionHeader from '../ui/SectionHeader'
 import Reveal from '../ui/Reveal'
+import ScrambleText from '../ui/ScrambleText'
 import { branches } from '../../data/tree'
 import { profile } from '../../data/profile'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const HEX_CHARS = '0123456789abcdef'
 
 function shortHash(str: string) {
   let h = 0
@@ -16,12 +23,34 @@ export default function Tree() {
   const dotRefs = useRef<(HTMLSpanElement | null)[]>([])
   const blockRefs = useRef<(HTMLDivElement | null)[]>([])
   const activeBranchRef = useRef(-1)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const lineRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (selected) {
       detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }, [selected])
+
+  // The git-graph line draws itself in as you scroll past it, instead of
+  // just being there — matches the "git log streaming in" feel of the rest
+  // of this section.
+  useEffect(() => {
+    const track = trackRef.current
+    const line = lineRef.current
+    if (!track || !line) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    gsap.set(line, { scaleY: 0, transformOrigin: 'top' })
+    const st = ScrollTrigger.create({
+      trigger: track,
+      start: 'top 75%',
+      end: 'bottom 55%',
+      scrub: 0.6,
+      onUpdate: (self) => gsap.set(line, { scaleY: self.progress }),
+    })
+    return () => st.kill()
+  }, [])
 
   useEffect(() => {
     function setActiveBranch(idx: number) {
@@ -76,7 +105,8 @@ export default function Tree() {
         </span>
       </div>
 
-      <div className="relative ml-1.5 mb-8 border-l-2 border-panel-border-strong">
+      <div ref={trackRef} className="relative ml-1.5 mb-8 border-l-2 border-panel-border/40">
+        <div ref={lineRef} className="absolute -left-0.5 top-0 bottom-0 w-[2px] bg-accent" />
         {branches.map((branch, bi) => (
           <Reveal key={branch.name} delayMs={bi * 60} className="relative pb-10 last:pb-0 pl-9">
             <div
@@ -117,15 +147,16 @@ export default function Tree() {
                         background: isActive ? 'var(--color-panel-hover)' : undefined,
                       }}
                     >
-                      <span className="font-mono text-xs text-dim flex-shrink-0">
-                        {shortHash(commit.title)}
-                      </span>
-                      <span
+                      <ScrambleText
+                        text={shortHash(commit.title)}
+                        charset={HEX_CHARS}
+                        className="font-mono text-xs text-dim flex-shrink-0"
+                      />
+                      <ScrambleText
+                        text={commit.title}
                         className="text-[0.92rem] font-semibold leading-snug transition-colors"
                         style={{ color: isActive ? branch.color : 'var(--color-text)' }}
-                      >
-                        {commit.title}
-                      </span>
+                      />
                     </button>
                   )
                 })}

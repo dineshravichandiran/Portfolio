@@ -95,6 +95,10 @@
   letter-spacing: -0.01em;
 }
 
+.intro-gate-name-accent {
+  color: #3e8ede;
+}
+
 .intro-gate-role {
   margin-top: 0.25rem;
   font-family: 'JetBrains Mono', monospace;

@@ -1,6 +1,16 @@
 import MagneticLink from '../ui/MagneticLink'
 import Reveal from '../ui/Reveal'
+import { useReveal } from '../../hooks/useReveal'
 import { profile } from '../../data/profile'
+
+function OutlineReliable() {
+  const { ref, visible } = useReveal<HTMLSpanElement>()
+  return (
+    <span ref={ref} className={`word-reliable ${visible ? 'in-view' : ''}`}>
+      reliable
+    </span>
+  )
+}
 
 export default function Contact() {
   return (
@@ -8,7 +18,7 @@ export default function Contact() {
       <Reveal className="py-12 pb-16 text-center">
         <div className="font-mono text-[0.78rem] text-accent tracking-wide mb-4">// Contact</div>
         <h2 className="text-[clamp(1.8rem,4vw,2.6rem)] font-bold tracking-tight mb-5 text-balance">
-          Let's build something <span className="text-accent">reliable</span>.
+          Let's build something <OutlineReliable />.
         </h2>
         <p className="text-text-secondary text-[1.05rem] leading-relaxed max-w-[60ch] mx-auto mb-10">
           Open to <strong>Site Reliability Engineering (SRE)</strong> roles. I solve real
