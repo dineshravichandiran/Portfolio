@@ -91,7 +91,7 @@ export const branches: TreeBranch[] = [
       {
         title: 'Personal Cloud/SRE Portfolio & 3D Career Journey',
         meta: 'Finished · Solo build',
-        desc: 'Designed and deployed this portfolio and an interactive 3D career-journey site (React, TypeScript, Three.js, GSAP) via Netlify — proof I can build and ship, not just operate.',
+        desc: 'Designed and deployed this portfolio and an interactive 3D career-journey site (React, TypeScript, Three.js, GSAP) via Vercel — proof I can build and ship, not just operate.',
       },
     ],
   },
