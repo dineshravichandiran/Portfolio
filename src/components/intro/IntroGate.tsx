@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { initIntroGlobe } from '../three/introGlobeEngine'
 import { playEnterSound } from '../../lib/sound'
 import { profile } from '../../data/profile'
+import ScrambleText from '../ui/ScrambleText'
 import './IntroGate.css'
 
 const SESSION_KEY = 'portfolio-intro-seen'
@@ -22,6 +23,9 @@ export default function IntroGate() {
   const [phase, setPhase] = useState<Phase>('idle')
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const engineRef = useRef<ReturnType<typeof initIntroGlobe> | null>(null)
+  const [reducedMotion] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  )
 
   useEffect(() => {
     if (!mounted) return
@@ -50,6 +54,16 @@ export default function IntroGate() {
 
   return (
     <div className={`intro-gate ${phase === 'entering' ? 'is-entering' : ''} ${phase === 'exiting' ? 'is-exiting' : ''}`}>
+      <video
+        className="intro-gate-bg-video"
+        src="/media/intro-hero-desk.mp4"
+        poster="/media/intro-hero-desk-poster.jpg"
+        autoPlay={!reducedMotion}
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+      />
       <div className="intro-gate-flash" />
       <div
         className="intro-gate-globe"
@@ -69,7 +83,14 @@ export default function IntroGate() {
       </div>
       <div className="intro-gate-text">
         <div className="intro-gate-name">
-          {firstName} <span className="intro-gate-name-accent">{lastName}</span>
+          <span className="intro-gate-name-wrap">
+            <ScrambleText text={firstName} />
+            <span className="intro-gate-name-shine" aria-hidden="true" />
+          </span>{' '}
+          <span className="intro-gate-name-wrap">
+            <ScrambleText text={lastName} className="intro-gate-name-accent" />
+            <span className="intro-gate-name-shine" aria-hidden="true" />
+          </span>
         </div>
         <div className="intro-gate-role">{profile.role}</div>
         <div className="intro-gate-cue">Click the globe to enter</div>

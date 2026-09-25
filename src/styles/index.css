@@ -291,3 +291,24 @@ body {
     animation: none;
   }
 }
+
+.project-slide {
+  animation: project-slide-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes project-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--project-slide-from, 16px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-slide {
+    animation: none;
+  }
+}
