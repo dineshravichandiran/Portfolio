@@ -35,23 +35,37 @@ export default function Skills() {
     // Signature move for this section: cards dealt like a hand of cards —
     // a top-down flip, distinct from the focus-pull in Domains and the
     // git-line draw in Tree.
+    // Replays every time it crosses in/out of view, either scroll direction.
     const grid = platformGridRef.current
     if (grid) {
       const cards = Array.from(grid.children) as HTMLElement[]
       gsap.set(cards, { opacity: 0, rotateX: -90, y: -14, transformPerspective: 800, transformOrigin: 'top center' })
+      const dealIn = (batch: Element[]) =>
+        gsap.to(batch, {
+          opacity: 1,
+          rotateX: 0,
+          y: 0,
+          duration: 0.55,
+          ease: 'power3.out',
+          stagger: 0.09,
+          overwrite: true,
+        })
+      const dealOut = (batch: Element[]) =>
+        gsap.to(batch, {
+          opacity: 0,
+          rotateX: -90,
+          y: -14,
+          duration: 0.35,
+          ease: 'power1.in',
+          stagger: 0.05,
+          overwrite: true,
+        })
       const batches = ScrollTrigger.batch(cards, {
         start: 'top 88%',
-        once: true,
-        onEnter: (batch) =>
-          gsap.to(batch, {
-            opacity: 1,
-            rotateX: 0,
-            y: 0,
-            duration: 0.55,
-            ease: 'power3.out',
-            stagger: 0.09,
-            overwrite: true,
-          }),
+        onEnter: dealIn,
+        onEnterBack: dealIn,
+        onLeave: dealOut,
+        onLeaveBack: dealOut,
       })
       cleanups.push(() => batches.forEach((t) => t.kill()))
     }
@@ -61,12 +75,17 @@ export default function Skills() {
       const badges = Array.from(cat.querySelectorAll('.skill-badge')) as HTMLElement[]
       if (!badges.length) return
       gsap.set(badges, { opacity: 0, scale: 0.5, y: 10 })
+      const popIn = () =>
+        gsap.to(badges, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: 'back.out(2)', stagger: 0.035, overwrite: true })
+      const popOut = () =>
+        gsap.to(badges, { opacity: 0, scale: 0.5, y: 10, duration: 0.3, ease: 'power1.in', stagger: 0.02, overwrite: true })
       const trigger = ScrollTrigger.create({
         trigger: cat,
         start: 'top 90%',
-        once: true,
-        onEnter: () =>
-          gsap.to(badges, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: 'back.out(2)', stagger: 0.035, overwrite: true }),
+        onEnter: popIn,
+        onEnterBack: popIn,
+        onLeave: popOut,
+        onLeaveBack: popOut,
       })
       cleanups.push(() => trigger.kill())
     })
