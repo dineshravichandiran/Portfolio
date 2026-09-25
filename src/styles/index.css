@@ -252,3 +252,42 @@ body {
     animation: none;
   }
 }
+
+/* Skills marquee: two rows of category pills auto-scrolling in opposite
+   directions, independent of page scroll. Each row's content is rendered
+   twice back-to-back so translateX(-50%) loops with no visible seam. */
+.marquee-row {
+  animation: marquee-scroll-left 32s linear infinite;
+}
+
+.marquee-row.marquee-reverse {
+  animation: marquee-scroll-right 32s linear infinite;
+}
+
+.marquee-row:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-row {
+    animation: none;
+  }
+}

@@ -8,6 +8,49 @@ import { platforms, toolCategories, type ToolBadge } from '../../data/skills'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const DOT_COLORS = ['var(--color-accent)', 'var(--color-ok)', 'var(--color-warn)']
+
+function MarqueePill({ label, index }: { label: string; index: number }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-2.5 flex-shrink-0 rounded-full border border-panel-border px-4 py-2 text-[0.72rem] font-bold uppercase tracking-wide whitespace-nowrap ${
+        index % 2 === 0 ? 'bg-panel' : 'bg-bg-raised'
+      }`}
+    >
+      <span
+        className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+        style={{ background: DOT_COLORS[index % DOT_COLORS.length] }}
+      />
+      {label}
+    </span>
+  )
+}
+
+function SkillsMarquee() {
+  const titles = toolCategories.map((c) => c.title.replace(/\s*\(.+\)$/, ''))
+  const rowA = titles.filter((_, i) => i % 2 === 0)
+  const rowB = titles.filter((_, i) => i % 2 !== 0)
+
+  return (
+    <div className="mb-12 flex flex-col gap-3">
+      <div className="overflow-hidden">
+        <div className="marquee-row flex gap-3 w-max">
+          {[...rowA, ...rowA].map((title, i) => (
+            <MarqueePill key={`${title}-${i}`} label={title} index={i} />
+          ))}
+        </div>
+      </div>
+      <div className="overflow-hidden">
+        <div className="marquee-row marquee-reverse flex gap-3 w-max">
+          {[...rowB, ...rowB].map((title, i) => (
+            <MarqueePill key={`${title}-${i}`} label={title} index={i + 1} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function Badge({ b }: { b: ToolBadge }) {
   const { ref, onMouseMove } = useSpotlight<HTMLSpanElement>()
   return (
@@ -119,6 +162,7 @@ export default function Skills() {
       </div>
 
       <SectionHeader label="04 — Tech Stack" title="Tools & technologies." />
+      <SkillsMarquee />
 
       {toolCategories.map((cat, i) => (
         <div
