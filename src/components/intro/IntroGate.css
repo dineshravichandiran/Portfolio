@@ -16,6 +16,27 @@
   pointer-events: none;
 }
 
+.intro-gate-bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+  filter: saturate(0.92) brightness(0.85);
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  /* Fades the video out right behind the globe/name so the panels flanking
+     it can run brighter without the face competing with the readable text. */
+  -webkit-mask-image: radial-gradient(circle at 50% 45%, transparent 0%, transparent 20%, rgba(0, 0, 0, 0.6) 38%, black 56%);
+  mask-image: radial-gradient(circle at 50% 45%, transparent 0%, transparent 20%, rgba(0, 0, 0, 0.6) 38%, black 56%);
+}
+
+.intro-gate.is-entering .intro-gate-bg-video,
+.intro-gate.is-exiting .intro-gate-bg-video {
+  opacity: 0;
+}
+
 .intro-gate-flash {
   position: fixed;
   inset: 0;
