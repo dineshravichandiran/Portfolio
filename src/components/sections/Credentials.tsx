@@ -9,7 +9,7 @@ export default function Credentials() {
       <SectionHeader label="08 — Community" title="Events & conferences." />
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5 mb-14">
         {events.map((e, i) => (
-          <Reveal key={e.title} delayMs={i * 60}>
+          <Reveal key={e.title} delayMs={i * 60} variant="clip">
             <SpotlightCard className="bg-panel border border-panel-border rounded-md p-6 h-full transition-colors hover:border-accent">
               <span className="inline-block font-mono text-[0.68rem] text-ok border border-ok/35 bg-ok/10 px-2 py-1 rounded-full mb-3 uppercase">
                 {e.status}
@@ -25,7 +25,7 @@ export default function Credentials() {
       <SectionHeader label="09 — Results" title="Key impact." />
       <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 mb-14">
         {impactStats.map((s, i) => (
-          <Reveal key={s.label} delayMs={i * 50}>
+          <Reveal key={s.label} delayMs={i * 50} variant="scale">
             <SpotlightCard className="bg-panel border border-panel-border rounded-md p-5.5 text-center transition-colors hover:border-accent">
               <div className="font-mono text-[1.8rem] font-bold text-accent tabular-nums">
                 {s.number}
@@ -39,7 +39,7 @@ export default function Credentials() {
       <SectionHeader label="10 — Credentials" title="Certifications, awards & education." />
       <div className="flex flex-col gap-3">
         {credentials.map((c, i) => (
-          <Reveal key={c.title} delayMs={i * 40}>
+          <Reveal key={c.title} delayMs={i * 40} variant="left">
             <SpotlightCard className="flex items-baseline gap-4 flex-wrap bg-panel border border-panel-border border-l-[3px] border-l-accent rounded-sm px-5 py-3.5 transition-colors hover:border-accent">
               <div className="font-mono text-[0.68rem] text-accent uppercase tracking-wide flex-shrink-0 w-22.5">
                 {c.type}

@@ -22,7 +22,7 @@ export default function WhatIBring() {
           {capabilities.map((c, i) => {
             const open = openIndex === i
             return (
-              <Reveal key={c.title} delayMs={i * 70}>
+              <Reveal key={c.title} delayMs={i * 70} variant="clip">
                 <div className={i > 0 ? 'border-t border-panel-border pt-8 mt-8' : ''}>
                   <div
                     role="button"
