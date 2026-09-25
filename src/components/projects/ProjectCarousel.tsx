@@ -3,7 +3,21 @@ import type { ProjectItem } from '../../data/projects'
 import ProjectCard from './ProjectCard'
 
 const ARROW_BTN =
-  'w-10 h-10 rounded-full border border-panel-border-strong bg-panel/80 backdrop-blur-sm text-text-secondary flex items-center justify-center cursor-pointer transition-colors hover:border-accent hover:text-accent'
+  'journey-cta-glow w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-accent/70 bg-panel text-accent flex items-center justify-center cursor-pointer transition-[transform,border-color,color] hover:border-accent hover:text-accent-hover hover:scale-110'
+
+function ArrowIcon({ direction }: { direction: 'left' | 'right' }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d={direction === 'left' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'}
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 export default function ProjectCarousel({ projects }: { projects: ProjectItem[] }) {
   const [active, setActive] = useState(0)
@@ -23,8 +37,8 @@ export default function ProjectCarousel({ projects }: { projects: ProjectItem[] 
           <span className="text-text">{String(active + 1).padStart(2, '0')}</span>
           <span>/ {String(projects.length).padStart(2, '0')}</span>
         </div>
-        <div className="flex items-center gap-2 text-dim text-xs font-mono">
-          <span>← → click through</span>
+        <div className="flex items-center gap-1.5 text-accent text-xs font-mono font-semibold uppercase tracking-wide animate-pulse">
+          <span>← click to browse →</span>
         </div>
       </div>
 
@@ -41,17 +55,19 @@ export default function ProjectCarousel({ projects }: { projects: ProjectItem[] 
           type="button"
           onClick={() => step(-1)}
           aria-label="Previous project"
-          className={`absolute -left-2 sm:-left-5 top-1/2 -translate-y-1/2 z-20 ${ARROW_BTN}`}
+          className={`absolute -left-4 sm:-left-6 top-1/2 -translate-y-1/2 z-20 ${ARROW_BTN}`}
         >
-          ←
+          <span className="journey-cta-ring" aria-hidden="true" />
+          <ArrowIcon direction="left" />
         </button>
         <button
           type="button"
           onClick={() => step(1)}
           aria-label="Next project"
-          className={`absolute -right-2 sm:-right-5 top-1/2 -translate-y-1/2 z-20 ${ARROW_BTN}`}
+          className={`absolute -right-4 sm:-right-6 top-1/2 -translate-y-1/2 z-20 ${ARROW_BTN}`}
         >
-          →
+          <span className="journey-cta-ring" aria-hidden="true" />
+          <ArrowIcon direction="right" />
         </button>
       </div>
     </div>
