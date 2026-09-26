@@ -49,7 +49,7 @@ export const milestones: JourneyMilestone[] = [
     sceneT: 0.36,
   },
   {
-    id: 'ptc-associate',
+    id: 'associate',
     year: 'Dec 2022 – Oct 2025',
     city: 'GURGAON',
     location: 'Gurgaon, Haryana, India · Remote',
@@ -61,7 +61,7 @@ export const milestones: JourneyMilestone[] = [
     sceneT: 0.62,
   },
   {
-    id: 'ptc-technician',
+    id: 'technician',
     year: 'Nov 2025 – May 2026',
     city: 'GURGAON',
     location: 'Gurgaon, Haryana, India · Remote',
@@ -74,7 +74,7 @@ export const milestones: JourneyMilestone[] = [
     // `milestoneT` array), so this stage appears in the text timeline only, not the 3D ride.
   },
   {
-    id: 'ptc-specialist',
+    id: 'specialist',
     year: 'Jun 2026 – Present',
     city: 'PUNE',
     location: 'Pune City, Maharashtra, India · On-site (internal transfer from Gurgaon, Sep 2026)',
