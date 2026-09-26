@@ -282,14 +282,14 @@ export const keyProjects: ProjectItem[] = [
     meta: 'Bash · PLM Operations',
     title: 'ops-toolkits — Change-Window & Config-Drift Suite',
     impact: '200/200 tests passing across 5 tools · Nagios-style exit codes; report-only and read-only by default',
-    desc: 'Five dependency-light ops tools built from patterns I use running controlled changes on production hosts: windchill-ops-toolkit (pre/post-change health checks), deploy-validator and upgrade-preflight (manifest-driven before/after pair around a change window), db-healthcheck (Postgres/SQLite backends, Oracle marked explicitly unverified), and webserver-config-audit (Apache/Tomcat config-drift, independently implemented in both Bash and PowerShell).',
+    desc: 'Five dependency-light ops tools built from patterns I use running controlled changes on production hosts: plm-ops-toolkit (pre/post-change health checks), deploy-validator and upgrade-preflight (manifest-driven before/after pair around a change window), db-healthcheck (Postgres/SQLite backends, Oracle marked explicitly unverified), and webserver-config-audit (Apache/Tomcat config-drift, independently implemented in both Bash and PowerShell).',
     flow: [
       { label: 'Problem', text: '"Did this change break something" was usually a guess, not an evidence-based answer, and per-app validation/audit logic was hand-coded and rotted over time.' },
       { label: 'Action', text: "Built five manifest- or policy-driven tools sharing the same design: Nagios-convention exit codes, report-only/read-only by default, no mocks in the test suites — real fixture files, a real disposable Docker Postgres container for db-healthcheck, a genuine zombie process for upgrade-preflight's stuck-process check." },
       { label: 'Result', text: '200/200 tests passing across all five tools (16+30+41+39+74), each verified with a real screencapture of the suite running — and where a check genuinely can\'t be confirmed (db-healthcheck\'s Oracle backend), the tool says so instead of guessing PASS.' },
     ],
     shots: [
-      { src: '/screenshots/ops-toolkit-windchill-tests.png', alt: 'Terminal showing windchill-ops-toolkit test suite passing 16 of 16 tests', caption: 'windchill-ops-toolkit — 16/16' },
+      { src: '/screenshots/ops-toolkit-plm-tests.png', alt: 'Terminal showing plm-ops-toolkit test suite passing 16 of 16 tests', caption: 'plm-ops-toolkit — 16/16' },
       { src: '/screenshots/ops-toolkit-deploy-validator-tests.png', alt: 'Terminal showing deploy-validator test suite passing 30 of 30 tests', caption: 'deploy-validator — 30/30' },
       { src: '/screenshots/ops-toolkit-db-healthcheck-tests.png', alt: 'Terminal showing db-healthcheck test suite passing 41 of 41 tests, including real Postgres backend tests', caption: 'db-healthcheck — 41/41 (real Docker Postgres)' },
       { src: '/screenshots/ops-toolkit-upgrade-preflight-tests.png', alt: 'Terminal showing upgrade-preflight test suite passing 39 of 39 tests, including a genuine zombie process fixture', caption: 'upgrade-preflight — 39/39' },

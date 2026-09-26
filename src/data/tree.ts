@@ -48,7 +48,7 @@ export const branches: TreeBranch[] = [
       {
         title: 'ops-toolkits — Change-Window & Config-Drift Suite',
         meta: 'Self-Directed · Bash & PowerShell',
-        desc: 'Five ops tools sharing one design (Nagios exit codes, report-only/read-only, no mocks in tests): windchill-ops-toolkit, deploy-validator, upgrade-preflight, db-healthcheck (real Docker Postgres), and webserver-config-audit (independent Bash + PowerShell implementations). 200/200 tests passing, each verified with a real screencapture of the suite running.',
+        desc: 'Five ops tools sharing one design (Nagios exit codes, report-only/read-only, no mocks in tests): plm-ops-toolkit, deploy-validator, upgrade-preflight, db-healthcheck (real Docker Postgres), and webserver-config-audit (independent Bash + PowerShell implementations). 200/200 tests passing, each verified with a real screencapture of the suite running.',
         link: 'https://github.com/dineshravichandiran/ops-toolkits',
       },
       {

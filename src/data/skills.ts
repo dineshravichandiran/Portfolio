@@ -96,7 +96,6 @@ export const toolCategories: ToolCategory[] = [
     title: 'AI Tools & Productivity',
     badges: [
       { label: 'Microsoft Copilot' },
-      { label: 'Claude', icon: 'https://cdn.simpleicons.org/anthropic' },
       { label: 'ChatGPT' },
       { label: 'Gemini', icon: 'https://cdn.simpleicons.org/googlegemini' },
       { label: 'AI-Assisted Troubleshooting' },
@@ -108,7 +107,6 @@ export const toolCategories: ToolCategory[] = [
       { label: 'React', icon: 'https://cdn.simpleicons.org/react', learning: true },
       { label: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript', learning: true },
       { label: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs', learning: true },
-      { label: 'Claude Code', icon: 'https://cdn.simpleicons.org/anthropic', learning: true },
       { label: 'Google Antigravity', learning: true },
       { label: 'LLM & Agent Workflows', learning: true },
     ],
