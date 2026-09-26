@@ -29,5 +29,5 @@ export const profile = {
     { label: 'dev.to', href: 'https://dev.to/dinesh_ravichandiran' },
     { label: 'SRE Blog', href: 'https://jvm-thread-heap-dumps-sre.hashnode.dev' },
     { label: 'Hashnode', href: 'https://hashnode.com/@dinesh101' },
-  ],
+  ] as { label: string; href: string; download?: boolean }[],
 }
