@@ -20,7 +20,7 @@ export const branches: TreeBranch[] = [
     commits: [
       {
         title: 'Runbook: Memory Optimization for Clustered PLM Nodes',
-        meta: 'PTC · 2026',
+        meta: '2026',
         desc: 'Runbook built cross-functionally with the Technical Architect team — pre-checks, JVM/Solr health gates, a 3-method decision tree, and a mandatory validation sequence for memory-arena tuning on clustered 32GB & 64GB nodes. Adopted as the standard referenced by the org-wide NOC memory-alert runbook.',
       },
       {
@@ -107,17 +107,17 @@ export const branches: TreeBranch[] = [
       },
       {
         title: 'Crowdstrike and Digicert Recovery Award',
-        meta: 'PTC · Associate period (Dec 2022 – Oct 2025)',
+        meta: 'Associate period (Dec 2022 – Oct 2025)',
         desc: 'Team recognition for stabilizing customer environments during the CrowdStrike incident and DigiCert certificate expiry through dedication, flexibility, and collaboration under pressure.',
       },
       {
         title: 'Performance & Efficiency Award',
-        meta: 'PTC · Nov 2025 – May 2026',
+        meta: 'Nov 2025 – May 2026',
         desc: 'Recognized for collaborating with the Technical Architect team on scalable, informed decisions, authoring and enhancing knowledge articles, and improving application performance while optimizing resource utilization and infrastructure cost.',
       },
       {
         title: 'SO&S Quality Compliance Award',
-        meta: 'PTC · 2026',
+        meta: '2026',
         desc: 'Recognized for resolving a backlog of alerts marked closed in PagerDuty but still open in Zabbix, improving monitoring accuracy for ISO audit and compliance.',
       },
     ],

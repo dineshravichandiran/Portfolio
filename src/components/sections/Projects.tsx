@@ -8,7 +8,7 @@ export default function Projects() {
     <div className="container py-8 pb-16">
       <SectionHeader label="05 — Key Projects" title="Projects & initiatives I've delivered." />
       <p className="text-text-secondary text-[1.05rem] leading-relaxed max-w-[680px] mb-10">
-        Real initiatives I own at PTC — observability, root-cause engineering, and operational
+        Real initiatives I own in my day job — observability, root-cause engineering, and operational
         standardization across enterprise SaaS platforms — plus work that shows initiative beyond
         the job. I'm actively extending these into infrastructure-as-code and CI/CD automation; new
         builds land on{' '}
