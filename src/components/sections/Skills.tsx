@@ -138,7 +138,7 @@ export default function Skills() {
 
   return (
     <div className="container py-8 pb-16">
-      <SectionHeader label="03 — Platforms I Support" title="Enterprise PLM, IIoT & AR." />
+      <SectionHeader label="03 / Platforms I Support" title="Enterprise PLM, IIoT & AR." />
 
       <div ref={platformGridRef} className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] gap-5 mb-14">
         {platforms.map((p) => (
@@ -161,7 +161,7 @@ export default function Skills() {
         ))}
       </div>
 
-      <SectionHeader label="04 — Tech Stack" title="Tools & technologies." />
+      <SectionHeader label="04 / Tech Stack" title="Tools & technologies." />
       <SkillsMarquee />
 
       {toolCategories.map((cat, i) => (

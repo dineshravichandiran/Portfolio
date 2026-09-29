@@ -6,7 +6,7 @@ import { events } from '../../data/credentials'
 export default function Events() {
   return (
     <div className="container py-8 pb-16">
-      <SectionHeader label="08 — Community" title="Events & conferences." />
+      <SectionHeader label="08 / Community" title="Events & conferences." />
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
         {events.map((e, i) => (
           <Reveal key={e.title} delayMs={i * 60} variant="clip">

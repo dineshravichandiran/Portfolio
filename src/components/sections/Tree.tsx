@@ -96,9 +96,9 @@ function TreeBranchSection({ branch }: { branch: (typeof branches)[number] }) {
 export default function Tree() {
   return (
     <div className="container py-8 pb-16 overflow-hidden">
-      <SectionHeader label="06 — Project Tree" title="Everything I've built, branched out." />
+      <SectionHeader label="06 / Project Tree" title="Everything I've built, branched out." />
       <p className="text-text-secondary text-[1.05rem] leading-relaxed max-w-[680px] mb-10">
-        A git-graph view of my work — one root, five branches, each named the way I'd tag an
+        A git-graph view of my work: one root, five branches, each named the way I'd tag an
         internal initiative rather than just a folder path (my own naming convention for this
         page, not an actual company's internal codenames).
       </p>

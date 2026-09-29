@@ -150,7 +150,7 @@ export default function Timeline() {
 
   return (
     <div className="container py-8 pb-16">
-      <SectionHeader label="07 — Career Journey" title="Timeline." />
+      <SectionHeader label="07 / Career Journey" title="Timeline." />
 
       <Link
         to="/journey"

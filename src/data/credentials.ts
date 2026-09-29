@@ -10,7 +10,7 @@ export const events: EventItem[] = [
     status: 'Attended',
     title: 'KubeCon + CloudNativeCon India 2026',
     date: 'June 18–19, 2026 · Jio World Convention Centre, Mumbai',
-    desc: "At KubeCon Mumbai with a curated schedule focused on Kubernetes observability, SRE practices, and platform engineering. If we met there — great to connect! Reach me anytime via the links below.",
+    desc: "At KubeCon Mumbai with a curated schedule focused on Kubernetes observability, SRE practices, and platform engineering. If we met there, great to connect! Reach me anytime via the links below.",
   },
   {
     status: 'Attended',
@@ -42,7 +42,7 @@ export interface CredentialRow {
   title: string
   issuer: string
   /** Certification only: the exam's own official tier name (or, for non-tiered
-   * courses, a fair descriptive label — noted inline where that's the case). */
+   * courses, a fair descriptive label, noted inline where that's the case). */
   tier?: string
   /** Certification only: real topics from the exam's public skills outline. */
   tags?: string[]

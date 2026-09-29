@@ -64,7 +64,7 @@ export default function Certifications() {
 
   return (
     <div className="container py-8 pb-16">
-      <SectionHeader label="11 — Certifications" title="Certified specializations." />
+      <SectionHeader label="11 / Certifications" title="Certified specializations." />
 
       <div
         ref={stageRef}

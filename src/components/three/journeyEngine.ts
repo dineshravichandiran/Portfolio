@@ -1602,7 +1602,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
         box-shadow: 0 8px 24px rgba(62, 142, 222, 0.35); font-weight: 600;
         backdrop-filter: blur(8px); cursor: pointer;
       `
-      el.textContent = '◉ 360° view — click anywhere to exit'
+      el.textContent = '◉ 360° view / click anywhere to exit'
       el.addEventListener('click', onOrbitHintClick)
       document.body.appendChild(el)
     }
