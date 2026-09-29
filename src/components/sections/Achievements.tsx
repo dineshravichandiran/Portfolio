@@ -81,14 +81,14 @@ export default function Achievements() {
 
   return (
     <div className="container py-8 pb-16">
-      <SectionHeader label="09 — Results" title="Key impact." />
+      <SectionHeader label="09 / Results" title="Key impact." />
       <div ref={statsRef} className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-x-8 gap-y-10 mb-16">
         {impactStats.map((s, i) => (
           <StatTile key={s.label} stat={s} index={i} />
         ))}
       </div>
 
-      <SectionHeader label="10 — Recognition" title="Awards & achievements." />
+      <SectionHeader label="10 / Recognition" title="Awards & achievements." />
       <div ref={listRef} className="flex flex-col gap-8 max-w-[640px]">
         {recognition.map((c) => (
           <div key={c.title}>

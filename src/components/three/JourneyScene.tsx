@@ -69,7 +69,7 @@ export default function JourneyScene() {
         <h2>You noticed it.</h2>
         <p className="secret-body">A few wins that don't fit on a roadside sign:</p>
         <ul className="secret-list">
-          <li>Smart India Hackathon (SIH) 2020 — National Winner, 10,000+ teams</li>
+          <li>Smart India Hackathon (SIH) 2020: National Winner, 10,000+ teams</li>
           <li>Crowdstrike &amp; DigiCert Recovery Award</li>
           <li>Performance &amp; Efficiency Award</li>
           <li>SO&amp;S Quality Compliance Award</li>

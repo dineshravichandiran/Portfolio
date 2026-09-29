@@ -8,7 +8,7 @@ const education = credentials.filter((c) => c.type === 'Education')
 export default function Education() {
   return (
     <div className="container py-8 pb-16">
-      <SectionHeader label="12 — Education" title="Education." />
+      <SectionHeader label="12 / Education" title="Education." />
       <div className="flex flex-col gap-3">
         {education.map((c, i) => (
           <Reveal key={c.title} delayMs={i * 40} variant={i % 2 === 0 ? 'left' : 'right'}>

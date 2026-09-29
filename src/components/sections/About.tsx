@@ -7,7 +7,7 @@ import { profile } from '../../data/profile'
 export default function About() {
   return (
     <div className="container py-8 pb-16">
-      <SectionHeader label="01 — What I Do" title="Daily operations." />
+      <SectionHeader label="01 / What I Do" title="Daily operations." />
 
       <div className="flex gap-10 items-center flex-wrap mb-12">
         <div>
