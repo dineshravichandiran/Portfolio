@@ -37,14 +37,16 @@ export default function CursorTrackingCharacter() {
     const images = new Map<string, HTMLImageElement>()
     let centerImg: HTMLImageElement | null = null
 
-    let targetX = window.innerWidth / 2
-    let targetY = window.innerHeight / 2
+    let targetX = 0
+    let targetY = 0
     let currentAngle = 0
     let inDeadzone = true
+    let hasMouseMoved = false
 
     function onMouseMove(e: MouseEvent) {
       targetX = e.clientX
       targetY = e.clientY
+      hasMouseMoved = true
     }
     window.addEventListener('mousemove', onMouseMove)
 
@@ -111,7 +113,7 @@ export default function CursorTrackingCharacter() {
       const dy = targetY - cy
       const dist = Math.hypot(dx, dy)
 
-      inDeadzone = dist < DEADZONE_PX
+      inDeadzone = !hasMouseMoved || dist < DEADZONE_PX
 
       if (!inDeadzone) {
         const targetAngle = (Math.atan2(-dy, dx) * 180) / Math.PI
