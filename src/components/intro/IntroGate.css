@@ -192,28 +192,38 @@
   color: #3e8ede;
 }
 
-/* A single light-flash sweeps across each half of the name once, right
-   after it finishes decoding in — the "hero reveal" moment. */
+/* Same left-to-right wipe-reveal as the Contact headline: the name stays
+   clipped until a solid accent bar sweeps across and uncovers it. */
 .intro-gate-name-wrap {
   position: relative;
   display: inline-block;
   overflow: hidden;
 }
 
-.intro-gate-name-shine {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.9) 50%, transparent 70%);
-  transform: translateX(-150%);
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  animation: intro-name-shine 1.1s ease-out 1;
-  animation-delay: 0.9s;
+.intro-gate-name-text {
+  display: inline-block;
+  clip-path: inset(0 100% 0 0);
+  animation: intro-name-reveal-text 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both;
 }
 
-@keyframes intro-name-shine {
+.intro-gate-name-bar {
+  position: absolute;
+  inset: 0;
+  background: #3e8ede;
+  box-shadow: 26px 0 46px 6px #3e8ede;
+  pointer-events: none;
+  animation: intro-name-reveal-bar 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both;
+}
+
+@keyframes intro-name-reveal-text {
   to {
-    transform: translateX(150%);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes intro-name-reveal-bar {
+  to {
+    transform: translateX(100%);
   }
 }
 
@@ -256,7 +266,11 @@
   .intro-gate-text {
     animation: none;
   }
-  .intro-gate-name-shine {
+  .intro-gate-name-bar {
     display: none;
+  }
+  .intro-gate-name-text {
+    clip-path: inset(0 0 0 0);
+    animation: none;
   }
 }
