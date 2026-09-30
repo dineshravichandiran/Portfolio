@@ -239,20 +239,39 @@
 
 .intro-gate-cue {
   margin-top: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  color: #aebbd0;
-  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  text-shadow: 0 0 18px rgba(62, 142, 222, 0.5);
   animation: intro-cue-fade 2s ease-in-out infinite;
+}
+
+.intro-gate-cue-icon {
+  flex-shrink: 0;
+  animation: intro-cue-bounce 1.3s ease-in-out infinite;
 }
 
 @keyframes intro-cue-fade {
   0%, 100% {
-    opacity: 0.55;
+    opacity: 0.75;
   }
   50% {
     opacity: 1;
+  }
+}
+
+@keyframes intro-cue-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
   }
 }
 
@@ -261,6 +280,9 @@
     animation: none;
   }
   .intro-gate-cue {
+    animation: none;
+  }
+  .intro-gate-cue-icon {
     animation: none;
   }
   .intro-gate-text {
