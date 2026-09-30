@@ -317,6 +317,24 @@ export const keyProjects: ProjectItem[] = [
     link: 'https://github.com/dineshravichandiran/net-healthcheck',
   },
   {
+    year: 'Self-Directed',
+    meta: 'Python · Agentic AI',
+    title: 'Guardrailed Autonomous SRE Incident-Response Agent',
+    impact: '8/8 tests passing · Proves the safety layer stops a runaway remediation, not just the happy path',
+    desc: "An observe → plan → guardrail-check → act loop that decides how to respond to an incident and, just as importantly, when to stop and hand off to a human instead of retrying a fix that isn't working. Two interchangeable planners: a deterministic rule-based one (no API key needed) and an optional Anthropic-backed one behind the same interface.",
+    flow: [
+      { label: 'Problem', text: "The interesting failure mode for an autonomous agent isn't doing nothing, it's repeating an ineffective fix forever or taking an action bigger than intended. Wanted to prove a guardrail layer actually stops that, not just assume it would." },
+      { label: 'Action', text: 'Built a synthetic service model with two seeded incidents (a memory leak a restart genuinely fixes, and a disk-full case a restart does not fix), a rule-based planner, an optional LLM-backed planner behind the same interface, and a guardrails module that caps restarts, scaling, and total actions independently of whichever planner is running.' },
+      { label: 'Result', text: '8/8 tests passing, including one with a stubbed planner that always asks to keep re-checking logs forever: the agent still terminates via escalation instead of hanging, proving the safety backstop holds even when the planner is broken.' },
+    ],
+    shots: [
+      { src: '/screenshots/agent-sre-demo.png', alt: 'Terminal showing the agent resolving a memory-leak incident with one restart, then escalating a disk-full incident instead of retrying the same restart', caption: 'Same agent, two outcomes: resolved vs. escalated' },
+      { src: '/screenshots/agent-sre-pytest.png', alt: 'Terminal showing the pytest suite passing 8 of 8 tests', caption: '8/8 tests, including the guardrail-stops-a-runaway-planner case' },
+    ],
+    tags: ['Python', 'Agentic AI', 'Guardrails', 'Incident Response', 'pytest', 'Anthropic API'],
+    link: 'https://github.com/dineshravichandiran/agentic-sre-responder',
+  },
+  {
     year: '2.5+ yrs',
     meta: 'Root Cause · Performance',
     title: 'Recurring Memory & Performance Root-Cause Initiative',
