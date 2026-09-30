@@ -335,6 +335,24 @@ export const keyProjects: ProjectItem[] = [
     link: 'https://github.com/dineshravichandiran/agentic-sre-responder',
   },
   {
+    year: 'Self-Directed',
+    meta: 'Bash · Linux',
+    title: 'log-rotation-guard: Unmanaged Log Growth Auditor',
+    impact: '22/22 tests passing · Real logrotate rotation forced and confirmed on disk',
+    desc: "Kubernetes/Docker rotate a container's stdout/stderr automatically, but do nothing for an app that logs to its own file instead, a common cause of a disk-full incident nobody saw coming. This audits for exactly that gap and can generate + apply a real fix.",
+    flow: [
+      { label: 'Problem', text: "A log file growing unbounded because it's missing a logrotate policy, or has one that quietly isn't firing, is invisible until disk fills up. Wanted a tool that catches it before that happens, not a runbook that explains it after." },
+      { label: 'Action', text: "Built a Bash tool that flags unmanaged log growth with Nagios-style exit codes, and a --fix --apply mode that writes a real logrotate policy and forces an immediate rotation so success is confirmed on disk, not assumed. Tested against real files with dd-written sizes and real mtimes, no mocked filesystem." },
+      { label: 'Result', text: "22/22 tests passing, run both natively and inside a real Debian+logrotate container. Testing caught a real bug: an empty config-dir array crashed with 'unbound variable' under macOS's bash 3.2, fixed by guarding the array expansion. Live demo: a 150MB unmanaged log flagged CRITICAL, fixed, force-rotated, and re-audited OK, with the compressed rotated file confirmed on disk." },
+    ],
+    shots: [
+      { src: '/screenshots/log-rotation-guard-demo.png', alt: 'Terminal showing a 150MB unmanaged log flagged CRITICAL, then fixed and force-rotated, then re-audited OK, with the rotated .gz file confirmed on disk via ls', caption: 'Audit → fix → re-audit → confirmed on disk' },
+      { src: '/screenshots/log-rotation-guard-tests.png', alt: 'Terminal showing the test suite passing 22 of 22 tests inside a real Debian container', caption: '22/22 tests, real files, real Debian container' },
+    ],
+    tags: ['Bash', 'Linux', 'logrotate', 'Nagios Exit Codes', 'Docker'],
+    link: 'https://github.com/dineshravichandiran/log-rotation-guard',
+  },
+  {
     year: '2.5+ yrs',
     meta: 'Root Cause · Performance',
     title: 'Recurring Memory & Performance Root-Cause Initiative',
