@@ -18,6 +18,12 @@ export interface SceneMilestone {
  */
 export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMilestone[]) {
   const scene = new THREE.Scene()
+  // A real background color everywhere, not just left to the transparent
+  // canvas showing whatever the page behind it happens to be. Without this,
+  // "empty sky" wasn't actually sky — it was see-through canvas, which
+  // produced a hard seam wherever a sky decoration (like the sunrise panel
+  // near the ending) didn't reach, and could flicker between layout passes.
+  scene.background = new THREE.Color(0x0a1128)
   // Dusty blue-violet fog blending into the dusk sky gradient below, instead
   // of a bright pale-daytime haze that clashed with it.
   scene.fog = new THREE.Fog(0x8b8fc4, 35, 100)
@@ -510,7 +516,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
 
   function addCar(x: number, side: number) {
     const g = new THREE.Group()
-    const carColors = [0xb91c1c, 0x1d4ed8, 0xfafafa, 0x171717, 0x6b7280, 0x059669, 0xd97706]
+    const carColors = [0xb91c1c, 0x1d4ed8, 0xfafafa, 0x9ca3af, 0x6b7280, 0x059669, 0xd97706]
     const bodyColor = randomFrom(carColors)
 
     const lower = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.3, 0.66), new THREE.MeshLambertMaterial({ color: bodyColor }))
@@ -1048,13 +1054,35 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     skyGrad.addColorStop(1, '#fbbf24')
     sctx.fillStyle = skyGrad
     sctx.fillRect(0, 0, 512, 512)
+    // Fade both horizontal edges toward the night-sky color so the panel
+    // blends in rather than presenting as a hard-edged rectangle, regardless
+    // of which edge ends up facing back toward the start of the road.
+    const leftFade = sctx.createLinearGradient(0, 0, 140, 0)
+    leftFade.addColorStop(0, 'rgba(10, 17, 40, 1)')
+    leftFade.addColorStop(1, 'rgba(10, 17, 40, 0)')
+    sctx.fillStyle = leftFade
+    sctx.fillRect(0, 0, 140, 512)
+    const rightFade = sctx.createLinearGradient(372, 0, 512, 0)
+    rightFade.addColorStop(0, 'rgba(10, 17, 40, 0)')
+    rightFade.addColorStop(1, 'rgba(10, 17, 40, 1)')
+    sctx.fillStyle = rightFade
+    sctx.fillRect(372, 0, 140, 512)
     const skyTex = new THREE.CanvasTexture(skyCanvas)
+    skyTex.colorSpace = THREE.SRGBColorSpace
     const skyPanel = new THREE.Mesh(
       new THREE.PlaneGeometry(60, 35),
-      new THREE.MeshBasicMaterial({ map: skyTex, transparent: true, opacity: 0.9 }),
+      new THREE.MeshBasicMaterial({
+        map: skyTex,
+        transparent: true,
+        opacity: 0.9,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+        fog: false,
+      }),
     )
     skyPanel.position.set(ENDING_X + 25, 8, 0)
     skyPanel.rotation.y = -Math.PI / 2
+    skyPanel.renderOrder = -1
     scene.add(skyPanel)
 
     const raysGroup = new THREE.Group()
@@ -1236,12 +1264,17 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   const CAR_RIM = 0xdde2e8
   const CAR_LIGHT = 0xeaf4ff
 
-  const bodyMat = new THREE.MeshStandardMaterial({ color: CAR_BODY, metalness: 0.5, roughness: 0.35 })
+  // MeshPhysicalMaterial + clearcoat for the body panels instead of plain
+  // MeshStandardMaterial — a real automotive-paint clearcoat layer over the
+  // base color, the difference between "flat plastic" and "glossy paint."
+  const bodyMat = new THREE.MeshPhysicalMaterial({ color: CAR_BODY, metalness: 0.15, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.15 })
   const darkMat = new THREE.MeshStandardMaterial({ color: CAR_DARK, metalness: 0.5, roughness: 0.4 })
-  const glassMat = new THREE.MeshStandardMaterial({ color: CAR_GLASS, metalness: 0.3, roughness: 0.1, transparent: true, opacity: 0.7 })
+  const glassMat = new THREE.MeshPhysicalMaterial({ color: CAR_GLASS, metalness: 0.1, roughness: 0.1, transparent: true, opacity: 0.7, clearcoat: 0.6 })
   const tireMat = new THREE.MeshStandardMaterial({ color: CAR_TIRE, metalness: 0.1, roughness: 0.85 })
   const rimMat = new THREE.MeshStandardMaterial({ color: CAR_RIM, metalness: 0.8, roughness: 0.3 })
   const lightMat = new THREE.MeshStandardMaterial({ color: CAR_LIGHT, emissive: 0xcfe9ff, emissiveIntensity: 0.45 })
+  const caliperMat = new THREE.MeshStandardMaterial({ color: CAR_BODY, metalness: 0.3, roughness: 0.4, emissive: CAR_BODY, emissiveIntensity: 0.15 })
+  const mirrorMat = new THREE.MeshPhysicalMaterial({ color: CAR_BODY, metalness: 0.15, roughness: 0.3, clearcoat: 0.6 })
 
   // Low, smooth sedan body — no grille, sloped nose, fastback roofline (Tesla-style silhouette)
   const lowerBody = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.46, 1.5), bodyMat)
@@ -1291,11 +1324,34 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     headlight.position.set(1.63, 0.56, side * 0.48)
     bike.add(headlight)
   }
+  // Thin connector bar joining the two headlight strips into one full-width
+  // signature (mirrors the tail bar below), instead of two isolated lights.
+  const frontBar = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.07, 0.7), lightMat)
+  frontBar.position.set(1.64, 0.56, 0)
+  bike.add(frontBar)
   // Full-width rear light bar — the signature Tesla design cue
   const tailMat = new THREE.MeshStandardMaterial({ color: 0xcc2222, emissive: 0xcc2222, emissiveIntensity: 0.55 })
   const tailBar = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.09, 1.42), tailMat)
   tailBar.position.set(-1.63, 0.58, 0)
   bike.add(tailBar)
+
+  // Flush wing mirrors, small enough to read as detail without breaking the
+  // clean silhouette from a distance.
+  for (const side of [-1, 1]) {
+    const mirror = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.08, 0.06), mirrorMat)
+    mirror.position.set(0.58, 0.98, side * 0.76)
+    bike.add(mirror)
+  }
+
+  // Soft contact shadow under the car — grounds it against the road instead
+  // of looking like it's floating, cheaper than real-time shadow mapping.
+  const contactShadow = new THREE.Mesh(
+    new THREE.CircleGeometry(1.9, 24),
+    new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.32, depthWrite: false }),
+  )
+  contactShadow.rotation.x = -Math.PI / 2
+  contactShadow.position.set(-0.05, 0.015, 0)
+  bike.add(contactShadow)
 
   const carWheels: THREE.Group[] = []
   function makeWheel(x: number, z: number) {
@@ -1309,6 +1365,11 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.27, 0.22, 16), rimMat)
     rim.rotation.x = Math.PI / 2
     wheelGroup.add(rim)
+    // Accent-colored brake caliper peeking out from behind the rim spokes —
+    // a small real detail that reads as "designed," not just a disc of color.
+    const caliper = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.16, 0.16), caliperMat)
+    caliper.position.set(0, 0.16, 0)
+    wheelGroup.add(caliper)
     const hub = new THREE.Mesh(
       new THREE.CylinderGeometry(0.06, 0.06, 0.3, 8),
       new THREE.MeshStandardMaterial({ color: 0x888d94, metalness: 0.9, roughness: 0.2 }),
@@ -1445,6 +1506,13 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
 
     infoPanel.classList.remove('visible')
 
+    // Disabled for the whole transit, not just while riding: without this a
+    // second click fired before showInfo() lands cancels the pending arrival
+    // (see clearTimeout(arriveTimer) below) and the counter jumps two stops
+    // at once, skipping the one in between entirely.
+    prevBtn.disabled = true
+    nextBtn.disabled = true
+
     milestoneObjects.forEach((m) => {
       ;(m.ring.material as THREE.MeshBasicMaterial).opacity = 0
     })
@@ -1453,7 +1521,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     arriveTimer = setTimeout(() => {
       showInfo(index)
       ;(milestoneObjects[index].ring.material as THREE.MeshBasicMaterial).opacity = 0.6
-    }, 1400)
+    }, 1100)
   }
 
   function showInfo(index: number) {
@@ -1680,7 +1748,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
 
   const rideTimeout = setTimeout(() => {
     rideTo(0)
-  }, 1600)
+  }, 700)
 
   // ====================================================
   // CLEANUP
