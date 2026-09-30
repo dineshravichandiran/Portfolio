@@ -26,7 +26,7 @@ let nextId = 1
 export default function ChatAgent() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
-    { id: nextId++, role: 'bot', text: `Hi! I'm a small rule-based assistant for ${profile.name}'s portfolio. Ask about experience, skills, projects, certifications, or say you'd like to get in touch.` },
+    { id: nextId++, role: 'bot', text: `Hi, I'm OpsBot! Ask about experience, skills, projects, certifications, or say you'd like to get in touch.` },
   ])
   const [input, setInput] = useState('')
   const [contactStep, setContactStep] = useState<ContactStep>('idle')
@@ -144,8 +144,7 @@ export default function ChatAgent() {
       {open && (
         <div className="fixed bottom-24 right-5 z-50 flex h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-panel-border bg-panel shadow-2xl">
           <div className="border-b border-panel-border px-4 py-3">
-            <div className="text-sm font-semibold text-text">Ask about {profile.name.split(' ')[0]}</div>
-            <div className="text-xs text-dim">Rule-based assistant · no AI, no fabricated answers</div>
+            <div className="text-sm font-semibold text-text">OpsBot</div>
           </div>
 
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
