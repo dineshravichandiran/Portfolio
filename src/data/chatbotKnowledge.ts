@@ -45,7 +45,7 @@ const education = credentials.filter((c) => c.type === 'Education')
 export function answerFor(intent: Intent): string {
   switch (intent) {
     case 'greeting':
-      return `Hey! I'm a small rule-based assistant for ${profile.name}'s portfolio — ask me about experience, skills, projects, certifications, or how to get in touch.`
+      return `Hey! I'm OpsBot — ask me about ${profile.name}'s experience, skills, projects, certifications, or how to get in touch.`
     case 'experience':
       return profile.now
     case 'skills': {
@@ -74,6 +74,6 @@ export function answerFor(intent: Intent): string {
       return "Anytime! Anything else you'd like to know?"
     case 'fallback':
     default:
-      return "I'm a simple rule-based assistant, so I only know the topics on this site: experience, skills, projects, certifications, education, and how to get in touch. Try one of those, or use the quick-reply buttons below."
+      return "I only know the topics on this site: experience, skills, projects, certifications, education, and how to get in touch. Try one of those, or use the quick-reply buttons below."
   }
 }
