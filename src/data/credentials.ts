@@ -19,6 +19,12 @@ export const events: EventItem[] = [
     desc: 'Hands-on exposure to cloud-native tooling, observability stacks, and real-world SRE patterns from leading product companies in India.',
   },
   {
+    status: 'Attended',
+    title: 'Chennai DevOps Meetup',
+    date: 'IBM Software Labs, Chennai',
+    desc: 'An interactive session covering Chaos Engineering, the NGINX Operator, and ZAP API scanning. Took home an appreciation gift for answering the quiz.',
+  },
+  {
     status: 'Volunteered',
     title: 'Cleanliness drive at Taljai Hills',
     date: 'Pune',

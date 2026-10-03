@@ -79,8 +79,7 @@ export default function Lightbox({ items, index, onClose, onIndex }: Props) {
         <div className="text-base font-semibold text-white">{item.title}</div>
         <div className="mt-1 text-sm text-white/70">{item.detail}</div>
         <div className="mt-1 font-mono text-xs text-white/50">
-          {item.date}
-          {hasMany ? ` · ${index + 1} / ${items.length}` : ''}
+          {[item.date, hasMany ? `${index + 1} / ${items.length}` : ''].filter(Boolean).join(' · ')}
         </div>
       </div>
     </div>
