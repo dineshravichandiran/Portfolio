@@ -18,6 +18,12 @@ export const events: EventItem[] = [
     date: 'CNCF · Hyderabad',
     desc: 'Hands-on exposure to cloud-native tooling, observability stacks, and real-world SRE patterns from leading product companies in India.',
   },
+  {
+    status: 'Volunteered',
+    title: 'Cleanliness drive at Taljai Hills',
+    date: 'Pune',
+    desc: 'Joined colleagues from work for a clean-up of the Taljai Hills area, collecting and bagging waste. A small way to give back to the city and build team spirit outside the workplace.',
+  },
 ]
 
 export interface ImpactStat {
