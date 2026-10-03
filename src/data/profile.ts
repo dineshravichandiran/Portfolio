@@ -4,11 +4,11 @@ const experience = getYearsExperience()
 
 export const profile = {
   name: 'Dinesh Ravichandiran',
-  role: 'Site Reliability Engineer',
+  role: 'Cloud & Reliability Engineer',
   location: 'Pune, India',
   email: 'dineshravichandiran0808@gmail.com',
   headline: 'I make production failures rare, then rarer.',
-  lede: "Site Reliability Engineer with 3.5+ years of production experience at a Fortune 500 enterprise SaaS/PLM company, keeping enterprise SaaS platforms running 24×7 on AWS & Azure for 50+ Fortune 500 customers. I resolve production issues independently across Kubernetes, Linux, and cloud infrastructure, and extend that into AIOps, infrastructure-as-code, and CI/CD in my own self-directed projects. CKA certification is next up. 5,000+ incidents resolved, 99.9% uptime maintained.",
+  lede: "SRE-focused engineer with 3.5+ years keeping enterprise SaaS platforms running 24×7 on AWS & Azure for 50+ Fortune 500 customers. 5,000+ incidents resolved, 99.9% uptime, plus self-directed builds in AIOps, Kubernetes self-healing, and infrastructure as code.",
   tag: 'Open to Site Reliability Engineering (SRE) roles',
   now: "Currently a Cloud Services Specialist NOC Engineer (promoted Jun 2026, relocated from Gurgaon to Pune that September), running 24×7 production operations across enterprise PLM, IIoT, and microservice infrastructure on AKS. Earlier this year I authored a memory-optimization runbook for clustered PLM nodes that's now the standard referenced by the org-wide NOC memory-alert runbook. I presented its business impact directly to management. I keep growing through an MBA in Information Systems & Analytics, hands-on labs, and continuous self-study. Give me a challenging problem and a team to grow with, and I will deliver.",
   stats: [
@@ -27,7 +27,6 @@ export const profile = {
     { label: 'AWS Builder', href: 'https://builder.aws.com/community/@dineshravichandiran' },
     { label: 'X', href: 'https://x.com/dineshr_' },
     { label: 'Medium', href: 'https://medium.com/@dineshravichandiran' },
-    { label: 'dev.to', href: 'https://dev.to/dinesh_ravichandiran' },
     { label: 'SRE Blog', href: 'https://jvm-thread-heap-dumps-sre.hashnode.dev' },
     { label: 'Hashnode', href: 'https://hashnode.com/@dinesh101' },
   ] as { label: string; href: string; download?: boolean }[],

@@ -36,6 +36,6 @@ export const capabilities: Capability[] = [
     title: 'AI-Native Dev',
     tagline: 'Full-Stack · LLM Agents · Self-Taught',
     bar: 'React/Node · AI-Agent Tooling · Google Antigravity',
-    stat: { value: 'This site', label: 'built solo with AI tooling' },
+    stat: { value: 'This site', label: 'designed, built & shipped solo' },
   },
 ]

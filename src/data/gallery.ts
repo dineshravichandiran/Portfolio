@@ -12,6 +12,8 @@ export interface GalleryItem {
 
 export interface GalleryGroup {
   heading: string
+  // Shown behind a "show" toggle: real, but secondary to the SRE story.
+  collapsed?: boolean
   items: GalleryItem[]
 }
 
@@ -63,7 +65,67 @@ export const certificateGroups: GalleryGroup[] = [
     ],
   },
   {
-    heading: 'Courses & workshops',
+    heading: 'Online courses & webinars',
+    items: [
+      {
+        src: '/gallery/kodekloud-kubernetes-crash-course.jpg',
+        title: 'Crash Course: Kubernetes For Absolute Beginners',
+        detail: 'Course Completion Certificate · KodeKloud',
+        date: '12 Aug 2025',
+        alt: 'KodeKloud course completion certificate for Crash Course: Kubernetes For Absolute Beginners',
+      },
+      {
+        src: '/gallery/kodekloud-12-factor-app.jpg',
+        title: '12 Factor App',
+        detail: 'Course Completion Certificate · KodeKloud',
+        date: '31 Aug 2025',
+        alt: 'KodeKloud course completion certificate for the 12 Factor App course',
+      },
+      {
+        src: '/gallery/internshala-core-java-ai-verification.jpg',
+        title: 'Core Java with AI',
+        detail: 'Internshala Trainings · final test score 71% · verified on the issuer\'s site',
+        date: '29 Sep 2021',
+        alt: 'Internshala Trainings certificate verification page showing Core Java with AI, final test score 71 percent, dated 29 September 2021',
+      },
+      {
+        src: '/gallery/sumo-logic-kubernetes-basics.jpg',
+        title: 'Kubernetes Basics',
+        detail: 'Certificate of Completion · Sumo Logic self-paced training · valid to 2 Aug 2026',
+        date: '2 Aug 2025',
+        alt: 'Sumo Logic self-paced training certificate of completion for Kubernetes Basics',
+      },
+      {
+        src: '/gallery/manipal-dataops-webinar.jpg',
+        title: 'The Rise of DataOps',
+        detail: 'Certificate of Participation · Online Manipal webinar',
+        date: '11 Jun 2025',
+        alt: 'Online Manipal certificate of participation in a webinar on The Rise of DataOps',
+      },
+      {
+        src: '/gallery/mhrd-leadership-talk.jpg',
+        title: 'India First Leadership Talk',
+        detail: "Certificate of Participation · MHRD's Innovation Cell (Government of India) · via Panimalar Engineering College",
+        date: '13 Jun',
+        alt: "MHRD Innovation Cell certificate of participation for a leadership talk, attended through Panimalar Engineering College",
+      },
+    ],
+  },
+  {
+    heading: 'Programs & language',
+    items: [
+      {
+        src: '/gallery/internshala-isp22-letter.jpg',
+        title: 'Internshala Student Partner (ISP 22)',
+        detail: 'Campus Ambassador Program · letter of recognition from Internshala',
+        date: 'Apr–Jun 2021',
+        alt: 'Internshala letter recognising Dinesh Ravichandiran for the Campus Ambassador Program, Internshala Student Partner 22 edition',
+      },
+    ],
+  },
+  {
+    heading: 'Earlier certificates (college years)',
+    collapsed: true,
     items: [
       {
         src: '/gallery/sathyabama-iot-short-course.jpg',
@@ -127,65 +189,6 @@ export const certificateGroups: GalleryGroup[] = [
         detail: 'Certificate of Appreciation · NSTEDB, DST · Panimalar Engineering College',
         date: '2–4 Nov 2019',
         alt: 'Entrepreneur Awareness Camp certificate of appreciation sponsored by NSTEDB and the Department of Science and Technology',
-      },
-    ],
-  },
-  {
-    heading: 'Online courses & webinars',
-    items: [
-      {
-        src: '/gallery/kodekloud-kubernetes-crash-course.jpg',
-        title: 'Crash Course: Kubernetes For Absolute Beginners',
-        detail: 'Course Completion Certificate · KodeKloud',
-        date: '12 Aug 2025',
-        alt: 'KodeKloud course completion certificate for Crash Course: Kubernetes For Absolute Beginners',
-      },
-      {
-        src: '/gallery/kodekloud-12-factor-app.jpg',
-        title: '12 Factor App',
-        detail: 'Course Completion Certificate · KodeKloud',
-        date: '31 Aug 2025',
-        alt: 'KodeKloud course completion certificate for the 12 Factor App course',
-      },
-      {
-        src: '/gallery/internshala-core-java-ai-verification.jpg',
-        title: 'Core Java with AI',
-        detail: 'Internshala Trainings · final test score 71% · verified on the issuer\'s site',
-        date: '29 Sep 2021',
-        alt: 'Internshala Trainings certificate verification page showing Core Java with AI, final test score 71 percent, dated 29 September 2021',
-      },
-      {
-        src: '/gallery/sumo-logic-kubernetes-basics.jpg',
-        title: 'Kubernetes Basics',
-        detail: 'Certificate of Completion · Sumo Logic self-paced training · valid to 2 Aug 2026',
-        date: '2 Aug 2025',
-        alt: 'Sumo Logic self-paced training certificate of completion for Kubernetes Basics',
-      },
-      {
-        src: '/gallery/manipal-dataops-webinar.jpg',
-        title: 'The Rise of DataOps',
-        detail: 'Certificate of Participation · Online Manipal webinar',
-        date: '11 Jun 2025',
-        alt: 'Online Manipal certificate of participation in a webinar on The Rise of DataOps',
-      },
-      {
-        src: '/gallery/mhrd-leadership-talk.jpg',
-        title: 'India First Leadership Talk',
-        detail: "Certificate of Participation · MHRD's Innovation Cell (Government of India) · via Panimalar Engineering College",
-        date: '13 Jun',
-        alt: "MHRD Innovation Cell certificate of participation for a leadership talk, attended through Panimalar Engineering College",
-      },
-    ],
-  },
-  {
-    heading: 'Programs & language',
-    items: [
-      {
-        src: '/gallery/internshala-isp22-letter.jpg',
-        title: 'Internshala Student Partner (ISP 22)',
-        detail: 'Campus Ambassador Program · letter of recognition from Internshala',
-        date: 'Apr–Jun 2021',
-        alt: 'Internshala letter recognising Dinesh Ravichandiran for the Campus Ambassador Program, Internshala Student Partner 22 edition',
       },
       {
         src: '/gallery/ef-set-english-b2.jpg',

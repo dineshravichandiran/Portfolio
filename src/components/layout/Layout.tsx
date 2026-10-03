@@ -26,7 +26,7 @@ export default function Layout() {
       <GlareSweep />
       <CustomCursor />
       <NavBar />
-      <main className="pb-24">
+      <main className="pb-24 overflow-x-clip">
         <Outlet />
       </main>
       {showChat && (
