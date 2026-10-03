@@ -27,7 +27,7 @@ export const events: EventItem[] = [
   {
     status: 'Volunteered',
     title: 'National Service Scheme (NSS): Student Coordinator',
-    date: 'Jul 2019 to Jun 2022 · 3 yrs',
+    date: 'Panimalar Engineering College · Jul 2019 to Jun 2022 · 3 yrs',
     desc: 'Volunteered with the National Service Scheme for three years, serving as a student coordinator. The scheme works to promote social harmony and well-being through community service.',
   },
   {
@@ -82,15 +82,8 @@ export const credentials: CredentialRow[] = [
     tier: 'Fundamentals',
     tags: ['Core Data Concepts', 'Relational & Non-Relational Data', 'Analytics Workloads'],
   },
-  {
-    type: 'Certification',
-    title: 'Advanced Kubernetes Operations & Linux System Administration',
-    issuer: 'KodeKloud · 2025',
-    tier: 'Specialist',
-    tags: ['Kubernetes Administration', 'Linux System Administration', 'Troubleshooting'],
-  },
   { type: 'Award', title: 'Smart India Hackathon Winner', issuer: 'National Level · 2020 · 10,000+ competing teams' },
-  { type: 'Award', title: 'SO&S Quality Compliance Award', issuer: 'Resolved a PagerDuty/Zabbix alert-closure backlog, strengthening ISO audit compliance · 2026' },
+  { type: 'Award', title: 'Quality Compliance Award', issuer: 'Resolved a PagerDuty/Zabbix alert-closure backlog, strengthening ISO audit compliance · 2026' },
   { type: 'Award', title: 'Performance & Efficiency Award', issuer: 'Technical Architect collaboration, runbook authoring, cost optimization · Nov 2025 – May 2026' },
   { type: 'Award', title: 'Crowdstrike and Digicert Recovery Award', issuer: 'Team recognition for stabilizing customer environments during the CrowdStrike incident and DigiCert expiry' },
   { type: 'Award', title: 'Team Leadership & Mentoring', issuer: 'Mentor to new and junior engineers · Standardized incident-handling procedures across a 12-member team · Lead outage coordination across App, DB & Network teams during high-severity incidents' },
