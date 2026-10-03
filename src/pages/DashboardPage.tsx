@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import '../lib/scrollTriggerSetup'
 import { useLocation } from 'react-router-dom'
 import Hero from '../components/sections/Hero'
 import LiveOpsSection from '../components/dashboard/LiveOpsSection'

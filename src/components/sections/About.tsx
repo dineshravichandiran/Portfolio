@@ -16,7 +16,7 @@ export default function About() {
         <div>
           <div className="w-30 h-30 rounded-lg overflow-hidden border border-panel-border-strong flex-shrink-0">
             <img
-              src="/dinesh.jpg"
+              src="/dinesh.webp"
               alt={`${profile.name}, ${profile.role}`}
               className="w-full h-full object-cover"
             />

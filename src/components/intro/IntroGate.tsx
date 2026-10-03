@@ -24,27 +24,61 @@ export default function IntroGate() {
   const [phase, setPhase] = useState<Phase>('idle')
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const engineRef = useRef<ReturnType<typeof initIntroGlobe> | null>(null)
+  // The poster paints first; the video only starts once the page has finished
+  // loading so its bytes never compete with first paint.
+  const [videoReady, setVideoReady] = useState(() => typeof document !== 'undefined' && document.readyState === 'complete')
+  useEffect(() => {
+    if (videoReady) return
+    const go = () => setVideoReady(true)
+    window.addEventListener('load', go, { once: true })
+    return () => window.removeEventListener('load', go)
+  }, [videoReady])
   const [reducedMotion] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   )
 
+  // Set the globe up once (idempotent) so both the idle warm-up below and an
+  // early click go through the same path.
+  const enginePromiseRef = useRef<Promise<ReturnType<typeof initIntroGlobe>> | null>(null)
+  function ensureEngine() {
+    if (!enginePromiseRef.current) {
+      const canvas = canvasRef.current
+      if (!canvas) return Promise.reject(new Error('intro canvas missing'))
+      // Three.js is the heaviest thing in the bundle; as a dynamic import it
+      // stays out of the main chunk, and it only starts after first paint.
+      enginePromiseRef.current = import('../three/introGlobeEngine').then(({ initIntroGlobe }) => {
+        const engine = initIntroGlobe(canvas)
+        engineRef.current = engine
+        return engine
+      })
+    }
+    return enginePromiseRef.current
+  }
+
   useEffect(() => {
     if (!mounted) return
-    const canvas = canvasRef.current
-    if (!canvas) return
     let cancelled = false
-    // Three.js is the single heaviest thing in the whole bundle — loading it
-    // as a dynamic import moves that parse/eval cost off the initial
-    // critical path (and out of the main JS chunk entirely) instead of
-    // blocking first paint on every visit just to draw the globe.
-    import('../three/introGlobeEngine').then(({ initIntroGlobe }) => {
-      if (cancelled) return
-      engineRef.current = initIntroGlobe(canvas)
-    })
+    const warmUp = () => {
+      if (!cancelled) void ensureEngine()
+    }
+    // Wait for the page to finish loading, then for an idle moment, so the
+    // poster, text and fonts paint before the globe's JS competes with them.
+    const schedule = () => {
+      const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }
+      if (w.requestIdleCallback) w.requestIdleCallback(warmUp, { timeout: 2000 })
+      else window.setTimeout(warmUp, 300)
+    }
+    if (document.readyState === 'complete') schedule()
+    else window.addEventListener('load', schedule, { once: true })
     return () => {
       cancelled = true
+      window.removeEventListener('load', schedule)
       engineRef.current?.cleanup()
+      engineRef.current = null
+      enginePromiseRef.current = null
     }
+    // ensureEngine only reads refs, so it is safe to leave out of the deps.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted])
 
   if (!mounted) return null
@@ -53,16 +87,19 @@ export default function IntroGate() {
     if (phase !== 'idle') return
     playEnterSound()
     setPhase('entering')
-    engineRef.current?.enter(() => {
-      setPhase('exiting')
-      window.dispatchEvent(new Event(INTRO_DISMISSED_EVENT))
-      try {
-        sessionStorage.setItem(SESSION_KEY, '1')
-      } catch {
-        // Private-browsing / storage-blocked — the gate just replays next load.
-      }
-      window.setTimeout(() => setMounted(false), 450)
-    })
+    // If the visitor clicks before the idle warm-up ran, this loads it now.
+    void ensureEngine().then((engine) =>
+      engine.enter(() => {
+        setPhase('exiting')
+        window.dispatchEvent(new Event(INTRO_DISMISSED_EVENT))
+        try {
+          sessionStorage.setItem(SESSION_KEY, '1')
+        } catch {
+          // Private-browsing / storage-blocked — the gate just replays next load.
+        }
+        window.setTimeout(() => setMounted(false), 450)
+      }),
+    )
   }
 
   return (
@@ -72,8 +109,9 @@ export default function IntroGate() {
         <div className="intro-gate-video-box">
           <video
             className="intro-gate-bg-video"
-            src="/media/intro-hero-desk.mp4"
-            poster="/media/intro-hero-desk-poster.jpg"
+            src={videoReady ? '/media/intro-hero-desk.mp4' : undefined}
+            poster="/media/intro-hero-desk-poster.webp"
+            preload="none"
             autoPlay={!reducedMotion}
             muted
             loop
