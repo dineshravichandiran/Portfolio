@@ -26,6 +26,12 @@ export const events: EventItem[] = [
   },
   {
     status: 'Volunteered',
+    title: 'National Service Scheme (NSS): Student Coordinator',
+    date: 'Jul 2019 to Jun 2022 · 3 yrs',
+    desc: 'Volunteered with the National Service Scheme for three years, serving as a student coordinator. The scheme works to promote social harmony and well-being through community service.',
+  },
+  {
+    status: 'Volunteered',
     title: 'Cleanliness drive at Taljai Hills',
     date: 'Pune',
     desc: 'Joined colleagues from work for a clean-up of the Taljai Hills area, collecting and bagging waste. A small way to give back to the city and build team spirit outside the workplace.',
