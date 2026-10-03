@@ -127,8 +127,8 @@ export const branches: TreeBranch[] = [
     category: 'Certifications & Education',
     color: '#a371f7',
     commits: [
-      { title: 'Azure Fundamentals (AZ-900)', meta: 'Microsoft Certified · 2023', desc: 'Core Azure cloud concepts, services, and pricing.' },
-      { title: 'Azure Data Fundamentals (DP-900)', meta: 'Microsoft Certified · 2023', desc: 'Core data concepts and Azure data services.' },
+      { title: 'Azure Fundamentals (AZ-900)', meta: 'Microsoft Certified · 2022', desc: 'Core Azure cloud concepts, services, and pricing.' },
+      { title: 'Azure Data Fundamentals (DP-900)', meta: 'Microsoft Certified · 2022', desc: 'Core data concepts and Azure data services.' },
       { title: 'Advanced Kubernetes Operations & Linux System Administration', meta: 'KodeKloud · 2025', desc: 'Hands-on Kubernetes operations and Linux system administration.' },
       { title: 'MBA – Information System Management / Analytics & Data Science', meta: 'Manipal University Jaipur · 2025–2027 (Expected)', desc: 'Graduate study in information systems management, analytics, and data science.' },
     ],

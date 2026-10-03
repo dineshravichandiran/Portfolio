@@ -65,14 +65,14 @@ export const credentials: CredentialRow[] = [
   {
     type: 'Certification',
     title: 'Azure Fundamentals (AZ-900)',
-    issuer: 'Microsoft Certified · 2023',
+    issuer: 'Microsoft Certified · 2022',
     tier: 'Fundamentals',
     tags: ['Cloud Concepts', 'Azure Architecture', 'Governance & Compliance'],
   },
   {
     type: 'Certification',
     title: 'Azure Data Fundamentals (DP-900)',
-    issuer: 'Microsoft Certified · 2023',
+    issuer: 'Microsoft Certified · 2022',
     tier: 'Fundamentals',
     tags: ['Core Data Concepts', 'Relational & Non-Relational Data', 'Analytics Workloads'],
   },
