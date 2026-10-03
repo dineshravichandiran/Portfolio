@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import GalleryGrid from './GalleryGrid'
 import { certificateGroups, courseCredentials, trainingCourses } from '../../data/gallery'
 import type { TrainingItem } from '../../data/gallery'
@@ -22,6 +23,29 @@ function TextList({ heading, items }: { heading: string; items: TrainingItem[] }
   )
 }
 
+function CollapsedGroup({ heading, items }: { heading: string; items: (typeof certificateGroups)[number]['items'] }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-panel-border-strong px-4 py-2 font-mono text-[0.78rem] uppercase tracking-wide text-text-secondary transition-colors hover:border-accent hover:text-text"
+      >
+        {open ? 'Hide' : 'Show'} {heading.toLowerCase()} ({items.length})
+        <span aria-hidden="true" className={`transition-transform ${open ? 'rotate-45' : ''}`}>+</span>
+      </button>
+      {/* Rendered only when opened, so these images never load for visitors who don't ask. */}
+      {open && (
+        <div className="mt-5">
+          <GalleryGrid items={items} fit="contain" />
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function CertificateGallery() {
   return (
     <div className="mt-16" id="certificate-gallery">
@@ -31,14 +55,21 @@ export default function CertificateGallery() {
         professional ones. Click any certificate to view it full size.
       </p>
       <div className="flex flex-col gap-10">
-        {certificateGroups.map((g) => (
-          <div key={g.heading}>
-            <div className="mb-4 font-mono text-[0.78rem] uppercase tracking-wide text-accent">{g.heading}</div>
-            <GalleryGrid items={g.items} fit="contain" />
-          </div>
-        ))}
+        {certificateGroups
+          .filter((g) => !g.collapsed)
+          .map((g) => (
+            <div key={g.heading}>
+              <div className="mb-4 font-mono text-[0.78rem] uppercase tracking-wide text-accent">{g.heading}</div>
+              <GalleryGrid items={g.items} fit="contain" />
+            </div>
+          ))}
         <TextList heading="Professional training" items={trainingCourses} />
         <TextList heading="More badges" items={courseCredentials} />
+        {certificateGroups
+          .filter((g) => g.collapsed)
+          .map((g) => (
+            <CollapsedGroup key={g.heading} heading={g.heading} items={g.items} />
+          ))}
       </div>
     </div>
   )

@@ -10,7 +10,7 @@ export const events: EventItem[] = [
     status: 'Attended',
     title: 'KubeCon + CloudNativeCon India 2026',
     date: 'June 18–19, 2026 · Jio World Convention Centre, Mumbai',
-    desc: "At KubeCon Mumbai with a curated schedule focused on Kubernetes observability, SRE practices, and platform engineering. If we met there, great to connect! Reach me anytime via the links below.",
+    desc: "Two days in Mumbai focused on Kubernetes observability, SRE practices, and platform engineering.",
   },
   {
     status: 'Attended',
