@@ -24,6 +24,7 @@ export const profile = {
     { label: 'Google Developer', href: 'https://g.dev/dineshravichandiran' },
     { label: 'Cloud Skills Boost', href: 'https://www.skills.google/public_profiles/ca2c6d03-3937-449b-b28b-3efb638e19f6' },
     { label: 'Credly', href: 'https://www.credly.com/users/dineshravichandiran' },
+    { label: 'AWS Builder', href: 'https://builder.aws.com/community/@dineshravichandiran' },
     { label: 'X', href: 'https://x.com/dineshr_' },
     { label: 'Medium', href: 'https://medium.com/@dineshravichandiran' },
     { label: 'dev.to', href: 'https://dev.to/dinesh_ravichandiran' },
