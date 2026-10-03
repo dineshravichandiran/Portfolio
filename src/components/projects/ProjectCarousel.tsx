@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { ProjectItem } from '../../data/projects'
 import ProjectCard from './ProjectCard'
+import { PROJECT_SELECT_EVENT } from '../../utils/projectSelect'
 
 const NAV_BTN =
   'w-9 h-9 sm:w-10 sm:h-10 rounded-full text-accent flex items-center justify-center cursor-pointer transition-[transform,color] hover:text-accent-hover hover:scale-110'
@@ -22,6 +23,19 @@ function ArrowIcon({ direction }: { direction: 'left' | 'right' }) {
 export default function ProjectCarousel({ projects }: { projects: ProjectItem[] }) {
   const [active, setActive] = useState(0)
   const [dir, setDir] = useState(1)
+
+  useEffect(() => {
+    function onSelect(e: Event) {
+      const index = projects.findIndex((p) => p.title === (e as CustomEvent<string>).detail)
+      if (index === -1) return
+      setActive((prev) => {
+        setDir(index >= prev ? 1 : -1)
+        return index
+      })
+    }
+    window.addEventListener(PROJECT_SELECT_EVENT, onSelect)
+    return () => window.removeEventListener(PROJECT_SELECT_EVENT, onSelect)
+  }, [projects])
 
   function step(delta: number) {
     setDir(delta)
