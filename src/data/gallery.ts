@@ -290,3 +290,12 @@ export const trainingCourses: TrainingItem[] = [
   { title: 'Fundamentals of Change Management', detail: 'Enterprise software vendor training course', date: '12 Aug 2024' },
   { title: 'Crisis Management for Individual Contributors', detail: 'Professional training course', date: '29 Jul 2025' },
 ]
+
+// Verified on the owner's LinkedIn licenses and certifications; text only.
+export const courseCredentials: TrainingItem[] = [
+  { title: 'Crash Course: Kubernetes For Absolute Beginners', detail: 'KodeKloud', date: 'Aug 2025' },
+  { title: '12 Factor App', detail: 'KodeKloud', date: 'Aug 2025' },
+  { title: 'Implement Load Balancing on Compute Engine Skill Badge', detail: 'Google Cloud Skills Boost', date: 'May 2025' },
+  { title: 'Google Cloud Innovator', detail: 'Google Developer Group', date: 'Feb 2022' },
+  { title: 'Core Java with AI', detail: 'Internshala Trainings', date: 'Aug 2021' },
+]
