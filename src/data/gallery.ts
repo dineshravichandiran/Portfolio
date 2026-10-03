@@ -6,6 +6,8 @@ export interface GalleryItem {
   alt: string
   // Overrides the grid's default: certificates sit whole on a white mat, photos fill the frame.
   fit?: 'contain' | 'cover'
+  // CSS object-position for cover-fit photos whose subject isn't near the top.
+  focus?: string
 }
 
 export interface GalleryGroup {
@@ -43,6 +45,13 @@ export const certificateGroups: GalleryGroup[] = [
         detail: 'Certificate of Appreciation · Chennai',
         date: '15–16 Nov 2024',
         alt: 'TechX Conf 2024 certificate of appreciation awarded to Dinesh Ravichandiran',
+      },
+      {
+        src: '/gallery/kubecon-india-2025-attendance-letter.jpg',
+        title: 'KubeCon + CloudNativeCon India 2025',
+        detail: 'Attendance letter from the Cloud Native Computing Foundation · HICC, Hyderabad',
+        date: '6–7 Aug 2025',
+        alt: 'Cloud Native Computing Foundation letter confirming Dinesh Ravichandiran attended KubeCon and CloudNativeCon India 2025 in Hyderabad',
       },
     ],
   },
@@ -111,6 +120,32 @@ export const certificateGroups: GalleryGroup[] = [
         detail: 'Certificate of Appreciation · NSTEDB, DST · Panimalar Engineering College',
         date: '2–4 Nov 2019',
         alt: 'Entrepreneur Awareness Camp certificate of appreciation sponsored by NSTEDB and the Department of Science and Technology',
+      },
+    ],
+  },
+  {
+    heading: 'Online courses & webinars',
+    items: [
+      {
+        src: '/gallery/sumo-logic-kubernetes-basics.jpg',
+        title: 'Kubernetes Basics',
+        detail: 'Certificate of Completion · Sumo Logic self-paced training · valid to 2 Aug 2026',
+        date: '2 Aug 2025',
+        alt: 'Sumo Logic self-paced training certificate of completion for Kubernetes Basics',
+      },
+      {
+        src: '/gallery/manipal-dataops-webinar.jpg',
+        title: 'The Rise of DataOps',
+        detail: 'Certificate of Participation · Online Manipal webinar',
+        date: '11 Jun 2025',
+        alt: 'Online Manipal certificate of participation in a webinar on The Rise of DataOps',
+      },
+      {
+        src: '/gallery/mhrd-leadership-talk.jpg',
+        title: 'India First Leadership Talk',
+        detail: "Certificate of Participation · MHRD's Innovation Cell (Government of India) · via Panimalar Engineering College",
+        date: '13 Jun',
+        alt: "MHRD Innovation Cell certificate of participation for a leadership talk, attended through Panimalar Engineering College",
       },
     ],
   },
@@ -197,5 +232,30 @@ export const artItems: GalleryItem[] = [
     detail: 'Excellence in education and drawing · 3rd prize, Tamil Nadu state-level drawing competition · Bharathi Yuva Kendra',
     date: '1 Dec 2013',
     alt: 'Yuvasri Kala Bharathi award certificate from Bharathi Yuva Kendra, written in Tamil, for excellence in education and drawing',
+  },
+]
+
+export const cyclingItems: GalleryItem[] = [
+  {
+    src: '/gallery/zyclothon-2025-certificate.jpg',
+    title: 'Zyclothon 2025: 50 km',
+    detail: 'Certificate of Completion · Zoho Estancia Campus',
+    date: '24 Aug 2025',
+    alt: 'Zyclothon 2025 certificate of completion for the 50 km cyclothon at Zoho Estancia Campus',
+  },
+  {
+    src: '/gallery/zyclothon-2025-medal.jpg',
+    title: '50 km finisher medal',
+    detail: 'Zyclothon 2025 · with the medals from earlier runs',
+    alt: 'Dinesh holding the Zyclothon 2025 50 km finisher medal, with earlier race medals hanging behind him',
+    fit: 'cover',
+    focus: '50% 78%',
+  },
+  {
+    src: '/gallery/zyclothon-2025-start-line.jpg',
+    title: 'At the start line',
+    detail: 'Zyclothon 2025 · Zoho Estancia Campus',
+    alt: 'Dinesh with his bicycle at the Zyclothon 2025 start area at night',
+    fit: 'cover',
   },
 ]
