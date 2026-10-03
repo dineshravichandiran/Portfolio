@@ -48,7 +48,7 @@ export interface ImpactStat {
 
 export const impactStats: ImpactStat[] = [
   { target: 5000, suffix: '+', comma: true, label: 'Incidents Resolved' },
-  { target: 10, suffix: '+', label: 'Runbooks Authored' },
+  { target: 15, suffix: '+', label: 'Runbooks Authored' },
   { target: 99.9, suffix: '%', decimals: 1, label: 'Platform Availability' },
   { target: 50, suffix: '+', label: 'Fortune 500 Customers' },
   { target: 200, suffix: '+', label: 'Production Servers' },

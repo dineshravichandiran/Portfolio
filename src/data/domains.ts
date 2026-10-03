@@ -16,6 +16,6 @@ export const domains: Domain[] = [
   { marker: 'DOM / 06', title: 'Configuration Automation', desc: 'Ansible and SaltStack for host baselining, drift correction, and self-healing systems.', icon: 'sliders' },
   { marker: 'DOM / 07', title: 'CI/CD & DevSecOps', desc: 'End-to-end pipelines that build, test, scan, and ship, security folded in, not bolted on.', icon: 'refresh' },
   { marker: 'DOM / 08', title: 'Enterprise PLM & IIoT Ops', desc: 'Platform administration for PLM, IIoT, and microservice infrastructure serving Fortune 500 customers.', icon: 'layers' },
-  { marker: 'DOM / 09', title: 'ITSM & Incident Management', desc: 'ServiceNow change/incident workflows under ITIL, plus 10+ runbooks the team relies on.', icon: 'alert' },
+  { marker: 'DOM / 09', title: 'ITSM & Incident Management', desc: 'ServiceNow change/incident workflows under ITIL, plus 15+ runbooks the team relies on.', icon: 'alert' },
   { marker: 'DOM / 10', title: 'AIOps & AI-Driven Ops', desc: 'Event correlation, anomaly detection, and ML-driven root-cause suggestion, the layer on top of traditional monitoring, built and verified in my own AIOps engine.', icon: 'cpu' },
 ]

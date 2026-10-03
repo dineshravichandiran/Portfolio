@@ -18,7 +18,7 @@ export const capabilities: Capability[] = [
     title: 'Automation',
     tagline: 'IaC · Config Mgmt · Self-Healing',
     bar: 'Terraform · Ansible · SaltStack',
-    stat: { value: '10+', label: 'runbooks authored' },
+    stat: { value: '15+', label: 'runbooks authored' },
   },
   {
     title: 'Observability',
