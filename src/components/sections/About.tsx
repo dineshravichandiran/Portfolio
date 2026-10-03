@@ -1,10 +1,13 @@
+import { useState } from 'react'
 import SectionHeader from '../ui/SectionHeader'
+import { CARD_HIT_AREA, Collapse, PlusIcon } from '../ui/Collapse'
 import Reveal from '../ui/Reveal'
 import SpotlightCard from '../ui/SpotlightCard'
 import { aboutCards, aboutIntro } from '../../data/about'
 import { profile } from '../../data/profile'
 
 export default function About() {
+  const [openCard, setOpenCard] = useState<string | null>(null)
   return (
     <div className="container py-8 pb-16">
       <SectionHeader label="01 / What I Do" title="Daily operations." />
@@ -28,16 +31,37 @@ export default function About() {
         </p>
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
-        {aboutCards.map((card, i) => (
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-start gap-5">
+        {aboutCards.map((card, i) => {
+          const isOpen = openCard === card.number
+          const panelId = `about-${card.number}`
+          return (
           <Reveal key={card.number} delayMs={i * 60} variant="left">
-            <SpotlightCard className="bg-panel border border-panel-border rounded-md p-6 h-full transition-colors hover:border-accent">
+            <SpotlightCard
+              className={`relative bg-panel border rounded-md p-6 transition-colors hover:border-accent ${
+                isOpen ? 'border-accent' : 'border-panel-border'
+              }`}
+            >
               <div className="font-mono text-xs text-accent mb-3">{card.number}</div>
-              <h3 className="text-[1.05rem] font-bold mb-2.5">{card.title}</h3>
-              <p className="text-text-secondary text-sm leading-relaxed">{card.body}</p>
+              <h3 className="text-[1.05rem] font-bold">
+                <button
+                  type="button"
+                  onClick={() => setOpenCard(isOpen ? null : card.number)}
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  className={`flex w-full cursor-pointer items-center justify-between gap-3 text-left ${CARD_HIT_AREA}`}
+                >
+                  <span>{card.title}</span>
+                  <PlusIcon open={isOpen} />
+                </button>
+              </h3>
+              <Collapse open={isOpen} id={panelId}>
+                <p className="pt-2.5 text-text-secondary text-sm leading-relaxed">{card.body}</p>
+              </Collapse>
             </SpotlightCard>
           </Reveal>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

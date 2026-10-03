@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import SectionHeader from '../ui/SectionHeader'
+import { CARD_HIT_AREA, Collapse, PlusIcon } from '../ui/Collapse'
 import { branches, type TreeCommit } from '../../data/tree'
 import { profile } from '../../data/profile'
 
@@ -9,7 +10,20 @@ function shortHash(str: string) {
   return h.toString(16).padStart(7, '0').slice(0, 7)
 }
 
-function TimelineRow({ commit, color, side }: { commit: TreeCommit; color: string; side: 'left' | 'right' }) {
+interface OpenProps {
+  openTitle: string | null
+  onToggle: (title: string) => void
+}
+
+function TimelineRow({
+  commit,
+  color,
+  side,
+  openTitle,
+  onToggle,
+}: { commit: TreeCommit; color: string; side: 'left' | 'right' } & OpenProps) {
+  const isOpen = openTitle === commit.title
+  const panelId = `tree-${shortHash(commit.title)}`
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
 
@@ -50,27 +64,46 @@ function TimelineRow({ commit, color, side }: { commit: TreeCommit; color: strin
         } ${visible ? 'opacity-100 translate-x-0' : `opacity-0 ${hiddenX}`}`}
       >
         <div
-          className="bg-panel border border-panel-border rounded-lg px-5 py-4 max-w-[420px]"
+          className="relative bg-panel border border-panel-border rounded-lg px-5 py-4 w-full sm:w-[420px] max-w-full"
           style={{ borderLeftColor: color, borderLeftWidth: '3px' }}
         >
           <div className="flex items-baseline gap-3 mb-2 flex-wrap">
             <span className="font-mono text-xs text-dim flex-shrink-0">{shortHash(commit.title)}</span>
             <span className="font-mono text-[0.65rem] text-dim uppercase tracking-wide">{commit.meta}</span>
           </div>
-          <h4 className="text-[0.95rem] font-bold leading-snug mb-2">{commit.title}</h4>
-          <p className="text-text-secondary text-[0.85rem] leading-relaxed mb-2">{commit.desc}</p>
-          {commit.link && (
-            <a href={commit.link} target="_blank" rel="noopener" className="text-sm font-semibold" style={{ color }}>
-              View repo →
-            </a>
-          )}
+          <h4 className="text-[0.95rem] font-bold leading-snug">
+            <button
+              type="button"
+              onClick={() => onToggle(commit.title)}
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+              className={`flex w-full cursor-pointer items-start justify-between gap-3 text-left ${CARD_HIT_AREA}`}
+            >
+              <span>{commit.title}</span>
+              <PlusIcon open={isOpen} />
+            </button>
+          </h4>
+          <Collapse open={isOpen} id={panelId}>
+            <p className="text-text-secondary text-[0.85rem] leading-relaxed pt-2">{commit.desc}</p>
+            {commit.link && (
+              <a
+                href={commit.link}
+                target="_blank"
+                rel="noopener"
+                className="relative z-10 mt-2 inline-block text-sm font-semibold"
+                style={{ color }}
+              >
+                View repo →
+              </a>
+            )}
+          </Collapse>
         </div>
       </div>
     </div>
   )
 }
 
-function TreeBranchSection({ branch }: { branch: (typeof branches)[number] }) {
+function TreeBranchSection({ branch, openTitle, onToggle }: { branch: (typeof branches)[number] } & OpenProps) {
   return (
     <div className="mb-14 last:mb-0">
       <div className="flex items-baseline gap-2.5 flex-wrap mb-8 justify-center">
@@ -86,7 +119,14 @@ function TreeBranchSection({ branch }: { branch: (typeof branches)[number] }) {
       <div className="relative">
         <div className="absolute left-[5px] top-0 bottom-0 w-[2px] sm:left-1/2 sm:-translate-x-1/2 bg-panel-border-strong" />
         {branch.commits.map((commit, i) => (
-          <TimelineRow key={commit.title} commit={commit} color={branch.color} side={i % 2 === 0 ? 'left' : 'right'} />
+          <TimelineRow
+            key={commit.title}
+            commit={commit}
+            color={branch.color}
+            side={i % 2 === 0 ? 'left' : 'right'}
+            openTitle={openTitle}
+            onToggle={onToggle}
+          />
         ))}
       </div>
     </div>
@@ -94,6 +134,8 @@ function TreeBranchSection({ branch }: { branch: (typeof branches)[number] }) {
 }
 
 export default function Tree() {
+  const [openTitle, setOpenTitle] = useState<string | null>(null)
+  const toggle = (title: string) => setOpenTitle((prev) => (prev === title ? null : title))
   return (
     <div className="container py-8 pb-16 overflow-hidden">
       <SectionHeader label="06 / Project Tree" title="Everything I've built, branched out." />
@@ -111,7 +153,7 @@ export default function Tree() {
       </div>
 
       {branches.map((branch) => (
-        <TreeBranchSection key={branch.name} branch={branch} />
+        <TreeBranchSection key={branch.name} branch={branch} openTitle={openTitle} onToggle={toggle} />
       ))}
     </div>
   )

@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SpotlightCard from '../ui/SpotlightCard'
 import DomainIcon from './domainIcons'
 import { domains } from '../../data/domains'
+import { CARD_HIT_AREA, Collapse, PlusIcon } from '../ui/Collapse'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -92,29 +93,15 @@ export default function DomainsGrid() {
                       onClick={() => setOpenMarker(isOpen ? null : d.marker)}
                       aria-expanded={isOpen}
                       aria-controls={panelId}
-                      className="flex w-full cursor-pointer items-center justify-between gap-3 text-left after:absolute after:inset-0 after:content-['']"
+                      className={`flex w-full cursor-pointer items-center justify-between gap-3 text-left ${CARD_HIT_AREA}`}
                     >
                       <span>{d.title}</span>
-                      <span
-                        aria-hidden="true"
-                        className={`shrink-0 font-mono text-lg leading-none text-accent transition-transform duration-300 ${
-                          isOpen ? 'rotate-45' : ''
-                        }`}
-                      >
-                        +
-                      </span>
+                      <PlusIcon open={isOpen} />
                     </button>
                   </h3>
-                  <div
-                    id={panelId}
-                    className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
-                      isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-                    }`}
-                  >
-                    <div className="overflow-hidden">
-                      <p className="pt-3 text-[0.85rem] leading-relaxed text-text-secondary">{d.desc}</p>
-                    </div>
-                  </div>
+                  <Collapse open={isOpen} id={panelId}>
+                    <p className="pt-3 text-[0.85rem] leading-relaxed text-text-secondary">{d.desc}</p>
+                  </Collapse>
                 </div>
               </SpotlightCard>
             )
