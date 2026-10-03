@@ -235,6 +235,18 @@ export const artItems: GalleryItem[] = [
   },
 ]
 
+// Selected pages from the full portfolio PDF. Captions describe what is drawn, nothing more.
+export const artworks: GalleryItem[] = [
+  { src: '/gallery/art-bird-on-branch.jpg', title: 'Bird on a branch', detail: 'Painting', alt: 'Painting of a bird perched on a leafy branch against a blue background', fit: 'cover', focus: '50% 40%' },
+  { src: '/gallery/art-night-tree.jpg', title: 'Night tree', detail: 'Painting', alt: 'Painting of a bare tree against a moonlit night sky', fit: 'cover', focus: '50% 40%' },
+  { src: '/gallery/art-portrait-pencil-man.jpg', title: 'Portrait', detail: 'Pencil drawing', alt: 'Pencil portrait of a man', fit: 'cover', focus: '50% 30%' },
+  { src: '/gallery/art-portrait-pencil-elder.jpg', title: 'Portrait of an elder', detail: 'Pencil drawing', alt: 'Pencil portrait of an elderly bearded man in a patterned cap', fit: 'cover', focus: '50% 40%' },
+  { src: '/gallery/art-portrait-pencil-woman.jpg', title: 'Portrait', detail: 'Pencil drawing', alt: 'Pencil portrait of a woman in a headscarf', fit: 'cover', focus: '50% 35%' },
+  { src: '/gallery/art-portrait-pencil-flower.jpg', title: 'Portrait with a flower', detail: 'Pencil drawing', alt: 'Pencil portrait of a woman with a flower in her hair', fit: 'cover', focus: '50% 30%' },
+  { src: '/gallery/art-still-life-pencil.jpg', title: 'Still life', detail: 'Pencil drawing', alt: 'Pencil still life of flowers in a vase with fruit', fit: 'cover', focus: '50% 40%' },
+  { src: '/gallery/art-mandala.jpg', title: 'Mandala', detail: 'Pen and pencil drawing', alt: 'Detailed circular mandala drawing', fit: 'cover', focus: '50% 50%' },
+]
+
 export const cyclingItems: GalleryItem[] = [
   {
     src: '/gallery/zyclothon-2025-certificate.jpg',
@@ -242,6 +254,13 @@ export const cyclingItems: GalleryItem[] = [
     detail: 'Certificate of Completion · Zoho Estancia Campus',
     date: '24 Aug 2025',
     alt: 'Zyclothon 2025 certificate of completion for the 50 km cyclothon at Zoho Estancia Campus',
+  },
+  {
+    src: '/gallery/audax-brm-200km-2026.jpg',
+    title: 'BRM 200 km Brevet',
+    detail: 'Certificate of recognition · Audax India Randonneurs, organised by Pune Randonneurs · 13h 26m',
+    date: '18 Jul 2026',
+    alt: 'Audax India Randonneurs certificate for completing a 200 km Brevet in 13 hours 26 minutes, organised by Pune Randonneurs',
   },
   {
     src: '/gallery/zyclothon-2025-medal.jpg',
