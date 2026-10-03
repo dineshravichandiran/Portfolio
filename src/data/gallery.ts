@@ -53,6 +53,13 @@ export const certificateGroups: GalleryGroup[] = [
         date: '6–7 Aug 2025',
         alt: 'Cloud Native Computing Foundation letter confirming Dinesh Ravichandiran attended KubeCon and CloudNativeCon India 2025 in Hyderabad',
       },
+      {
+        src: '/gallery/kubecon-india-2026-attendance-letter.jpg',
+        title: 'KubeCon + CloudNativeCon India 2026',
+        detail: 'Attendance letter from the Cloud Native Computing Foundation · Jio World Convention Centre, Mumbai',
+        date: '18–19 Jun 2026',
+        alt: 'Cloud Native Computing Foundation letter confirming Dinesh Ravichandiran attended KubeCon and CloudNativeCon India 2026 in Mumbai',
+      },
     ],
   },
   {
@@ -126,6 +133,27 @@ export const certificateGroups: GalleryGroup[] = [
   {
     heading: 'Online courses & webinars',
     items: [
+      {
+        src: '/gallery/kodekloud-kubernetes-crash-course.jpg',
+        title: 'Crash Course: Kubernetes For Absolute Beginners',
+        detail: 'Course Completion Certificate · KodeKloud',
+        date: '12 Aug 2025',
+        alt: 'KodeKloud course completion certificate for Crash Course: Kubernetes For Absolute Beginners',
+      },
+      {
+        src: '/gallery/kodekloud-12-factor-app.jpg',
+        title: '12 Factor App',
+        detail: 'Course Completion Certificate · KodeKloud',
+        date: '31 Aug 2025',
+        alt: 'KodeKloud course completion certificate for the 12 Factor App course',
+      },
+      {
+        src: '/gallery/internshala-core-java-ai-verification.jpg',
+        title: 'Core Java with AI',
+        detail: 'Internshala Trainings · final test score 71% · verified on the issuer\'s site',
+        date: '29 Sep 2021',
+        alt: 'Internshala Trainings certificate verification page showing Core Java with AI, final test score 71 percent, dated 29 September 2021',
+      },
       {
         src: '/gallery/sumo-logic-kubernetes-basics.jpg',
         title: 'Kubernetes Basics',
@@ -291,11 +319,8 @@ export const trainingCourses: TrainingItem[] = [
   { title: 'Crisis Management for Individual Contributors', detail: 'Professional training course', date: '29 Jul 2025' },
 ]
 
-// Verified on the owner's LinkedIn licenses and certifications; text only.
+// Verified on the owner's LinkedIn licenses and certifications; text only (no certificate image yet).
 export const courseCredentials: TrainingItem[] = [
-  { title: 'Crash Course: Kubernetes For Absolute Beginners', detail: 'KodeKloud', date: 'Aug 2025' },
-  { title: '12 Factor App', detail: 'KodeKloud', date: 'Aug 2025' },
   { title: 'Implement Load Balancing on Compute Engine Skill Badge', detail: 'Google Cloud Skills Boost', date: 'May 2025' },
   { title: 'Google Cloud Innovator', detail: 'Google Developer Group', date: 'Feb 2022' },
-  { title: 'Core Java with AI', detail: 'Internshala Trainings', date: 'Aug 2021' },
 ]
