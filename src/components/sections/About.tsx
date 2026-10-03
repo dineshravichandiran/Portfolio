@@ -38,26 +38,28 @@ export default function About() {
           return (
           <Reveal key={card.number} delayMs={i * 60} variant="left">
             <SpotlightCard
-              className={`relative bg-panel border rounded-md p-6 transition-colors hover:border-accent ${
+              className={`relative bg-panel border rounded-md transition-colors hover:border-accent ${
                 isOpen ? 'border-accent' : 'border-panel-border'
               }`}
             >
-              <div className="font-mono text-xs text-accent mb-3">{card.number}</div>
-              <h3 className="text-[1.05rem] font-bold">
-                <button
-                  type="button"
-                  onClick={() => setOpenCard(isOpen ? null : card.number)}
-                  aria-expanded={isOpen}
-                  aria-controls={panelId}
-                  className={`flex w-full cursor-pointer items-center justify-between gap-3 text-left ${CARD_HIT_AREA}`}
-                >
-                  <span>{card.title}</span>
-                  <PlusIcon open={isOpen} />
-                </button>
-              </h3>
-              <Collapse open={isOpen} id={panelId}>
-                <p className="pt-2.5 text-text-secondary text-sm leading-relaxed">{card.body}</p>
-              </Collapse>
+              <div className="p-6">
+                <div className="font-mono text-xs text-accent mb-3">{card.number}</div>
+                <h3 className="text-[1.05rem] font-bold">
+                  <button
+                    type="button"
+                    onClick={() => setOpenCard(isOpen ? null : card.number)}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    className={`flex w-full cursor-pointer items-center justify-between gap-3 text-left ${CARD_HIT_AREA}`}
+                  >
+                    <span>{card.title}</span>
+                    <PlusIcon open={isOpen} />
+                  </button>
+                </h3>
+                <Collapse open={isOpen} id={panelId}>
+                  <p className="pt-2.5 text-text-secondary text-sm leading-relaxed">{card.body}</p>
+                </Collapse>
+              </div>
             </SpotlightCard>
           </Reveal>
           )
