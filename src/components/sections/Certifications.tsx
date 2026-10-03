@@ -157,17 +157,21 @@ export default function Certifications() {
         </div>
       </div>
 
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-center">
         {certifications.map((c, i) => (
           <button
             key={c.title}
             type="button"
             onClick={() => pick(i)}
             aria-label={`Show ${c.title}`}
-            className={`w-2 h-2 rounded-full cursor-pointer transition-colors ${
-              i === active ? 'bg-accent' : 'bg-panel-border-strong hover:bg-panel-border-strong/70'
-            }`}
-          />
+            className="group flex h-6 w-6 cursor-pointer items-center justify-center rounded-full"
+          >
+            <span
+              className={`h-2 w-2 rounded-full transition-colors ${
+                i === active ? 'bg-accent' : 'bg-panel-border-strong group-hover:bg-panel-border-strong/70'
+              }`}
+            />
+          </button>
         ))}
       </div>
       <CertificateGallery />

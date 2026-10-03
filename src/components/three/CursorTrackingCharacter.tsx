@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { INTRO_DISMISSED_EVENT, INTRO_SESSION_KEY } from '../intro/IntroGate'
 
 type FrameEntry = { file: string; angle: number }
 type Manifest = { frames: FrameEntry[]; background: string; width: number; height: number }
@@ -60,35 +61,38 @@ export default function CursorTrackingCharacter() {
     }
     window.addEventListener('resize', resize)
 
+    // The character sits behind the intro gate on a first visit, so nothing
+    // here is needed until the visitor enters. Starting the 79-frame download
+    // at page load put ~3 MB on the critical path for no visible benefit.
+    let started = false
     async function load() {
+      if (started) return
+      started = true
       const res = await fetch(MANIFEST_URL)
       manifest = (await res.json()) as Manifest
       if (cancelled || !manifest) return
 
       sortedFrames = [...manifest.frames].sort((a, b) => a.angle - b.angle)
 
-      await Promise.all(
-        sortedFrames.map(
-          (f) =>
-            new Promise<void>((resolve) => {
-              const img = new Image()
-              img.onload = () => resolve()
-              img.onerror = () => resolve()
-              img.src = FRAMES_BASE + f.file
-              images.set(f.file, img)
-            }),
-        ),
-      )
+      // Centre frame first so the character appears immediately...
       centerImg = await new Promise<HTMLImageElement>((resolve) => {
         const img = new Image()
         img.onload = () => resolve(img)
         img.onerror = () => resolve(img)
         img.src = CENTER_URL
       })
-
       if (cancelled) return
       resize()
       animate()
+
+      // ...then the turning frames stream in behind it. draw() already skips
+      // any frame that hasn't finished loading.
+      for (const f of sortedFrames) {
+        const img = new Image()
+        img.decoding = 'async'
+        img.src = FRAMES_BASE + f.file
+        images.set(f.file, img)
+      }
     }
 
     function nearestFrame(angle: number): FrameEntry {
@@ -121,7 +125,8 @@ export default function CursorTrackingCharacter() {
         currentAngle += delta * LERP_FACTOR
       }
 
-      const img = inDeadzone ? centerImg : images.get(nearestFrame(currentAngle).file)
+      let img = inDeadzone ? centerImg : images.get(nearestFrame(currentAngle).file)
+      if (img && (!img.complete || img.naturalWidth === 0)) img = centerImg
       if (!img || !img.complete || img.naturalWidth === 0) return
 
       const w = rect.width
@@ -139,9 +144,20 @@ export default function CursorTrackingCharacter() {
       draw()
     }
 
-    load()
+    let introSeen = false
+    try {
+      introSeen = sessionStorage.getItem(INTRO_SESSION_KEY) === '1'
+    } catch {
+      introSeen = false
+    }
+    window.addEventListener(INTRO_DISMISSED_EVENT, load)
+    // Already past the gate (return visit), or the gate never reports back:
+    // don't leave the hero character blank.
+    const fallback = window.setTimeout(load, introSeen ? 0 : 12000)
 
     return () => {
+      window.clearTimeout(fallback)
+      window.removeEventListener(INTRO_DISMISSED_EVENT, load)
       cancelled = true
       cancelAnimationFrame(rafId)
       window.removeEventListener('mousemove', onMouseMove)
