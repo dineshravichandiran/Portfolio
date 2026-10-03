@@ -114,6 +114,25 @@ export const certificateGroups: GalleryGroup[] = [
       },
     ],
   },
+  {
+    heading: 'Programs & language',
+    items: [
+      {
+        src: '/gallery/internshala-isp22-letter.jpg',
+        title: 'Internshala Student Partner (ISP 22)',
+        detail: 'Campus Ambassador Program · letter of recognition from Internshala',
+        date: 'Apr–Jun 2021',
+        alt: 'Internshala letter recognising Dinesh Ravichandiran for the Campus Ambassador Program, Internshala Student Partner 22 edition',
+      },
+      {
+        src: '/gallery/ef-set-english-b2.jpg',
+        title: 'EF SET English Certificate: B2 Upper Intermediate',
+        detail: 'Score 56/100 · Reading 59, Listening 52 · verify at cert.efset.org/C4R6VE',
+        date: '21 Jun 2022',
+        alt: 'EF SET English Certificate showing a score of 56 out of 100, CEFR level B2 Upper Intermediate',
+      },
+    ],
+  },
 ]
 
 export const eventPhotos: GalleryItem[] = [
@@ -162,5 +181,15 @@ export const runningItems: GalleryItem[] = [
     date: '2025',
     alt: 'Dinesh at the Magnathon 2025 run wearing the race shirt and finisher medal',
     fit: 'cover',
+  },
+]
+
+export const artItems: GalleryItem[] = [
+  {
+    src: '/gallery/yuvasri-kala-bharathi-award.jpg',
+    title: 'Yuvasri Kala Bharathi Award',
+    detail: 'Excellence in education and drawing · 3rd prize, Tamil Nadu state-level drawing competition · Bharathi Yuva Kendra',
+    date: '1 Dec 2013',
+    alt: 'Yuvasri Kala Bharathi award certificate from Bharathi Yuva Kendra, written in Tamil, for excellence in education and drawing',
   },
 ]
