@@ -402,6 +402,10 @@ export const keyProjects: ProjectItem[] = [
       { label: 'Action', text: 'Coordinated with BPRD on requirements, then built "Antigen" with a team of 6 and demonstrated the working prototype live at the national finale.' },
       { label: 'Result', text: 'National Grand Finale Winner among 10,000+ competing teams.' },
     ],
+    shots: [
+      { src: '/gallery/sih-2020-problem-statement-slide.jpg', alt: 'Presentation slide for team MedBot Creators at Smart India Hackathon 2020 Grand Finale, problem statement: detection of malicious, rogue and honey-trap chatbots at social media and other web platforms, for the Bureau of Police Research and Development', caption: 'Finale problem statement' },
+      { src: '/gallery/sih-2020-winner.jpg', alt: 'Smart India Hackathon 2020 winner certificate awarded to Dinesh R of team MedBot Creators', caption: 'Winner certificate' },
+    ],
     tags: ['JavaScript', 'PHP', 'Web App', 'Chatbot', 'Team of 6'],
   },
 ]
