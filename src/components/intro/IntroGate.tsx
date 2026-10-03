@@ -24,14 +24,33 @@ export default function IntroGate() {
   const [phase, setPhase] = useState<Phase>('idle')
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const engineRef = useRef<ReturnType<typeof initIntroGlobe> | null>(null)
-  // The poster paints first; the video only starts once the page has finished
-  // loading so its bytes never compete with first paint.
-  const [videoReady, setVideoReady] = useState(() => typeof document !== 'undefined' && document.readyState === 'complete')
+  // The poster paints first. The video then starts on the visitor's first
+  // interaction, or a few seconds after load, whichever comes first, so its
+  // first frame never delays the first meaningful paint.
+  const [videoReady, setVideoReady] = useState(false)
   useEffect(() => {
     if (videoReady) return
-    const go = () => setVideoReady(true)
-    window.addEventListener('load', go, { once: true })
-    return () => window.removeEventListener('load', go)
+    let timer = 0
+    const go = () => {
+      window.clearTimeout(timer)
+      cleanup()
+      setVideoReady(true)
+    }
+    const events = ['pointerdown', 'pointermove', 'keydown', 'scroll', 'touchstart'] as const
+    const cleanup = () => {
+      events.forEach((e) => window.removeEventListener(e, go))
+      window.removeEventListener('load', arm)
+    }
+    const arm = () => {
+      timer = window.setTimeout(go, 3500)
+    }
+    events.forEach((e) => window.addEventListener(e, go, { once: true, passive: true }))
+    if (document.readyState === 'complete') arm()
+    else window.addEventListener('load', arm, { once: true })
+    return () => {
+      window.clearTimeout(timer)
+      cleanup()
+    }
   }, [videoReady])
   const [reducedMotion] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
