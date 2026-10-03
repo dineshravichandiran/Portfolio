@@ -111,6 +111,11 @@ export const branches: TreeBranch[] = [
         desc: 'Team recognition for stabilizing customer environments during the CrowdStrike incident and DigiCert certificate expiry through dedication, flexibility, and collaboration under pressure.',
       },
       {
+        title: 'Customer First Award',
+        meta: 'Aug 2024',
+        desc: 'Recognized by my manager for customer-focused support, a reflection of the whole team\'s collaboration.',
+      },
+      {
         title: 'Performance & Efficiency Award',
         meta: 'Nov 2025 – May 2026',
         desc: 'Recognized for collaborating with the Technical Architect team on scalable, informed decisions, authoring and enhancing knowledge articles, and improving application performance while optimizing resource utilization and infrastructure cost.',
