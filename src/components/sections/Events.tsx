@@ -2,6 +2,8 @@ import SectionHeader from '../ui/SectionHeader'
 import Reveal from '../ui/Reveal'
 import SpotlightCard from '../ui/SpotlightCard'
 import { events } from '../../data/credentials'
+import GalleryGrid from '../gallery/GalleryGrid'
+import { eventPhotos } from '../../data/gallery'
 
 export default function Events() {
   return (
@@ -21,6 +23,9 @@ export default function Events() {
           </Reveal>
         ))}
       </div>
+
+      <div className="mt-14 mb-4 font-mono text-[0.78rem] uppercase tracking-wide text-accent">From the events</div>
+      <GalleryGrid items={eventPhotos} fit="cover" />
     </div>
   )
 }

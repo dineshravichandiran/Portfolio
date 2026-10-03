@@ -16,6 +16,7 @@ import Events from '../components/sections/Events'
 import Achievements from '../components/sections/Achievements'
 import Certifications from '../components/sections/Certifications'
 import Education from '../components/sections/Education'
+import Beyond from '../components/sections/Beyond'
 import Contact from '../components/sections/Contact'
 import NextSection from '../components/ui/NextSection'
 
@@ -109,6 +110,11 @@ export default function DashboardPage() {
 
       <section id="education" className="border-b border-panel-border">
         <Education />
+      </section>
+      <NextSection to="beyond" label="Beyond Work" />
+
+      <section id="beyond" className="border-b border-panel-border">
+        <Beyond />
       </section>
       <NextSection to="contact" label="Contact" />
 

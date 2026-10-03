@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import SectionHeader from '../ui/SectionHeader'
+import CertificateGallery from '../gallery/CertificateGallery'
 import { credentials } from '../../data/credentials'
 
 const certifications = credentials.filter((c) => c.type === 'Certification')
@@ -169,6 +170,7 @@ export default function Certifications() {
           />
         ))}
       </div>
+      <CertificateGallery />
     </div>
   )
 }
