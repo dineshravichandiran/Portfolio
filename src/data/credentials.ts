@@ -84,6 +84,7 @@ export const credentials: CredentialRow[] = [
   },
   { type: 'Award', title: 'Smart India Hackathon Winner', issuer: 'National Level · 2020 · 10,000+ competing teams' },
   { type: 'Award', title: 'Quality Compliance Award', issuer: 'Resolved a PagerDuty/Zabbix alert-closure backlog, strengthening ISO audit compliance · 2026' },
+  { type: 'Award', title: 'Customer First Award', issuer: 'Recognized by my manager for customer-focused support · Aug 2024' },
   { type: 'Award', title: 'Performance & Efficiency Award', issuer: 'Technical Architect collaboration, runbook authoring, cost optimization · Nov 2025 – May 2026' },
   { type: 'Award', title: 'Crowdstrike and Digicert Recovery Award', issuer: 'Team recognition for stabilizing customer environments during the CrowdStrike incident and DigiCert expiry' },
   { type: 'Award', title: 'Team Leadership & Mentoring', issuer: 'Mentor to new and junior engineers · Standardized incident-handling procedures across a 12-member team · Lead outage coordination across App, DB & Network teams during high-severity incidents' },

@@ -16,12 +16,12 @@ export interface JourneyMilestone {
 export const milestones: JourneyMilestone[] = [
   {
     id: 'drdo',
-    year: 'Aug 2021',
+    year: 'Aug – Sep 2021',
     city: 'CHENNAI',
     location: 'Avadi, Tamil Nadu',
     company: 'DRDO',
     role: 'R&D Engineering Intern',
-    meta: '01 · CHENNAI · Aug 2021',
+    meta: '01 · CHENNAI · Aug – Sep 2021',
     body: 'Contributed to a defence R&D project at DRDO Avadi, sensor integration for combat vehicle systems. Working on mission-critical hardware shaped my approach to reliability and documentation.',
     tags: ['Defence R&D', 'Sensor Integration', 'Reliability Mindset', 'Technical Documentation'],
     sceneT: 0.12,
@@ -38,7 +38,7 @@ export const milestones: JourneyMilestone[] = [
   },
   {
     id: 'cognizant',
-    year: 'Jan – Jun 2022',
+    year: 'Feb – Jul 2022',
     city: 'BANGALORE',
     location: 'Bangalore, India',
     company: 'Cognizant',
@@ -47,6 +47,17 @@ export const milestones: JourneyMilestone[] = [
     body: 'Six-month paid internship. Trained in full-stack fundamentals and SQL, then specialized in Java, building a Spring Boot MVC project with MySQL. Earned a full-time offer on performance.',
     tags: ['Java', 'Spring Boot', 'REST APIs', 'MySQL', 'Earned Full-time Offer'],
     sceneT: 0.36,
+  },
+  {
+    id: 'johnson-controls',
+    year: 'Jul – Nov 2022',
+    city: 'PUNE',
+    location: 'Pune, India',
+    company: 'Johnson Controls',
+    role: 'Intern',
+    meta: 'Internship',
+    body: 'Trained in Building Automation Systems (BAS) and HVAC fundamentals. Contributed to project execution plans and quality assurance of hardware and software deliverables, with design and application engineering work on international projects.',
+    tags: ['Building Automation', 'HVAC', 'Project Execution', 'Quality Assurance'],
   },
   {
     id: 'associate',
