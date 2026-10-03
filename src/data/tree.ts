@@ -116,7 +116,7 @@ export const branches: TreeBranch[] = [
         desc: 'Recognized for collaborating with the Technical Architect team on scalable, informed decisions, authoring and enhancing knowledge articles, and improving application performance while optimizing resource utilization and infrastructure cost.',
       },
       {
-        title: 'SO&S Quality Compliance Award',
+        title: 'Quality Compliance Award',
         meta: '2026',
         desc: 'Recognized for resolving a backlog of alerts marked closed in PagerDuty but still open in Zabbix, improving monitoring accuracy for ISO audit and compliance.',
       },
@@ -129,7 +129,6 @@ export const branches: TreeBranch[] = [
     commits: [
       { title: 'Azure Fundamentals (AZ-900)', meta: 'Microsoft Certified · 2022', desc: 'Core Azure cloud concepts, services, and pricing.' },
       { title: 'Azure Data Fundamentals (DP-900)', meta: 'Microsoft Certified · 2022', desc: 'Core data concepts and Azure data services.' },
-      { title: 'Advanced Kubernetes Operations & Linux System Administration', meta: 'KodeKloud · 2025', desc: 'Hands-on Kubernetes operations and Linux system administration.' },
       { title: 'MBA – Information System Management / Analytics & Data Science', meta: 'Manipal University Jaipur · 2025–2027 (Expected)', desc: 'Graduate study in information systems management, analytics, and data science.' },
     ],
   },
