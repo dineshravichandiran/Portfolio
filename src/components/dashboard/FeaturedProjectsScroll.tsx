@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { keyProjects } from '../../data/projects'
 import TechTag from '../ui/TechTag'
+import { showProject } from '../../utils/projectSelect'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -12,7 +12,7 @@ const FEATURED_TITLES = [
   'Kubernetes Self-Healing & Chaos Lab',
   'Runbook Automation Engine',
   'Grafana + Prometheus Observability Stack',
-  'ops-toolkits: PLM Health Checks & Deploy Validation',
+  'ops-toolkits: Change-Window & Config-Drift Suite',
   'Zabbix Monitoring Lab: Platform Deep-Dive',
   'Self-Healing Infrastructure on AWS',
   'End-to-End DevSecOps CI Pipeline',
@@ -131,9 +131,13 @@ export default function FeaturedProjectsScroll() {
       <div className="overflow-x-auto md:overflow-visible pb-4 md:pb-0">
         <div ref={trackRef} className="flex gap-5 pl-8 pr-8 md:pl-12 w-max">
           {featured.map((p, i) => (
-            <Link
+            <a
               key={p.title}
-              to="/projects"
+              href="#projects"
+              onClick={(e) => {
+                e.preventDefault()
+                showProject(p.title)
+              }}
               className="group flex-shrink-0 w-[300px] md:w-[380px] bg-panel border border-panel-border rounded-lg p-6 hover:border-accent transition-colors"
             >
               <div className="flex justify-between items-start mb-5">
@@ -155,7 +159,7 @@ export default function FeaturedProjectsScroll() {
                 ))}
               </div>
               <div className="text-xs text-ok font-mono">↑ {p.impact}</div>
-            </Link>
+            </a>
           ))}
         </div>
       </div>
