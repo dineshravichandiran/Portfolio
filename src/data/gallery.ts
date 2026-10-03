@@ -259,3 +259,15 @@ export const cyclingItems: GalleryItem[] = [
     fit: 'cover',
   },
 ]
+
+export interface TrainingItem {
+  title: string
+  detail: string
+  date: string
+}
+
+// Text only: these certificates carry the employer's branding, so no image.
+export const trainingCourses: TrainingItem[] = [
+  { title: 'Fundamentals of Change Management', detail: 'Enterprise software vendor training course', date: '12 Aug 2024' },
+  { title: 'Crisis Management for Individual Contributors', detail: 'Professional training course', date: '29 Jul 2025' },
+]
