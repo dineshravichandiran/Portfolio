@@ -25,7 +25,7 @@ export default function IntroGate() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const engineRef = useRef<ReturnType<typeof initIntroGlobe> | null>(null)
   // The poster paints first. The video then starts on the visitor's first
-  // interaction, or a few seconds after load, whichever comes first, so its
+  // interaction, or 10 seconds after load, whichever comes first, so its
   // first frame never delays the first meaningful paint.
   const [videoReady, setVideoReady] = useState(false)
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function IntroGate() {
       window.removeEventListener('load', arm)
     }
     const arm = () => {
-      timer = window.setTimeout(go, 3500)
+      timer = window.setTimeout(go, 10000)
     }
     events.forEach((e) => window.addEventListener(e, go, { once: true, passive: true }))
     if (document.readyState === 'complete') arm()
