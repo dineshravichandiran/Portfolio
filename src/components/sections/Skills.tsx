@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SectionHeader from '../ui/SectionHeader'
 import SpotlightCard from '../ui/SpotlightCard'
+import { CARD_HIT_AREA, Collapse, PlusIcon } from '../ui/Collapse'
 import { useSpotlight } from '../../hooks/useSpotlight'
 import { platforms, toolCategories, type ToolBadge } from '../../data/skills'
 
@@ -68,6 +69,7 @@ function Badge({ b }: { b: ToolBadge }) {
 }
 
 export default function Skills() {
+  const [openPlatform, setOpenPlatform] = useState<string | null>(null)
   const platformGridRef = useRef<HTMLDivElement>(null)
   const categoryRefs = useRef<(HTMLDivElement | null)[]>([])
 
@@ -140,25 +142,44 @@ export default function Skills() {
     <div className="container py-8 pb-16">
       <SectionHeader label="03 / Platforms I Support" title="Enterprise PLM, IIoT & AR." />
 
-      <div ref={platformGridRef} className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] gap-5 mb-14">
-        {platforms.map((p) => (
-          <SpotlightCard
-            key={p.title}
-            className="bg-panel border border-panel-border rounded-md p-5.5 h-full transition-colors hover:border-accent"
-          >
-            <div className="font-mono text-xs text-accent mb-2.5 flex gap-2 items-center">
-              {p.marker}
-              {p.soon && (
-                <span className="text-[0.65rem] text-warn border border-warn/40 bg-warn/10 px-1.5 py-0.5 rounded-full uppercase">
-                  {p.soon}
-                </span>
-              )}
-            </div>
-            <h3 className="text-base font-bold mb-1.5">{p.title}</h3>
-            <div className="text-xs text-dim mb-2.5">{p.type}</div>
-            <div className="text-[0.88rem] text-text-secondary leading-relaxed">{p.desc}</div>
-          </SpotlightCard>
-        ))}
+      <div ref={platformGridRef} className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] items-start gap-5 mb-14">
+        {platforms.map((p) => {
+          const isOpen = openPlatform === p.title
+          const panelId = `platform-${p.marker.replace(/\W+/g, '-').toLowerCase()}`
+          return (
+            <SpotlightCard
+              key={p.title}
+              className={`relative bg-panel border rounded-md p-5.5 transition-colors hover:border-accent ${
+                isOpen ? 'border-accent' : 'border-panel-border'
+              }`}
+            >
+              <div className="font-mono text-xs text-accent mb-2.5 flex gap-2 items-center">
+                {p.marker}
+                {p.soon && (
+                  <span className="text-[0.65rem] text-warn border border-warn/40 bg-warn/10 px-1.5 py-0.5 rounded-full uppercase">
+                    {p.soon}
+                  </span>
+                )}
+              </div>
+              <h3 className="text-base font-bold">
+                <button
+                  type="button"
+                  onClick={() => setOpenPlatform(isOpen ? null : p.title)}
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  className={`flex w-full cursor-pointer items-center justify-between gap-3 text-left ${CARD_HIT_AREA}`}
+                >
+                  <span>{p.title}</span>
+                  <PlusIcon open={isOpen} />
+                </button>
+              </h3>
+              <div className="text-xs text-dim mt-1.5">{p.type}</div>
+              <Collapse open={isOpen} id={panelId}>
+                <div className="pt-2.5 text-[0.88rem] text-text-secondary leading-relaxed">{p.desc}</div>
+              </Collapse>
+            </SpotlightCard>
+          )
+        })}
       </div>
 
       <SectionHeader label="04 / Tech Stack" title="Tools & technologies." />
