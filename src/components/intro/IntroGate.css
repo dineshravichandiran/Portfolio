@@ -101,6 +101,13 @@
   .intro-gate-video-box {
     width: min(80vw, 460px);
   }
+  /* Stacked layout: the caption has to take real space, or the globe below
+     slides up underneath the name and role. */
+  .intro-gate-caption {
+    position: static;
+    transform: none;
+    margin: 1rem auto 0;
+  }
 }
 
 .intro-gate-globe {
