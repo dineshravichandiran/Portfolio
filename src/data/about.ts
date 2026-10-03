@@ -35,6 +35,6 @@ export const aboutCards: AboutCard[] = [
   {
     number: '06',
     title: 'Ownership & Knowledge',
-    body: 'Raise and manage change requests following ITIL change management, and perform scheduled maintenance applying remediation recommendations. Authored 10+ published runbooks that the team now relies on. Collaborate with Technical Architects on infrastructure recovery and major incident response, including during large-scale industry-wide outage events.',
+    body: 'Raise and manage change requests following ITIL change management, and perform scheduled maintenance applying remediation recommendations. Authored 15+ published runbooks that the team now relies on. Collaborate with Technical Architects on infrastructure recovery and major incident response, including during large-scale industry-wide outage events.',
   },
 ]

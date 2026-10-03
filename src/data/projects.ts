@@ -165,7 +165,7 @@ export const keyProjects: ProjectItem[] = [
     meta: 'Automation · Runbooks',
     title: 'Runbook Automation Engine',
     impact: 'All 3 failure scenarios detected and auto-remediated, verified live',
-    desc: "I've authored 10+ published runbooks the team relies on, but a runbook is still a wiki page a human has to read and follow by hand during an incident. This makes that shape executable: a YAML file names a check, a remediation, and the engine verifies the fix actually worked before calling it healed.",
+    desc: "I've authored 15+ published runbooks the team relies on, but a runbook is still a wiki page a human has to read and follow by hand during an incident. This makes that shape executable: a YAML file names a check, a remediation, and the engine verifies the fix actually worked before calling it healed.",
     flow: [
       { label: 'Problem', text: "Runbooks I write live as documentation, not code. A human still has to notice the alert, open the page, and run each step themselves, under pressure, at 2 a.m." },
       { label: 'Action', text: 'Built an engine that runs check → remediate → verify from a 3-line YAML runbook, with every stage logged as JSON to an audit trail, plus a dry-run mode. Backed it with three genuine failure scenarios: a real memory-leaking process, a real full scratch directory, a real crashed HTTP service. Not simulated flags.' },
@@ -369,11 +369,11 @@ export const keyProjects: ProjectItem[] = [
     year: 'Ongoing',
     meta: 'ITIL · Knowledge',
     title: 'Runbook & Incident-Handling Standardization',
-    impact: '10+ team-adopted runbooks · Faster, consistent resolution',
-    desc: 'Authored 10+ team-adopted runbooks under ITIL change management and standardized incident-handling procedures across a 12-member team. Mentor new and junior engineers, turning individual knowledge into team capability.',
+    impact: '15+ team-adopted runbooks · Faster, consistent resolution',
+    desc: 'Authored 15+ team-adopted runbooks under ITIL change management and standardized incident-handling procedures across a 12-member team. Mentor new and junior engineers, turning individual knowledge into team capability.',
     flow: [
       { label: 'Problem', text: 'Tribal knowledge and inconsistent incident handling slowed resolution and onboarding across a 12-member team.' },
-      { label: 'Action', text: 'Authored 10+ runbooks under ITIL change management, standardized incident-handling procedures, and mentor new and junior engineers.' },
+      { label: 'Action', text: 'Authored 15+ runbooks under ITIL change management, standardized incident-handling procedures, and mentor new and junior engineers.' },
       { label: 'Result', text: 'A shared playbook the whole team runs on: faster, more consistent resolution and a shorter ramp for new hires.' },
     ],
     tags: ['ITIL', 'Change Management', 'ServiceNow', 'Documentation', 'Mentoring'],
