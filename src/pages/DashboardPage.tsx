@@ -9,6 +9,7 @@ import About from '../components/sections/About'
 import Work from '../components/sections/Work'
 import Skills from '../components/sections/Skills'
 import Projects from '../components/sections/Projects'
+import LiveAgentDemo from '../components/agent/LiveAgentDemo'
 import Tree from '../components/sections/Tree'
 import Timeline from '../components/sections/Timeline'
 import Events from '../components/sections/Events'
@@ -73,6 +74,11 @@ export default function DashboardPage() {
 
       <section id="projects" className="border-b border-panel-border">
         <Projects />
+      </section>
+      <NextSection to="live-agent" label="Live Agent" />
+
+      <section id="live-agent" className="border-b border-panel-border">
+        <LiveAgentDemo />
       </section>
       <NextSection to="tree" label="Project Tree" />
 
