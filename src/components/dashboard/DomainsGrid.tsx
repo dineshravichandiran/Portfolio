@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SpotlightCard from '../ui/SpotlightCard'
@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function DomainsGrid() {
   const gridRef = useRef<HTMLDivElement>(null)
+  const [openMarker, setOpenMarker] = useState<string | null>(null)
 
   useEffect(() => {
     const grid = gridRef.current
@@ -61,27 +62,63 @@ export default function DomainsGrid() {
         <div className="font-mono text-xs text-accent uppercase tracking-wide mb-2">// Domains of interest</div>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">Where I focus.</h2>
         <p className="text-text-secondary max-w-2xl mb-10">
-          Ten areas that show up across the day job, the labs, and everything in the Tree.
+          Ten areas that show up across the day job, the labs, and everything in the Tree. Click any card for the detail.
         </p>
 
-        <div ref={gridRef} className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] gap-4">
-          {domains.map((d) => (
-            <SpotlightCard
-              key={d.marker}
-              tilt
-              className="group bg-panel border border-panel-border rounded-md p-5 h-full transition-colors hover:border-accent"
-            >
-              <div className="flex items-start justify-between gap-2 mb-2.5">
-                <div className="font-mono text-[0.68rem] text-accent uppercase tracking-wide">{d.marker}</div>
-                <DomainIcon
-                  name={d.icon}
-                  className="w-[18px] h-[18px] text-accent shrink-0 transition-transform duration-300 ease-out group-hover:rotate-12 group-hover:scale-110"
-                />
-              </div>
-              <h3 className="text-[1.02rem] font-bold mb-2">{d.title}</h3>
-              <p className="text-text-secondary text-[0.85rem] leading-relaxed">{d.desc}</p>
-            </SpotlightCard>
-          ))}
+        <div ref={gridRef} className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] items-start gap-4">
+          {domains.map((d) => {
+            const isOpen = openMarker === d.marker
+            const panelId = `domain-${d.marker.replace(/\W+/g, '-').toLowerCase()}`
+            return (
+              <SpotlightCard
+                key={d.marker}
+                tilt
+                className={`group relative bg-panel border rounded-md transition-colors hover:border-accent ${
+                  isOpen ? 'border-accent' : 'border-panel-border'
+                }`}
+              >
+                <div className="p-5">
+                  <div className="mb-2.5 flex items-start justify-between gap-2">
+                    <div className="font-mono text-[0.68rem] uppercase tracking-wide text-accent">{d.marker}</div>
+                    <DomainIcon
+                      name={d.icon}
+                      className="h-[18px] w-[18px] shrink-0 text-accent transition-transform duration-300 ease-out group-hover:rotate-12 group-hover:scale-110"
+                    />
+                  </div>
+                  <h3 className="text-[1.02rem] font-bold">
+                    {/* The ::after overlay makes the whole card the click target. */}
+                    <button
+                      type="button"
+                      onClick={() => setOpenMarker(isOpen ? null : d.marker)}
+                      aria-expanded={isOpen}
+                      aria-controls={panelId}
+                      className="flex w-full cursor-pointer items-center justify-between gap-3 text-left after:absolute after:inset-0 after:content-['']"
+                    >
+                      <span>{d.title}</span>
+                      <span
+                        aria-hidden="true"
+                        className={`shrink-0 font-mono text-lg leading-none text-accent transition-transform duration-300 ${
+                          isOpen ? 'rotate-45' : ''
+                        }`}
+                      >
+                        +
+                      </span>
+                    </button>
+                  </h3>
+                  <div
+                    id={panelId}
+                    className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                      isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="pt-3 text-[0.85rem] leading-relaxed text-text-secondary">{d.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              </SpotlightCard>
+            )
+          })}
         </div>
       </div>
     </section>
