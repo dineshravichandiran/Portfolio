@@ -38,7 +38,7 @@ export default function CertificateGallery() {
           </div>
         ))}
         <TextList heading="Professional training" items={trainingCourses} />
-        <TextList heading="More courses and badges" items={courseCredentials} />
+        <TextList heading="More badges" items={courseCredentials} />
       </div>
     </div>
   )
