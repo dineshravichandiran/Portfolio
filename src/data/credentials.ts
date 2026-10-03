@@ -15,7 +15,7 @@ export const events: EventItem[] = [
   {
     status: 'Attended',
     title: 'KubeCon + CloudNativeCon India 2025',
-    date: 'CNCF · Hyderabad',
+    date: 'CNCF · HICC, Hyderabad · 6–7 Aug 2025',
     desc: 'Hands-on exposure to cloud-native tooling, observability stacks, and real-world SRE patterns from leading product companies in India.',
   },
   {

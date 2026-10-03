@@ -1,6 +1,6 @@
 import SectionHeader from '../ui/SectionHeader'
 import GalleryGrid from '../gallery/GalleryGrid'
-import { artItems, runningItems } from '../../data/gallery'
+import { artItems, cyclingItems, runningItems } from '../../data/gallery'
 
 export default function Beyond() {
   return (
@@ -14,6 +14,9 @@ export default function Beyond() {
 
       <div className="mb-4 mt-12 font-mono text-[0.78rem] uppercase tracking-wide text-accent">Running</div>
       <GalleryGrid items={runningItems} fit="contain" />
+
+      <div className="mb-4 mt-12 font-mono text-[0.78rem] uppercase tracking-wide text-accent">Cycling</div>
+      <GalleryGrid items={cyclingItems} fit="contain" />
     </div>
   )
 }

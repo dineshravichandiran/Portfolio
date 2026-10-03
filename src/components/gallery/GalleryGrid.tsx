@@ -32,8 +32,9 @@ export default function GalleryGrid({ items, fit = 'contain' }: Props) {
                     alt={it.alt}
                     loading="lazy"
                     decoding="async"
+                    style={itemFit === 'cover' ? { objectPosition: it.focus ?? '50% 30%' } : undefined}
                     className={`h-full w-full transition-transform duration-500 group-hover:scale-[1.03] ${
-                      itemFit === 'contain' ? 'object-contain' : 'object-cover object-[50%_30%]'
+                      itemFit === 'contain' ? 'object-contain' : 'object-cover'
                     }`}
                   />
                 </div>
