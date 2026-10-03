@@ -40,7 +40,9 @@ export default function GalleryGrid({ items, fit = 'contain' }: Props) {
                 <div className="p-3.5">
                   <div className="text-sm font-semibold leading-snug text-text">{it.title}</div>
                   <div className="mt-1 text-xs leading-snug text-text-secondary">{it.detail}</div>
-                  <div className="mt-2 font-mono text-[0.68rem] uppercase tracking-wide text-dim">{it.date}</div>
+                  {it.date && (
+                    <div className="mt-2 font-mono text-[0.68rem] uppercase tracking-wide text-dim">{it.date}</div>
+                  )}
                 </div>
               </button>
             </Reveal>

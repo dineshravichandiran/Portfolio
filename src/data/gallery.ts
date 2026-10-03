@@ -2,7 +2,7 @@ export interface GalleryItem {
   src: string
   title: string
   detail: string
-  date: string
+  date?: string
   alt: string
   // Overrides the grid's default: certificates sit whole on a white mat, photos fill the frame.
   fit?: 'contain' | 'cover'
@@ -136,6 +136,12 @@ export const certificateGroups: GalleryGroup[] = [
 ]
 
 export const eventPhotos: GalleryItem[] = [
+  {
+    src: '/gallery/chennai-devops-meetup.jpg',
+    title: 'Chennai DevOps Meetup',
+    detail: 'IBM Software Labs, Chennai',
+    alt: 'Collage of photos from the Chennai DevOps Meetup at IBM Software Labs: attendees, group sessions and a thank-you sign',
+  },
   {
     src: '/gallery/techx-conf-2024-photo.jpg',
     title: "TechX Conf 2024",
