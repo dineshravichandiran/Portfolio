@@ -48,14 +48,6 @@ export default function Hero() {
           <span className="inline-block w-2 h-4 bg-accent ml-1 align-middle animate-pulse" />
         </div>
 
-        <div
-          className={`${fadeCls} inline-flex items-center gap-2 font-mono text-xs text-accent font-semibold mb-8 uppercase tracking-wide`}
-          style={{ animationDelay: '80ms' }}
-        >
-          <span className="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
-          {profile.tag}
-        </div>
-
         <h1
           className={`${fadeCls} text-[clamp(2rem,5vw,3.2rem)] font-bold leading-[1.15] tracking-tight text-balance max-w-4xl mb-6`}
           style={{ animationDelay: '160ms' }}
