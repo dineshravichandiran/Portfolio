@@ -45,9 +45,9 @@ export default function Contact() {
         <div className="font-mono text-[0.78rem] text-accent tracking-wide mb-4">// Contact</div>
         <Headline />
         <p className="text-text-secondary text-[1.05rem] leading-relaxed max-w-[60ch] mx-auto mb-10">
-          Open to <strong>Site Reliability Engineering (SRE)</strong> roles. I solve real
-          production problems, learn fast, and take ownership. If you're hiring someone reliable
-          who keeps growing, let's talk.
+          Open to <strong>cloud, reliability and AIOps</strong> roles, especially where AI agents
+          help run production. I build and test agentic automation for incident response, and I
+          take ownership of real production problems.
         </p>
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           {profile.socialLinks.map((link) => (
