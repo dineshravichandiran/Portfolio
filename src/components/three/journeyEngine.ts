@@ -232,13 +232,15 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     const postGeo = new THREE.CylinderGeometry(0.09, 0.11, 2.0, 8)
     const postMat = new THREE.MeshLambertMaterial({ color: 0x3e8ede })
     const post = new THREE.Mesh(postGeo, postMat)
-    post.position.set(0, 1.0, 0.06)
+    // Behind the cupped sign (its centre sits at z = -0.12), so the post never
+    // crosses the year line from the road.
+    post.position.set(0, 1.0, -0.34)
     post.castShadow = true
     group.add(post)
 
     const baseGeo = new THREE.CylinderGeometry(0.2, 0.24, 0.18, 12)
     const base = new THREE.Mesh(baseGeo, postMat)
-    base.position.set(0, 0.09, 0.06)
+    base.position.set(0, 0.09, -0.34)
     base.castShadow = true
     group.add(base)
 
