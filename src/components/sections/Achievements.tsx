@@ -3,7 +3,9 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SectionHeader from '../ui/SectionHeader'
 import { useCountUp } from '../../hooks/useCountUp'
+import PhotoStrip from '../gallery/PhotoStrip'
 import { impactStats, credentials, type ImpactStat } from '../../data/credentials'
+import { prizesStrip } from '../../data/gallery'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -100,6 +102,10 @@ export default function Achievements() {
             <div className="achv-bar h-[2px] w-full bg-accent rounded-full" />
           </div>
         ))}
+      </div>
+
+      <div className="mt-14">
+        <PhotoStrip items={prizesStrip} label="Prizes and medals" speed={32} />
       </div>
     </div>
   )

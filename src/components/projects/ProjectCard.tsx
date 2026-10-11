@@ -8,7 +8,7 @@ export default function ProjectCard({ project, active = true }: { project: Proje
     <article
       ref={ref}
       onMouseMove={onMouseMove}
-      className={`spotlight-card bg-panel border border-panel-border rounded-md px-8 py-7 mb-6 transition-[opacity,transform,border-color] duration-500 ease-out hover:border-accent ${
+      className={`spotlight-card bg-panel border border-panel-border rounded-md px-5 py-6 sm:px-8 sm:py-7 mb-6 transition-[opacity,transform,border-color] duration-500 ease-out hover:border-accent ${
         active ? 'opacity-100 scale-100' : 'opacity-50 scale-[0.98]'
       }`}
     >

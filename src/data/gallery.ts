@@ -327,3 +327,52 @@ export const courseCredentials: TrainingItem[] = [
   { title: 'Implement Load Balancing on Compute Engine Skill Badge', detail: 'Google Cloud Skills Boost', date: 'May 2025' },
   { title: 'Google Cloud Innovator', detail: 'Google Developer Group', date: 'Feb 2022' },
 ]
+
+// Items for the moving photo strips: picked by file name from the sets above so
+// every caption stays the one already written for that photo.
+const everyItem: GalleryItem[] = [
+  ...certificateGroups.flatMap((g) => g.items),
+  ...eventPhotos,
+  ...runningItems,
+  ...artItems,
+  ...artworks,
+  ...cyclingItems,
+]
+
+function pick(names: string[]): GalleryItem[] {
+  return names
+    .map((n) => everyItem.find((i) => i.src === `/gallery/${n}.jpg`))
+    .filter((i): i is GalleryItem => Boolean(i))
+}
+
+// Art alternating with race and event photos.
+export const momentsStrip: GalleryItem[] = pick([
+  'art-bird-on-branch',
+  'zyclothon-2025-start-line',
+  'art-portrait-pencil-man',
+  'magnathon-2025',
+  'art-night-tree',
+  'chennai-devops-meetup',
+  'art-portrait-pencil-elder',
+  'zyclothon-2025-medal',
+  'art-mandala',
+  'kcd-chennai-2025',
+  'art-portrait-pencil-woman',
+  'techx-conf-2024-photo',
+  'art-portrait-pencil-flower',
+  'aws-student-community-day-2026',
+  'art-still-life-pencil',
+])
+
+// Prizes, medals and awards only (attendance letters and course certificates stay in their own galleries).
+export const prizesStrip: GalleryItem[] = pick([
+  'sih-2020-winner',
+  'yuvasri-kala-bharathi-award',
+  'tata-ultra-marathon-2023',
+  'zyclothon-2025-certificate',
+  'audax-brm-200km-2026',
+  'fit4life-10k-2023',
+  'magnathon-2025',
+  'zyclothon-2025-medal',
+  'techx-conf-2024-certificate',
+])
