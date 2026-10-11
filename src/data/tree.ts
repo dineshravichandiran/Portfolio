@@ -117,7 +117,7 @@ export const branches: TreeBranch[] = [
       },
       {
         title: 'Performance & Efficiency Award',
-        meta: 'Nov 2025 – May 2026',
+        meta: 'Nov 2025 – Aug 2026',
         desc: 'Recognized for collaborating with the Technical Architect team on scalable, informed decisions, authoring and enhancing knowledge articles, and improving application performance while optimizing resource utilization and infrastructure cost.',
       },
       {

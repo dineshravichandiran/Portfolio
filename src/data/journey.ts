@@ -73,7 +73,7 @@ export const milestones: JourneyMilestone[] = [
   },
   {
     id: 'technician',
-    year: 'Nov 2025 – May 2026',
+    year: 'Nov 2025 – Aug 2026',
     city: 'GURGAON',
     location: 'Gurgaon, Haryana, India · Remote',
     company: 'Fortune 500 Enterprise SaaS/PLM Company',
@@ -86,7 +86,7 @@ export const milestones: JourneyMilestone[] = [
   },
   {
     id: 'specialist',
-    year: 'Jun 2026 – Present',
+    year: 'Sep 2026 – Present',
     city: 'PUNE',
     location: 'Pune City, Maharashtra, India · On-site (internal transfer from Gurgaon, Sep 2026)',
     company: 'Fortune 500 Enterprise SaaS/PLM Company',

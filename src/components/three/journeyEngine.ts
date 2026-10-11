@@ -624,34 +624,38 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   // SIGNATURE INDIAN LANDMARKS
   // ====================================================
   function buildChennaiLandmark(x: number) {
+    // The gate faces the road: its two pillars sit side by side along the road
+    // (x axis) and the arch, sign and trees are all seen from the front, like the
+    // other landmarks, instead of edge-on at an angle.
     const g = new THREE.Group()
     const archMat = new THREE.MeshLambertMaterial({ color: 0xe8dcc0 })
 
     for (const side of [-1, 1]) {
       const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.45, 4, 12), archMat)
-      pillar.position.set(0, 2, side * 1.8)
+      pillar.position.set(side * 1.8, 2, 0)
       pillar.castShadow = true
       g.add(pillar)
       const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.4, 0.4, 12), archMat)
-      cap.position.set(0, 4.1, side * 1.8)
+      cap.position.set(side * 1.8, 4.1, 0)
       g.add(cap)
     }
 
+    // Half-torus in the XY plane: it spans the two pillars.
     const archCurve = new THREE.Mesh(new THREE.TorusGeometry(1.8, 0.35, 12, 24, Math.PI), archMat)
     archCurve.position.set(0, 4.2, 0)
-    archCurve.rotation.y = Math.PI / 2
     archCurve.castShadow = true
     g.add(archCurve)
 
+    // Dome and finial sit on top of the arch, not inside it.
     const dome = new THREE.Mesh(
       new THREE.SphereGeometry(0.6, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2),
       new THREE.MeshLambertMaterial({ color: 0xc97f4a }),
     )
-    dome.position.set(0, 5.6, 0)
+    dome.position.set(0, 6.3, 0)
     dome.castShadow = true
     g.add(dome)
     const finial = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.5, 8), new THREE.MeshLambertMaterial({ color: 0xfacc15 }))
-    finial.position.set(0, 6.3, 0)
+    finial.position.set(0, 7.1, 0)
     g.add(finial)
 
     const signCanvas = document.createElement('canvas')
@@ -672,18 +676,21 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     tex.minFilter = THREE.LinearFilter
     tex.magFilter = THREE.LinearFilter
     tex.anisotropy = 8
-    const panel = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 0.9), new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }))
-    panel.position.set(0, 3.4, 0)
+    // 4:1 like the canvas, narrow enough to hang between the pillars.
+    const panel = new THREE.Mesh(new THREE.PlaneGeometry(2.8, 0.7), new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }))
+    panel.position.set(0, 3.1, 0.05)
     g.add(panel)
 
+    // A palm either side of the gate.
     for (const side of [-1, 1]) {
+      const px = side * 3.6
       const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.1, 2, 8), new THREE.MeshLambertMaterial({ color: 0x6b4f2a }))
-      trunk.position.set(-1, 1, side * 3)
+      trunk.position.set(px, 1, 0)
       g.add(trunk)
       for (let f = 0; f < 5; f++) {
         const frond = new THREE.Mesh(new THREE.ConeGeometry(0.12, 0.9, 4), new THREE.MeshLambertMaterial({ color: 0x4a7c3e }))
         const a = (f / 5) * Math.PI * 2
-        frond.position.set(-1 + Math.cos(a) * 0.3, 2, side * 3 + Math.sin(a) * 0.3)
+        frond.position.set(px + Math.cos(a) * 0.3, 2, Math.sin(a) * 0.3)
         frond.rotation.z = Math.cos(a) * 1
         frond.rotation.x = Math.sin(a) * 1
         g.add(frond)
@@ -691,7 +698,6 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     }
 
     g.position.set(x, 0, -8)
-    g.rotation.y = 0.3
     scene.add(g)
   }
 
