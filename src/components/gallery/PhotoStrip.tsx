@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import Lightbox from './Lightbox'
 import Reveal from '../ui/Reveal'
 import type { GalleryItem } from '../../data/gallery'
@@ -8,6 +8,12 @@ interface Props {
   label: string
   // Auto-scroll speed in pixels per second.
   speed?: number
+  // 'large' is for the band near the top of the page.
+  size?: 'normal' | 'large'
+  // Replaces the small caption with a fuller heading that shares a row with the arrows.
+  header?: ReactNode
+  // 'left' drifts left (new photos arrive from the right); 'right' drifts the other way.
+  direction?: 'left' | 'right'
 }
 
 const RESUME_AFTER_MS = 2500
@@ -16,7 +22,7 @@ const RESUME_AFTER_MS = 2500
 // visitor hovers, touches or tabs into it, and can be swiped, dragged or
 // stepped with the arrows. The photos are rendered twice so the loop never
 // shows a seam. Nothing moves by itself for visitors who prefer reduced motion.
-export default function PhotoStrip({ items, label, speed = 38 }: Props) {
+export default function PhotoStrip({ items, label, speed = 38, size = 'normal', header, direction = 'left' }: Props) {
   const scroller = useRef<HTMLDivElement>(null)
   const pos = useRef(0)
   const paused = useRef(false)
@@ -44,14 +50,25 @@ export default function PhotoStrip({ items, label, speed = 38 }: Props) {
     let raf = 0
     let last = 0
 
+    // Moving right starts in the middle of the doubled row so there is room to travel.
+    if (direction === 'right') {
+      const half = halfWidth()
+      if (half) {
+        el.scrollLeft = half
+        pos.current = half
+      }
+    }
+
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick)
       const dt = Math.min(now - last, 64) / 1000
       last = now
       if (reduced || paused.current || !visible.current || document.hidden) return
-      pos.current += speed * dt
       const half = halfWidth()
-      if (half && pos.current >= half) pos.current -= half
+      if (!half) return
+      pos.current += (direction === 'right' ? -speed : speed) * dt
+      if (pos.current >= half) pos.current -= half
+      else if (pos.current <= 0) pos.current += half
       el.scrollLeft = pos.current
     }
     raf = requestAnimationFrame((t) => {
@@ -81,7 +98,7 @@ export default function PhotoStrip({ items, label, speed = 38 }: Props) {
       el.removeEventListener('scroll', onScroll)
       io.disconnect()
     }
-  }, [reduced, speed])
+  }, [reduced, speed, direction])
 
   function step(direction: 1 | -1) {
     const el = scroller.current
@@ -123,9 +140,9 @@ export default function PhotoStrip({ items, label, speed = 38 }: Props) {
         onTouchMove={() => pauseFor()}
         onWheel={() => pauseFor()}
       >
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <div className="font-mono text-[0.78rem] uppercase tracking-wide text-accent">{label}</div>
-          <div className="flex gap-2">
+        <div className="mb-4 flex items-start justify-between gap-3">
+          {header ?? <div className="font-mono text-[0.78rem] uppercase tracking-wide text-accent">{label}</div>}
+          <div className="flex shrink-0 gap-2">
             <button type="button" className={arrow} onClick={() => step(-1)} aria-label={`${label}: previous photos`}>
               <span aria-hidden="true">‹</span>
             </button>
@@ -156,7 +173,9 @@ export default function PhotoStrip({ items, label, speed = 38 }: Props) {
                   aria-label={`View larger: ${it.title}`}
                   aria-hidden={copy || undefined}
                   tabIndex={copy ? -1 : undefined}
-                  className="group relative w-[210px] shrink-0 cursor-pointer overflow-hidden rounded-md border border-panel-border bg-panel text-left transition-colors hover:border-accent sm:w-[250px]"
+                  className={`group relative shrink-0 cursor-pointer overflow-hidden rounded-md border border-panel-border bg-panel text-left transition-colors hover:border-accent ${
+                    size === 'large' ? 'w-[250px] sm:w-[340px]' : 'w-[210px] sm:w-[250px]'
+                  }`}
                 >
                   <div className={`aspect-[4/3] overflow-hidden ${fit === 'contain' ? 'bg-white' : 'bg-bg-raised'}`}>
                     <img

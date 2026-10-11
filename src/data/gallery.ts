@@ -345,34 +345,21 @@ function pick(names: string[]): GalleryItem[] {
     .filter((i): i is GalleryItem => Boolean(i))
 }
 
-// Art alternating with race and event photos.
-export const momentsStrip: GalleryItem[] = pick([
-  'art-bird-on-branch',
-  'zyclothon-2025-start-line',
-  'art-portrait-pencil-man',
-  'magnathon-2025',
-  'art-night-tree',
-  'chennai-devops-meetup',
-  'art-portrait-pencil-elder',
-  'zyclothon-2025-medal',
-  'art-mandala',
-  'kcd-chennai-2025',
-  'art-portrait-pencil-woman',
-  'techx-conf-2024-photo',
-  'art-portrait-pencil-flower',
-  'aws-student-community-day-2026',
-  'art-still-life-pencil',
-])
-
-// Prizes, medals and awards only (attendance letters and course certificates stay in their own galleries).
-export const prizesStrip: GalleryItem[] = pick([
+// Awards, competitions and drawings only, for the strip near the top of the page.
+// Attendance letters and course certificates stay in their own galleries.
+export const awardsStrip: GalleryItem[] = pick([
   'sih-2020-winner',
   'yuvasri-kala-bharathi-award',
-  'tata-ultra-marathon-2023',
-  'zyclothon-2025-certificate',
-  'audax-brm-200km-2026',
-  'fit4life-10k-2023',
-  'magnathon-2025',
+  'art-portrait-pencil-man',
   'zyclothon-2025-medal',
-  'techx-conf-2024-certificate',
+  'tata-ultra-marathon-2023',
+  'art-mandala',
+  'magnathon-2025',
+  'sih-2020-internal-hackathon',
+  'fit4life-10k-2023',
+  'art-night-tree',
+  'audax-brm-200km-2026',
+  'zyclothon-2025-certificate',
+  'art-portrait-pencil-flower',
+  'zyclothon-2025-start-line',
 ])

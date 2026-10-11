@@ -1,7 +1,6 @@
 import SectionHeader from '../ui/SectionHeader'
 import GalleryGrid from '../gallery/GalleryGrid'
-import PhotoStrip from '../gallery/PhotoStrip'
-import { artItems, artworks, cyclingItems, momentsStrip, runningItems } from '../../data/gallery'
+import { artItems, artworks, cyclingItems, runningItems } from '../../data/gallery'
 
 export default function Beyond() {
   return (
@@ -10,10 +9,6 @@ export default function Beyond() {
       <p className="mb-10 max-w-[680px] text-[1.05rem] leading-relaxed text-text-secondary">
         Away from the terminal I run, cycle, draw and paint. Here is some of the work and some of my races.
       </p>
-      <div className="mb-10">
-        <PhotoStrip items={momentsStrip} label="Art and moments" />
-      </div>
-
       <div className="mb-4 font-mono text-[0.78rem] uppercase tracking-wide text-accent">Drawing</div>
       <GalleryGrid items={artItems} fit="contain" />
 

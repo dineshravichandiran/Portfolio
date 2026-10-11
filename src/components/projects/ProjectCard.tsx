@@ -12,9 +12,22 @@ export default function ProjectCard({ project, active = true }: { project: Proje
         active ? 'opacity-100 scale-100' : 'opacity-50 scale-[0.98]'
       }`}
     >
-      <div className="font-mono text-xs text-dim uppercase tracking-wide mb-3.5 flex gap-2.5 items-center">
-        <span className="text-accent font-bold">{project.year}</span>
-        {project.meta}
+      <div className="mb-3.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+        <div className="font-mono text-xs text-dim uppercase tracking-wide flex gap-2.5 items-center">
+          <span className="text-accent font-bold">{project.year}</span>
+          {project.meta}
+        </div>
+        {project.link && (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener"
+            aria-label={`Open the GitHub repository for ${project.title}`}
+            className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-3.5 py-1.5 text-xs font-semibold text-accent transition-colors hover:bg-accent hover:text-white"
+          >
+            View on GitHub <span aria-hidden="true">↗</span>
+          </a>
+        )}
       </div>
       <h3 className="text-xl font-bold mb-2.5">{project.title}</h3>
       <div className="flex items-center gap-2 text-sm text-ok font-semibold mb-3.5">
@@ -89,11 +102,6 @@ export default function ProjectCard({ project, active = true }: { project: Proje
 
       {project.note && <p className="text-sm text-dim italic mb-3">{project.note}</p>}
 
-      {project.link && (
-        <a href={project.link} target="_blank" rel="noopener" className="text-sm font-semibold text-accent">
-          View repo →
-        </a>
-      )}
     </article>
   )
 }
