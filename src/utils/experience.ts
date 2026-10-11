@@ -1,5 +1,5 @@
 /** Continuous tenure at current employer started December 2022 (Cloud NOC Technician, Associate). */
-const CAREER_START = new Date(2022, 11, 1)
+const CAREER_START = new Date(2022, 11, 5)
 
 export function getYearsExperience(): { value: number; decimals: number } {
   const years = (Date.now() - CAREER_START.getTime()) / (1000 * 60 * 60 * 24 * 365.25)
