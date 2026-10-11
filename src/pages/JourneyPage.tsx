@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import JourneyScene from '../components/three/JourneyScene'
 
-const DEFAULT_TITLE = 'Dinesh Ravichandiran | Cloud & Reliability Engineer, open to SRE roles'
+const DEFAULT_TITLE = 'Dinesh Ravichandiran | Cloud & Reliability Engineer'
 
 export default function JourneyPage() {
   useEffect(() => {

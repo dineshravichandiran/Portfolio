@@ -1505,6 +1505,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     }
 
     infoPanel.classList.remove('visible')
+    infoPanel.removeAttribute('data-expanded')
 
     // Disabled for the whole transit, not just while riding: without this a
     // second click fired before showInfo() lands cancels the pending arrival
