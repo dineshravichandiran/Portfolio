@@ -134,10 +134,14 @@ export default function PhotoStrip({ items, label, speed = 38, size = 'normal', 
         className="photo-strip-frame"
         onMouseEnter={() => pauseFor(60000)}
         onMouseLeave={() => pauseFor(400)}
-        onFocus={() => pauseFor(60000)}
+        // Only keyboard focus holds the strip still; the viewer hands focus back to the
+        // photo that opened it, which would otherwise leave a phone strip frozen.
+        onFocus={(e) => e.target.matches(':focus-visible') && pauseFor(60000)}
         onBlur={() => pauseFor(400)}
-        onTouchStart={() => pauseFor()}
-        onTouchMove={() => pauseFor()}
+        onTouchStart={() => pauseFor(60000)}
+        onTouchMove={() => pauseFor(60000)}
+        onTouchEnd={() => pauseFor()}
+        onTouchCancel={() => pauseFor()}
         onWheel={() => pauseFor()}
       >
         <div className="mb-4 flex items-start justify-between gap-3">
