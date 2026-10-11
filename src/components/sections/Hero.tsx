@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import CursorTrackingCharacter from '../three/CursorTrackingCharacter'
 import StatCounter from './StatCounter'
+import Recognition from './Recognition'
 import MagneticLink from '../ui/MagneticLink'
 import { profile } from '../../data/profile'
 import { INTRO_DISMISSED_EVENT, INTRO_SESSION_KEY } from '../intro/IntroGate'
@@ -56,13 +57,13 @@ export default function Hero() {
         </h1>
 
         <p
-          className={`${fadeCls} text-text-secondary text-lg leading-relaxed max-w-2xl mb-10`}
+          className={`${fadeCls} text-text-secondary text-lg leading-relaxed max-w-2xl mb-8`}
           style={{ animationDelay: '240ms' }}
         >
           {profile.lede}
         </p>
 
-        <div className={`${fadeCls} flex flex-wrap gap-3 mb-16`} style={{ animationDelay: '320ms' }}>
+        <div className={`${fadeCls} flex flex-wrap gap-3 mb-9`} style={{ animationDelay: '320ms' }}>
           <MagneticLink
             href={`mailto:${profile.email}`}
             className="px-6 py-3 rounded-lg text-sm font-semibold bg-accent text-white hover:bg-accent-hover"
@@ -77,6 +78,10 @@ export default function Hero() {
           >
             LinkedIn
           </MagneticLink>
+        </div>
+
+        <div className={`${fadeCls} mb-14`} style={{ animationDelay: '360ms' }}>
+          <Recognition />
         </div>
 
         <div

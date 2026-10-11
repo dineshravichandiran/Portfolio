@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import '../lib/scrollTriggerSetup'
 import { useLocation } from 'react-router-dom'
 import Hero from '../components/sections/Hero'
+import Recognition from '../components/sections/Recognition'
 import LiveOpsSection from '../components/dashboard/LiveOpsSection'
 import DomainsGrid from '../components/dashboard/DomainsGrid'
 import FeaturedProjectsScroll from '../components/dashboard/FeaturedProjectsScroll'
@@ -118,6 +119,12 @@ export default function DashboardPage() {
         <Beyond />
       </section>
       <NextSection to="contact" label="Contact" />
+
+      <section id="recognition" className="border-b border-panel-border">
+        <div className="container py-12">
+          <Recognition direction="right" title="Real certificates, medals and drawings." />
+        </div>
+      </section>
 
       <section id="contact">
         <Contact />
