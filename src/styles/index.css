@@ -399,3 +399,27 @@ body {
     animation: none;
   }
 }
+
+/* Auto-moving photo strip: native swipe scrolling with the scrollbar hidden and
+   soft fades at both edges so photos drift in and out instead of being cut. */
+.photo-strip {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+
+.photo-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.photo-strip-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+/* The page must never scroll sideways, even when an element is mid-animation
+   offscreen (clip, unlike hidden, does not break sticky positioning). */
+html,
+body {
+  overflow-x: clip;
+}
