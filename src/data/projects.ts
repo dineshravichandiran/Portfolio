@@ -262,18 +262,18 @@ export const keyProjects: ProjectItem[] = [
     meta: 'CI/CD · Security',
     title: 'End-to-End DevSecOps CI Pipeline',
     impact: 'All 8 jobs passing, verified live · 6 real scan and build stages, plus a placeholder staging deploy and policy gate',
-    badge: 'https://github.com/dineshravichandiran/cloud-devops-projects/actions/workflows/devsecops-pipeline.yml/badge.svg',
+    badge: 'https://github.com/dineshravichandiran/devsecops-ci-pipeline/actions/workflows/devsecops-pipeline.yml/badge.svg',
     desc: "A pipeline meant to gate deployments behind security checks is worthless if it's broken, and this one was, failing on every single push, including pushes that had nothing to do with the pipeline itself.",
     flow: [
       { label: 'Problem', text: "Built a GitHub Actions pipeline chaining secret scanning, SAST, SCA, container scanning, and DAST ahead of a staging-deploy and policy-gate stage, then found it had never actually passed." },
       { label: 'Action', text: "Found and fixed three separate real failures blocking it end-to-end: a CodeQL step with no source code to analyze (the app is a synthetic placeholder), a missing GitHub token permission, and a third-party action's broken artifact upload, each diagnosed from actual run logs, not guessed at." },
-      { label: 'Result', text: 'All 8 jobs pass clean today, re-verified live after each fix, not assumed. Six are real (secret scan, SAST, SCA, build, container scan, DAST). The staging deploy and policy gate are placeholder steps that only print a message, so the next step is wiring them to a real deployment and a real severity check.' },
+      { label: 'Result', text: 'All 8 jobs pass clean today, re-verified live after each fix, not assumed. Six are real (secret scan, SAST, SCA, build, container scan, DAST). The staging deploy and policy gate are placeholder steps that only print a message, so the next step is wiring them to a real deployment and a real severity check. Trivy, ZAP and dependency-check also only report findings for now rather than failing the build.' },
     ],
     shots: [
       { src: '/screenshots/devsecops-pipeline-bug-and-fix.png', alt: 'GitHub Actions run output showing the DevSecOps pipeline failing on CodeQL, the root cause identified, fixed, and reverified passing', caption: 'Bug found, fixed, and reverified live' },
     ],
     tags: ['GitHub Actions', 'Gitleaks', 'Semgrep', 'Trivy', 'OWASP ZAP', 'Docker'],
-    link: 'https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/devsecops-ci-pipeline',
+    link: 'https://github.com/dineshravichandiran/devsecops-ci-pipeline',
   },
   {
     year: 'Self-Directed',
