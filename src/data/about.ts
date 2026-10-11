@@ -1,10 +1,12 @@
+import { getYearsExperienceLabel } from '../utils/experience'
+
 export interface AboutCard {
   number: string
   title: string
   body: string
 }
 
-export const aboutIntro = "3.5+ years keeping enterprise SaaS platforms online for 50+ Fortune 500 customers. The person who gets paged at 2 a.m. and has it resolved before the business day starts. Here's what that actually looks like, day to day."
+export const aboutIntro = `${getYearsExperienceLabel()} years keeping enterprise SaaS platforms online for 50+ Fortune 500 customers. The person who gets paged at 2 a.m. and has it resolved before the business day starts. Here's what that actually looks like, day to day.`
 
 export const aboutCards: AboutCard[] = [
   {
