@@ -66,7 +66,7 @@ export const branches: TreeBranch[] = [
       {
         title: 'End-to-End DevSecOps CI Pipeline',
         meta: 'Self-Directed · GitHub Actions',
-        desc: "A GitHub Actions pipeline gating every deployment behind secret scanning, SAST, SCA, container scanning, and DAST. Found and fixed three separate real failures blocking it end-to-end: a CodeQL language mismatch, a missing token permission, and a third-party action's broken artifact upload. All 8 jobs pass clean today, verified live.",
+        desc: "A GitHub Actions pipeline gating every deployment behind secret scanning, SAST, SCA, container scanning, and DAST. Found and fixed three separate real failures blocking it end-to-end: a CodeQL step with no source to analyze, a missing token permission, and a third-party action's broken artifact upload. All 8 jobs pass clean today, verified live; the staging deploy and policy gate are still placeholder steps.",
         link: 'https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/devsecops-ci-pipeline',
       },
       {
