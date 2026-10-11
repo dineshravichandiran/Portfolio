@@ -34,6 +34,37 @@ export default function ProjectCard({ project, active = true }: { project: Proje
         ))}
       </div>
 
+      {project.design && (
+        <div className="mb-5 pb-5 border-b border-panel-border">
+          <div className="font-mono text-[0.68rem] uppercase tracking-wide text-accent mb-3">Design thinking</div>
+          <div className="overflow-x-auto mb-4 rounded-sm border border-panel-border">
+            <img
+              src={project.design.diagram.src}
+              alt={project.design.diagram.alt}
+              loading="lazy"
+              className="block w-full min-w-[680px]"
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+            {project.design.decisions.map((d) => (
+              <div key={d.choice} className="rounded-sm border border-panel-border bg-bg-raised p-3.5 text-sm leading-relaxed">
+                <div className="font-semibold text-text mb-1">{d.choice}</div>
+                <div className="text-dim mb-1.5">
+                  <span className="font-mono text-[0.65rem] uppercase tracking-wide">Instead of </span>
+                  {d.instead}
+                </div>
+                <div className="text-text-secondary">{d.tradeoff}</div>
+              </div>
+            ))}
+          </div>
+          <p className="text-sm text-text-secondary leading-relaxed mb-2">
+            <span className="font-mono text-[0.68rem] uppercase tracking-wide text-accent">At 10x scale </span>
+            {project.design.atScale}
+          </p>
+          <p className="text-sm text-dim italic">{project.design.scope}</p>
+        </div>
+      )}
+
       {project.shots && (
         <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3 mb-4">
           {project.shots.map((shot) => (

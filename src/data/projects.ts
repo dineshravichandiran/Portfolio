@@ -9,6 +9,19 @@ export interface ProjectShot {
   caption: string
 }
 
+export interface DesignDecision {
+  choice: string
+  instead: string
+  tradeoff: string
+}
+
+export interface ProjectDesign {
+  diagram: { src: string; alt: string }
+  decisions: DesignDecision[]
+  atScale: string
+  scope: string
+}
+
 export interface ProjectItem {
   year: string
   meta: string
@@ -21,6 +34,7 @@ export interface ProjectItem {
   note?: string
   link?: string
   badge?: string
+  design?: ProjectDesign
 }
 
 export const workProjects: ProjectItem[] = [
@@ -155,8 +169,18 @@ export const keyProjects: ProjectItem[] = [
     flow: [
       { label: 'Problem', text: "The two most common recoverable pod failures I triage daily, CrashLoopBackOff and OOMKilled, still need a human to notice and fix them by hand." },
       { label: 'Action', text: 'Built a deliberately-flaky demo app, a Python controller (Kubernetes API client) that watches for both failure states, and chaos scripts that break the app on purpose and poll for the actual failure condition before declaring success.' },
-      { label: 'Result', text: 'Verified live in a kind cluster inside a GitHub Codespace: CrashLoopBackOff triggered, detected, and rolled back to known-good config within seconds; OOMKilled triggered, detected, and cleared so the deployment rescheduled a healthy pod. Both logged with full detect-and-remediate timestamps. 3 passing unit tests.' },
+      { label: 'Result', text: 'Verified live in a kind cluster inside a GitHub Codespace: CrashLoopBackOff triggered, detected, and reverted to known-good config (the bad setting cleared) within seconds; OOMKilled triggered, detected, and cleared so the deployment rescheduled a healthy pod. Both logged with full detect-and-remediate timestamps. 3 passing unit tests.' },
     ],
+    design: {
+      diagram: { src: '/diagrams/k8s-self-healing.svg', alt: 'Architecture diagram: chaos scripts break the demo Deployment, the kubelet reports CrashLoopBackOff or OOMKilled, a Python controller watches pods through the Kubernetes API, applies a 30-second cooldown, patches the Deployment, and logs every step' },
+      decisions: [
+        { choice: 'Event-driven controller on the pod watch stream', instead: 'A cron job polling kubectl', tradeoff: 'Reacts within seconds, but it is a long-running process that has to be kept alive itself.' },
+        { choice: 'Namespace-scoped Role: read pods, patch deployments only', instead: 'A cluster-wide admin binding', tradeoff: 'A bug can only touch this namespace. Healing another namespace needs its own Role.' },
+        { choice: '30-second per-pod cooldown', instead: 'Remediate on every event', tradeoff: 'Slower to retry a fix that did not work, but the controller cannot fight itself in a patch loop.' },
+      ],
+      atScale: "The remediation here is lab-specific: it clears an environment variable the chaos script injected. In a real cluster an OOMKilled pod usually needs a higher limit or a code fix, so I would heal only the safe cases automatically and raise an alert with the evidence for the rest. The patch also targets container index 0, which is brittle with sidecars.",
+      scope: 'A synthetic app in a kind cluster, not AKS or any real environment.',
+    },
     tags: ['Kubernetes', 'kind', 'Python', 'Chaos Engineering', 'Self-Healing'],
     link: 'https://github.com/dineshravichandiran/k8s-self-healing-lab',
   },
@@ -213,13 +237,23 @@ export const keyProjects: ProjectItem[] = [
     year: 'Self-Directed',
     meta: 'Infrastructure-as-Code · AWS',
     title: 'Self-Healing Infrastructure on AWS',
-    impact: 'Terraform-provisioned auto-recovery · no human in the loop',
+    impact: 'Terraform-defined auto-recovery for 4 failure modes · validated and reviewed, not yet deployed',
     desc: 'Auto Scaling Groups only catch one failure mode: a failed ELB health check. Hardware faults, a process that crashes without the OS noticing, and an instance stopped by mistake all slip through unless something else is watching.',
     flow: [
       { label: 'Problem', text: "Native ASG health checks don't cover hypervisor/hardware failures, silent process crashes, or an instance stopped outside the normal lifecycle. Each needed its own detection and recovery path." },
       { label: 'Action', text: 'Provisioned a VPC/ALB/Auto Scaling Group stack in Terraform, layered CloudWatch alarms for system-level and target-health failures, and wrote Lambda handlers that force ASG replacement or restart a stopped instance. Every remediation publishes its own CloudWatch metric so recovery is provable, not assumed.' },
-      { label: 'Result', text: 'terraform validate passes clean, both Lambda handlers reviewed line-by-line for correct AWS API usage, and a chaos-test script validates the full detect-to-recover loop end-to-end.' },
+      { label: 'Result', text: 'terraform validate passes clean, both Lambda handlers reviewed line-by-line for correct AWS API usage, and a chaos-test script is written to exercise the detect-to-recover loop. I have not yet applied it to a live AWS account, so the end-to-end run is still to do.' },
     ],
+    design: {
+      diagram: { src: '/diagrams/self-healing-aws.svg', alt: 'Architecture diagram: users reach an Application Load Balancer in front of an Auto Scaling Group across two public subnets; CloudWatch alarms and an EventBridge rule trigger EC2 auto-recover or one of two Lambda functions, and every remediation publishes a CloudWatch metric' },
+      decisions: [
+        { choice: 'Native AWS mechanisms first, Lambda only for the gaps', instead: 'One custom Lambda for every failure type', tradeoff: 'More pieces to follow (alarms, SNS, EventBridge), but custom code covers only what AWS does not already handle.' },
+        { choice: 'Least-privilege Lambda role', instead: 'Broad EC2 permissions', tradeoff: 'Each new remediation needs an explicit IAM change, but a bug cannot terminate instances or change security groups.' },
+        { choice: 'Restart only instances tagged SelfHealing=true', instead: 'Restart any stopped instance', tradeoff: 'Untagged instances are not healed, but a deliberate maintenance stop is not silently undone.' },
+      ],
+      atScale: 'Instances sit in public subnets with public IPs, which avoids NAT cost in a lab but exposes them directly. For production I would use private subnets behind the ALB, add a cooldown so a flapping instance cannot be restarted in a loop, and tune alarm thresholds per environment.',
+      scope: 'Checked with terraform validate and a line-by-line code review. Not yet applied to a live AWS account.',
+    },
     tags: ['Terraform', 'AWS Lambda', 'Auto Scaling', 'CloudWatch', 'EventBridge', 'IAM'],
     link: 'https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/self-healing-aws-infra',
   },
