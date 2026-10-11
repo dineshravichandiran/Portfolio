@@ -80,6 +80,22 @@ export default function Hero() {
           </MagneticLink>
         </div>
 
+        <div
+          className={`${fadeCls} grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 border-t border-panel-border pt-8 mb-12`}
+          style={{ animationDelay: '340ms' }}
+        >
+          {profile.stats.map((s) => (
+            <StatCounter
+              key={s.label}
+              value={s.value}
+              suffix={s.suffix}
+              decimals={s.decimals}
+              comma={s.comma}
+              label={s.label}
+            />
+          ))}
+        </div>
+
         <div className={`${fadeCls} mb-14`} style={{ animationDelay: '360ms' }}>
           <Recognition />
         </div>
@@ -102,21 +118,6 @@ export default function Hero() {
           </div>
         </div>
 
-        <div
-          className={`${fadeCls} grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 border-t border-panel-border pt-8`}
-          style={{ animationDelay: '480ms' }}
-        >
-          {profile.stats.map((s) => (
-            <StatCounter
-              key={s.label}
-              value={s.value}
-              suffix={s.suffix}
-              decimals={s.decimals}
-              comma={s.comma}
-              label={s.label}
-            />
-          ))}
-        </div>
       </div>
     </section>
   )

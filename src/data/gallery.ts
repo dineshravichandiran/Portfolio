@@ -348,18 +348,20 @@ function pick(names: string[]): GalleryItem[] {
 // Awards, competitions and drawings only, for the strip near the top of the page.
 // Attendance letters and course certificates stay in their own galleries.
 export const awardsStrip: GalleryItem[] = pick([
+  // Competitions and races first: the hackathon win, then finished events.
   'sih-2020-winner',
+  'sih-2020-internal-hackathon',
+  'tata-ultra-marathon-2023',
+  'zyclothon-2025-medal',
+  'audax-brm-200km-2026',
+  'magnathon-2025',
+  'fit4life-10k-2023',
+  'zyclothon-2025-certificate',
+  'zyclothon-2025-start-line',
+  // Drawings last.
   'yuvasri-kala-bharathi-award',
   'art-portrait-pencil-man',
-  'zyclothon-2025-medal',
-  'tata-ultra-marathon-2023',
   'art-mandala',
-  'magnathon-2025',
-  'sih-2020-internal-hackathon',
-  'fit4life-10k-2023',
   'art-night-tree',
-  'audax-brm-200km-2026',
-  'zyclothon-2025-certificate',
   'art-portrait-pencil-flower',
-  'zyclothon-2025-start-line',
 ])
