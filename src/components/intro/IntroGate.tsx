@@ -10,6 +10,9 @@ const SESSION_KEY = INTRO_SESSION_KEY
 
 type Phase = 'idle' | 'entering' | 'exiting'
 
+// If the visitor has not clicked the globe by then, the gate opens itself.
+const AUTO_ENTER_SECONDS = 5
+
 const [firstName, ...restName] = profile.name.split(' ')
 const lastName = restName.join(' ')
 
@@ -22,6 +25,8 @@ export default function IntroGate() {
     }
   })
   const [phase, setPhase] = useState<Phase>('idle')
+  const [secondsLeft, setSecondsLeft] = useState(AUTO_ENTER_SECONDS)
+  const [counting, setCounting] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const engineRef = useRef<ReturnType<typeof initIntroGlobe> | null>(null)
   // The poster paints first. The video then starts on the visitor's first
@@ -100,25 +105,51 @@ export default function IntroGate() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted])
 
+  // The countdown starts once the page has loaded, so slow connections still
+  // get the full 5 seconds with the globe on screen.
+  useEffect(() => {
+    if (!mounted) return
+    const start = () => setCounting(true)
+    if (document.readyState === 'complete') start()
+    else window.addEventListener('load', start, { once: true })
+    return () => window.removeEventListener('load', start)
+  }, [mounted])
+
+  useEffect(() => {
+    if (!mounted || !counting || phase !== 'idle') return
+    const id = window.setInterval(() => setSecondsLeft((s) => Math.max(0, s - 1)), 1000)
+    return () => window.clearInterval(id)
+  }, [mounted, counting, phase])
+
+  useEffect(() => {
+    if (mounted && counting && phase === 'idle' && secondsLeft === 0) handleEnter()
+    // handleEnter is a hoisted function declaration that only reads refs and
+    // calls setters, so it is safe to leave out of the deps.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted, counting, phase, secondsLeft])
+
   if (!mounted) return null
+
+  function dismiss() {
+    setPhase('exiting')
+    window.dispatchEvent(new Event(INTRO_DISMISSED_EVENT))
+    try {
+      sessionStorage.setItem(SESSION_KEY, '1')
+    } catch {
+      // Private-browsing / storage-blocked — the gate just replays next load.
+    }
+    window.setTimeout(() => setMounted(false), 450)
+  }
 
   function handleEnter() {
     if (phase !== 'idle') return
     playEnterSound()
     setPhase('entering')
     // If the visitor clicks before the idle warm-up ran, this loads it now.
-    void ensureEngine().then((engine) =>
-      engine.enter(() => {
-        setPhase('exiting')
-        window.dispatchEvent(new Event(INTRO_DISMISSED_EVENT))
-        try {
-          sessionStorage.setItem(SESSION_KEY, '1')
-        } catch {
-          // Private-browsing / storage-blocked — the gate just replays next load.
-        }
-        window.setTimeout(() => setMounted(false), 450)
-      }),
-    )
+    // If the globe cannot load at all, still let them into the site.
+    void ensureEngine()
+      .then((engine) => engine.enter(dismiss))
+      .catch(dismiss)
   }
 
   return (
@@ -155,7 +186,7 @@ export default function IntroGate() {
           className="intro-gate-globe"
           role="button"
           tabIndex={0}
-          aria-label="Click the globe to enter the portfolio"
+          aria-label="Enter the portfolio. It opens automatically after 5 seconds."
           onClick={handleEnter}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -176,7 +207,7 @@ export default function IntroGate() {
               <path d="M7.2 2.2 8 5.1" />
               <path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z" />
             </svg>
-            Click the globe to enter
+            {phase === 'idle' && secondsLeft > 0 ? `Entering in ${secondsLeft}s · or click the globe` : 'Entering…'}
           </div>
         </div>
       </div>
