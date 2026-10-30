@@ -9,7 +9,7 @@ export interface JourneyMilestone {
   body: string
   tags: string[]
   current?: boolean
-  /** Position along the 3D road curve (0-1). Omitted for timeline-only entries not placed in the 3D scene. */
+  /** Position along the 3D road curve (0-1). Omitted for timeline-only entries not placed in the 3D scene. Keep stops between their city's roadside stones (Gurgaon x 28-40 is about t 0.47-0.67). */
   sceneT?: number
 }
 
@@ -80,7 +80,7 @@ export const milestones: JourneyMilestone[] = [
     meta: '03 · GURGAON · The Foundation',
     body: "Resolved 5,000+ production incidents across AWS and Azure with 99.9% uptime for 50+ Fortune 500 environments. Memory RCA over 2.5 years with the Technical Architect team. Linux, Apache and Tomcat across 200+ servers; logs in Sumo Logic and CloudWatch. Recognized with a Crowdstrike and Digicert Recovery Award for stabilizing customer environments during the CrowdStrike incident and DigiCert certificate expiry.",
     tags: ['Incident Management', 'Root Cause Analysis', 'Linux & Tomcat', 'Sumo Logic', '99.9% Uptime', 'Crowdstrike/DigiCert Recovery Award'],
-    sceneT: 0.62,
+    sceneT: 0.52,
   },
   {
     id: 'technician',
@@ -92,8 +92,7 @@ export const milestones: JourneyMilestone[] = [
     meta: '04 · GURGAON · Stepping Up',
     body: "Collaborated closely with the Technical Architect team to evaluate use cases, review scenarios, and align on best practices for scalable, informed decisions. Authored and enhanced knowledge articles, including a memory-optimization runbook for clustered PLM nodes now adopted as the org-wide NOC standard, improving application performance, optimizing resource utilization, and reducing infrastructure cost. Recognized with a Performance & Efficiency Award.",
     tags: ['Technical Architects', 'Runbook Authoring', 'Performance Tuning', 'Cost Optimization', 'Performance & Efficiency Award'],
-    // No sceneT: the 3D road scene is hardcoded to exactly 4 stops (see journeyEngine.ts's
-    // `milestoneT` array), so this stage appears in the text timeline only, not the 3D ride.
+    sceneT: 0.64,
   },
   {
     id: 'specialist',

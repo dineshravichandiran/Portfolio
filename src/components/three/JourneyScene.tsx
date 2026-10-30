@@ -12,6 +12,7 @@ const ENGINE_MILESTONES = sceneMilestones.map((m) => ({
   meta: m.meta,
   body: m.body,
   tags: m.tags,
+  t: m.sceneT!,
 }))
 
 export default function JourneyScene() {

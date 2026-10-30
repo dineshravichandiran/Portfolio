@@ -7,6 +7,8 @@ export interface SceneMilestone {
   meta: string
   body: string
   tags: string[]
+  /** Position along the road curve (0-1), from journey.ts */
+  t: number
 }
 
 /**
@@ -162,7 +164,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
   // ====================================================
   // MILESTONE POSTS
   // ====================================================
-  const milestoneT = [0.12, 0.36, 0.62, 0.86]
+  const milestoneT = MILESTONES.map((m) => m.t)
   const milestoneObjects: { group: THREE.Group; ring: THREE.Mesh; pos: THREE.Vector3 }[] = []
 
   function makeCompanySignTexture(name: string, year: string, num: number) {
@@ -333,7 +335,7 @@ export function initJourneyScene(canvas: HTMLCanvasElement, MILESTONES: SceneMil
     PUNE: { xStart: 45, xEnd: 65 },
   }
 
-  const MILESTONE_EXCLUSION_X = [6, 17, 28, 40, 52]
+  const MILESTONE_EXCLUSION_X = [6, 17, 28, 31, 38, 40, 52]
   const MILESTONE_EXCLUSION_RADIUS = 5
 
   const LANDMARK_EXCLUSION = [
