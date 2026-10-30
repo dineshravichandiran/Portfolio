@@ -134,7 +134,7 @@ export const branches: TreeBranch[] = [
     commits: [
       { title: 'Azure Fundamentals (AZ-900)', meta: 'Microsoft Certified · 2022', desc: 'Core Azure cloud concepts, services, and pricing.' },
       { title: 'Azure Data Fundamentals (DP-900)', meta: 'Microsoft Certified · 2022', desc: 'Core data concepts and Azure data services.' },
-      { title: 'MBA – Information System Management / Analytics & Data Science', meta: 'Manipal University Jaipur · 2025–2027 (Expected)', desc: 'Graduate study in information systems management, analytics, and data science. Semester 2 SGPA 8.85, with Business Research Methods (R/Python) among the subjects.' },
+      { title: 'MBA – Information System Management / Analytics & Data Science', meta: 'Manipal University Jaipur · May 2025 – Jul 2027 (Expected)', desc: 'Graduate study in information systems management, analytics, and data science. Semester 2 SGPA 8.85, with Business Research Methods (R/Python) among the subjects.' },
     ],
   },
 ]
