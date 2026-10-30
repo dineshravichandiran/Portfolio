@@ -15,6 +15,17 @@ export interface JourneyMilestone {
 
 export const milestones: JourneyMilestone[] = [
   {
+    id: 'appversal',
+    year: 'Mar – Apr 2021',
+    city: 'MUMBAI',
+    location: 'Mumbai, Maharashtra, India',
+    company: 'AppVersal',
+    role: 'Marketing Professional (Intern)',
+    meta: 'Internship',
+    body: 'One-month marketing internship at a startup in Navi Mumbai. Worked on brand-visibility and customer-engagement initiatives, digital marketing and market research, and received the founder\'s certification for satisfactory progress.',
+    tags: ['Digital Marketing', 'Market Research', 'Startup'],
+  },
+  {
     id: 'drdo',
     year: 'Aug – Sep 2021',
     city: 'CHENNAI',
@@ -28,7 +39,7 @@ export const milestones: JourneyMilestone[] = [
   },
   {
     id: 'panimalar',
-    year: '2018 – 2022',
+    year: 'Jul 2018 – Apr 2022',
     city: 'CHENNAI',
     company: 'Panimalar Engineering College',
     role: 'B.E. Electronics & Instrumentation · CGPA 8.1/10',
@@ -54,7 +65,7 @@ export const milestones: JourneyMilestone[] = [
     city: 'PUNE',
     location: 'Pune, India',
     company: 'Johnson Controls',
-    role: 'Intern',
+    role: 'Intern (Building Automation Systems)',
     meta: 'Internship',
     body: 'Trained in Building Automation Systems (BAS) and HVAC fundamentals. Contributed to project execution plans and quality assurance of hardware and software deliverables, with design and application engineering work on international projects.',
     tags: ['Building Automation', 'HVAC', 'Project Execution', 'Quality Assurance'],
