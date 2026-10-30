@@ -123,7 +123,7 @@ export const keyProjects: ProjectItem[] = [
     year: 'Ongoing',
     meta: 'Observability · Incident Response',
     title: 'Enterprise SaaS Observability & Incident Response',
-    impact: '99.9% uptime · 5,000+ incidents resolved · 50+ Fortune 500 environments',
+    impact: '99.9% uptime · 50+ Fortune 500 environments',
     desc: 'Built and manage end-to-end monitoring for enterprise SaaS platforms across Zabbix, Sumo Logic, Prometheus, Grafana, CloudWatch, Catchpoint and PagerDuty. I own the full alert lifecycle, validate monitoring for customer go-lives, and lead 24x7 incident response, sustaining high availability across a large Fortune 500 footprint.',
     flow: [
       { label: 'Problem', text: 'Monitoring fragmented across six tools and 50+ Fortune 500 environments, where a missed or duplicated alert risks an availability commitment.' },

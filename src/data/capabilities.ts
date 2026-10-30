@@ -12,7 +12,7 @@ export const capabilities: Capability[] = [
     title: 'Reliability',
     tagline: '24×7 · Incident Response · RCA',
     bar: 'On-Call · Fast Triage · Escalate Smart',
-    stat: { value: '5,000+', label: 'incidents resolved' },
+    stat: { value: '~30%', label: 'smaller alert queue' },
   },
   {
     title: 'Automation',
