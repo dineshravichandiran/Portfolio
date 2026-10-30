@@ -90,7 +90,6 @@ export default function Hero() {
               value={s.value}
               suffix={s.suffix}
               decimals={s.decimals}
-              comma={s.comma}
               label={s.label}
             />
           ))}

@@ -78,7 +78,7 @@ export const milestones: JourneyMilestone[] = [
     company: 'Fortune 500 Enterprise SaaS/PLM Company',
     role: 'Cloud NOC Technician, Associate',
     meta: '03 · GURGAON · The Foundation',
-    body: "Resolved 5,000+ production incidents across AWS and Azure with 99.9% uptime for 50+ Fortune 500 environments. Memory RCA over 2.5 years with the Technical Architect team. Linux, Apache and Tomcat across 200+ servers; logs in Sumo Logic and CloudWatch. Recognized with a Crowdstrike and Digicert Recovery Award for stabilizing customer environments during the CrowdStrike incident and DigiCert certificate expiry.",
+    body: "Resolved production incidents across AWS and Azure, holding 99.9% uptime for 50+ Fortune 500 environments. Memory RCA over 2.5 years with the Technical Architect team. Linux, Apache and Tomcat across 200+ servers; logs in Sumo Logic and CloudWatch. Recognized with a Crowdstrike and Digicert Recovery Award for stabilizing customer environments during the CrowdStrike incident and DigiCert certificate expiry.",
     tags: ['Incident Management', 'Root Cause Analysis', 'Linux & Tomcat', 'Sumo Logic', '99.9% Uptime', 'Crowdstrike/DigiCert Recovery Award'],
     sceneT: 0.52,
   },
