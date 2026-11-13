@@ -120,6 +120,30 @@ export const workProjects: ProjectItem[] = [
 
 export const keyProjects: ProjectItem[] = [
   {
+    year: 'Self-Directed',
+    meta: 'Python · MCP · Agentic AI',
+    title: 'AI Incident Triage Agent',
+    impact: '56 tests · 20 frozen test incidents · filtered context used 91% fewer input tokens at the same accuracy (40/40) · a person approves any fix',
+    desc: 'An agent that takes an alert, filters the logs, names the likely cause, finds the matching runbook step, drafts the incident note, and waits for a person to approve before any fix runs. Built on a synthetic lab with known root causes, so every claim is scored against the truth instead of judged by eye.',
+    flow: [
+      { label: 'Problem', text: "An agent that restarts things on a model's say-so is a risk, and a demo on two hand-picked incidents proves nothing. I wanted to measure whether giving a model less, cleaner context changes anything, and keep the dangerous step out of the model's hands." },
+      { label: 'Action', text: 'Built a lab with 10 failure causes and 30 incidents, a context filter (alerting service, last 10 minutes, WARN and up, repeats collapsed), runbook retrieval over 10 YAML runbooks, a four-tool MCP server, and an executor where a fix needs a single-use approval that a human issued. The model makes one decision, naming the cause; ordinary code does the rest.' },
+      { label: 'Result', text: 'On 20 frozen incidents, each run twice per mode, the larger model got 40/40 causes and runbooks right with raw logs and with the filtered context, so there the filter saved cost, not accuracy: 91% fewer input tokens and about 21% faster. A smaller model scored 37/40 on raw logs and 39/40 filtered (directional only, not proven). A keyword baseline scored 9/20 and 11/20. In every wrong-cause run, no wrong fix would have run. My first lab was too easy (the baseline scored 20/20), so I made it harder before running any model.' },
+    ],
+    design: {
+      diagram: { src: '/diagrams/ai-incident-triage.svg', alt: 'Flow diagram: an alert goes through a context filter to a model that names the likely cause, runbook retrieval runs alongside, the two must agree or the agent escalates, then a dry run of the runbook check, a human approval, and a fix followed by a verification check, with every step written to an audit log' },
+      decisions: [
+        { choice: 'Filter the logs before the model sees them', instead: 'Send the model the whole hour of logs', tradeoff: 'About 91% fewer input tokens and faster answers, and it drops an old incident that confuses a smaller model. The filter is only as good as its rules: it discards everything below WARN, including deploy notices.' },
+        { choice: 'Propose a fix only when the model\'s cause and the retrieved runbook agree', instead: 'Trust the model\'s answer directly', tradeoff: 'A confident wrong answer gets stopped, at the price of sometimes escalating when the model was right, because retrieval is the weaker link.' },
+        { choice: 'Enforce approval in the server with a single-use id', instead: 'Ask the model, or rely on a client prompt, to confirm', tradeoff: 'Neither a model nor a client can skip it. It puts a human step in front of every fix.' },
+      ],
+      atScale: 'Real incidents have several services failing together, logs in many formats, and cause chains where two answers are both partly right. The lab has one service\'s logs per incident and one cause per runbook, and its runbook checks read a simulated state. At scale I would need real log parsing, richer runbook matching, and checks that probe the real system, and far more than 20 labelled incidents before trusting a gap of two runs.',
+      scope: 'A synthetic lab I wrote myself, not production logs. Fixes change a simulated state, never a real machine.',
+    },
+    tags: ['Python', 'MCP', 'Agentic AI', 'LLM Evaluation', 'Runbooks', 'Human-in-the-loop', 'pytest'],
+    link: 'https://github.com/dineshravichandiran/ai-incident-triage-agent',
+  },
+  {
     year: 'Ongoing',
     meta: 'Observability · Incident Response',
     title: 'Enterprise SaaS Observability & Incident Response',
