@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 660" width="980" height="660" font-family="Manrope, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="t d">
+  <title id="t">Hub-and-spoke network on a Transit Gateway</title>
+  <desc id="d">A hub VPC holds the internet gateway and NAT gateway. A Transit Gateway connects the hub to an app spoke and a data spoke. Spokes have no internet gateway; their default route goes to the hub. App and data can reach each other only because the routing allows that pair.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#b4c0d4"/></marker>
+    <marker id="gr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6fe09a"/></marker>
+  </defs>
+  <rect width="980" height="660" fill="#0b1220"/>
+  <text x="24" y="34" font-size="20" font-weight="700" fill="#e8eef9">Hub-and-spoke network with a Transit Gateway</text>
+  <text x="24" y="54" font-size="12.5" fill="#9fb0c8">One shared way out to the internet, spokes isolated from each other unless a pair is allowed</text>
+
+  <!-- Internet -->
+  <rect x="390" y="76" width="200" height="40" rx="20" fill="#151e30" stroke="#55627a"/>
+  <text x="490" y="101" font-size="13" font-weight="700" text-anchor="middle" fill="#e8eef9">Internet</text>
+
+  <!-- Hub VPC -->
+  <rect x="300" y="146" width="380" height="150" rx="10" fill="#0f2a1c" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="664" y="168" font-size="13" font-weight="700" text-anchor="end" fill="#6fe09a">Hub VPC 10.0.0.0/16 (egress)</text>
+  <rect x="320" y="182" width="165" height="44" rx="6" fill="#12305c" stroke="#2563eb"/>
+  <text x="402" y="200" font-size="12" font-weight="700" text-anchor="middle" fill="#9cc3ff">Internet gateway</text>
+  <text x="402" y="216" font-size="11" text-anchor="middle" fill="#9cc3ff">public subnets</text>
+  <rect x="495" y="182" width="165" height="44" rx="6" fill="#3a2e10" stroke="#d97706"/>
+  <text x="577" y="200" font-size="12" font-weight="700" text-anchor="middle" fill="#f2b76d">NAT gateway</text>
+  <text x="577" y="216" font-size="11" text-anchor="middle" fill="#f2b76d">one, shared by all spokes</text>
+  <rect x="320" y="240" width="340" height="40" rx="6" fill="#1f1a3d" stroke="#7c3aed"/>
+  <text x="490" y="258" font-size="12" font-weight="700" text-anchor="middle" fill="#b9a6ff">Attachment subnets (/28 per zone)</text>
+  <text x="490" y="272" font-size="11" text-anchor="middle" fill="#b9a6ff">default route goes to the NAT gateway</text>
+
+  <!-- Transit Gateway -->
+  <rect x="300" y="350" width="380" height="84" rx="10" fill="#3a2010" stroke="#ea580c" stroke-width="1.5"/>
+  <text x="490" y="374" font-size="14" font-weight="700" text-anchor="middle" fill="#f2b76d">Transit Gateway</text>
+  <text x="490" y="393" font-size="11.5" text-anchor="middle" fill="#f2b76d">default route table association and propagation are off</text>
+  <text x="490" y="410" font-size="11.5" text-anchor="middle" fill="#f2b76d">one route table per spoke and one for the hub</text>
+  <text x="490" y="426" font-size="11.5" text-anchor="middle" fill="#f2b76d">routes are learned only where the code says so</text>
+
+  <!-- Spokes -->
+  <rect x="40" y="494" width="400" height="124" rx="10" fill="#111a2b" stroke="#55627a" stroke-width="1.5"/>
+  <text x="56" y="516" font-size="13" font-weight="700" fill="#b4c0d4">Spoke app 10.1.0.0/16</text>
+  <rect x="58" y="528" width="364" height="34" rx="6" fill="#1f1a3d" stroke="#7c3aed"/>
+  <text x="240" y="549" font-size="12" font-weight="700" text-anchor="middle" fill="#b9a6ff">Workload subnets, network ACL, probe instance</text>
+  <text x="240" y="584" font-size="11.5" text-anchor="middle" fill="#b4c0d4">S3 gateway endpoint, optional SSM endpoints</text>
+  <text x="240" y="602" font-size="11.5" text-anchor="middle" fill="#8a97ad">no internet gateway, no NAT</text>
+
+  <rect x="540" y="494" width="400" height="124" rx="10" fill="#111a2b" stroke="#55627a" stroke-width="1.5"/>
+  <text x="556" y="516" font-size="13" font-weight="700" fill="#b4c0d4">Spoke data 10.2.0.0/16</text>
+  <rect x="558" y="528" width="364" height="34" rx="6" fill="#1f1a3d" stroke="#7c3aed"/>
+  <text x="740" y="549" font-size="12" font-weight="700" text-anchor="middle" fill="#b9a6ff">Workload subnets, network ACL, probe instance</text>
+  <text x="740" y="584" font-size="11.5" text-anchor="middle" fill="#b4c0d4">S3 gateway endpoint, optional SSM endpoints</text>
+  <text x="740" y="602" font-size="11.5" text-anchor="middle" fill="#8a97ad">no internet gateway, no NAT</text>
+
+  <!-- Private DNS -->
+  <rect x="24" y="146" width="236" height="150" rx="10" fill="#3a1428" stroke="#db2777"/>
+  <text x="142" y="170" font-size="13" font-weight="700" text-anchor="middle" fill="#f58bb8">Route 53 private zone</text>
+  <text x="142" y="190" font-size="12" text-anchor="middle" fill="#f58bb8">corp.internal</text>
+  <text x="142" y="214" font-size="11.5" text-anchor="middle" fill="#f58bb8">associated with the hub</text>
+  <text x="142" y="230" font-size="11.5" text-anchor="middle" fill="#f58bb8">and both spokes</text>
+  <text x="142" y="254" font-size="11.5" text-anchor="middle" fill="#f58bb8">app.corp.internal</text>
+  <text x="142" y="270" font-size="11.5" text-anchor="middle" fill="#f58bb8">data.corp.internal</text>
+
+  <!-- Reachability -->
+  <rect x="720" y="146" width="236" height="150" rx="10" fill="#0f2140" stroke="#2563eb"/>
+  <text x="838" y="170" font-size="13" font-weight="700" text-anchor="middle" fill="#9cc3ff">Reachability Analyzer</text>
+  <text x="838" y="194" font-size="11.5" text-anchor="middle" fill="#9cc3ff">app to data on 8080</text>
+  <text x="838" y="210" font-size="11.5" text-anchor="middle" fill="#9cc3ff">data to app on 8080</text>
+  <text x="838" y="226" font-size="11.5" text-anchor="middle" fill="#9cc3ff">each spoke to the internet</text>
+  <text x="838" y="250" font-size="11.5" text-anchor="middle" fill="#9cc3ff">paths are defined in code;</text>
+  <text x="838" y="266" font-size="11.5" text-anchor="middle" fill="#9cc3ff">analyses are run by hand</text>
+
+  <!-- Arrows -->
+  <path d="M402 182 V120" fill="none" stroke="#7e8ca3" stroke-width="1.6" marker-start="url(#a)" marker-end="url(#a)"/>
+  <path d="M577 226 V238" fill="none" stroke="#d97706" stroke-width="1.4"/>
+  <path d="M490 280 V348" fill="none" stroke="#7e8ca3" stroke-width="1.6" marker-start="url(#a)" marker-end="url(#a)"/>
+  <text x="500" y="318" font-size="11" fill="#b4c0d4">hub attachment</text>
+
+  <path d="M380 434 L240 492" fill="none" stroke="#7e8ca3" stroke-width="1.6" marker-start="url(#a)" marker-end="url(#a)"/>
+  <path d="M600 434 L740 492" fill="none" stroke="#7e8ca3" stroke-width="1.6" marker-start="url(#a)" marker-end="url(#a)"/>
+  <text x="282" y="456" font-size="11" fill="#b4c0d4">spoke attachment</text>
+  <text x="640" y="456" font-size="11" fill="#b4c0d4">spoke attachment</text>
+
+  <path d="M440 548 H538" fill="none" stroke="#15803d" stroke-width="1.8" stroke-dasharray="5 3" marker-start="url(#gr)" marker-end="url(#gr)"/>
+  <text x="490" y="532" font-size="10.5" text-anchor="middle" fill="#6fe09a">allowed_flows</text>
+  <text x="490" y="570" font-size="10.5" text-anchor="middle" fill="#6fe09a">via Transit</text>
+  <text x="490" y="582" font-size="10.5" text-anchor="middle" fill="#6fe09a">Gateway</text>
+</svg>

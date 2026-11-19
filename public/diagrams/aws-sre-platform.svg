@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 640" width="980" height="640" font-family="Manrope, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="t d">
+  <title id="t">AWS platform built with Terraform</title>
+  <desc id="d">Users reach an application load balancer in public subnets. It forwards to ECS Fargate tasks in private subnets, which talk to a PostgreSQL database. GitHub Actions deploys through OIDC roles and keeps state in S3.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#b4c0d4"/>
+    </marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="980" height="640" fill="#0b1220"/>
+
+  <!-- Title -->
+  <text x="24" y="34" font-size="20" font-weight="700" fill="#e8eef9">AWS platform with Terraform and GitHub Actions</text>
+  <text x="24" y="54" font-size="12.5" fill="#9fb0c8">Two zones, private compute and database, no AWS keys stored in GitHub</text>
+
+  <!-- Left column: users and GitHub -->
+  <rect x="24" y="163" width="170" height="64" rx="10" fill="#151e30" stroke="#55627a"/>
+  <text x="109" y="189" font-size="14" font-weight="700" text-anchor="middle" fill="#e8eef9">Users</text>
+  <text x="109" y="209" font-size="12" text-anchor="middle" fill="#9fb0c8">HTTP / HTTPS</text>
+
+  <rect x="24" y="360" width="170" height="150" rx="10" fill="#0f2140" stroke="#2563eb"/>
+  <text x="109" y="386" font-size="14" font-weight="700" text-anchor="middle" fill="#9cc3ff">GitHub Actions</text>
+  <text x="109" y="410" font-size="12" text-anchor="middle" fill="#9cc3ff">Pull request:</text>
+  <text x="109" y="426" font-size="12" text-anchor="middle" fill="#9cc3ff">fmt, validate, tflint,</text>
+  <text x="109" y="442" font-size="12" text-anchor="middle" fill="#9cc3ff">checkov, plan</text>
+  <text x="109" y="466" font-size="12" text-anchor="middle" fill="#9cc3ff">Merge to main:</text>
+  <text x="109" y="482" font-size="12" text-anchor="middle" fill="#9cc3ff">apply after approval</text>
+
+  <!-- AWS region -->
+  <rect x="236" y="76" width="720" height="540" rx="12" fill="#2b2310" stroke="#d97706" stroke-width="1.5"/>
+  <text x="252" y="98" font-size="13" font-weight="700" fill="#f2b76d">AWS region ap-south-1</text>
+
+  <!-- VPC -->
+  <rect x="256" y="112" width="680" height="330" rx="10" fill="#0b1220" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="272" y="132" font-size="13" font-weight="700" fill="#6fe09a">VPC 10.20.0.0/16 (flow logs to CloudWatch)</text>
+
+  <!-- Public subnets -->
+  <rect x="276" y="146" width="316" height="112" rx="8" fill="#0f2a1c" stroke="#22c55e"/>
+  <text x="290" y="164" font-size="12" font-weight="700" fill="#6fe09a">Public subnet, zone a</text>
+  <rect x="600" y="146" width="316" height="112" rx="8" fill="#0f2a1c" stroke="#22c55e"/>
+  <text x="614" y="164" font-size="12" font-weight="700" fill="#6fe09a">Public subnet, zone b</text>
+
+  <!-- ALB spanning both -->
+  <rect x="300" y="178" width="592" height="34" rx="6" fill="#12305c" stroke="#2563eb"/>
+  <text x="596" y="200" font-size="13" font-weight="700" text-anchor="middle" fill="#9cc3ff">Application Load Balancer (health checks, drops invalid headers)</text>
+
+  <!-- NAT -->
+  <rect x="300" y="222" width="170" height="26" rx="6" fill="#3a2e10" stroke="#d97706"/>
+  <text x="385" y="240" font-size="12" text-anchor="middle" fill="#f2b76d">NAT gateway (one shared)</text>
+  <text x="772" y="240" font-size="11.5" text-anchor="middle" fill="#8a97ad">Internet gateway on the public route table</text>
+
+  <!-- Private subnets -->
+  <rect x="276" y="282" width="316" height="144" rx="8" fill="#111a2b" stroke="#55627a"/>
+  <text x="290" y="300" font-size="12" font-weight="700" fill="#b4c0d4">Private subnet, zone a</text>
+  <rect x="600" y="282" width="316" height="144" rx="8" fill="#111a2b" stroke="#55627a"/>
+  <text x="614" y="300" font-size="12" font-weight="700" fill="#b4c0d4">Private subnet, zone b</text>
+
+  <rect x="300" y="314" width="268" height="40" rx="6" fill="#1f1a3d" stroke="#7c3aed"/>
+  <text x="434" y="332" font-size="12.5" font-weight="700" text-anchor="middle" fill="#b9a6ff">ECS Fargate task</text>
+  <text x="434" y="347" font-size="11" text-anchor="middle" fill="#b9a6ff">0.25 vCPU, 512 MiB, autoscaling 2 to 4</text>
+  <rect x="624" y="314" width="268" height="40" rx="6" fill="#1f1a3d" stroke="#7c3aed"/>
+  <text x="758" y="332" font-size="12.5" font-weight="700" text-anchor="middle" fill="#b9a6ff">ECS Fargate task</text>
+  <text x="758" y="347" font-size="11" text-anchor="middle" fill="#b9a6ff">only the load balancer can reach it</text>
+
+  <rect x="300" y="372" width="592" height="42" rx="6" fill="#3a1428" stroke="#db2777"/>
+  <text x="596" y="391" font-size="12.5" font-weight="700" text-anchor="middle" fill="#f58bb8">RDS PostgreSQL (encrypted, private, password in Secrets Manager)</text>
+  <text x="596" y="406" font-size="11" text-anchor="middle" fill="#f58bb8">port 5432 open to the task security group only</text>
+
+  <!-- Bottom services -->
+  <rect x="256" y="462" width="210" height="130" rx="10" fill="#151e30" stroke="#55627a"/>
+  <text x="361" y="486" font-size="13" font-weight="700" text-anchor="middle" fill="#e8eef9">S3 state bucket</text>
+  <text x="361" y="508" font-size="11.5" text-anchor="middle" fill="#b4c0d4">versioned, encrypted,</text>
+  <text x="361" y="524" font-size="11.5" text-anchor="middle" fill="#b4c0d4">public access blocked,</text>
+  <text x="361" y="540" font-size="11.5" text-anchor="middle" fill="#b4c0d4">native lock file</text>
+  <text x="361" y="570" font-size="11" text-anchor="middle" fill="#8a97ad">created once by bootstrap/</text>
+
+  <rect x="486" y="462" width="210" height="130" rx="10" fill="#151e30" stroke="#55627a"/>
+  <text x="591" y="486" font-size="13" font-weight="700" text-anchor="middle" fill="#e8eef9">IAM roles (OIDC)</text>
+  <text x="591" y="508" font-size="11.5" text-anchor="middle" fill="#b4c0d4">plan role: read-only,</text>
+  <text x="591" y="524" font-size="11.5" text-anchor="middle" fill="#b4c0d4">pull requests only</text>
+  <text x="591" y="544" font-size="11.5" text-anchor="middle" fill="#b4c0d4">apply role: protected</text>
+  <text x="591" y="560" font-size="11.5" text-anchor="middle" fill="#b4c0d4">environment only</text>
+
+  <rect x="716" y="462" width="220" height="130" rx="10" fill="#151e30" stroke="#55627a"/>
+  <text x="826" y="486" font-size="13" font-weight="700" text-anchor="middle" fill="#e8eef9">Cost and logs</text>
+  <text x="826" y="508" font-size="11.5" text-anchor="middle" fill="#b4c0d4">AWS Budget alert at 80%</text>
+  <text x="826" y="524" font-size="11.5" text-anchor="middle" fill="#b4c0d4">and 100% forecast</text>
+  <text x="826" y="544" font-size="11.5" text-anchor="middle" fill="#b4c0d4">Cost tags on everything,</text>
+  <text x="826" y="560" font-size="11.5" text-anchor="middle" fill="#b4c0d4">container logs kept 1 year</text>
+
+  <!-- Arrows -->
+  <path d="M194 195 H298" fill="none" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+  <path d="M520 212 V312" fill="none" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+  <path d="M800 212 V312" fill="none" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+  <path d="M520 354 V370" fill="none" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+  <path d="M800 354 V370" fill="none" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+  <path d="M340 248 V312" fill="none" stroke="#d97706" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#a)"/>
+  <text x="348" y="272" font-size="10.5" fill="#f2b76d">outbound only</text>
+
+  <path d="M194 436 H225 V560 H256" fill="none" stroke="#2563eb" stroke-width="1.6" marker-end="url(#g)"/>
+  <path d="M194 470 H215 V600 H591 V592" fill="none" stroke="#2563eb" stroke-width="1.6" marker-end="url(#g)"/>
+  <text x="24" y="530" font-size="11" fill="#9cc3ff">Blue lines: state access and</text><text x="24" y="545" font-size="11" fill="#9cc3ff">OIDC sign-in, no stored keys</text>
+</svg>
