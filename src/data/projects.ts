@@ -147,12 +147,12 @@ export const keyProjects: ProjectItem[] = [
     year: 'Self-Directed',
     meta: 'AWS · Terraform · SRE',
     title: 'AWS Platform with Terraform, GitHub Actions and SLOs',
-    impact: '26 mocked tests · 259 security checks passed · no stored AWS keys · plan on every pull request, apply after approval · validated, not yet applied to a live account',
+    impact: 'Applied to AWS through the pipeline (56 resources) and destroyed the same night · 5 failure drills run · 26 mocked tests, 259 security checks · no stored AWS keys',
     desc: 'A small AWS platform written as reusable Terraform modules: a VPC across two zones, a load balancer, an ECS Fargate service in private subnets, a private PostgreSQL database, S3 remote state with locking, and 99.9% availability alerts based on fast and slow error-budget burn rates. GitHub Actions signs in to AWS with short-lived OIDC credentials, plans on every pull request and applies only after a reviewer approves.',
     flow: [
       { label: 'Problem', text: 'My earlier Terraform was validate-only. I wanted the whole path in code and reviewable: modules, remote state, a pipeline with no stored keys, and reliability targets for the service.' },
       { label: 'Action', text: 'Wrote four modules plus an SLO module, a one-time bootstrap stack (state bucket, two GitHub sign-in roles, budget alert), and a pipeline with format, validate, tflint, checkov and mocked-provider tests. The whole-environment test caught a for_each bug that would have failed a real plan.' },
-      { label: 'Result', text: 'All checks pass in CI: 26 tests and 259 security checks (20 skipped, each with a written reason). I have not applied it to a live AWS account yet, so there are no deployment screenshots. The runbook for the first apply, the failure drills and the destroy is in the repository.' },
+      { label: 'Result', text: 'Applied to a real AWS account (ap-south-1) on 20 Nov 2026 through the pipeline: 56 resources, plan posted on the pull request, approved apply, 2 healthy targets behind the load balancer. Five drills: a killed task was replaced in about 59 seconds; a hand-made tag showed up as drift in the plan; a second plan failed on the state lock; 20,000 requests ran with 0 failures; a bad image tag was rolled back by the ECS circuit breaker after about 15 minutes (it needs 10 failed tasks to trip). Autoscaling did not scale out because CPU peaked at 3.5%. Destroyed the same night and checked that nothing was left. CI also passes: 26 mocked tests and 259 security checks (20 skipped, each with a written reason).' },
     ],
     design: {
       diagram: { src: '/diagrams/aws-sre-platform.svg', alt: 'Architecture diagram: users reach an application load balancer in public subnets across two zones, which forwards to ECS Fargate tasks in private subnets, which connect to a private PostgreSQL database. GitHub Actions deploys through OIDC roles and keeps state in an S3 bucket.' },
@@ -162,7 +162,7 @@ export const keyProjects: ProjectItem[] = [
         { choice: 'Burn-rate alerts over two windows', instead: 'A fixed error-rate threshold', tradeoff: 'Pages when the monthly error budget is being used fast and clears quickly, but CloudWatch evaluates on fixed periods, not a sliding window.' },
       ],
       atScale: 'One environment, one service and a demo nginx image. A real platform adds more environments, a build pipeline for the application, a web application firewall and customer-managed encryption keys.',
-      scope: 'Validated and tested with a mocked AWS provider. Not applied to a live account yet. Applying it costs real money per hour, so the runbook ends with a destroy and a check that nothing is left.',
+      scope: 'Deployed once to a personal AWS account and destroyed within two hours. The SLO alerts were created but never fired in a test, autoscaling was not triggered by my load test, and the real cost is not measured yet.',
     },
     tags: ['Terraform', 'AWS', 'ECS Fargate', 'GitHub Actions', 'OIDC', 'SLO', 'checkov'],
     link: 'https://github.com/dineshravichandiran/aws-sre-platform-terraform',
