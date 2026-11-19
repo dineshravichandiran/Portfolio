@@ -42,7 +42,7 @@ export const toolCategories: ToolCategory[] = [
     title: 'Cloud & Infrastructure',
     badges: [
       { label: 'Microsoft Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
-      { label: 'AWS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { label: 'AWS', icon: '/icons/aws.svg' },
       { label: 'Kubernetes (AKS)', icon: 'https://cdn.simpleicons.org/kubernetes' },
       { label: 'kubectl' },
       { label: 'k9s' },

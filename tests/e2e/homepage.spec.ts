@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const SECTION_IDS = [
-  'about', 'work', 'skills', 'projects', 'tree', 'timeline', 'credentials', 'contact',
+  'about', 'work', 'skills', 'projects', 'tree', 'timeline', 'achievements', 'certifications', 'education', 'contact',
 ]
 
 test.describe('Homepage', () => {
