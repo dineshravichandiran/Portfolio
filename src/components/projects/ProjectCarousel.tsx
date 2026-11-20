@@ -23,6 +23,37 @@ function ArrowIcon({ direction }: { direction: 'left' | 'right' }) {
 export default function ProjectCarousel({ projects }: { projects: ProjectItem[] }) {
   const [active, setActive] = useState(0)
   const [dir, setDir] = useState(1)
+  const [inView, setInView] = useState(false)
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
+  const [touchPaused, setTouchPaused] = useState(false)
+  const rootRef = useRef<HTMLDivElement>(null)
+
+  // Auto-advance while the section is on screen, so a visitor who scrolls here and stops
+  // sees the projects move on. Hover, keyboard focus, touch and reduced motion all pause it.
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') return
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.35 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!touchPaused) return
+    const t = window.setTimeout(() => setTouchPaused(false), 20000)
+    return () => window.clearTimeout(t)
+  }, [touchPaused])
+
+  useEffect(() => {
+    if (!inView || hovered || focused || touchPaused) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const t = window.setTimeout(() => {
+      setDir(1)
+      setActive((prev) => (prev + 1) % projects.length)
+    }, 8000)
+    return () => window.clearTimeout(t)
+  }, [active, inView, hovered, focused, touchPaused, projects.length])
 
   useEffect(() => {
     function onSelect(e: Event) {
@@ -62,7 +93,20 @@ export default function ProjectCarousel({ projects }: { projects: ProjectItem[] 
   const project = projects[active]
 
   return (
-    <div>
+    <div
+      ref={rootRef}
+      onPointerEnter={(e) => {
+        if (e.pointerType === 'mouse') setHovered(true)
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === 'mouse') setHovered(false)
+      }}
+      onFocus={() => setFocused(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false)
+      }}
+      onTouchStart={() => setTouchPaused(true)}
+    >
       <div className="flex items-center justify-between mb-5">
         <div className="font-mono text-sm text-dim tabular-nums flex items-center gap-2">
           <span className="text-text">{String(active + 1).padStart(2, '0')}</span>
