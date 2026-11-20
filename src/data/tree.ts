@@ -60,7 +60,7 @@ export const branches: TreeBranch[] = [
       {
         title: 'Self-Healing Infrastructure on AWS',
         meta: 'Self-Directed · Terraform',
-        desc: "Terraform-provisioned VPC/ALB/Auto Scaling Group with CloudWatch alarms and Lambda-based auto-remediation for failure modes native ASG health checks don't catch: hardware faults, silent process crashes, and instances stopped outside the normal lifecycle. Every remediation publishes its own CloudWatch metric, so recovery is provable, not assumed.",
+        desc: "Terraform-provisioned VPC/ALB/Auto Scaling Group with CloudWatch alarms and Lambda-based auto-remediation for failures native ASG health checks don't cover: unhealthy targets and instances stopped outside the normal lifecycle. Applied to AWS and drilled with three real failures, then destroyed. Every remediation publishes its own CloudWatch metric, so recovery is provable, not assumed.",
         link: 'https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/self-healing-aws-infra',
       },
       {

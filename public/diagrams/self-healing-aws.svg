@@ -30,14 +30,10 @@
   <text x="244" y="316" fill="#aebbd0" font-size="12" text-anchor="middle">ASG terminates and replaces the instance</text>
   <text x="244" y="338" fill="#7e8ca3" font-size="11" text-anchor="middle">health_check_grace_period 60s</text>
 
-  <!-- healing path 1 -->
-  <rect x="520" y="52" width="210" height="50" rx="8" fill="#121b2e" stroke="#e4a93b"/>
-  <text x="625" y="73" fill="#dce4ee" font-size="12.5" font-weight="700" text-anchor="middle">Alarm: StatusCheckFailed_System</text>
-  <text x="625" y="90" fill="#aebbd0" font-size="11" text-anchor="middle">hardware / hypervisor fault</text>
-  <line x1="730" y1="77" x2="772" y2="77" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
-  <rect x="774" y="52" width="186" height="50" rx="8" fill="#142238" stroke="#3e8ede"/>
-  <text x="867" y="73" fill="#dce4ee" font-size="12.5" font-weight="700" text-anchor="middle">EC2 auto-recover</text>
-  <text x="867" y="90" fill="#aebbd0" font-size="11" text-anchor="middle">native AWS action</text>
+  <!-- not in the stack -->
+  <rect x="520" y="52" width="440" height="50" rx="8" fill="none" stroke="#2d4165" stroke-dasharray="4 4"/>
+  <text x="740" y="73" fill="#aebbd0" font-size="12.5" font-weight="700" text-anchor="middle">Not in this stack: EC2 auto-recover alarm</text>
+  <text x="740" y="90" fill="#7e8ca3" font-size="11" text-anchor="middle">it needs one named instance, and ASG members are replaced dynamically</text>
 
   <!-- healing path 2 -->
   <rect x="520" y="140" width="210" height="50" rx="8" fill="#121b2e" stroke="#e4a93b"/>
