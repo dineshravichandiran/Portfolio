@@ -88,6 +88,10 @@ export default function ProjectCarousel({ projects }: { projects: ProjectItem[] 
               key={p.title}
               type="button"
               onClick={() => jumpTo(i)}
+              onPointerEnter={(e) => {
+                if (e.pointerType === 'mouse') jumpTo(i)
+              }}
+              onFocus={() => jumpTo(i)}
               aria-label={`Project ${i + 1}: ${p.title}`}
               aria-current={current ? 'true' : undefined}
               title={p.title}
