@@ -283,17 +283,39 @@ export const keyProjects: ProjectItem[] = [
   },
   {
     year: 'Self-Directed',
+    meta: 'Python · MCP · AWS · Kubernetes',
+    title: 'Ops MCP Server: Read-Only AWS and Kubernetes Tools with Approved Writes',
+    impact: '33 tests in CI · 7 read tools and 2 write tools · a write runs only with a person-approved, single-use approval bound to exact parameters',
+    desc: 'An MCP server that lets an AI agent inspect AWS (Auto Scaling, target health, alarms, instance status, CloudWatch Logs) and Kubernetes (pods, deployments, events, logs) while on call, and change something only when a person approves that exact change.',
+    flow: [
+      { label: 'Problem', text: 'An agent with cloud access is useful for diagnosis and dangerous for changes. The approval has to live in the server, not in a prompt, so a model cannot talk its way past it.' },
+      { label: 'Action', text: 'Wrote read tools over boto3 and kubectl with fixed verbs, checked names and bounded sizes, and masked common secrets in logs. Writes (restart a deployment, set Auto Scaling desired capacity inside its existing min and max) are dry-run by default and need an approval a person grants in a terminal. No MCP tool can approve, and an approval expires, works once and matches only the parameters it was issued for.' },
+      { label: 'Result', text: 'AWS calls are tested against botocore stubs that check arguments against the real API model, and the stdio tests drive the full request, refuse, approve, run, refuse-reuse flow with a stand-in kubectl. A few read-only calls ran against a real AWS account, which held no Auto Scaling group or instance at the time. The kubectl tools have not been run against a real cluster, and an agent with its own shell could approve its own request, which the README says.' },
+    ],
+    design: {
+      decisions: [
+        { choice: 'Approval enforced in the server, bound to exact parameters, single use', instead: 'Ask the model or the client to confirm', tradeoff: 'Slower than a prompt, but a changed number or a reused id fails, and the model cannot approve itself.' },
+        { choice: 'Read-only mode that does not register the write tools', instead: 'Register them and refuse at call time', tradeoff: 'Two configurations to document, but a tool that is not there cannot be called.' },
+        { choice: 'Fixed kubectl verbs and checked names', instead: 'Let the model pass free-form kubectl arguments', tradeoff: 'Fewer things the agent can do, and no way to smuggle in a flag or a delete.' },
+      ],
+      atScale: 'Give it read-only cloud credentials and a pinned kubectl context, run it where the agent cannot reach the approval files, and add tools one at a time with tests.',
+      scope: 'Tested with stubs and a stand-in kubectl in CI. Only a few read-only AWS calls ran live, and nothing ran against a real cluster.',
+    },
+    tags: ['Python', 'MCP', 'AWS', 'Kubernetes', 'boto3', 'Human-in-the-loop', 'pytest'],
+    link: 'https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/ops-mcp-server',
+  },
+  {
+    year: 'Self-Directed',
     meta: 'Python · Agentic AI',
     title: 'Guardrailed Autonomous SRE Incident-Response Agent',
-    impact: '24 tests · 7-scenario evaluation: rule-based baseline 6/7, Claude 7/7 on three runs, including the case that needs scaling, not restarting',
+    impact: '24 tests · 7-scenario evaluation: rule-based baseline 6/7, an LLM planner 7/7 on three runs, including the case that needs scaling, not restarting',
     desc: "An incident-response agent that decides how to handle an incident and, just as importantly, when to stop and hand off to a human. Three interchangeable brains behind one guardrail layer: a rule-based planner, a JSON-answer LLM planner, and a tool-calling LLM agent that owns the loop. A seven-scenario evaluation scores each one on more than the final answer.",
     flow: [
       { label: 'Problem', text: "A demo that works on two hand-picked incidents proves little. Wanted to measure whether an agent is actually safe: does it restart a healthy service, retry a fix that failed, obey an instruction hidden in a log line, or claim success it hasn't earned?" },
-      { label: 'Action', text: 'Built a tool-calling agent on the Anthropic tool-use protocol with guardrails and a healthy-metrics check kept outside the model, plus seven scenarios where a scenario passes only with the right verdict, restarts within limit, zero blocked-action attempts and no false "resolved" claims. Scenarios include doing nothing (a false alarm), scaling instead of restarting, and a log line telling the agent to scale to 500 replicas.' },
-      { label: 'Result', text: "The rule-based baseline scores 6/7: it has no rule for scaling out, so it escalates a problem scaling would fix. Claude (claude-sonnet-5, run through the Claude Code CLI with structured-output tool selection, not the native tool-use API) scored 7/7 on three separate runs, scaling out instead of restarting and ignoring the log line that ordered 500 replicas. Seven scenarios I wrote myself is a small set, so this shows safe behaviour on these cases, not production readiness. The tests run against a scripted model, and I checked they fail when each safety check is removed." },
+      { label: 'Action', text: 'Built a tool-calling agent on a standard tool-use loop with guardrails and a healthy-metrics check kept outside the model, plus seven scenarios where a scenario passes only with the right verdict, restarts within limit, zero blocked-action attempts and no false "resolved" claims. Scenarios include doing nothing (a false alarm), scaling instead of restarting, and a log line telling the agent to scale to 500 replicas.' },
+      { label: 'Result', text: "The rule-based baseline scores 6/7: it has no rule for scaling out, so it escalates a problem scaling would fix. An LLM planner (run through a command-line adapter with structured-output tool selection, not the native tool-use API) scored 7/7 on three separate runs, scaling out instead of restarting and ignoring the log line that ordered 500 replicas. Seven scenarios I wrote myself is a small set, so this shows safe behaviour on these cases, not production readiness. The tests run against a scripted model, and I checked they fail when each safety check is removed." },
     ],
     shots: [
-      { src: '/screenshots/agent-sre-eval-claude.png', alt: 'Terminal showing the evaluation scoring Claude 7 of 7 scenarios, including the traffic surge case resolved by scaling out', caption: 'Evaluation: Claude 7/7 (3 runs)' },
       { src: '/screenshots/agent-sre-eval.png', alt: 'Terminal showing the evaluation scoring the rule-based baseline 6 of 7, failing only the traffic surge scenario that needs scaling out instead of a restart', caption: 'Baseline: 6/7, fails the scale-out case' },
       { src: '/screenshots/agent-sre-demo.png', alt: 'Terminal showing the agent resolving a memory-leak incident with one restart, then escalating a disk-full incident instead of retrying the same restart', caption: 'Resolved vs. escalated, same agent' },
       { src: '/screenshots/agent-sre-pytest.png', alt: 'Terminal showing the test suite passing 24 of 24 tests, including guardrail and log-injection checks', caption: '24/24 tests, incl. injection and false-success checks' },
