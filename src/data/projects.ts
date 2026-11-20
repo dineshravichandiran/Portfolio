@@ -293,6 +293,7 @@ export const keyProjects: ProjectItem[] = [
       { label: 'Result', text: 'AWS calls are tested against botocore stubs that check arguments against the real API model, and the stdio tests drive the full request, refuse, approve, run, refuse-reuse flow with a stand-in kubectl. A few read-only calls ran against a real AWS account, which held no Auto Scaling group or instance at the time. The kubectl tools have not been run against a real cluster, and an agent with its own shell could approve its own request, which the README says.' },
     ],
     design: {
+      diagram: { src: '/diagrams/ops-mcp-server.svg', alt: 'Diagram: an AI agent calls an MCP server with seven read tools that reach AWS and kubectl, a request_approval tool that records a pending approval, and two write tools that run only after checking an approval a person granted in a terminal' },
       decisions: [
         { choice: 'Approval enforced in the server, bound to exact parameters, single use', instead: 'Ask the model or the client to confirm', tradeoff: 'Slower than a prompt, but a changed number or a reused id fails, and the model cannot approve itself.' },
         { choice: 'Read-only mode that does not register the write tools', instead: 'Register them and refuse at call time', tradeoff: 'Two configurations to document, but a tool that is not there cannot be called.' },

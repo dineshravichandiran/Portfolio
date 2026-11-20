@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" font-family="Manrope, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7e8ca3"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#35c46b"/></marker>
+  </defs>
+  <rect width="980" height="440" fill="#0b1220"/>
+
+  <rect x="24" y="170" width="150" height="80" rx="8" fill="#121b2e" stroke="#2d4165"/>
+  <text x="99" y="204" fill="#dce4ee" font-size="13.5" font-weight="700" text-anchor="middle">AI agent</text>
+  <text x="99" y="224" fill="#aebbd0" font-size="11" text-anchor="middle">MCP client</text>
+  <line x1="174" y1="190" x2="212" y2="109" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+  <line x1="174" y1="210" x2="232" y2="200" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+  <line x1="174" y1="232" x2="212" y2="340" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <rect x="214" y="44" width="420" height="376" rx="12" fill="none" stroke="#2d4165" stroke-dasharray="5 5"/>
+  <text x="228" y="62" fill="#7e8ca3" font-size="11" letter-spacing="1.2" font-weight="700">OPS MCP SERVER</text>
+
+  <rect x="234" y="72" width="380" height="76" rx="8" fill="#142238" stroke="#3e8ede"/>
+  <text x="424" y="94" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">7 read tools</text>
+  <text x="424" y="113" fill="#aebbd0" font-size="11" text-anchor="middle">aws_asg_status · aws_target_health · aws_alarms</text>
+  <text x="424" y="129" fill="#aebbd0" font-size="11" text-anchor="middle">aws_instance_status · aws_recent_logs · k8s_get · k8s_logs</text>
+
+  <rect x="234" y="170" width="380" height="60" rx="8" fill="#121b2e" stroke="#e4a93b"/>
+  <text x="424" y="194" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">request_approval</text>
+  <text x="424" y="212" fill="#aebbd0" font-size="11" text-anchor="middle">records one action and its exact parameters as pending</text>
+
+  <rect x="234" y="276" width="380" height="124" rx="8" fill="#142238" stroke="#35c46b"/>
+  <text x="424" y="298" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">2 write tools: restart deployment, set ASG capacity</text>
+  <text x="424" y="320" fill="#aebbd0" font-size="11" text-anchor="middle">dry-run by default</text>
+  <text x="424" y="338" fill="#aebbd0" font-size="11" text-anchor="middle">real run: approval approved, unused, under 15 min, same parameters</text>
+  <text x="424" y="356" fill="#aebbd0" font-size="11" text-anchor="middle">capacity stays inside the group's min and max</text>
+  <text x="424" y="374" fill="#aebbd0" font-size="11" text-anchor="middle">kube-system and other protected namespaces refused</text>
+
+  <rect x="676" y="72" width="284" height="76" rx="8" fill="#121b2e" stroke="#2d4165"/>
+  <text x="818" y="104" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">AWS APIs and kubectl</text>
+  <text x="818" y="124" fill="#aebbd0" font-size="11" text-anchor="middle">describe, get, logs: fixed verbs, checked names</text>
+  <line x1="614" y1="110" x2="674" y2="110" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <rect x="676" y="170" width="284" height="60" rx="8" fill="#121b2e" stroke="#2d4165"/>
+  <text x="818" y="194" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">Approval store + audit log</text>
+  <text x="818" y="212" fill="#aebbd0" font-size="11" text-anchor="middle">single use, bound to the parameters</text>
+  <line x1="614" y1="200" x2="674" y2="200" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <rect x="676" y="260" width="284" height="64" rx="8" fill="#142238" stroke="#35c46b"/>
+  <text x="818" y="284" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">A person, in a terminal</text>
+  <text x="818" y="304" fill="#aebbd0" font-size="11" text-anchor="middle">python -m ops_mcp approve &lt;id&gt;</text>
+  <line x1="818" y1="260" x2="818" y2="232" stroke="#35c46b" stroke-width="1.6" marker-end="url(#g)"/>
+  <text x="826" y="250" fill="#35c46b" font-size="10.5">only way to approve</text>
+
+  <rect x="676" y="346" width="284" height="54" rx="8" fill="#121b2e" stroke="#e4a93b"/>
+  <text x="818" y="370" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">Change in AWS or the cluster</text>
+  <text x="818" y="388" fill="#aebbd0" font-size="11" text-anchor="middle">only after the checks pass</text>
+  <line x1="614" y1="374" x2="674" y2="374" stroke="#35c46b" stroke-width="1.6" marker-end="url(#g)"/>
+</svg>
