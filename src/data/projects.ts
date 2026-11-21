@@ -505,16 +505,16 @@ export const keyProjects: ProjectItem[] = [
   {
     year: 'Self-Directed',
     meta: 'Azure DevOps · Bicep',
-    title: 'End-to-End Azure DevOps Pipeline (written, not yet run)',
-    impact: 'Multi-stage YAML pipeline, dev to staging to production with approvals and slot swap · not run end-to-end (no Azure DevOps org available)',
+    title: 'End-to-End Azure DevOps Pipeline (run on a real org, then destroyed)',
+    impact: 'Multi-stage YAML pipeline, dev to staging to production with approvals and slot swap · 4 runs, 3 failed and were fixed, run 4 green in 29 min · production on S1',
     desc: 'A CI/CD pipeline that builds and tests, runs a dependency and credential scan, provisions infrastructure with Bicep, and promotes the same build artifact through dev, staging and production using approval gates, deployment slots and smoke tests.',
     flow: [
       { label: 'Problem', text: 'A "full CI/CD on Azure" example should show the whole path a change takes, not only a build step.' },
       { label: 'Action', text: 'Designed the stages and dependencies, Bicep templates per environment, and a slot-swap release so a bad build is caught by a smoke test before production.' },
-      { label: 'Result', text: 'The YAML is consistent on read-through. It has not been executed, because it needs an Azure DevOps organization and subscription I did not have, and the README says so.' },
+      { label: 'Result', text: 'Run on a real Azure DevOps organization and Azure subscription. Run 1 failed because the marketplace security tasks are not installed in a new organization, run 2 because my credential grep matched the pipeline file itself, run 3 because the trial subscription had 0 P1v3 quota. After fixing those, run 4 went green through dev, staging and production, with a slot swap and HTTP 200 smoke tests. Production ran S1 instead of P1v3, nothing was load tested, and everything was destroyed afterwards.' },
     ],
     tags: ['Azure DevOps', 'Bicep', 'CI/CD', 'Deployment Slots', 'Approvals'],
-    link: 'https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/azure-devops-pipeline',
+    link: 'https://github.com/dineshravichandiran/azure-iac-bicep/tree/main/azure-devops-pipeline',
   },
   {
     year: 'Self-Directed',
