@@ -35,7 +35,18 @@ export interface ProjectItem {
   link?: string
   badge?: string
   design?: ProjectDesign
+  /** Set from the lists below, not on each entry. */
+  category?: ProjectCategory
+  flagship?: boolean
 }
+
+export type ProjectCategory =
+  | 'Kubernetes & GitOps'
+  | 'Cloud & IaC'
+  | 'Observability & SRE'
+  | 'AI & Agents'
+  | 'Automation & Tooling'
+  | 'Other'
 
 export const workProjects: ProjectItem[] = [
   {
@@ -118,7 +129,45 @@ export const workProjects: ProjectItem[] = [
   },
 ]
 
-export const keyProjects: ProjectItem[] = [
+const keyProjectsRaw: ProjectItem[] = [
+  {
+    year: 'Self-Directed',
+    meta: 'Terraform · AKS · GitOps · SRE',
+    title: 'AKS GitOps Platform: Terraform, Argo CD and SLO Alerts',
+    impact: 'Applied to a real AKS cluster and drilled live: a Git commit made DemoAppHighErrorRate fire · both CI workflows green · Trivy gate in CI · Argo CD Healthy and Synced',
+    desc: 'A small AKS platform where Git is the only way in: Terraform builds the cluster with remote state, GitHub Actions tests, scans and pushes the image, Argo CD deploys it from the Helm chart, and Prometheus and Grafana watch a 99% availability SLO with burn-rate alerts.',
+    flow: [
+      { label: 'Problem', text: 'I run Kubernetes workloads daily but wanted to show the whole delivery path, from cluster to alert, and prove the alerting works by breaking something on purpose instead of describing it.' },
+      { label: 'Action', text: 'Wrote the AKS and state-storage Terraform, a Flask service with health and metrics endpoints, a Helm chart and Argo CD Application with automated sync, prune and self-heal, and a CI pipeline that tests, builds, scans with Trivy (blocking fixable CRITICAL findings), pushes to GHCR and commits the new tag. Added a ServiceMonitor, SLO recording rules, DemoAppHighErrorRate and DemoAppFastBurn alerts, a 10-panel Grafana dashboard stored as JSON, an Ansible hardening playbook, a Docker Compose stack and opt-in OpenTelemetry tracing.' },
+      { label: 'Result', text: 'A failure value committed to Git was rolled out by Argo CD and DemoAppHighErrorRate fired with about 19% of requests failing. The ci workflow (test, build, Trivy, push) and the checks workflow (dashboard, ansible-lint, helm lint and render, compose validation) pass on GitHub. Not run: the Compose stack, Jaeger and the collector on the cluster, the Ansible playbook on a real VM, or the dashboard inside Grafana.' },
+    ],
+    design: {
+      diagram: { src: '/diagrams/aks-gitops-platform.svg', alt: 'Architecture diagram: a git push triggers GitHub Actions (pytest, image build, Trivy scan, push to GHCR and a commit of the new image tag into the Helm chart); Argo CD in the AKS cluster pulls from Git and deploys the demo app, which Prometheus rules and a Grafana dashboard watch against a 99 percent SLO' },
+      decisions: [
+        { choice: 'Argo CD pulls from Git, CI never touches the cluster', instead: 'A pipeline step that runs kubectl or helm upgrade', tradeoff: 'No cluster credentials in CI and drift is corrected automatically, at the price of one more component to run and a short delay between merge and rollout.' },
+        { choice: 'Burn-rate alerts against a 99% SLO', instead: 'A single static error-count threshold', tradeoff: 'The alert follows how fast the error budget is spent, so brief blips stay quiet. It is harder to explain and needs enough traffic to be meaningful.' },
+        { choice: 'Trivy as a pinned container, blocking only fixable CRITICAL findings', instead: 'A marketplace action, or failing on every finding', tradeoff: 'Avoids a third-party action tag I cannot audit and keeps the gate usable, but unfixed or lower-severity findings are reported, not blocked.' },
+      ],
+      atScale: 'This is a single small cluster with one service and synthetic traffic. For production I would add separate environments and promotion, sealed or external secrets, network policies, an ingress with TLS, and alert routing to an on-call tool.',
+      scope: 'Applied to Azure for the drill and meant to be destroyed afterwards. Cost was not measured, and only the error-rate alert was seen firing live.',
+    },
+    tags: ['Terraform', 'AKS', 'Argo CD', 'Helm', 'GitHub Actions', 'Prometheus', 'Grafana', 'Trivy', 'OpenTelemetry', 'Ansible'],
+    link: 'https://github.com/dineshravichandiran/aks-gitops-platform',
+  },
+  {
+    year: 'Self-Directed',
+    meta: 'AWS · Lambda · EventBridge · Python',
+    title: 'AWS Self-Healing Restarter: Lambda Behind a CloudWatch Alarm',
+    impact: '10 automated tests · 100% coverage of the handler · CI green · dry-run by default · least-privilege IAM',
+    desc: 'A Python Lambda that restarts a failing ECS service when a CloudWatch alarm fires, with guards so the automation cannot make an outage worse. Deployed with an AWS SAM template.',
+    flow: [
+      { label: 'Problem', text: 'An alarm that only pages a person leaves the first, repeatable step to a human at 3 a.m. Automating it is risky: a flapping alarm can cause a restart loop.' },
+      { label: 'Action', text: 'Wrote a handler that reacts only to the named alarm in the ALARM state, then checks a cooldown, whether a rollout is already in progress, and a dry-run flag before calling ecs:UpdateService with forceNewDeployment. IAM is limited to describing and updating one service, concurrency is capped at 1, and every decision is one JSON log line.' },
+      { label: 'Result', text: '10 tests (botocore Stubber and moto) cover each guard and cover the whole handler, and the SAM template is linted with cfn-lint in CI, which passes. Not run on a real AWS account.' },
+    ],
+    tags: ['AWS Lambda', 'EventBridge', 'CloudWatch', 'ECS', 'SAM', 'Python', 'IAM', 'pytest'],
+    link: 'https://github.com/dineshravichandiran/aws-self-healing-restarter',
+  },
   {
     year: 'Self-Directed',
     meta: 'Infrastructure-as-Code · AWS',
@@ -627,3 +676,74 @@ export const keyProjects: ProjectItem[] = [
     tags: ['JavaScript', 'PHP', 'Web App', 'Chatbot', 'Team of 6'],
   },
 ]
+
+// Order and grouping for the Projects section and the Featured strip.
+// FLAGSHIP is picked by what an SRE or platform hiring manager looks for and by how
+// much real evidence the project has (applied, drilled, tested). Its order is the display order.
+export const FLAGSHIP_TITLES = [
+  'AKS GitOps Platform: Terraform, Argo CD and SLO Alerts',
+  'AWS Platform with Terraform, GitHub Actions and SLOs',
+  'Self-Healing Infrastructure on AWS',
+  'Kubernetes Self-Healing & Chaos Lab',
+  'End-to-End DevSecOps CI Pipeline',
+  'Grafana + Prometheus Observability Stack',
+  'AI Incident Triage Agent',
+  'Ops MCP Server: Read-Only AWS and Kubernetes Tools with Approved Writes',
+]
+
+export const PROJECT_CATEGORIES: ProjectCategory[] = [
+  'Kubernetes & GitOps',
+  'Cloud & IaC',
+  'Observability & SRE',
+  'AI & Agents',
+  'Automation & Tooling',
+  'Other',
+]
+
+const CATEGORY_BY_TITLE: Record<string, ProjectCategory> = {
+  'AKS GitOps Platform: Terraform, Argo CD and SLO Alerts': 'Kubernetes & GitOps',
+  'EKS GitOps Platform (Terraform, applied once and destroyed)': 'Kubernetes & GitOps',
+  'Kubernetes Self-Healing & Chaos Lab': 'Kubernetes & GitOps',
+  'End-to-End DevSecOps CI Pipeline': 'Kubernetes & GitOps',
+  'End-to-End Azure DevOps Pipeline (run on a real org, then destroyed)': 'Kubernetes & GitOps',
+  'AWS Platform with Terraform, GitHub Actions and SLOs': 'Cloud & IaC',
+  'Self-Healing Infrastructure on AWS': 'Cloud & IaC',
+  'AWS Self-Healing Restarter: Lambda Behind a CloudWatch Alarm': 'Cloud & IaC',
+  'Hub-and-Spoke Network on a Transit Gateway': 'Cloud & IaC',
+  'Azure Secure Web App: Managed Identity and Key Vault (Bicep)': 'Cloud & IaC',
+  'Grafana + Prometheus Observability Stack': 'Observability & SRE',
+  'Zabbix Monitoring Lab: Platform Deep-Dive': 'Observability & SRE',
+  'Enterprise SaaS Observability & Incident Response': 'Observability & SRE',
+  'Cloud Incident & Reliability Analytics': 'Observability & SRE',
+  'Recurring Memory & Performance Root-Cause Initiative': 'Observability & SRE',
+  'Runbook & Incident-Handling Standardization': 'Observability & SRE',
+  'AI Incident Triage Agent': 'AI & Agents',
+  'Ops MCP Server: Read-Only AWS and Kubernetes Tools with Approved Writes': 'AI & Agents',
+  'Guardrailed Autonomous SRE Incident-Response Agent': 'AI & Agents',
+  'AIOps Alert Correlation & RCA Engine': 'AI & Agents',
+  'Runbook Automation Engine': 'Automation & Tooling',
+  'Ansible: Zabbix Onboarding + Host Baseline': 'Automation & Tooling',
+  'Salt Self-Healing Memory Guard': 'Automation & Tooling',
+  'ops-toolkits: Change-Window & Config-Drift Suite': 'Automation & Tooling',
+  'net-healthcheck: OSI-Layer Connectivity Diagnostics': 'Automation & Tooling',
+  'log-rotation-guard: Unmanaged Log Growth Auditor': 'Automation & Tooling',
+  'Linux Log Rotation: logrotate, Bash and a Docker Demo': 'Automation & Tooling',
+  'Linux Cloud Operations Cheatsheet and Troubleshooting Guide': 'Automation & Tooling',
+  'ops-notes-fixer: Spelling and Style for Ops Writing': 'Automation & Tooling',
+}
+
+function rank(p: ProjectItem): number {
+  const flag = FLAGSHIP_TITLES.indexOf(p.title)
+  if (flag !== -1) return flag
+  const cat = PROJECT_CATEGORIES.indexOf(p.category ?? 'Other')
+  return FLAGSHIP_TITLES.length + cat
+}
+
+// Array.prototype.sort is stable, so inside a group the original order is kept.
+export const keyProjects: ProjectItem[] = keyProjectsRaw
+  .map((p) => ({
+    ...p,
+    category: CATEGORY_BY_TITLE[p.title] ?? 'Other',
+    flagship: FLAGSHIP_TITLES.includes(p.title),
+  }))
+  .sort((a, b) => rank(a) - rank(b))

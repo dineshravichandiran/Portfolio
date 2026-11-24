@@ -8,9 +8,10 @@ export default function Projects() {
     <div className="container py-8 pb-16">
       <SectionHeader label="05 / Key Projects" title="Projects & initiatives I've delivered." />
       <p className="text-text-secondary text-[1.05rem] leading-relaxed max-w-[680px] mb-10">
-        Real initiatives I own in my day job: observability, root-cause engineering, and operational
-        standardization across enterprise SaaS platforms, plus work that shows initiative beyond
-        the job. I'm actively extending these into infrastructure-as-code and CI/CD automation; new
+        Start with the Flagship set: the builds that best match what platform and SRE teams hire for,
+        each one run for real and written up with what was tested and what was not. Use the filters to
+        browse by area. Below those are the initiatives I own in my day job: observability, root-cause
+        engineering and operational standardization across enterprise SaaS platforms. I'm actively extending these into infrastructure-as-code and CI/CD automation; new
         builds land on{' '}
         <a
           href="https://github.com/dineshravichandiran"

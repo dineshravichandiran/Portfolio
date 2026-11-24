@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ProjectItem } from '../../data/projects'
+import { PROJECT_CATEGORIES } from '../../data/projects'
 import ProjectCard from './ProjectCard'
 import { PROJECT_SELECT_EVENT } from '../../utils/projectSelect'
 
@@ -20,7 +21,19 @@ function ArrowIcon({ direction }: { direction: 'left' | 'right' }) {
   )
 }
 
-export default function ProjectCarousel({ projects }: { projects: ProjectItem[] }) {
+type Filter = 'All' | 'Flagship' | (typeof PROJECT_CATEGORIES)[number]
+
+function applyFilter(all: ProjectItem[], filter: Filter): ProjectItem[] {
+  if (filter === 'All') return all
+  if (filter === 'Flagship') return all.filter((p) => p.flagship)
+  return all.filter((p) => p.category === filter)
+}
+
+export default function ProjectCarousel({ projects: allProjects }: { projects: ProjectItem[] }) {
+  const [filter, setFilter] = useState<Filter>('All')
+  const projects = applyFilter(allProjects, filter)
+  const hasCategories = allProjects.some((p) => p.category)
+  const filters: Filter[] = ['All', 'Flagship', ...PROJECT_CATEGORIES.filter((c) => allProjects.some((p) => p.category === c))]
   const [active, setActive] = useState(0)
   const [dir, setDir] = useState(1)
   const [inView, setInView] = useState(false)
@@ -57,8 +70,15 @@ export default function ProjectCarousel({ projects }: { projects: ProjectItem[] 
 
   useEffect(() => {
     function onSelect(e: Event) {
-      const index = projects.findIndex((p) => p.title === (e as CustomEvent<string>).detail)
-      if (index === -1) return
+      const title = (e as CustomEvent<string>).detail
+      if (!allProjects.some((p) => p.title === title)) return
+      // A card picked from the Featured strip may sit outside the current filter.
+      const inView = applyFilter(allProjects, filter)
+      let index = inView.findIndex((p) => p.title === title)
+      if (index === -1) {
+        setFilter('All')
+        index = allProjects.findIndex((p) => p.title === title)
+      }
       setActive((prev) => {
         setDir(index >= prev ? 1 : -1)
         return index
@@ -66,7 +86,14 @@ export default function ProjectCarousel({ projects }: { projects: ProjectItem[] 
     }
     window.addEventListener(PROJECT_SELECT_EVENT, onSelect)
     return () => window.removeEventListener(PROJECT_SELECT_EVENT, onSelect)
-  }, [projects])
+  }, [allProjects, filter])
+
+  function changeFilter(next: Filter) {
+    if (next === filter) return
+    setFilter(next)
+    setDir(1)
+    setActive(0)
+  }
 
   function step(delta: number) {
     setDir(delta)
@@ -107,6 +134,31 @@ export default function ProjectCarousel({ projects }: { projects: ProjectItem[] 
       }}
       onTouchStart={() => setTouchPaused(true)}
     >
+      {hasCategories && (
+        <div className="mb-5 flex flex-wrap gap-2" role="group" aria-label="Filter projects by area">
+          {filters.map((f) => {
+            const count = applyFilter(allProjects, f).length
+            const on = f === filter
+            return (
+              <button
+                key={f}
+                type="button"
+                onClick={() => changeFilter(f)}
+                aria-pressed={on}
+                className={`cursor-pointer rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                  on
+                    ? 'border-accent bg-accent text-white'
+                    : 'border-panel-border-strong text-text-secondary hover:border-accent hover:text-text'
+                }`}
+              >
+                {f === 'Flagship' ? '★ Flagship' : f}
+                <span className={`ml-1.5 font-mono text-[0.68rem] ${on ? 'text-white/80' : 'text-dim'}`}>{count}</span>
+              </button>
+            )
+          })}
+        </div>
+      )}
+
       <div className="flex items-center justify-between mb-5">
         <div className="font-mono text-sm text-dim tabular-nums flex items-center gap-2">
           <span className="text-text">{String(active + 1).padStart(2, '0')}</span>

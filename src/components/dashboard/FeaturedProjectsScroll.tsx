@@ -2,28 +2,13 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { keyProjects } from '../../data/projects'
+import { scrollToSection } from '../../utils/scrollToSection'
 import TechTag from '../ui/TechTag'
 import { showProject } from '../../utils/projectSelect'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const FEATURED_TITLES = [
-  'AIOps Alert Correlation & RCA Engine',
-  'Kubernetes Self-Healing & Chaos Lab',
-  'Runbook Automation Engine',
-  'Grafana + Prometheus Observability Stack',
-  'ops-toolkits: Change-Window & Config-Drift Suite',
-  'Zabbix Monitoring Lab: Platform Deep-Dive',
-  'Self-Healing Infrastructure on AWS',
-  'End-to-End DevSecOps CI Pipeline',
-  'Ansible: Zabbix Onboarding + Host Baseline',
-  'Salt Self-Healing Memory Guard',
-  'Personal Cloud/SRE Portfolio & 3D Career Journey',
-]
-
-const featured = FEATURED_TITLES.map((title) => keyProjects.find((p) => p.title === title)).filter(
-  (p): p is (typeof keyProjects)[number] => Boolean(p),
-)
+const featured = keyProjects.filter((p) => p.flagship)
 
 export default function FeaturedProjectsScroll() {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -102,7 +87,8 @@ export default function FeaturedProjectsScroll() {
                 closest = idx
               }
             })
-            if (self.progress >= 0.97) closest = cards.length - 1
+            closest = Math.min(closest, featured.length - 1)
+            if (self.progress >= 0.97) closest = featured.length - 1
             else if (self.progress <= 0.03) closest = 0
             setActiveBadge(closest)
           },
@@ -123,6 +109,10 @@ export default function FeaturedProjectsScroll() {
       <div className="container mb-10">
         <div className="font-mono text-xs text-accent uppercase tracking-wide mb-2">// Work</div>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">Featured projects.</h2>
+        <p className="text-text-secondary text-sm max-w-[560px] mb-3">
+          The {featured.length} builds that best show the work. Each one was actually run and checked, and each card says
+          what was tested and what was not.
+        </p>
         <div className="flex items-center gap-2 text-dim text-sm font-mono">
           <span>→</span> scroll to explore
         </div>
@@ -161,6 +151,17 @@ export default function FeaturedProjectsScroll() {
               <div className="text-xs text-ok font-mono">↑ {p.impact}</div>
             </a>
           ))}
+          <button
+            type="button"
+            onClick={() => scrollToSection('projects')}
+            className="group flex-shrink-0 w-[260px] md:w-[300px] rounded-lg border border-dashed border-panel-border-strong p-6 text-left cursor-pointer hover:border-accent transition-colors flex flex-col justify-center"
+          >
+            <span className="font-mono text-[0.7rem] text-dim uppercase tracking-wide mb-3">More work</span>
+            <span className="text-xl font-bold group-hover:text-accent transition-colors mb-2">
+              All {keyProjects.length} projects →
+            </span>
+            <span className="text-text-secondary text-sm">Filter by Kubernetes, cloud, observability, AI agents and tooling.</span>
+          </button>
         </div>
       </div>
     </section>

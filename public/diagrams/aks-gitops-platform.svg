@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" font-family="Manrope, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7e8ca3"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#35c46b"/></marker>
+  </defs>
+  <rect width="980" height="440" fill="#0b1220"/>
+
+  <rect x="24" y="40" width="150" height="64" rx="8" fill="#121b2e" stroke="#2d4165"/>
+  <text x="99" y="68" fill="#dce4ee" font-size="13.5" font-weight="700" text-anchor="middle">git push</text>
+  <text x="99" y="87" fill="#aebbd0" font-size="11" text-anchor="middle">app or chart change</text>
+  <line x1="174" y1="72" x2="214" y2="72" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <rect x="216" y="30" width="360" height="190" rx="12" fill="none" stroke="#2d4165" stroke-dasharray="5 5"/>
+  <text x="230" y="48" fill="#7e8ca3" font-size="11" letter-spacing="1.2" font-weight="700">GITHUB ACTIONS</text>
+  <rect x="236" y="58" width="150" height="46" rx="8" fill="#142238" stroke="#3e8ede"/>
+  <text x="311" y="86" fill="#dce4ee" font-size="12.5" font-weight="700" text-anchor="middle">pytest</text>
+  <rect x="406" y="58" width="150" height="46" rx="8" fill="#142238" stroke="#3e8ede"/>
+  <text x="481" y="86" fill="#dce4ee" font-size="12.5" font-weight="700" text-anchor="middle">build image</text>
+  <rect x="236" y="120" width="150" height="82" rx="8" fill="#121b2e" stroke="#e4a93b"/>
+  <text x="311" y="146" fill="#dce4ee" font-size="12.5" font-weight="700" text-anchor="middle">Trivy scan</text>
+  <text x="311" y="165" fill="#aebbd0" font-size="10.5" text-anchor="middle">report HIGH and CRITICAL</text>
+  <text x="311" y="181" fill="#aebbd0" font-size="10.5" text-anchor="middle">block fixable CRITICAL</text>
+  <rect x="406" y="120" width="150" height="82" rx="8" fill="#142238" stroke="#3e8ede"/>
+  <text x="481" y="146" fill="#dce4ee" font-size="12.5" font-weight="700" text-anchor="middle">push to GHCR</text>
+  <text x="481" y="165" fill="#aebbd0" font-size="10.5" text-anchor="middle">then commit the new</text>
+  <text x="481" y="181" fill="#aebbd0" font-size="10.5" text-anchor="middle">image tag into the chart</text>
+  <line x1="386" y1="81" x2="404" y2="81" stroke="#7e8ca3" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="481" y1="104" x2="481" y2="118" stroke="#7e8ca3" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="404" y1="161" x2="388" y2="161" stroke="#7e8ca3" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="620" y="40" width="170" height="64" rx="8" fill="#121b2e" stroke="#2d4165"/>
+  <text x="705" y="68" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">Git (source of truth)</text>
+  <text x="705" y="87" fill="#aebbd0" font-size="11" text-anchor="middle">Helm chart + tag</text>
+  <line x1="556" y1="161" x2="660" y2="106" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <rect x="24" y="260" width="936" height="160" rx="12" fill="none" stroke="#2d4165" stroke-dasharray="5 5"/>
+  <text x="38" y="278" fill="#7e8ca3" font-size="11" letter-spacing="1.2" font-weight="700">AKS CLUSTER (TERRAFORM, REMOTE STATE)</text>
+
+  <rect x="44" y="292" width="190" height="112" rx="8" fill="#142238" stroke="#35c46b"/>
+  <text x="139" y="318" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">Argo CD</text>
+  <text x="139" y="340" fill="#aebbd0" font-size="10.5" text-anchor="middle">auto-sync, prune, self-heal</text>
+  <text x="139" y="357" fill="#aebbd0" font-size="10.5" text-anchor="middle">watches Git, applies the</text>
+  <text x="139" y="373" fill="#aebbd0" font-size="10.5" text-anchor="middle">Helm chart to the cluster</text>
+
+  <rect x="290" y="292" width="190" height="112" rx="8" fill="#142238" stroke="#3e8ede"/>
+  <text x="385" y="318" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">demo-app (Flask)</text>
+  <text x="385" y="340" fill="#aebbd0" font-size="10.5" text-anchor="middle">/healthz and /metrics</text>
+  <text x="385" y="357" fill="#aebbd0" font-size="10.5" text-anchor="middle">opt-in OpenTelemetry traces</text>
+  <text x="385" y="373" fill="#aebbd0" font-size="10.5" text-anchor="middle">to Jaeger via a collector</text>
+
+  <rect x="536" y="292" width="200" height="112" rx="8" fill="#121b2e" stroke="#e4a93b"/>
+  <text x="636" y="318" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">Prometheus rules</text>
+  <text x="636" y="340" fill="#aebbd0" font-size="10.5" text-anchor="middle">99% SLO, error budget</text>
+  <text x="636" y="357" fill="#aebbd0" font-size="10.5" text-anchor="middle">DemoAppHighErrorRate</text>
+  <text x="636" y="373" fill="#aebbd0" font-size="10.5" text-anchor="middle">DemoAppFastBurn</text>
+
+  <rect x="782" y="292" width="156" height="112" rx="8" fill="#142238" stroke="#35c46b"/>
+  <text x="860" y="318" fill="#dce4ee" font-size="13" font-weight="700" text-anchor="middle">Grafana</text>
+  <text x="860" y="340" fill="#aebbd0" font-size="10.5" text-anchor="middle">SLO dashboard kept in</text>
+  <text x="860" y="357" fill="#aebbd0" font-size="10.5" text-anchor="middle">Git as JSON, loaded by</text>
+  <text x="860" y="373" fill="#aebbd0" font-size="10.5" text-anchor="middle">the sidecar</text>
+
+  <line x1="705" y1="104" x2="180" y2="290" stroke="#35c46b" stroke-width="1.6" marker-end="url(#g)"/>
+  <line x1="234" y1="348" x2="288" y2="348" stroke="#35c46b" stroke-width="1.6" marker-end="url(#g)"/>
+  <line x1="480" y1="348" x2="534" y2="348" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+  <line x1="736" y1="348" x2="780" y2="348" stroke="#7e8ca3" stroke-width="1.6" marker-end="url(#a)"/>
+  <text x="700" y="178" fill="#35c46b" font-size="11" font-weight="700">Argo CD pulls from Git</text>
+</svg>

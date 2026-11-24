@@ -16,6 +16,11 @@ export default function ProjectCard({ project, active = true }: { project: Proje
         <div className="font-mono text-xs text-dim uppercase tracking-wide flex gap-2.5 items-center">
           <span className="text-accent font-bold">{project.year}</span>
           {project.meta}
+          {project.flagship && (
+            <span className="rounded-full border border-accent/60 bg-accent/10 px-2 py-0.5 text-[0.65rem] font-semibold normal-case tracking-normal text-accent">
+              ★ Flagship
+            </span>
+          )}
         </div>
         {project.link && (
           <a
