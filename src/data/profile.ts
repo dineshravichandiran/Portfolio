@@ -4,7 +4,7 @@ const experience = getYearsExperience()
 
 export const profile = {
   name: 'Dinesh Ravichandiran',
-  role: 'Cloud & Reliability Engineer',
+  role: 'Site Reliability Engineer',
   location: 'Pune, India',
   email: 'dineshravichandiran0808@gmail.com',
   headline: 'I make production failures rare, then rarer.',

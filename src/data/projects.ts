@@ -139,7 +139,7 @@ const keyProjectsRaw: ProjectItem[] = [
     flow: [
       { label: 'Problem', text: 'I run Kubernetes workloads daily but wanted to show the whole delivery path, from cluster to alert, and prove the alerting works by breaking something on purpose instead of describing it.' },
       { label: 'Action', text: 'Wrote the AKS and state-storage Terraform, a Flask service with health and metrics endpoints, a Helm chart and Argo CD Application with automated sync, prune and self-heal, and a CI pipeline that tests, builds, scans with Trivy (blocking fixable CRITICAL findings), pushes to GHCR and commits the new tag. Added a ServiceMonitor, SLO recording rules, DemoAppHighErrorRate and DemoAppFastBurn alerts, a 10-panel Grafana dashboard stored as JSON, an Ansible hardening playbook, a Docker Compose stack and opt-in OpenTelemetry tracing.' },
-      { label: 'Result', text: 'A failure value committed to Git was rolled out by Argo CD and DemoAppHighErrorRate fired with about 19% of requests failing. The ci workflow (test, build, Trivy, push) and the checks workflow (dashboard, ansible-lint, helm lint and render, compose validation) pass on GitHub. Not run: the Compose stack, Jaeger and the collector on the cluster, the Ansible playbook on a real VM, or the dashboard inside Grafana.' },
+      { label: 'Result', text: 'A failure value committed to Git was rolled out by Argo CD and DemoAppHighErrorRate fired with about 19% of requests failing. The ci workflow (test, build, Trivy, push) and the checks workflow (dashboard, ansible-lint, helm lint and render, compose validation) pass on GitHub. Also verified on the live cluster: the Grafana dashboard loaded from Git showing the failure drill, and demo-app traces in Jaeger through the OpenTelemetry collector. The Ansible hardening playbook was applied to a real Ubuntu VM on Azure: 11 changes on the first run and changed=0 on the second. Not run: the Docker Compose stack.' },
     ],
     design: {
       diagram: { src: '/diagrams/aks-gitops-platform.svg', alt: 'Architecture diagram: a git push triggers GitHub Actions (pytest, image build, Trivy scan, push to GHCR and a commit of the new image tag into the Helm chart); Argo CD in the AKS cluster pulls from Git and deploys the demo app, which Prometheus rules and a Grafana dashboard watch against a 99 percent SLO' },
@@ -535,7 +535,7 @@ const keyProjectsRaw: ProjectItem[] = [
       { label: 'Result', text: 'The apply created 55 resources in about 12 minutes; both nodes came up Ready in private subnets. I deleted the Application\'s Deployment and Argo CD recreated it within about 30 seconds. Destroy took about 11 minutes and a region sweep found nothing left; the KMS key is on its scheduled-deletion window. Not tested: the app-of-apps root Application, a load balancer or ingress, IRSA roles in use, node scaling, and cost.' },
     ],
     tags: ['Terraform', 'EKS', 'Argo CD', 'GitOps', 'IRSA', 'KMS', 'checkov'],
-    link: 'https://github.com/dineshravichandiran/cloud-devops-projects/tree/main/eks-gitops-platform',
+    link: 'https://github.com/dineshravichandiran/eks-gitops-platform',
   },
   {
     year: 'Self-Directed',
