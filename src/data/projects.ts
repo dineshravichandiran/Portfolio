@@ -583,14 +583,14 @@ const keyProjectsRaw: ProjectItem[] = [
     year: 'Self-Directed',
     meta: 'Jenkins · Maven · Docker',
     title: 'Jenkins Pipeline as Code: Maven, Docker and a Local Registry',
-    impact: 'Jenkins configured entirely from code · Maven build with 6 tests · image built and pushed to a local registry · build triggered by a Git change · SonarQube step not yet run',
-    desc: 'A Jenkins controller defined in a Dockerfile and a configuration-as-code file, with a declarative Jenkinsfile that builds and tests a Maven project, builds a Docker image and pushes it to a local registry.',
+    impact: 'Jenkins configured entirely from code · 6 Maven tests · SonarQube quality gate passed (coverage 84.4%) · image pushed to a local registry · build started by a Git change',
+    desc: 'A Jenkins controller defined in a Dockerfile and a configuration-as-code file, with a declarative Jenkinsfile that builds and tests a Maven project, runs a SonarQube quality gate, builds a Docker image and pushes it to a local registry.',
     flow: [
       { label: 'Problem', text: 'Jenkins set up by clicking through a wizard cannot be rebuilt or reviewed. I wanted the whole controller, its plugins, its job and its pipeline in Git.' },
       { label: 'Action', text: 'Baked the plugins into the image, defined the admin user and a job with Configuration as Code and the Job DSL, mounted the Docker socket so pipeline steps can build images, and wrote a Jenkinsfile that runs Maven, builds the image and pushes it to a registry container. Docker Compose starts Jenkins, a registry and SonarQube together.' },
-      { label: 'Result', text: 'Ran on my own machine: the job appeared on first start without any manual setup, the Maven build ran its 6 tests, the image was built and pushed to the local registry, and a later build started by itself after a change in Git. Several things failed first and were fixed: a wrong plugin name, a port already used by macOS, plugin files copied with the wrong owner so nothing installed, and a missing Docker CLI. Not run: the SonarQube quality gate step inside Jenkins.' },
+      { label: 'Result', text: 'Ran on my own machine: the job appeared on first start without any manual setup, the Maven build ran its 6 tests, the SonarQube gate passed (coverage 84.4%, duplication 0.0%, reliability and security rated A), the image was pushed to the local registry, and a build started by itself after a change in Git. Several things failed first and were fixed: a wrong plugin name, a port already used by macOS, plugin files copied with the wrong owner so nothing installed, a missing Docker CLI, and a quality-gate wait that hung because SonarQube refuses webhooks to private addresses. Not run: a push to ECR, and a build blocked by a failing gate.' },
     ],
-    tags: ['Jenkins', 'Configuration as Code', 'Maven', 'Docker', 'Docker Compose', 'Jenkinsfile'],
+    tags: ['Jenkins', 'Configuration as Code', 'Maven', 'SonarQube', 'Docker', 'Docker Compose', 'Jenkinsfile'],
     link: 'https://github.com/dineshravichandiran/jenkins-maven-docker-pipeline',
   },
   {
